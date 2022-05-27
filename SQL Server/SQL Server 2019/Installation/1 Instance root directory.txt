@@ -1,0 +1,2 @@
+Instance root directory
+C:\Program Files\Microsoft SQL Server\

@@ -1,0 +1,779 @@
+-- =============================================
+-- Database: WattsALoan
+-- =============================================
+USE master
+GO
+-- Drop the database if it already exists
+IF  EXISTS (
+	SELECT name 
+		FROM sys.databases 
+		WHERE name = N'WattsALoan'
+)
+DROP DATABASE WattsALoan
+GO
+
+CREATE DATABASE WattsALoan
+GO
+-- =========================================
+-- Table: Employees
+-- =========================================
+USE WattsALoan
+GO
+
+IF OBJECT_ID('dbo.Employees', 'U') IS NOT NULL
+  DROP TABLE dbo.Employees
+GO
+
+CREATE TABLE dbo.Employees
+(
+    EmployeeID int identity(1,1) NOT NULL,
+    EmployeeNumber nchar(10) NULL,
+    FirstName varchar(20) NULL,
+    LastName varchar(10),
+    FullName AS ((LastName+ ', ') + FirstName),
+    Title varchar(100),
+    HourlySalary money,
+    Username varchar(20),
+    Password varchar(20),
+    CONSTRAINT PK_Employees PRIMARY KEY(EmployeeID)
+)
+GO
+INSERT INTO dbo.Employees(EmployeeNumber, FirstName, LastName, Title, HourlySalary)
+VALUES('293747', 'Jeanne', 'Tryler', 'Accounts Manager', 22.24);
+GO
+INSERT INTO dbo.Employees(EmployeeNumber, FirstName, LastName, Title, HourlySalary)
+VALUES('492947', 'Helene', 'Gustman', 'Accounts Representative', 14.55);
+GO
+INSERT INTO dbo.Employees(EmployeeNumber, FirstName, LastName, Title, HourlySalary)
+VALUES('804685', 'Ernest', 'Thomas', 'Accounts Representative', 12.75);
+GO
+-- =========================================
+-- Table: LoanTypes
+-- =========================================
+USE WattsALoan
+GO
+
+IF OBJECT_ID('dbo.LoanTypes', 'U') IS NOT NULL
+  DROP TABLE dbo.LoanTypes
+GO
+
+CREATE TABLE dbo.LoanTypes
+(
+    LoanTypeID int identity(1,1) NOT NULL, 
+    LoanType varchar(50) NOT NULL, 
+    CONSTRAINT PK_LoanTypes PRIMARY KEY(LoanTypeID)
+);
+GO
+INSERT INTO LoanTypes(LoanType) VALUES('Personal Loan');
+GO
+INSERT INTO LoanTypes(LoanType) VALUES('Car Financing');
+GO
+INSERT INTO LoanTypes(LoanType) VALUES('Credit Card');
+GO
+INSERT INTO LoanTypes(LoanType) VALUES('Furniture Loan');
+GO
+-- =========================================
+-- Table: Customers
+-- =========================================
+USE WattsALoan
+GO
+
+IF OBJECT_ID('dbo.Customers', 'U') IS NOT NULL
+  DROP TABLE dbo.Customers
+GO
+
+CREATE TABLE dbo.Customers
+(
+    CustomerID int identity(1,1) NOT NULL,
+    DateCreated datetime NULL,
+    FullName varchar(50) NOT NULL,
+    BillingAddress varchar(100),
+    BillingCity varchar(50),
+    BillingState varchar(50),
+    BillingZIPCide varchar(10),
+    EmailAddress varchar(100),
+    CONSTRAINT PK_Customers PRIMARY KEY(CustomerID)
+)
+GO
+INSERT INTO Customers(DateCreated, FullName,
+    BillingAddress, BillingCity, BillingState,
+    BillingZIPCide, EmailAddress)
+VALUES('2/26/2004', 'Julius Ramse',
+       '927 Feuler Ave', 'Silver Spring', 
+       'MD', '20904', 'ramses1990@netscape.net');
+GO
+INSERT INTO Customers(DateCreated, FullName,
+    BillingAddress, BillingCity, BillingState,
+	BillingZIPCide)
+VALUES('06/22/2006', 'Gertrude Vaillant',
+       '10055 Larsenic Rd', 'Takoma Park', 
+       'MD', '20910');
+GO
+INSERT INTO Customers(DateCreated, FullName,
+    BillingAddress,	BillingCity, BillingState,
+	BillingZIPCide, EmailAddress)
+VALUES('12/3/2004', 'James Barrouch',
+       '4204 Fallon Drive', 'Silver Spring',
+       'MD', '20906', 'barrouchj@hotmail.com');
+GO
+INSERT INTO Customers(DateCreated, FullName,
+    BillingAddress,	BillingCity, BillingState,
+	BillingZIPCide)
+VALUES('08/02/2006', 'Christine Rougher',
+       '825 Manning Street', 'Alexandria', 
+       'VA', '22231');
+GO
+INSERT INTO Customers(DateCreated, FullName,
+    BillingAddress,	BillingCity, BillingState,
+	BillingZIPCide, EmailAddress)
+VALUES('10/08/2006', 'Patrick Heller',
+       '2480 Clarington Drive NW', 'Washington', 
+       'DC', '20006', 'hellerp@yahooo.com');
+GO
+-- =========================================
+-- Table: LoanAllocation
+-- =========================================
+USE WattsALoan
+GO
+
+IF OBJECT_ID('dbo.LoanAllocations', 'U') IS NOT NULL
+  DROP TABLE dbo.LoanAllocations
+GO
+
+CREATE TABLE dbo.LoanAllocations
+(
+    LoanAllocationID int identity(1,1) NOT NULL,
+    DatePrepared datetime NOT NULL, 
+    EmployeeID int NULL
+		CONSTRAINT FK_LoanPreparer
+		FOREIGN KEY REFERENCES Employees(EmployeeID),
+    CustomerID int NOT NULL
+		CONSTRAINT FK_LoanReceiver
+		FOREIGN KEY REFERENCES Customers(CustomerID),
+    AccountNumber char(10),
+    LoanTypeID int NOT NULL
+		CONSTRAINT FK_LoanTypes
+		FOREIGN KEY REFERENCES LoanTypes(LoanTypeID),
+    LoanAmount money NOT NULL,
+    InterestRate decimal(6,2) NOT NULL,
+    Periods decimal(6,2) NOT NULL,
+    InterestAmount AS ((LoanAmount*(InterestRate/(100)))*(Periods/(12))),
+    FutureValue AS (LoanAmount+(LoanAmount*(InterestRate/(100)))*(Periods/(12))),
+    MonthlyPayment AS ((LoanAmount+(LoanAmount*(InterestRate/(100)))*(Periods/(12)))/Periods),
+    Notes Text,
+    CONSTRAINT PK_LoanAllocations PRIMARY KEY(LoanAllocationID)
+)
+GO
+INSERT INTO LoanAllocations(DatePrepared, EmployeeID,
+	CustomerID, AccountNumber, LoanTypeID, LoanAmount,
+    InterestRate, Periods, Notes)
+VALUES('2/26/2004', 2, 1, '9171394', 4, 6500.00, 12.65, 36, 
+       'The loan will be delivered by our furniture business partner Helios Furnian');
+GO
+INSERT INTO LoanAllocations(DatePrepared, EmployeeID,
+	CustomerID, AccountNumber, LoanTypeID, LoanAmount,
+    InterestRate, Periods, Notes)
+VALUES('06/22/2007', 2, 2, '8628064', 2, 16500.00, 10.20, 60, 
+       'For this car loan, our partner Arlington Honda will process and deliver the car.');
+GO
+INSERT INTO LoanAllocations(DatePrepared, EmployeeID,
+	CustomerID, AccountNumber, LoanTypeID, LoanAmount,
+    InterestRate, Periods, Notes)
+VALUES('12/3/2006', 1, 3, '8468364', 3, 500.00, 18.65, 48, 
+       'This is a regular credit card.');
+GO
+INSERT INTO LoanAllocations(DatePrepared, EmployeeID,
+	CustomerID, AccountNumber, LoanTypeID, LoanAmount,
+    InterestRate, Periods, Notes)
+VALUES('08/02/2006', 3, 4, '2483047', 1, 3500.00, 12.74, 36, 
+       'This is personal/cash loan allocated to a customer who walked in the store and requested it.');
+GO
+INSERT INTO LoanAllocations(DatePrepared, EmployeeID,
+	CustomerID, AccountNumber, LoanTypeID, LoanAmount,
+    InterestRate, Periods, Notes)
+VALUES('10/08/2006', 2, 5, '1311804', 4, 22748.36, 12.28, 60, 
+       'This is a regular car financing loan');
+GO
+-- =========================================
+-- Table: Payments
+-- =========================================
+USE WattsALoan
+GO
+
+IF OBJECT_ID('dbo.Payments', 'U') IS NOT NULL
+  DROP TABLE dbo.Payments
+GO
+
+CREATE TABLE dbo.Payments
+(
+    PaymentID int identity(1, 1) NOT NULL,
+    PaymentDate datetime NOT NULL, 
+    EmployeeID int NULL
+		CONSTRAINT FK_Employees
+		FOREIGN KEY REFERENCES Employees(EmployeeID),
+    LoanAllocationID int NOT NULL
+		CONSTRAINT FK_LoanAllocations
+		FOREIGN KEY REFERENCES LoanAllocations(LoanAllocationID),
+    PaymentAmount money NOT NULL,
+    Balance money,
+    Notes Text,
+    CONSTRAINT PK_Payments PRIMARY KEY(PaymentID)
+)
+GO
+
+
+
+
+
+
+
+
+
+
+-- =============================================
+-- Database:     YugoNationalBank
+-- Author:       FunctionX
+-- Date Created: Monday 09 April 2007
+-- =============================================
+USE master
+GO
+
+-- Drop the database if it already exists
+IF  EXISTS (
+	SELECT name 
+		FROM sys.databases 
+		WHERE name = N'YugoNationalBank'
+)
+DROP DATABASE YugoNationalBank
+GO
+
+CREATE DATABASE YugoNationalBank
+GO
+-- =========================================
+-- Database: YugoNationalBank
+-- Table:    Locations
+-- =========================================
+USE YugoNationalBank
+GO
+
+IF OBJECT_ID('dbo.Locations', 'U') IS NOT NULL
+  DROP TABLE dbo.Locations
+GO
+
+CREATE TABLE Locations
+(
+    LocationID int Identity(1,1) NOT NULL, 
+    LocationCode varchar(10) NOT NULL,
+    Address varchar(120),
+    City varchar(50),
+    State varchar(50),
+    Notes text NULL, 
+    CONSTRAINT PK_Locations PRIMARY KEY (LocationID)
+);
+GO
+-- =========================================
+-- Database: YugoNationalBank
+-- Table:    AccountTypes
+-- =========================================
+USE YugoNationalBank
+GO
+
+IF OBJECT_ID('dbo.AccountTypes', 'U') IS NOT NULL
+  DROP TABLE dbo.AccountTypes
+GO
+
+CREATE TABLE AccountTypes
+(
+    AccountTypeID int Identity(1,1) NOT NULL, 
+    AccountType varchar(40) NOT NULL, 
+    Notes text NULL, 
+    CONSTRAINT PK_AccountTypes PRIMARY KEY (AccountTypeID)
+);
+GO
+
+-- =========================================
+-- Database: YugoNationalBank
+-- Table:    Employees
+-- =========================================
+IF OBJECT_ID('dbo.Employees', 'U') IS NOT NULL
+  DROP TABLE dbo.Employees
+GO
+CREATE TABLE Employees
+(
+    EmployeeID int identity(1,1) NOT NULL, 
+    EmployeeNumber char(6),
+    FirstName varchar(32),
+    LastName varchar(32) NOT NULL,
+    Title varchar(50),
+    CanCreateNewAccount bit,
+    HourlySalary smallmoney,
+    EmailAddress varchar(100),
+    Username varchar(20),
+    Password varchar(20),
+    Notes text,
+    CONSTRAINT PK_Employees PRIMARY KEY (EmployeeID)
+);
+GO
+
+-- =========================================
+-- Database: YugoNationalBank
+-- Table:    Customers
+-- =========================================
+IF OBJECT_ID('dbo.Customers', 'U') IS NOT NULL
+  DROP TABLE dbo.Customers
+GO
+CREATE TABLE Customers
+(
+    CustomerID int Identity(1,1) NOT NULL,
+    DateCreated datetime,
+    AccountNumber varchar(20),
+    AccountTypeID int Constraint FK_TypeOfAccount 
+		References AccountTypes(AccountTypeID),
+    CustomerName varchar(50) NOT NULL,
+    DateUpdated smallDateTime,
+    Notes text, 
+    CONSTRAINT PK_Customers PRIMARY KEY (CustomerID)
+);
+GO
+
+-- =========================================
+-- Database: YugoNationalBank
+-- Table:    ChargeReasons
+-- =========================================
+IF OBJECT_ID('dbo.ChargeReasons', 'U') IS NOT NULL
+  DROP TABLE dbo.ChargeReasons
+GO
+-- =========================================
+-- Database: YugoNationalBank
+-- Table:    Deposits
+-- =========================================
+IF OBJECT_ID('dbo.Deposits', 'U') IS NOT NULL
+  DROP TABLE dbo.Deposits
+GO
+
+CREATE TABLE Deposits
+(
+    DepositID int identity(1, 1) NOT NULL,
+    LocationID int Constraint FK_DepositLocation
+		References Locations(LocationID) NOT NULL,
+    EmployeeID int Constraint FK_Clerk 
+		References Employees(EmployeeID),
+    CustomerID int Constraint FK_Depositor 
+		References Customers(CustomerID) NOT NULL,
+    DepositDate smalldatetime NOT NULL,
+    DepositAmount smallmoney NOT NULL,
+    Notes text, 
+    CONSTRAINT PK_Deposits PRIMARY KEY (DepositID)
+);
+GO
+
+-- =========================================
+-- Database: YugoNationalBank
+-- Table:    Withdrawals
+-- =========================================
+IF OBJECT_ID('dbo.Withdrawals', 'U') IS NOT NULL
+  DROP TABLE dbo.Withdrawals
+GO
+
+CREATE TABLE Withdrawals
+(
+    WithdrawalID int identity(1, 1) NOT NULL,
+    LocationID int Constraint FK_WithdrawlLocation 
+		References Locations(LocationID) NOT NULL,
+    EmployeeID int Constraint FK_ProcessedBy 
+		References Employees(EmployeeID),
+    CustomerID int Constraint FK_CustomerAccount 
+		References Customers(CustomerID) NOT NULL,
+    WithdrawalDate smalldatetime NOT NULL,
+    WithdrawalAmount smallmoney NOT NULL,
+    WithdrawalSuccessful bit NOT NULL,
+    Notes text, 
+    CONSTRAINT PK_Withdrawas PRIMARY KEY (WithdrawalID)
+);
+
+-- =========================================
+-- Database: YugoNationalBank
+-- Table:    CheckCashing
+-- =========================================
+IF OBJECT_ID('dbo.CheckCashing', 'U') IS NOT NULL
+  DROP TABLE dbo.CheckCashing
+GO
+
+CREATE TABLE CheckCashing
+(
+    CheckCashingID int identity(1, 1) NOT NULL,
+    LocationID int Constraint FK_BranchLocations 
+		References Locations(LocationID) NOT NULL,
+    EmployeeID int Constraint FK_Employees 
+		References Employees(EmployeeID),
+    CustomerID int Constraint FK_Customers 
+		References Customers(CustomerID) NOT NULL,
+    CheckCashingDate smalldatetime NOT NULL,
+    CheckCashingAmount smallmoney NOT NULL,
+    CheckCashingSuccessful bit NOT NULL,
+    Notes text, 
+    CONSTRAINT PK_CheckCashing PRIMARY KEY(CheckCashingID)
+);
+GO
+
+
+
+
+
+
+
+
+
+
+
+Stored Procedure:
+NOTE: 
+USE YugoNationalBank;
+GO
+CREATE PROCEDURE GetStudentIdentification
+AS
+BEGIN
+    SELECT FirstName, LastName, DateOfBirth, Gender
+    FROM ROSH.dbo.Students
+END
+GO
+
+EXECUTE GetStudentIdentification
+
+
+
+
+
+USE ROSH;
+GO
+CREATE PROCEDURE GetStudentsAges
+AS
+BEGIN
+    SELECT FullName = FirstName + ' ' + LastName,
+           DATEDIFF(year, DateOfBirth, GETDATE()) AS Age,
+           Gender
+    FROM Students
+END
+GO
+
+EXECUTE GetStudentsAges
+
+
+
+
+
+USE YugoNationalBank;
+GO
+-- =============================================
+-- Author:	FunctionX
+-- Create date: Friday, May 25, 2007
+-- Description:	This stored procedure assigns a 
+--              default password to each employee.
+-- =============================================
+
+CREATE PROCEDURE AssignDefaultPassword 
+AS
+BEGIN
+	UPDATE dbo.Employees
+	SET Password = 'Password1' FROM dbo.Employees;
+END
+GO
+
+EXECUTE AssignDefaultPassword 
+
+
+
+
+
+USE YugoNationalBank;
+GO
+
+-- =============================================
+-- Author:		FunctionX
+-- Create date: Friday, May 25, 2007
+-- Description:	This stored procedure creates a
+--              username for each employee.
+--              It also assigns an email to the employee.
+-- =============================================
+CREATE PROCEDURE CreateUsername
+AS
+BEGIN
+	UPDATE dbo.Employees
+	SET Username = LOWER(LEFT(FirstName, 1) + LEFT(LastName, 5))
+		FROM dbo.Employees;
+	UPDATE dbo.Employees
+	SET EmailAddress = LOWER(LEFT(FirstName, 1) + LEFT(LastName, 5)) +
+					   '@yugonationalbank.com'
+					   FROM dbo.Employees;
+END
+GO
+
+EXECUTE CreateUsername
+
+
+
+
+
+
+USE WattsALoan;
+GO
+
+CREATE PROCEDURE SpecifyCurrentBalance
+    @PmtDate datetime,
+    @EmplID int,
+    @LaID int,
+    @PmtAmt money
+AS
+BEGIN
+    -- Get the amount that was lent to the customer
+    DECLARE @AmountOfLoan money;
+    SET	@AmountOfLoan = (SELECT las.FutureValue
+                         FROM LoanAllocations las
+                         WHERE (las.LoanAllocationID = @LaID));
+
+    -- If the customer had already made at least one payment,
+    -- get the current balance of the customer's account
+    DECLARE @CurrentBalance money;
+    SET     @CurrentBalance = (SELECT MIN(pay.Balance)
+                               FROM Payments pay
+                               WHERE (pay.LoanAllocationID = @LaID));
+
+    -- If the customer has never made a payment (yet),
+    -- to specify the balance, subtract the current payment
+    -- from the original amount of the loan
+    IF      @CurrentBalance IS NULL
+	BEGIN
+	    INSERT INTO Payments(PaymentDate, EmployeeID,
+	 		 LoanAllocationID, PaymentAmount, Balance)
+	    VALUES(@PmtDate, @EmplID, @LaID, @PmtAmt,
+		       @AmountOfLoan - @PmtAmt);
+	END
+    -- If the customer had already at least one payment,
+    -- subtract the current payment from the previous balance
+    ELSE
+	BEGIN
+	    INSERT INTO Payments(PaymentDate, EmployeeID,
+				LoanAllocationID, PaymentAmount, Balance)
+	    VALUES(@PmtDate, @EmplID, @LaID,
+		       @PmtAmt, @CurrentBalance - @PmtAmt);
+	END
+END
+GO
+
+EXECUTE SpecifyCurrentBalance
+
+
+
+
+
+SELECT * FROM Payments
+
+EXECUTE SpecifyCurrentBalance
+'2004-02-26 00:00:00.000',
+2,
+4,
+6500.00
+
+SELECT * FROM Payments
+
+
+USE WattsALoan;
+GO
+EXECUTE SpecifyCurrentBalance '03/25/2004', 2, 1, 249.08;
+GO
+EXECUTE SpecifyCurrentBalance '01/30/2006', 2, 5, 611.93;
+GO
+EXECUTE SpecifyCurrentBalance '04/20/2004', 1, 1, 249.08;
+GO
+EXECUTE SpecifyCurrentBalance '10/28/2006', 2, 4, 134.38;
+GO
+
+
+
+
+
+USE ROSH;
+GO
+CREATE PROCEDURE IdentifyStudentsByState
+	@Gdr varchar(20),
+	@StateOrProvince char(2)
+AS
+BEGIN
+    SELECT FullName = LastName + ', ' + FirstName,
+           DATEDIFF(year, DateOfBirth, GETDATE()) AS Age,
+           Gender
+    FROM Students
+    WHERE (Gender = @Gdr) AND (State = @StateOrProvince)
+END
+GO
+
+
+
+
+
+USE ROSH;
+GO
+EXEC ROSH.dbo.IdentifyStudentsByState 'Female', 'MD';
+GO
+
+
+
+
+
+USE ROSH;
+GO
+CREATE PROCEDURE IdentifySomeStudents
+	@Gdr varchar(20),
+	@StateOrProvince char(2),
+	@HomeStatus bit
+AS
+BEGIN
+    SELECT FullName = LastName + ', ' + FirstName,
+           DATEDIFF(year, DateOfBirth, GETDATE()) AS Age,
+           Gender
+    FROM Students
+    WHERE (Gender = @Gdr) AND 
+          (State  = @StateOrProvince) AND
+          (SPHome = @HomeStatus)
+END
+GO
+
+
+EXEC IdentifySomeStudents @HomeStatus=1, @StateOrProvince='MD', @Gdr='Female';
+
+
+
+
+
+USE WattsALoan;
+GO
+DROP PROCEDURE SpecifyCurrentBalance;
+GO
+CREATE PROCEDURE SpecifyCurrentBalance
+	@PmtDate datetime,
+	@EmplID int,
+	@LaID int,
+        @PmtAmt money,
+        @Comments Text = ''
+AS
+BEGIN
+	-- Get the amount that was lent to the customer
+	DECLARE @AmountOfLoan money;
+	SET	@AmountOfLoan = (SELECT las.FutureValue
+                                 FROM LoanAllocations las
+                                 WHERE (las.LoanAllocationID = @LaID));
+
+	-- If the customer had already made at least one payment,
+	-- get the current balance of the customer's account
+	DECLARE @CurrentBalance money;
+	SET     @CurrentBalance = (SELECT MIN(pay.Balance)
+                                   FROM Payments pay
+                                   WHERE (pay.LoanAllocationID = @LaID));
+
+	-- If the customer has never made a payment (yet),
+	-- to specify the balance, subtract the current payment
+	-- from the original amount of the loan
+	IF      @CurrentBalance IS NULL
+	BEGIN
+		INSERT INTO Payments(PaymentDate, EmployeeID,
+				 LoanAllocationID, PaymentAmount,
+                     		 Balance, Notes)
+		VALUES(@PmtDate, @EmplID, @LaID, @PmtAmt,
+		       @AmountOfLoan - @PmtAmt, @Comments);
+	END
+	-- If the customer had already at least one payment,
+	-- subtract the current payment from the previous balance
+	ELSE
+	BEGIN
+		INSERT INTO Payments(PaymentDate, EmployeeID,
+				LoanAllocationID, PaymentAmount,
+				 Balance, Notes)
+		VALUES(@PmtDate, @EmplID, @LaID,
+		       @PmtAmt, @CurrentBalance - @PmtAmt, @Comments);
+	END
+END
+GO
+
+
+
+
+
+USE WattsALoan;
+GO
+
+EXECUTE SpecifyCurrentBalance '07/15/2004', 3, 1, 498.16,
+  'The customer sent a double-payment to cover this and last month';
+GO
+EXECUTE SpecifyCurrentBalance '01/26/2007', 1, 3, 50;
+GO
+EXECUTE SpecifyCurrentBalance '08/26/2004', 2, 1, 249.08;
+GO
+EXECUTE SpecifyCurrentBalance '02/28/2006', 3, 5, 611.93;
+GO
+EXECUTE SpecifyCurrentBalance '10/24/2007', 2, 2, 415.25;
+GO
+EXECUTE SpecifyCurrentBalance '05/30/2004', 1, 1, 249.08;
+GO
+EXECUTE SpecifyCurrentBalance '02/22/2007', 2, 3, 20;
+GO
+EXECUTE SpecifyCurrentBalance '03/23/2006', 2, 5, 611.93;
+GO
+EXECUTE SpecifyCurrentBalance '07/22/2007', 2, 2, 415.25,
+       'First regular payment';
+GO
+EXECUTE SpecifyCurrentBalance '12/24/2006', 1, 5, 611.93;
+GO
+EXECUTE SpecifyCurrentBalance '04/25/2006', 3, 5, 611.93;
+GO
+EXECUTE SpecifyCurrentBalance '09/26/2007', 2, 2, 415.25;
+GO
+EXECUTE SpecifyCurrentBalance '09/24/2006', 3, 4, 134.38;
+GO
+EXECUTE SpecifyCurrentBalance '03/25/2007', 2, 3, 25;
+GO
+EXECUTE SpecifyCurrentBalance '11/28/2006', 2, 5, 611.93,
+ 'First Car Payment';
+GO
+EXECUTE SpecifyCurrentBalance '08/28/2007', 1, 2, 415.25,
+ 'Second payment';
+GO
+
+SELECT * FROM Payments
+
+
+
+
+
+USE ROSH;
+GO
+
+CREATE PROCEDURE ShowStudentsFullNames
+    @FullName varchar(42) OUTPUT
+AS
+    SELECT @FullName = LastName + ', ' + FirstName FROM Students;
+GO
+
+DECLARE @fName varchar(20);
+EXECUTE ShowStudentsFullNames @fName OUTPUT;
+SELECT @fName;
+GO
+
+
+
+
+
+USE ROSH;
+GO
+
+DROP PROCEDURE ShowStudentsFullNames 
+CREATE PROCEDURE ShowStudentsFullNames
+    @FullName varchar(42) OUTPUT
+AS
+    SELECT @FullName = LastName + ', ' + FirstName FROM Students
+    WHERE StudentID = 8;
+GO
+
+DECLARE @fName varchar(20);
+EXECUTE ShowStudentsFullNames @fName OUTPUT;
+SELECT @fName;
+GO

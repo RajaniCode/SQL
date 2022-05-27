@@ -1,0 +1,23 @@
+A composite key has more than one attribute (field). In this example we store details of tracks on albums - we need to use three columns to get a unique key - each album may have more than one disk - each disk will have tracks numbered 1, 2, 3...
+
+The primary key must be different for each row of the table. The primary key may not contain a null.
+     
+ 
+DROP TABLE track
+
+CREATE TABLE track(
+  album CHAR(10) NOT NULL,
+  dsk INTEGER NOT NULL,
+  posn INTEGER NOT NULL,
+  song VARCHAR(255),
+  PRIMARY KEY (album, dsk, posn)
+)
+
+  
+  
+Specific to SQL Server 
+We must explicitly state that the components are NOT NULL.  
+
+CHECK:
+
+http://social.msdn.microsoft.com/Forums/en-US/transactsql/thread/158d77f7-3029-43bc-bba6-a8a12374f00c

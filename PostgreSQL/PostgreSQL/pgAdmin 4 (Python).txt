@@ -1,0 +1,30 @@
+## pgAdmin 4 (Python)
+$ export PATH=$PATH:"/C/Python38/:/C/Python38/Scripts/"
+$ pip install pgadmin4
+$ export PATH=$PATH:"/C/Python38/:/C/Python38/Scripts/"
+$ winpty pgAdmin4
+
+
+## SERVER_MODE
+http://127.0.0.1:5050/login?next=%2F
+Email Address: #####@gmail.com
+Password: CanadaDry
+## CREATE - Server
+## General
+Name: PostgreSQL-13
+Server group: Servers
+## Connection
+Host name/address: localhost
+Port: 5432
+Maintenance database: postgres
+Username: postgres
+Password: PostgreSQL-13.1-1
+
+
+## DESKTOP MODE
+# C:\Python38\Lib\site-packages\pgadmin4\config_distro.py
+SERVER_MODE = False
+
+
+## %APPDATA%
+C:\Users\rajanis\AppData\Roaming\pgAdmin

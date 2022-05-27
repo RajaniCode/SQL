@@ -1,0 +1,94 @@
+/*
+Root Account Password: My$ql@Server#5.7
+
+
+MySQL User Details
+Username: aspire
+Host: localhost
+Role: DB Admin
+Authentication: MySQL
+Password: My$ql@Server#5.7.14
+
+
+localhost:3306
+*/
+
+
+# My$ql@Server#5.7
+$ winpty mysql -u root -p
+
+# Git Bash # Git CMD # Backup [SQL dump]
+
+# My$ql@Server#5.7
+$ winpty mysqldump -u root -p employeedb -r "E:\Working\SQL\MySQL\MySQL-Queries\mysqldump\SQL-dump\employeedb_backup.sql"
+
+# My$ql@Server#5.7
+> mysqldump -u root -p employeedb > "E:\Working\SQL\MySQL\MySQL-Queries\mysqldump\SQL-dump\employeedb_backup.sql"
+
+
+# Git CMD # Backup [Compressed dump]
+# My$ql@Server#5.7
+> mysqldump -u root -p employeedb | gzip > "E:\Working\SQL\MySQL\MySQL-Queries\mysqldump\Compressed-dump\employeedb_backup.sql.gz"
+
+[
+
+winpty mysqldump -u root -p employeedb | gzip > "E:\Working\SQL\MySQL\MySQL-Queries\mysqldump\Compressed-dump\employeedb_backup.sql.gz"
+
+winpty mysqldump -u root -p employeedb | gzip -r "E:\Working\SQL\MySQL\MySQL-Queries\mysqldump\Compressed-dump\employeedb_backup.sql.gz"
+
+]
+
+# My$ql@Server#5.7
+> mysql -u root -p
+
+mysql> SELECT VERSION();
+
+mysql> SHOW DATABASES;
+
+mysql> SELECT DATABASE();
+
+mysql> DROP DATABASE IF EXISTS employeedb;
+
+mysql> CREATE DATABASE employeedb;
+
+mysql> SHOW DATABASES;
+
+mysql> USE employeedb;
+
+mysql> SHOW TABLES;
+
+mysql> quit
+
+
+# Git Bash # Git CMD # Restore [SQL dump]
+# My$ql@Server#5.7
+$ winpty mysql -u root -p employeedb
+mysql> source E:/Working/SQL/MySQL/MySQL-Queries/mysqldump/SQL-dump/employeedb_backup.sql;
+
+# My$ql@Server#5.7
+> mysql -u root -p employeedb < "E:\Working\SQL\MySQL\MySQL-Queries\mysqldump\SQL-dump\employeedb_backup.sql"
+
+
+# Git CMD # Restore [Compressed dump] # [install gzip] # gzip -d
+> gzip -d E:\Working\SQL\MySQL\MySQL-Queries\mysqldump\Compressed-dump\employeedb_backup.sql.gz
+
+# My$ql@Server#5.7
+> mysql -u root -p employeedb
+
+mysql> \. E:/Working/SQL/MySQL/MySQL-Queries/mysqldump/Compressed-dump/employeedb_backup.sql
+
+
+# Git Bash # Restore [Compressed dump]
+$ gunzip E:/Working/SQL/MySQL/MySQL-Queries/mysqldump/Compressed-dump/employeedb_backup.sql.gz
+
+# My$ql@Server#5.7
+$ winpty mysql -u root -p employeedb
+
+mysql> \. E:/Working/SQL/MySQL/MySQL-Queries/mysqldump/Compressed-dump/employeedb_backup.sql
+
+
+mysql> SHOW TABLES;
+
+mysql> SELECT * FROM employee;
+
+mysql> quit

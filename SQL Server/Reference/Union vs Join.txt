@@ -1,0 +1,22 @@
+Union : The union operator combines the results of two or 
+more queries into a single result set. But no.of columns 
+must match in both/all the queries (and also the order) 
+which are used for union. 
+Union -- returns with no duplicate rows
+Union all -- retruns with duplicate rows (No. of rows 
+returned = No. of rows in Query1 + No. of rows in Query 2)
+Union is a set operator.
+You cannot use the union operator within a create view 
+statement. 
+
+You cannot use the union operator on text and image columns.
+
+You cannot use the for browse clause in statements 
+involving the union operator. 
+
+Joins: Joins are used to extract information from more than 
+one table based on the related column/coloums (PK and RFK)
+any no. of rows can be retrived based on matching matching 
+colums. Different types of joins are Inner join=equi join= 
+join, outer join(Right outer join/right join, Left outer 
+join/ left join), Cross join, and full outer join/outer join

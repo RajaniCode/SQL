@@ -1,0 +1,271 @@
+NOTE: By default [int IDENTITY(0, 1), PRIMARY KEY] are NOT NULL (CANNOT be declared using NULL)
+
+NOTE: By default [UNIQUE (candidate key)] is NULL, can accept only one NULL (CAN be declared using NULL)
+ 
+NOTE: FOREIGN KEY can REFERENCE only either PRIMARY KEY or UNIQUE (candidate key)
+
+NOTE: Only one [int IDENTITY(0, 1), PRIMARY KEY, CLUSTERED]  per table is allowed
+
+NOTE: More than one [UNIQUE (candidate key), FOREIGN KEY (also can reference the same table)]  per table are allowed
+
+NOTE: ADD CONSTRAINT [PRIMARY KEY], the column should be NOT NULL
+[Otherwise DROP COLUMN, ADD column(DELETE TABLE)]
+
+NOTE: ADD CONSTRAINT [UNIQUE (candidate key), the column need not be NOT NULL
+
+NOTE: FOREIGN KEY need not have same name as that of the PRIMARY KEY or UNIQUE (candidate key) which the FOREIGN KEY REFERENCES
+[BUT same type and size]
+
+
+
+
+
+
+
+
+
+
+Create database: 
+USE  master
+
+IF EXISTS (SELECT * FROM master..sysdatabases 
+WHERE name = 'keydb ') 
+
+DROP DATABASE keydb
+
+CREATE DATABASE keydb
+ON PRIMARY
+(NAME = keydb_dat,
+FILENAME = 'C:\Program Files\Microsoft SQL Server\MSSQL.1\MSSQL\Data\keydb.mdf', 
+SIZE = 12,
+MAXSIZE = 100,
+FILEGROWTH = 2),
+FILEGROUP keydbgroup
+(NAME = keydbgroup_dat,
+FILENAME = 'C:\Program Files\Microsoft SQL Server\MSSQL.1\MSSQL\Data\keydbgroup.ndf', 
+SIZE = 12, MAXSIZE = 100, FILEGROWTH = 2)
+LOG ON
+(NAME = 'keydb_log', 
+FILENAME = 'C:\Program Files\Microsoft SQL Server\MSSQL.1\MSSQL\Data\keydb.ldf', 
+SIZE = 4 MB,
+MAXSIZE = 50 MB,
+FILEGROWTH = 2 MB)
+
+
+
+
+
+
+
+
+
+
+FOREIGN KEY REFERENCES UNIQUE (candidate key):
+Create table:
+USE keydb
+
+IF OBJECT_ID('dbo.department', 'U') IS NOT NULL
+  
+DROP TABLE dbo.department
+
+
+CREATE TABLE department
+(
+dcode int IDENTITY (1001, 1) NOT NULL CONSTRAINT Udcode UNIQUE CLUSTERED,
+dname nvarchar(20)
+) 
+ON keydbgroup
+
+INSERT INTO department
+VALUES
+(
+'C++'
+)
+
+INSERT INTO department
+VALUES
+(
+'C#'
+)
+
+SELECT * FROM department
+
+
+
+
+
+Drop UNIQUE (candidate key) constraint:
+ALTER TABLE department
+DROP CONSTRAINT Udcode 
+
+
+
+
+
+Add UNIQUE (candidate key) constraint:
+ALTER TABLE department
+ADD CONSTRAINT Udname UNIQUE CLUSTERED(dname)
+[Unlike PRIMARY KEY, dname need not be NOT NULL]
+
+
+DELETE FROM department
+
+
+INSERT INTO department
+VALUES
+(
+'C++'
+)
+
+INSERT INTO department
+VALUES
+(
+'C#'
+)
+
+SELECT * FROM department
+
+
+
+
+
+USE keydb
+
+IF OBJECT_ID('dbo.employee', 'U') IS NOT NULL
+  
+DROP TABLE dbo.employee
+
+
+CREATE TABLE employee
+(
+ecode int IDENTITY(1001,1) NOT NULL CONSTRAINT Uecode UNIQUE CLUSTERED,
+ename nvarchar(20),
+dname nvarchar(20)
+CONSTRAINT fkdcode FOREIGN KEY(dname) REFERENCES department(dname)
+) 
+ON keydbgroup
+
+INSERT INTO employee
+VALUES
+(
+'Bjarne Straustrup',
+'C++'
+)
+
+INSERT INTO employee
+VALUES
+(
+'Bill Gates',
+'C#'
+)
+
+SELECT * FROM employee
+
+
+
+
+
+
+
+
+
+
+FOREIGN KEY (UNIQUE (candidate key)) REFERENCES UNIQUE (candidate key):
+Create table:
+USE keydb
+
+IF OBJECT_ID('dbo.department', 'U') IS NOT NULL
+  
+DROP TABLE dbo.department
+
+
+CREATE TABLE department
+(
+dcode int IDENTITY (1001, 1)  NOT NULL CONSTRAINT Udcode UNIQUE CLUSTERED,
+dname nvarchar(20)
+) 
+ON keydbgroup
+
+INSERT INTO department
+VALUES
+(
+'C++'
+)
+
+INSERT INTO department
+VALUES
+(
+'C#'
+)
+
+SELECT * FROM department
+
+
+
+
+Drop UNIQUE (candidate key) constraint:
+ALTER TABLE department
+DROP CONSTRAINT Udcode
+
+
+
+
+
+Add UNIQUE (candidate key) constraint:
+ALTER TABLE department
+ADD CONSTRAINT Udname1 UNIQUE CLUSTERED(dname)
+[Unlike PRIMARY KEY, dname need not be NOT NULL]
+
+
+DELETE FROM department
+
+
+INSERT INTO department
+VALUES
+(
+'C++'
+)
+
+INSERT INTO department
+VALUES
+(
+'C#'
+)
+
+SELECT * FROM department
+
+
+
+
+
+USE keydb
+
+IF OBJECT_ID('dbo.employee', 'U') IS NOT NULL
+  
+DROP TABLE dbo.employee
+
+
+CREATE TABLE employee
+(
+dcode int IDENTITY(1001,1) NOT NULL CONSTRAINT Udcode UNIQUE CLUSTERED,
+ename nvarchar(20),
+dname nvarchar(20) NOT NULL CONSTRAINT Udname2 UNIQUE NONCLUSTERED
+CONSTRAINT fkdname FOREIGN KEY(dname) REFERENCES department(dname)
+) 
+ON keydbgroup
+
+INSERT INTO employee
+VALUES
+(
+'Bjarne Straustrup',
+'C++'
+)
+
+INSERT INTO employee
+VALUES
+(
+'Bill Gates',
+'C#'
+)
+
+SELECT * FROM employee

@@ -1,0 +1,206 @@
+Create database: 
+USE  master
+
+IF EXISTS (SELECT * FROM master..sysdatabases WHERE name = 'tabledb') 
+
+DROP DATABASE tabledb
+
+CREATE DATABASE tabledb
+ON PRIMARY
+(NAME = tabledb_dat,
+FILENAME = 'C:\Program Files\Microsoft SQL Server\MSSQL.1\MSSQL\Data\tabledb.mdf', 
+SIZE = 12,
+MAXSIZE = 100,
+FILEGROWTH = 2),
+FILEGROUP tabledbgroup
+(NAME = tabledbgroup_dat,
+FILENAME = 'C:\Program Files\Microsoft SQL Server\MSSQL.1\MSSQL\Data\tabledbgroup.ndf', 
+SIZE = 12, MAXSIZE = 100, FILEGROWTH = 2)
+LOG ON
+(NAME = 'tabledb_log', 
+FILENAME = 'C:\Program Files\Microsoft SQL Server\MSSQL.1\MSSQL\Data\tabledb.ldf', 
+SIZE = 4 MB,
+MAXSIZE = 50 MB,
+FILEGROWTH = 2 MB)
+
+
+
+
+
+
+
+
+
+
+Create table:
+USE  tabledb
+
+IF OBJECT_ID('dbo.Newspaper', 'U') IS NOT NULL
+  
+DROP TABLE dbo.Newspaper
+
+CREATE TABLE Newspaper
+(
+cNewsPaperCode char(4) NOT NULL,
+cNewsPaperName char(20) NOT NULL,
+vRegion varchar(20),
+vTypeOfNewsPaper varchar(20),
+vContactPerson varchar(35),
+vHOAddress varchar(35),
+cCity char(20),
+cState char(20),
+cZip char(10),
+cCountryCode char(3),
+cFax char(15),
+cPhone char(15)
+)
+ON tabledbgroup
+
+
+
+
+
+View table:
+sp_help Newspaper
+
+
+
+
+
+Rename table
+sp_rename 'Newspaper', 'News'
+
+
+
+
+
+Insert into table: (sp_rename 'News', 'Newspaper')
+INSERT INTO Newspaper
+VALUES
+(
+'0001',
+'Texas Times',
+'Texas',
+'General',
+'Jackson Demello', 
+'4723 West Alabama',
+'Houston',
+'Texas',
+'77015-4568',
+'001',
+'(713)451-6797',
+'(713)451-650'
+)
+
+SELECT * FROM Newspaper
+
+(Also)
+
+INSERT Newspaper
+VALUES
+(
+'0001',
+'Texas Times',
+'Texas',
+'General',
+'Jackson Demello', 
+'4723 West Alabama',
+'Houston',
+'Texas',
+'77015-4568',
+'001',
+'(713)451-6797',
+'(713)451-650'
+)
+
+SELECT * FROM Newspaper
+
+(Also)
+
+INSERT INTO Newspaper
+(
+cNewsPaperCode,
+cNewsPaperName,
+vRegion,
+vTypeOfNewsPaper,
+vContactPerson,
+vHOAddress,
+cCity,
+cState,
+cZip,
+cCountryCode,
+cFax,
+cPhone
+)
+VALUES
+(
+'0001',
+'Texas Times',
+'Texas',
+'General',
+'Jackson Demello', 
+'4723 West Alabama',
+'Houston',
+'Texas',
+'77015-4568',
+'001',
+'(713)451-6797',
+'(713)451-650'
+)
+
+
+SELECT * FROM Newspaper
+
+(Also)
+
+INSERT Newspaper
+(
+cNewsPaperCode,
+cNewsPaperName,
+vRegion,
+vTypeOfNewsPaper,
+vContactPerson,
+vHOAddress,
+cCity,
+cState,
+cZip,
+cCountryCode,
+cFax,
+cPhone
+)
+VALUES
+(
+'0001',
+'Texas Times',
+'Texas',
+'General',
+'Jackson Demello', 
+'4723 West Alabama',
+'Houston',
+'Texas',
+'77015-4568',
+'001',
+'(713)451-6797',
+'(713)451-650'
+)
+
+
+SELECT * FROM Newspaper
+
+
+
+
+
+Delete records in table:
+DELETE Newspaper
+
+(Also)
+
+DELETE FROM Newspaper
+
+
+
+
+
+Drop table:
+DROP TABLE Newspaper

@@ -1,0 +1,1195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Chapter 11 Connector/Python C Extension API Reference</title>
+<link rel="stylesheet" href="mvl.css" type="text/css" />
+<meta name="generator" content="DocBook XSL Stylesheets + chunker.py v1.9.2" />
+<link rel="start" href="index.html" title="{book-title}" />
+<link rel="up" href="" title="" />
+<link rel="prev" href="connector-python-reference.html" title="Chapter 10 Connector/Python API Reference" />
+<link rel="next" href="connector-python-third-party-licenses.html" title="Appendix A Licenses for Third-Party Components" />
+<script language="javascript" type="text/javascript">
+  function addOnload(theFunc)
+  {
+    var previous = window.onload;
+    if (typeof window.onload != 'function')
+    {
+      window.onload = theFunc;
+    }
+    else
+    {
+      window.onload = function()
+      {
+        previous();
+        theFunc();
+      }
+    }
+  }
+
+  addOnload(function()
+  {
+    var base = new Date(1455899810*1000);
+    var now = new Date();
+    var diff = ((now-base)/1000)/(24*3600);
+
+    if (diff > 90) {
+      var nodes = document.getElementsByClassName('titlepage');
+      nodes[0].innerHTML = '<p style="border: 5px #ff0000 solid; padding: 5px; margin 5px">' +
+        'This copy of the manual is more than 90 days old. We encourage you to download a ' +
+        'new version from <a href="http://dev.mysql.com">dev.mysql.com/doc</a>.</p>' + nodes[0].innerHTML;
+    }
+  });
+</script>
+<noscript></noscript>
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr>
+<th colspan="3" align="center">Chapter 11 Connector/Python C Extension API Reference</th>
+</tr>
+<tr>
+<td width="20%" align="left"><a accesskey="p" href="connector-python-reference.html">Prev</a> </td>
+<th width="60%" align="center"></th>
+<td width="20%" align="right"> <a accesskey="n" href="connector-python-third-party-licenses.html">Next</a></td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="chapter">
+<div class="titlepage">
+<div>
+<div>
+<h1 class="title"><a name="connector-python-cext-reference"></a>Chapter 11 Connector/Python C Extension API Reference</h1>
+
+</div>
+
+</div>
+
+</div>
+<div class="toc">
+<p><b>Table of Contents</b></p><dl class="toc"><dt><span class="section"><a href="connector-python-cext-reference.html#connector-python-api-cext-mysql-connector">11.1 _mysql_connector Module</a></span></dt><dt><span class="section"><a href="connector-python-cext-reference.html#connector-python-api-cext-mysql">11.2 _mysql_connector.MySQL() Class</a></span></dt><dt><span class="section"><a href="connector-python-cext-reference.html#connector-python-api-cext-affected-rows">11.3 _mysql_connector.MySQL.affected_rows() Method</a></span></dt><dt><span class="section"><a href="connector-python-cext-reference.html#connector-python-api-cext-autocommit">11.4 _mysql_connector.MySQL.autocommit() Method</a></span></dt><dt><span class="section"><a href="connector-python-cext-reference.html#connector-python-api-cext-buffered">11.5 _mysql_connector.MySQL.buffered() Method</a></span></dt><dt><span class="section"><a href="connector-python-cext-reference.html#connector-python-api-cext-change-user">11.6 _mysql_connector.MySQL.change_user() Method</a></span></dt><dt><span class="section"><a href="connector-python-cext-reference.html#connector-python-api-cext-character-set-name">11.7 _mysql_connector.MySQL.character_set_name() Method</a></span></dt><dt><span class="section"><a href="connector-python-cext-reference.html#connector-python-api-cext-close">11.8 _mysql_connector.MySQL.close() Method</a></span></dt><dt><span class="section"><a href="connector-python-cext-reference.html#connector-python-api-cext-commit">11.9 _mysql_connector.MySQL.commit() Method</a></span></dt><dt><span class="section"><a href="connector-python-cext-reference.html#connector-python-api-cext-connect">11.10 _mysql_connector.MySQL.connect() Method</a></span></dt><dt><span class="section"><a href="connector-python-cext-reference.html#connector-python-api-cext-connected">11.11 _mysql_connector.MySQL.connected() Method</a></span></dt><dt><span class="section"><a href="connector-python-cext-reference.html#connector-python-api-cext-consume-result">11.12 _mysql_connector.MySQL.consume_result() Method</a></span></dt><dt><span class="section"><a href="connector-python-cext-reference.html#connector-python-api-cext-convert-to-mysql">11.13 _mysql_connector.MySQL.convert_to_mysql() Method</a></span></dt><dt><span class="section"><a href="connector-python-cext-reference.html#connector-python-api-cext-escape-string">11.14 _mysql_connector.MySQL.escape_string() Method</a></span></dt><dt><span class="section"><a href="connector-python-cext-reference.html#connector-python-api-cext-fetch-fields">11.15 _mysql_connector.MySQL.fetch_fields() Method</a></span></dt><dt><span class="section"><a href="connector-python-cext-reference.html#connector-python-api-cext-fetch-row">11.16 _mysql_connector.MySQL.fetch_row() Method</a></span></dt><dt><span class="section"><a href="connector-python-cext-reference.html#connector-python-api-cext-field-count">11.17 _mysql_connector.MySQL.field_count() Method</a></span></dt><dt><span class="section"><a href="connector-python-cext-reference.html#connector-python-api-cext-free-result">11.18 _mysql_connector.MySQL.free_result() Method</a></span></dt><dt><span class="section"><a href="connector-python-cext-reference.html#connector-python-api-cext-get-character-set-info">11.19 _mysql_connector.MySQL.get_character_set_info() Method</a></span></dt><dt><span class="section"><a href="connector-python-cext-reference.html#connector-python-api-cext-get-client-info">11.20 _mysql_connector.MySQL.get_client_info() Method</a></span></dt><dt><span class="section"><a href="connector-python-cext-reference.html#connector-python-api-cext-get-client-version">11.21 _mysql_connector.MySQL.get_client_version() Method</a></span></dt><dt><span class="section"><a href="connector-python-cext-reference.html#connector-python-api-cext-get-host-info">11.22 _mysql_connector.MySQL.get_host_info() Method</a></span></dt><dt><span class="section"><a href="connector-python-cext-reference.html#connector-python-api-cext-get-proto-info">11.23 _mysql_connector.MySQL.get_proto_info() Method</a></span></dt><dt><span class="section"><a href="connector-python-cext-reference.html#connector-python-api-cext-get-server-info">11.24 _mysql_connector.MySQL.get_server_info() Method</a></span></dt><dt><span class="section"><a href="connector-python-cext-reference.html#connector-python-api-cext-get-server-version">11.25 _mysql_connector.MySQL.get_server_version() Method</a></span></dt><dt><span class="section"><a href="connector-python-cext-reference.html#connector-python-api-cext-get-ssl-cipher">11.26 _mysql_connector.MySQL.get_ssl_cipher() Method</a></span></dt><dt><span class="section"><a href="connector-python-cext-reference.html#connector-python-api-cext-hex-string">11.27 _mysql_connector.MySQL.hex_string() Method</a></span></dt><dt><span class="section"><a href="connector-python-cext-reference.html#connector-python-api-cext-insert-id">11.28 _mysql_connector.MySQL.insert_id() Method</a></span></dt><dt><span class="section"><a href="connector-python-cext-reference.html#connector-python-api-cext-more-results">11.29 _mysql_connector.MySQL.more_results() Method</a></span></dt><dt><span class="section"><a href="connector-python-cext-reference.html#connector-python-api-cext-next-result">11.30 _mysql_connector.MySQL.next_result() Method</a></span></dt><dt><span class="section"><a href="connector-python-cext-reference.html#connector-python-api-cext-num-fields">11.31 _mysql_connector.MySQL.num_fields() Method</a></span></dt><dt><span class="section"><a href="connector-python-cext-reference.html#connector-python-api-cext-num-rows">11.32 _mysql_connector.MySQL.num_rows() Method</a></span></dt><dt><span class="section"><a href="connector-python-cext-reference.html#connector-python-api-cext-ping">11.33 _mysql_connector.MySQL.ping() Method</a></span></dt><dt><span class="section"><a href="connector-python-cext-reference.html#connector-python-api-cext-query">11.34 _mysql_connector.MySQL.query() Method</a></span></dt><dt><span class="section"><a href="connector-python-cext-reference.html#connector-python-api-cext-raw">11.35 _mysql_connector.MySQL.raw() Method</a></span></dt><dt><span class="section"><a href="connector-python-cext-reference.html#connector-python-api-cext-refresh">11.36 _mysql_connector.MySQL.refresh() Method</a></span></dt><dt><span class="section"><a href="connector-python-cext-reference.html#connector-python-api-cext-rollback">11.37 _mysql_connector.MySQL.rollback() Method</a></span></dt><dt><span class="section"><a href="connector-python-cext-reference.html#connector-python-api-cext-select-db">11.38 _mysql_connector.MySQL.select_db() Method</a></span></dt><dt><span class="section"><a href="connector-python-cext-reference.html#connector-python-api-cext-set-character-set">11.39 _mysql_connector.MySQL.set_character_set() Method</a></span></dt><dt><span class="section"><a href="connector-python-cext-reference.html#connector-python-api-cext-shutdown">11.40 _mysql_connector.MySQL.shutdown() Method</a></span></dt><dt><span class="section"><a href="connector-python-cext-reference.html#connector-python-api-cext-stat">11.41 _mysql_connector.MySQL.stat() Method</a></span></dt><dt><span class="section"><a href="connector-python-cext-reference.html#connector-python-api-cext-thread-id">11.42 _mysql_connector.MySQL.thread_id() Method</a></span></dt><dt><span class="section"><a href="connector-python-cext-reference.html#connector-python-api-cext-use-unicode">11.43 _mysql_connector.MySQL.use_unicode() Method</a></span></dt><dt><span class="section"><a href="connector-python-cext-reference.html#connector-python-api-cext-warning-count">11.44 _mysql_connector.MySQL.warning_count() Method</a></span></dt><dt><span class="section"><a href="connector-python-cext-reference.html#connector-python-api-cext-have-result-set">11.45 _mysql_connector.MySQL.have_result_set Property</a></span></dt></dl>
+</div>
+<p>
+    This chapter contains the public API reference for the Connector/Python C
+    Extension, also known as the <code class="literal">_mysql_connector</code>
+    Python module.
+  </p><p>
+    The <code class="literal">_mysql_connector</code> C Extension module can be
+    used directly without any other code of Connector/Python. One reason to use
+    this module directly is for performance reasons.
+</p>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+
+<div class="admon-title">
+Note
+</div>
+<p>
+      Examples in this reference use <code class="literal">ccnx</code> to
+      represent a connector object as used with the
+      <code class="literal">_mysql_connector</code> C Extension module.
+      <code class="literal">ccnx</code> is an instance of the
+      <code class="literal">_mysql_connector.MySQL()</code> class. It is distinct
+      from the <code class="literal">cnx</code> object used in examples for the
+      <code class="literal">mysql.connector</code> Connector/Python module described in
+      <a class="xref" href="connector-python-reference.html" title="Chapter 10 Connector/Python API Reference">Chapter 10, <i>Connector/Python API Reference</i></a>.
+      <code class="literal">cnx</code> is an instance of the object returned by
+      the <code class="literal">connect()</code> method of the
+      <code class="literal">MySQLConnection</code> class.
+</p>
+</div>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+<div class="admon-title">
+Note
+</div>
+<p>
+      The C Extension is not part of the pure Python installation. It is
+      an optional module that must be installed using a binary
+      distribution of Connector/Python that includes it, or compiled using a source
+      distribution. See <a class="xref" href="connector-python-installation.html" title="Chapter 4 Connector/Python Installation">Chapter 4, <i>Connector/Python Installation</i></a>.
+</p>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-api-cext-mysql-connector"></a>11.1 _mysql_connector Module</h2>
+
+</div>
+
+</div>
+
+</div>
+<a class="indexterm" name="idm139908630548256"></a><a class="indexterm" name="idm139908630547184"></a><p>
+      The <code class="literal">_mysql_connector</code> module provides classes.
+</p>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-api-cext-mysql"></a>11.2 _mysql_connector.MySQL() Class</h2>
+
+</div>
+
+</div>
+
+</div>
+<a class="indexterm" name="idm139908630543392"></a><a class="indexterm" name="idm139908630542304"></a><p>
+      Syntax:
+    </p><pre class="programlisting">
+ccnx = _mysql_connector.MySQL(<em class="replaceable"><code>args</code></em>)
+</pre><p>
+      The <code class="literal">MySQL</code> class is used to open and manage a
+      connection to a MySQL server (referred to elsewhere in this
+      reference as <span class="quote">“<span class="quote">the <code class="literal">MySQL</code>
+      instance</span>”</span>). It is also used to send commands and SQL
+      statements and read results.
+    </p><p>
+      The <code class="literal">MySQL</code> class wraps most functions found in
+      the MySQL C Client API and adds some additional convenient
+      functionality.
+    </p><pre class="programlisting">
+import _mysql_connector
+
+ccnx = _mysql_connector.MySQL()
+ccnx.connect(user='scott', password='tiger',
+             host='127.0.0.1', database='employees')
+ccnx.close()
+</pre><p>
+      Permitted arguments for the <code class="literal">MySQL</code> class are
+      <code class="literal">auth_plugin</code>, <code class="literal">buffered</code>,
+      <code class="literal">charset_name</code>,
+      <code class="literal">connection_timeout</code>, <code class="literal">raw</code>,
+      <code class="literal">use_unicode</code>. Those arguments correspond to the
+      arguments of the same names for
+      <code class="literal">MySQLConnection.connect()</code> as described at
+      <a class="xref" href="connector-python-connecting.html#connector-python-connectargs" title="7.1 Connector/Python Connection Arguments">Section 7.1, “Connector/Python Connection Arguments”</a>, except that
+      <code class="literal">charset_name</code> corresponds to
+      <code class="literal">charset</code>.
+</p>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-api-cext-affected-rows"></a>11.3 _mysql_connector.MySQL.affected_rows() Method</h2>
+
+</div>
+
+</div>
+
+</div>
+<a class="indexterm" name="idm139908630525040"></a><a class="indexterm" name="idm139908630523936"></a><p>
+      Syntax:
+    </p><pre class="programlisting">
+count = ccnx.afffected_rows()
+</pre><p>
+      Returns the number of rows changed, inserted, or deleted by the
+      most recent <a class="ulink" href="http://dev.mysql.com/doc/refman/5.6/en/update.html" target="_top"><code class="literal">UPDATE</code></a>,
+      <a class="ulink" href="http://dev.mysql.com/doc/refman/5.6/en/insert.html" target="_top"><code class="literal">INSERT</code></a>, or
+      <a class="ulink" href="http://dev.mysql.com/doc/refman/5.6/en/delete.html" target="_top"><code class="literal">DELETE</code></a> statement.
+</p>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-api-cext-autocommit"></a>11.4 _mysql_connector.MySQL.autocommit() Method</h2>
+
+</div>
+
+</div>
+
+</div>
+<a class="indexterm" name="idm139908630516080"></a><a class="indexterm" name="idm139908630514976"></a><p>
+      Syntax:
+    </p><pre class="programlisting">
+ccnx.autocommit(<em class="replaceable"><code>bool</code></em>)
+</pre><p>
+      Sets the autocommit mode.
+    </p><p>
+      Raises a <code class="literal">ValueError</code> exception if
+      <code class="literal">mode</code> is not <code class="literal">True</code> or
+      <code class="literal">False</code>.
+</p>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-api-cext-buffered"></a>11.5 _mysql_connector.MySQL.buffered() Method</h2>
+
+</div>
+
+</div>
+
+</div>
+<a class="indexterm" name="idm139908630506992"></a><a class="indexterm" name="idm139908630505888"></a><p>
+      Syntax:
+    </p><pre class="programlisting">
+is_buffered = ccnx.buffered()     # getter
+ccnx.buffered(<em class="replaceable"><code>bool</code></em>)               # setter
+</pre><p>
+      With no argument, returns <code class="literal">True</code> or
+      <code class="literal">False</code> to indicate whether the
+      <code class="literal">MySQL</code> instance buffers (stores) the results.
+    </p><p>
+      With a boolean argument, sets the <code class="literal">MySQL</code>
+      instance buffering mode.
+    </p><p>
+      For the setter syntax, raises a <code class="literal">TypeError</code>
+      exception if the value is not <code class="literal">True</code> or
+      <code class="literal">False</code>.
+</p>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-api-cext-change-user"></a>11.6 _mysql_connector.MySQL.change_user() Method</h2>
+
+</div>
+
+</div>
+
+</div>
+<a class="indexterm" name="idm139908630494992"></a><a class="indexterm" name="idm139908630493888"></a><p>
+      Syntax:
+    </p><pre class="programlisting">
+ccnx.change_user(user='<em class="replaceable"><code>user_name</code></em>,
+                 password='<em class="replaceable"><code>password_val</code></em>',
+                 database='<code class="literal">db_name</code>')
+</pre><p>
+      Changes the user and sets a new default database. Permitted
+      arguments are <code class="literal">user</code>,
+      <code class="literal">password</code>, and <code class="literal">database</code>.
+</p>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-api-cext-character-set-name"></a>11.7 _mysql_connector.MySQL.character_set_name() Method</h2>
+
+</div>
+
+</div>
+
+</div>
+<a class="indexterm" name="idm139908630485632"></a><a class="indexterm" name="idm139908630484528"></a><p>
+      Syntax:
+    </p><pre class="programlisting">
+charset = ccnx.character_set_name()
+</pre><p>
+      Returns the name of the default character set for the current
+      MySQL session.
+    </p><p>
+      Some MySQL character sets have no equivalent names in Python. When
+      this is the case, a name usable by Python is returned. For
+      example, the <code class="literal">'utf8mb4'</code> MySQL character set name
+      is returned as <code class="literal">'utf8'</code>.
+</p>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-api-cext-close"></a>11.8 _mysql_connector.MySQL.close() Method</h2>
+
+</div>
+
+</div>
+
+</div>
+<a class="indexterm" name="idm139908630478080"></a><a class="indexterm" name="idm139908630476992"></a><p>
+      Syntax:
+    </p><pre class="programlisting">
+ccnx.close()
+</pre><p>
+      Closes the MySQL connection.
+</p>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-api-cext-commit"></a>11.9 _mysql_connector.MySQL.commit() Method</h2>
+
+</div>
+
+</div>
+
+</div>
+<a class="indexterm" name="idm139908630472720"></a><a class="indexterm" name="idm139908630471632"></a><p>
+      Syntax:
+    </p><pre class="programlisting">
+ccnx.commit()
+</pre><p>
+      Commits the current transaction.
+</p>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-api-cext-connect"></a>11.10 _mysql_connector.MySQL.connect() Method</h2>
+
+</div>
+
+</div>
+
+</div>
+<a class="indexterm" name="idm139908630467248"></a><a class="indexterm" name="idm139908630466160"></a><p>
+      Syntax:
+    </p><pre class="programlisting">
+ccnx.connect(<em class="replaceable"><code>args</code></em>)
+</pre><p>
+      Connects to a MySQL server.
+    </p><pre class="programlisting">
+import _mysql_connector
+
+ccnx = _mysql_connector.MySQL()
+ccnx.connect(user='scott', password='tiger',
+             host='127.0.0.1', database='employees')
+ccnx.close()
+</pre><p>
+      <code class="literal">connect()</code> supports the following arguments:
+      <code class="literal">host</code>, <code class="literal">user</code>,
+      <code class="literal">password</code>, <code class="literal">database</code>,
+      <code class="literal">port</code>, <code class="literal">unix_socket</code>,
+      <code class="literal">client_flags</code>, <code class="literal">ssl_ca</code>,
+      <code class="literal">ssl_cert</code>, <code class="literal">ssl_key</code>,
+      <code class="literal">ssl_verify_cert</code>, <code class="literal">compress</code>.
+      See <a class="xref" href="connector-python-connecting.html#connector-python-connectargs" title="7.1 Connector/Python Connection Arguments">Section 7.1, “Connector/Python Connection Arguments”</a>.
+    </p><p>
+      If <code class="literal">ccnx</code> is already connected,
+      <code class="literal">connect()</code> discards any pending result set and
+      closes the connection before reopening it.
+    </p><p>
+      Raises a <code class="literal">TypeError</code> exception if any argument is
+      of an invalid type.
+</p>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-api-cext-connected"></a>11.11 _mysql_connector.MySQL.connected() Method</h2>
+
+</div>
+
+</div>
+
+</div>
+<a class="indexterm" name="idm139908630447104"></a><a class="indexterm" name="idm139908630446000"></a><p>
+      Syntax:
+    </p><pre class="programlisting">
+is_connected = ccnx.connected()
+</pre><p>
+      Returns <code class="literal">True</code> or <code class="literal">False</code> to
+      indicate whether the <code class="literal">MySQL</code> instance is
+      connected.
+</p>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-api-cext-consume-result"></a>11.12 _mysql_connector.MySQL.consume_result() Method</h2>
+
+</div>
+
+</div>
+
+</div>
+<a class="indexterm" name="idm139908630439504"></a><a class="indexterm" name="idm139908630438400"></a><p>
+      Syntax:
+    </p><pre class="programlisting">
+ccnx.consume_result()
+</pre><p>
+      Consumes the stored result set, if there is one, for this
+      <code class="literal">MySQL</code> instance, by fetching all rows. If the
+      statement that was executed returned multiple result sets, this
+      method loops over and consumes all of them.
+</p>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-api-cext-convert-to-mysql"></a>11.13 _mysql_connector.MySQL.convert_to_mysql() Method</h2>
+
+</div>
+
+</div>
+
+</div>
+<a class="indexterm" name="idm139908630433200"></a><a class="indexterm" name="idm139908630432096"></a><p>
+      Syntax:
+    </p><pre class="programlisting">
+converted_obj = ccnx.convert_to_mysql(<em class="replaceable"><code>obj</code></em>))
+</pre><p>
+      Converts a Python object to a MySQL value based on the Python type
+      of the object. The converted object is escaped and quoted.
+    </p><pre class="programlisting">
+ccnx.query('SELECT CURRENT_USER(), 1 + 3, NOW()')
+row = ccnx.fetch_row()
+for col in row:
+  print(ccnx.convert_to_mysql(col))
+ccnx.consume_result()
+</pre><p>
+      Raises a <code class="literal">MySQLInterfaceError</code> exception if the
+      Python object cannot be converted.
+</p>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-api-cext-escape-string"></a>11.14 _mysql_connector.MySQL.escape_string() Method</h2>
+
+</div>
+
+</div>
+
+</div>
+<a class="indexterm" name="idm139908630425136"></a><a class="indexterm" name="idm139908630424032"></a><p>
+      Syntax:
+    </p><pre class="programlisting">
+str = ccnx.escape_string(<em class="replaceable"><code>str_to_escape</code></em>)
+</pre><p>
+      Uses the <a class="ulink" href="http://dev.mysql.com/doc/refman/5.6/en/mysql-escape-string.html" target="_top"><code class="literal">mysql_escape_string()</code></a> C
+      API function to create a SQL string that you can use in an SQL
+      statement.
+    </p><p>
+      Raises a <code class="literal">TypeError</code> exception if the value does
+      not have a <code class="literal">Unicode</code>, <code class="literal">bytes</code>,
+      or (for Python 2) <code class="literal">string</code> type. Raises a
+      <code class="literal">MySQLError</code> exception if the string could not be
+      escaped.
+</p>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-api-cext-fetch-fields"></a>11.15 _mysql_connector.MySQL.fetch_fields() Method</h2>
+
+</div>
+
+</div>
+
+</div>
+<a class="indexterm" name="idm139908630413904"></a><a class="indexterm" name="idm139908630412800"></a><p>
+      Syntax:
+    </p><pre class="programlisting">
+field_info = ccnx.fetch_fields()
+</pre><p>
+      Fetches column information for the active result set. Returns a
+      list of tuples, one tuple per column
+    </p><p>
+      Raises a <code class="literal">MySQLInterfaceError</code> exception for any
+      MySQL error returned by the MySQL server.
+    </p><pre class="programlisting">
+ccnx.query('SELECT CURRENT_USER(), 1 + 3, NOW()')
+field_info = ccnx.fetch_fields()
+for fi in field_info:
+  print(fi)
+ccnx.consume_result()
+</pre>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-api-cext-fetch-row"></a>11.16 _mysql_connector.MySQL.fetch_row() Method</h2>
+
+</div>
+
+</div>
+
+</div>
+<a class="indexterm" name="idm139908630406384"></a><a class="indexterm" name="idm139908630405280"></a><p>
+      Syntax:
+    </p><pre class="programlisting">
+row = ccnx.fetch_row()
+</pre><p>
+      Fetches the next row from the active result set. The row is
+      returned as a tuple that contains the values converted to Python
+      objects, unless <code class="literal">raw</code> was set.
+    </p><pre class="programlisting">
+ccnx.query('SELECT CURRENT_USER(), 1 + 3, NOW()')
+row = ccnx.fetch_row()
+print(row)
+ccnx.free_result()
+</pre><p>
+      Raises a <code class="literal">MySQLInterfaceError</code> exception for any
+      MySQL error returned by the MySQL server.
+</p>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-api-cext-field-count"></a>11.17 _mysql_connector.MySQL.field_count() Method</h2>
+
+</div>
+
+</div>
+
+</div>
+<a class="indexterm" name="idm139908630398208"></a><a class="indexterm" name="idm139908630397104"></a><p>
+      Syntax:
+    </p><pre class="programlisting">
+count = ccnx.field_count()
+</pre><p>
+      Returns the number of columns in the active result set.
+</p>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-api-cext-free-result"></a>11.18 _mysql_connector.MySQL.free_result() Method</h2>
+
+</div>
+
+</div>
+
+</div>
+<a class="indexterm" name="idm139908630392672"></a><a class="indexterm" name="idm139908630391568"></a><p>
+      Syntax:
+    </p><pre class="programlisting">
+ccnx.free_result()
+</pre><p>
+      Frees the stored result set, if there is one, for this
+      <code class="literal">MySQL</code> instance. If the statement that was
+      executed returned multiple result sets, this method loops over and
+      consumes all of them.
+</p>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-api-cext-get-character-set-info"></a>11.19 _mysql_connector.MySQL.get_character_set_info() Method</h2>
+
+</div>
+
+</div>
+
+</div>
+<a class="indexterm" name="idm139908630386432"></a><a class="indexterm" name="idm139908630385328"></a><p>
+      Syntax:
+    </p><pre class="programlisting">
+info = ccnx.get_character_set_info()
+</pre><p>
+      Returns information about the default character set for the
+      current MySQL session. The returned dictionary has the keys
+      <code class="literal">number</code>, <code class="literal">name</code>,
+      <code class="literal">csname</code>, <code class="literal">comment</code>,
+      <code class="literal">dir</code>, <code class="literal">mbminlen</code>, and
+      <code class="literal">mbmaxlen</code>.
+</p>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-api-cext-get-client-info"></a>11.20 _mysql_connector.MySQL.get_client_info() Method</h2>
+
+</div>
+
+</div>
+
+</div>
+<a class="indexterm" name="idm139908630375968"></a><a class="indexterm" name="idm139908630374864"></a><p>
+      Syntax:
+    </p><pre class="programlisting">
+info = ccnx.get_client_info()
+</pre><p>
+      Returns the MySQL client library version as a string.
+</p>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-api-cext-get-client-version"></a>11.21 _mysql_connector.MySQL.get_client_version() Method</h2>
+
+</div>
+
+</div>
+
+</div>
+<a class="indexterm" name="idm139908630370496"></a><a class="indexterm" name="idm139908630369392"></a><p>
+      Syntax:
+    </p><pre class="programlisting">
+info = ccnx.get_client_version()
+</pre><p>
+      Returns the MySQL client library version as a tuple.
+</p>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-api-cext-get-host-info"></a>11.22 _mysql_connector.MySQL.get_host_info() Method</h2>
+
+</div>
+
+</div>
+
+</div>
+<a class="indexterm" name="idm139908630364944"></a><a class="indexterm" name="idm139908630363840"></a><p>
+      Syntax:
+    </p><pre class="programlisting">
+info = ccnx.get_host_info()
+</pre><p>
+      Returns a description of the type of connection in use as a
+      string.
+</p>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-api-cext-get-proto-info"></a>11.23 _mysql_connector.MySQL.get_proto_info() Method</h2>
+
+</div>
+
+</div>
+
+</div>
+<a class="indexterm" name="idm139908630359472"></a><a class="indexterm" name="idm139908630358368"></a><p>
+      Syntax:
+    </p><pre class="programlisting">
+info = ccnx.get_proto_info()
+</pre><p>
+      Returns the protocol version used by the current session.
+</p>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-api-cext-get-server-info"></a>11.24 _mysql_connector.MySQL.get_server_info() Method</h2>
+
+</div>
+
+</div>
+
+</div>
+<a class="indexterm" name="idm139908630354016"></a><a class="indexterm" name="idm139908630352912"></a><p>
+      Syntax:
+    </p><pre class="programlisting">
+info = ccnx.get_server_info()
+</pre><p>
+      Returns the MySQL server version as a string.
+</p>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-api-cext-get-server-version"></a>11.25 _mysql_connector.MySQL.get_server_version() Method</h2>
+
+</div>
+
+</div>
+
+</div>
+<a class="indexterm" name="idm139908630348496"></a><a class="indexterm" name="idm139908630347392"></a><p>
+      Syntax:
+    </p><pre class="programlisting">
+info = ccnx.get_server_version()
+</pre><p>
+      Returns the MySQL server version as a tuple.
+</p>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-api-cext-get-ssl-cipher"></a>11.26 _mysql_connector.MySQL.get_ssl_cipher() Method</h2>
+
+</div>
+
+</div>
+
+</div>
+<a class="indexterm" name="idm139908630342960"></a><a class="indexterm" name="idm139908630341856"></a><p>
+      Syntax:
+    </p><pre class="programlisting">
+info = ccnx.get_ssl_cipher()
+</pre><p>
+      Returns the SSL cipher used for the current session, or
+      <code class="literal">None</code> if SSL is not in use.
+</p>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-api-cext-hex-string"></a>11.27 _mysql_connector.MySQL.hex_string() Method</h2>
+
+</div>
+
+</div>
+
+</div>
+<a class="indexterm" name="idm139908630336688"></a><a class="indexterm" name="idm139908630335584"></a><p>
+      Syntax:
+    </p><pre class="programlisting">
+str = ccnx.hex_string(<em class="replaceable"><code>string_to_hexify</code></em>)
+</pre><p>
+      Encodes a value in hexadecimal format and wraps it within
+      <code class="literal">X''</code>. For example, <code class="literal">"ham"</code>
+      becomes <code class="literal">X'68616D'</code>.
+</p>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-api-cext-insert-id"></a>11.28 _mysql_connector.MySQL.insert_id() Method</h2>
+
+</div>
+
+</div>
+
+</div>
+<a class="indexterm" name="idm139908630328624"></a><a class="indexterm" name="idm139908630327520"></a><p>
+      Syntax:
+    </p><pre class="programlisting">
+insert_id = ccnx.insert_id()
+</pre><p>
+      Returns the <code class="literal">AUTO_INCREMENT</code> value generated by
+      the most recent executed statement, or 0 if there is no such
+      value.
+</p>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-api-cext-more-results"></a>11.29 _mysql_connector.MySQL.more_results() Method</h2>
+
+</div>
+
+</div>
+
+</div>
+<a class="indexterm" name="idm139908630322320"></a><a class="indexterm" name="idm139908630321216"></a><p>
+      Syntax:
+    </p><pre class="programlisting">
+more = ccnx.more_results()
+</pre><p>
+      Returns <code class="literal">True</code> or <code class="literal">False</code> to
+      indicate whether any more result sets exist.
+</p>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-api-cext-next-result"></a>11.30 _mysql_connector.MySQL.next_result() Method</h2>
+
+</div>
+
+</div>
+
+</div>
+<a class="indexterm" name="idm139908630315408"></a><a class="indexterm" name="idm139908630314304"></a><p>
+      Syntax:
+    </p><pre class="programlisting">
+ccnx.next_result()
+</pre><p>
+      Initiates the next result set for a statement string that produced
+      multiple result sets.
+    </p><p>
+      Raises a <code class="literal">MySQLInterfaceError</code> exception for any
+      MySQL error returned by the MySQL server.
+</p>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-api-cext-num-fields"></a>11.31 _mysql_connector.MySQL.num_fields() Method</h2>
+
+</div>
+
+</div>
+
+</div>
+<a class="indexterm" name="idm139908630308720"></a><a class="indexterm" name="idm139908630307616"></a><p>
+      Syntax:
+    </p><pre class="programlisting">
+count = ccnx.num_fields()
+</pre><p>
+      Returns the number of columns in the active result set.
+</p>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-api-cext-num-rows"></a>11.32 _mysql_connector.MySQL.num_rows() Method</h2>
+
+</div>
+
+</div>
+
+</div>
+<a class="indexterm" name="idm139908630303184"></a><a class="indexterm" name="idm139908630302080"></a><p>
+      Syntax:
+    </p><pre class="programlisting">
+count = ccnx.num_rows()
+</pre><p>
+      Returns the number of rows in the active result set.
+    </p><p>
+      Raises a <code class="literal">MySQLError</code> exception if there is no
+      result set.
+</p>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-api-cext-ping"></a>11.33 _mysql_connector.MySQL.ping() Method</h2>
+
+</div>
+
+</div>
+
+</div>
+<a class="indexterm" name="idm139908630296608"></a><a class="indexterm" name="idm139908630295520"></a><p>
+      Syntax:
+    </p><pre class="programlisting">
+alive = ccnx.ping()
+</pre><p>
+      Returns <code class="literal">True</code> or <code class="literal">False</code> to
+      indicate whether the connection to the MySQL server is working.
+</p>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-api-cext-query"></a>11.34 _mysql_connector.MySQL.query() Method</h2>
+
+</div>
+
+</div>
+
+</div>
+<a class="indexterm" name="idm139908630289728"></a><a class="indexterm" name="idm139908630288640"></a><p>
+      Syntax:
+    </p><pre class="programlisting">
+ccnx.query(<em class="replaceable"><code>args</code></em>)
+</pre><p>
+      Executes an SQL statement. The permitted arguments are
+      <code class="literal">statement</code>, <code class="literal">buffered</code>,
+      <code class="literal">raw</code>, and <code class="literal">raw_as_string</code>.
+    </p><pre class="programlisting">
+ccnx.query('DROP TABLE IF EXISTS t')
+ccnx.query('CREATE TABLE t (i INT NOT NULL AUTO_INCREMENT PRIMARY KEY)')
+ccnx.query('INSERT INTO t (i) VALUES (NULL),(NULL),(NULL)')
+ccnx.query('SELECT LAST_INSERT_ID()')
+row = ccnx.fetch_row()
+print('LAST_INSERT_ID(): ', row)
+ccnx.consume_result()
+</pre><p>
+      <code class="literal">buffered</code> and <code class="literal">raw</code>, if not
+      provided, take their values from the <code class="literal">MySQL</code>
+      instance. <code class="literal">raw_as_string</code> is a special argument
+      for Python v2 and returns <code class="literal">str</code> instead of
+      <code class="literal">bytearray</code> (compatible with Connector/Python
+      v1.x).
+    </p><p>
+      To check whether the query returns rows, check the
+      <code class="literal">have_result_set</code> property of the
+      <code class="literal">MySQL</code> instance.
+    </p><p>
+      <code class="literal">query()</code> returns <code class="literal">True</code> if the
+      query executes, and raises an exception otherwise. It raises a
+      <code class="literal">TypeError</code> exception if any argument has an
+      invalid type, and a <code class="literal">MySQLInterfaceError</code>
+      exception for any MySQL error returned by the MySQL server.
+</p>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-api-cext-raw"></a>11.35 _mysql_connector.MySQL.raw() Method</h2>
+
+</div>
+
+</div>
+
+</div>
+<a class="indexterm" name="idm139908630269984"></a><a class="indexterm" name="idm139908630268896"></a><p>
+      Syntax:
+    </p><pre class="programlisting">
+is_raw = ccnx.raw()     # getter
+ccnx.raw(<em class="replaceable"><code>bool</code></em>)          # setter
+</pre><p>
+      With no argument, returns <code class="literal">True</code> or
+      <code class="literal">False</code> to indicate whether the
+      <code class="literal">MySQL</code> instance return the rows as is (without
+      conversion to Python objects).
+    </p><p>
+      With a boolean argument, sets the <code class="literal">MySQL</code>
+      instance raw mode.
+</p>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-api-cext-refresh"></a>11.36 _mysql_connector.MySQL.refresh() Method</h2>
+
+</div>
+
+</div>
+
+</div>
+<a class="indexterm" name="idm139908630260736"></a><a class="indexterm" name="idm139908630259648"></a><p>
+      Syntax:
+    </p><pre class="programlisting">
+ccnx.refresh(<em class="replaceable"><code>flags</code></em>)
+</pre><p>
+      Flushes or resets the tables and caches indicated by the argument.
+      The only argument currently permitted is an integer.
+    </p><p>
+      Raises a <code class="literal">TypeError</code> exception if the first
+      argument is not an integer.
+</p>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-api-cext-rollback"></a>11.37 _mysql_connector.MySQL.rollback() Method</h2>
+
+</div>
+
+</div>
+
+</div>
+<a class="indexterm" name="idm139908630253616"></a><a class="indexterm" name="idm139908630252512"></a><p>
+      Syntax:
+    </p><pre class="programlisting">
+ccnx.rollback()
+</pre><p>
+      Rolls back the current transaction.
+    </p><p>
+      Raises a <code class="literal">MySQLInterfaceError</code> exception on
+      errors.
+</p>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-api-cext-select-db"></a>11.38 _mysql_connector.MySQL.select_db() Method</h2>
+
+</div>
+
+</div>
+
+</div>
+<a class="indexterm" name="idm139908630246960"></a><a class="indexterm" name="idm139908630245856"></a><p>
+      Syntax:
+    </p><pre class="programlisting">
+ccnx.select_db(<em class="replaceable"><code>db_name</code></em>)
+</pre><p>
+      Sets the default (current) database for the current session.
+    </p><p>
+      Raises a <code class="literal">MySQLInterfaceError</code> exception for any
+      MySQL error returned by the MySQL server.
+</p>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-api-cext-set-character-set"></a>11.39 _mysql_connector.MySQL.set_character_set() Method</h2>
+
+</div>
+
+</div>
+
+</div>
+<a class="indexterm" name="idm139908630239840"></a><a class="indexterm" name="idm139908630238736"></a><p>
+      Syntax:
+    </p><pre class="programlisting">
+ccnx.set_character_set(<em class="replaceable"><code>charset_name</code></em>)
+</pre><p>
+      Sets the default character set for the current session. The only
+      argument permitted is a string that contains the character set
+      name.
+    </p><p>
+      Raises a <code class="literal">TypeError</code> exception if the argument is
+      not a <code class="literal">PyString_type</code>.
+</p>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-api-cext-shutdown"></a>11.40 _mysql_connector.MySQL.shutdown() Method</h2>
+
+</div>
+
+</div>
+
+</div>
+<a class="indexterm" name="idm139908630231952"></a><a class="indexterm" name="idm139908630230848"></a><p>
+      Syntax:
+    </p><pre class="programlisting">
+ccnx.shutdown(<em class="replaceable"><code>flags</code></em>)
+</pre><p>
+      Shuts down the MySQL server. The only argument currently permitted
+      is an integer that describes the shutdown type.
+    </p><p>
+      Raises a <code class="literal">TypeError</code> exception if the first
+      argument is not an integer. Raises a
+      <code class="literal">MySQLErrorInterface</code> exception if an error is
+      retured by the MySQL server.
+</p>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-api-cext-stat"></a>11.41 _mysql_connector.MySQL.stat() Method</h2>
+
+</div>
+
+</div>
+
+</div>
+<a class="indexterm" name="idm139908630224112"></a><a class="indexterm" name="idm139908630223024"></a><p>
+      Syntax:
+    </p><pre class="programlisting">
+info = ccnx.stat()
+</pre><p>
+      Returns the server status as a string.
+    </p><p>
+      Raises a <code class="literal">MySQLErrorInterface</code> exception if an
+      error is retured by the MySQL server.
+</p>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-api-cext-thread-id"></a>11.42 _mysql_connector.MySQL.thread_id() Method</h2>
+
+</div>
+
+</div>
+
+</div>
+<a class="indexterm" name="idm139908630217440"></a><a class="indexterm" name="idm139908630216336"></a><p>
+      Syntax:
+    </p><pre class="programlisting">
+thread_id = ccnx.thread_id()
+</pre><p>
+      Returns the current thread or connection ID.
+</p>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-api-cext-use-unicode"></a>11.43 _mysql_connector.MySQL.use_unicode() Method</h2>
+
+</div>
+
+</div>
+
+</div>
+<a class="indexterm" name="idm139908630211888"></a><a class="indexterm" name="idm139908630210784"></a><p>
+      Syntax:
+    </p><pre class="programlisting">
+is_unicode = ccnx.use_unicode()      # getter
+ccnx.use_unicode(<em class="replaceable"><code>bool</code></em>)               # setter
+</pre><p>
+      With no argument, returns <code class="literal">True</code> or
+      <code class="literal">False</code> to indicate whether the
+      <code class="literal">MySQL</code> instance returns nonbinary strings as
+      Unicode.
+    </p><p>
+      With a boolean argument, sets whether the <code class="literal">MySQL</code>
+      instance returns nonbinary strings as Unicode.
+</p>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-api-cext-warning-count"></a>11.44 _mysql_connector.MySQL.warning_count() Method</h2>
+
+</div>
+
+</div>
+
+</div>
+<a class="indexterm" name="idm139908630202512"></a><a class="indexterm" name="idm139908630201408"></a><p>
+      Syntax:
+    </p><pre class="programlisting">
+count = ccnx.warning_count()
+</pre><p>
+      Returns the number of errors, warnings, and notes produced by the
+      previous SQL statement.
+</p>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-api-cext-have-result-set"></a>11.45 _mysql_connector.MySQL.have_result_set Property</h2>
+
+</div>
+
+</div>
+
+</div>
+<a class="indexterm" name="idm139908630196944"></a><a class="indexterm" name="idm139908630195840"></a><p>
+      Syntax:
+    </p><pre class="programlisting">
+has_rows = ccnx.have_result_set
+</pre><p>
+      After execution of the <code class="literal">query()</code> method, this
+      property indicates whether the query returns rows.
+</p>
+</div>
+
+</div>
+<div class="copyright-footer">
+
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left"><a accesskey="p" href="connector-python-reference.html">Prev</a></td>
+<td width="20%" align="center"><a accesskey="u" href="">Up</a></td>
+<td width="40%" align="right"> <a accesskey="n" href="connector-python-third-party-licenses.html">Next</a></td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">Chapter 10 Connector/Python API Reference</td>
+<td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td>
+<td width="40%" align="right" valign="top">Appendix A Licenses for Third-Party Components</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

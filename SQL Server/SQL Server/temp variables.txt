@@ -1,0 +1,65 @@
+USE [master];
+GO
+
+--IF EXISTS(SELECT name FROM sys.databases WHERE name = N'sampledb')
+IF DB_ID (N'sampledb') IS NOT NULL
+DROP DATABASE [sampledb];
+GO
+
+CREATE DATABASE sampledb;
+GO
+
+USE [sampledb];
+GO
+
+--IF EXISTS(SELECT name FROM sys.tables WHERE name = N'greek')
+IF OBJECT_ID (N'greek', N'U') IS NOT NULL
+DROP TABLE [greek];
+GO
+
+CREATE TABLE greek
+(
+  id int IDENTITY(1,1),
+  name nvarchar(max),
+  rgb nvarchar(max),
+  score int
+);
+GO
+
+SELECT * FROM greek;
+GO
+
+INSERT INTO greek 
+SELECT 'Alpha', 'Green', 85 UNION ALL
+SELECT 'Beta', 'Green', 85 UNION ALL
+SELECT 'Gamma', 'Green', 80 UNION ALL
+SELECT 'Delta', 'Blue', 70 UNION ALL
+SELECT 'Epsilon', 'Blue', 71 UNION ALL
+SELECT 'Zeta', 'Blue', 72 UNION ALL
+SELECT 'Eta', 'Blue', 73 UNION ALL
+SELECT 'Theta', 'Blue', 74 UNION ALL
+SELECT 'Iota', 'Red', 60 UNION ALL
+SELECT 'Kappa', 'Red', 60 UNION ALL
+SELECT 'Lambda', 'Red', 60 UNION ALL
+SELECT 'Mu', 'Red', 65 UNION ALL
+SELECT 'Nu', 'Green', 89 UNION ALL
+SELECT 'Xi', 'Green', 87 UNION ALL
+SELECT 'Omicron', 'Green', 89;
+GO
+
+SELECT * FROM greek;
+GO
+
+DECLARE @test1 nvarchar(max);
+
+SELECT @test1 = 'SELECT * FROM greek';
+
+EXECUTE (@test1);
+GO
+
+DECLARE @test2 int;
+
+SELECT @test2 = (SELECT COUNT(*) FROM greek);
+
+SELECT (@test2);
+GO

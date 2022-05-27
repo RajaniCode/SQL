@@ -1,0 +1,16 @@
+C:\Users\Aspire>e:
+
+E:\>cd E:\Working\SQL\MySQL\Java
+
+E:\Working\SQL\MySQL\Java>set CLASSPATH=E:\Working\SQL\MySQL\Java\mysql-connector-java\mysql-connector-java-5.1.39-bin.jar;.;
+
+E:\Working\SQL\MySQL\Java>javac MySQL.java
+
+E:\Working\SQL\MySQL\Java>java MySQL
+Connected
+1       Alpha   21
+2       Beta    22
+3       Gamma   23
+Number of Rows: 3
+
+E:\Working\SQL\MySQL\Java>

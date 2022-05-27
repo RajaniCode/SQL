@@ -1,0 +1,5 @@
+USE Northwind;
+
+SELECT EmployeeId FROM (SELECT * FROM Employees) AS EmployeesTable
+
+SELECT EmployeeId FROM (SELECT * FROM Employees) EmployeesTable

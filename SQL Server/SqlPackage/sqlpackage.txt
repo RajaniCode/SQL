@@ -1,0 +1,18 @@
+export PATH=$PATH:"/C/Program Files (x86)/Microsoft Visual Studio/2019/Professional/Common7/IDE/Extensions/Microsoft/SQLDB/DAC/150/"
+
+sqlpackage -TargetFile:"D:\Rajani\Technical2021\SQL\SQL Server\SQL Server\Sample\DACPAC\0\Original\sample.dacpac" -Action:Extract -SourceServerName:"(localdb)\MSSQLLocalDB" -SourceDatabaseName:"sample"
+
+sqlpackage -Action:Publish -SourceFile:"D:\Rajani\Technical2021\SQL\SQL Server\SQL Server\Sample\DACPAC\0\Original\sample.dacpac" -TargetDatabaseName:sample -TargetServerName:"(localdb)\MSSQLLocalDB"
+
+sqlpackage -TargetFile:"D:\Rajani\Technical2021\SQL\SQL Server\SQL Server\Sample\DACPAC\0\Modified\sample.dacpac" -Action:Extract -SourceServerName:"(localdb)\MSSQLLocalDB" -SourceDatabaseName:"sample"
+
+sqlpackage -Action:Publish -SourceFile:"D:\Rajani\Technical2021\SQL\SQL Server\SQL Server\Sample\DACPAC\0\Modified\sample.dacpac" -TargetDatabaseName:sample -TargetServerName:"(localdb)\MSSQLLocalDB"
+
+export PATH=$PATH:"/C/Program Files (x86)/Microsoft Visual Studio/2019/Professional/Common7/IDE/Extensions/Microsoft/SQLDB/DAC/150/"
+sqlpackage -TargetFile:"D:\Rajani\Technical2021\SQL\SQL Server\SQL Server\Sample\DACPAC\Original\sample.dacpac" -Action:Extract -SourceServerName:"(localdb)\MSSQLLocalDB" -SourceDatabaseName:"sample"
+
+sqlpackage -Action:Publish -SourceFile:"D:\Rajani\Technical2021\SQL\SQL Server\SQL Server\Sample\DACPAC\Original\sample.dacpac" -TargetDatabaseName:sample -TargetServerName:"(localdb)\MSSQLLocalDB"
+
+sqlpackage -TargetFile:"D:\Rajani\Technical2021\SQL\SQL Server\SQL Server\Sample\DACPAC\Modified\sample.dacpac" -Action:Extract -SourceServerName:"(localdb)\MSSQLLocalDB" -SourceDatabaseName:"sample"
+
+sqlpackage -Action:Publish -SourceFile:"D:\Rajani\Technical2021\SQL\SQL Server\SQL Server\Sample\DACPAC\Modified\sample.dacpac" -TargetDatabaseName:sample -TargetServerName:"(localdb)\MSSQLLocalDB"

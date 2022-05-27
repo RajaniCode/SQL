@@ -1,0 +1,815 @@
+
+rajanis@MSSPLLAP165 MINGW64 /
+$ mkdir "C:\Users\rajanis\Downloads\PostgreSQL\postgresql-13.1-1-windows-x64-binaries\pgsql\bin\data"
+
+rajanis@MSSPLLAP165 MINGW64 /
+$ mkdir "C:\Users\rajanis\Downloads\PostgreSQL\postgresql-13.1-1-windows-x64-binaries\pgsql\bin\log"
+
+rajanis@MSSPLLAP165 MINGW64 /
+$ export PATH=$PATH:"/C/Users/rajanis/Downloads/PostgreSQL/postgresql-13.1-1-windows-x64-binaries/pgsql/bin/"
+
+rajanis@MSSPLLAP165 MINGW64 /
+$ initdb --version
+initdb (PostgreSQL) 13.1
+
+$ winpty initdb --version
+initdb (PostgreSQL) 13.1
+
+rajanis@MSSPLLAP165 MINGW64 /
+$ pg_ctl --version
+pg_ctl (PostgreSQL) 13.1
+
+rajanis@MSSPLLAP165 MINGW64 /
+$ winpty pg_ctl --version
+pg_ctl (PostgreSQL) 13.1
+
+rajanis@MSSPLLAP165 MINGW64 /
+$ psql --version
+psql (PostgreSQL) 13.1
+
+rajanis@MSSPLLAP165 MINGW64 /
+$ winpty psql --version
+psql (PostgreSQL) 13.1
+
+rajanis@MSSPLLAP165 MINGW64 /
+$ winpty initdb -D "C:/Users/rajanis/Downloads/PostgreSQL/postgresql-13.1-1-windows-x64-binaries/pgsql/bin/data" -U postgres -A password -W
+The files belonging to this database system will be owned by user "rajanis".
+This user must also own the server process.
+
+The database cluster will be initialized with locale "English_United Kingdom.1252".
+The default database encoding has accordingly been set to "WIN1252".
+The default text search configuration will be set to "english".
+
+Data page checksums are disabled.
+
+Enter new superuser password:PostgreSQL-13.1-1
+Enter it again:PostgreSQL-13.1-1
+
+fixing permissions on existing directory C:/Users/rajanis/Downloads/PostgreSQL/postgresql-13.1-1-windows-x64-binaries/pgsql/bin/data ... ok
+creating subdirectories ... ok
+selecting dynamic shared memory implementation ... windows
+selecting default max_connections ... 100
+selecting default shared_buffers ... 128MB
+selecting default time zone ... Asia/Calcutta
+creating configuration files ... ok
+running bootstrap script ... ok
+performing post-bootstrap initialization ... ok
+syncing data to disk ... ok
+
+Success. You can now start the database server using:
+
+    C:/Users/rajanis/Downloads/PostgreSQL/postgresql-13.1-1-windows-x64-binaries/pgsql/bin/pg_ctl -D C:/Users/rajanis/Downloads/PostgreSQL/postgresql-13.1-1-windows-x64-binaries/pg
+sql/bin/data -l logfile start
+
+[
+rajanis@MSSPLLAP165 MINGW64 /
+$ winpty initdb -D "C:/Users/rajanis/Downloads/PostgreSQL/postgresql-13.1-1-windows-x64-binaries/pgsql/bin/data" -U postgres -A password -W
+The files belonging to this database system will be owned by user "rajanis".
+This user must also own the server process.
+
+The database cluster will be initialized with locale "English_United Kingdom.1252".
+The default database encoding has accordingly been set to "WIN1252".
+The default text search configuration will be set to "english".
+
+Data page checksums are disabled.
+
+Enter new superuser password:
+Enter it again:
+
+initdb: error: directory "C:/Users/rajanis/Downloads/PostgreSQL/postgresql-13.1-1-windows-x64-binaries/pgsql/bin/data" exists but is not empty
+If you want to create a new database system, either remove or empty
+the directory "C:/Users/rajanis/Downloads/PostgreSQL/postgresql-13.1-1-windows-x64-binaries/pgsql/bin/data" or run initdb
+with an argument other than "C:/Users/rajanis/Downloads/PostgreSQL/postgresql-13.1-1-windows-x64-binaries/pgsql/bin/data".
+
+]
+
+rajanis@MSSPLLAP165 MINGW64 /
+$ pg_ctl -D "C:/Users/rajanis/Downloads/PostgreSQL/postgresql-13.1-1-windows-x64-binaries/pgsql/bin/data" -l "C:/Users/rajanis/Downloads/PostgreSQL/postgresql-13.1-1-windows-x64-binaries/pgsql/bin/log/pgsql.log" start
+waiting for server to start.... done
+server started
+
+rajanis@MSSPLLAP165 MINGW64 /
+$ winpty psql -U postgres
+Password for user postgres:PostgreSQL-13.1-1
+psql (13.1)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+postgres=# \list
+                                                  List of databases
+   Name    |  Owner   | Encoding |           Collate           |            Ctype            |   Access privileges
+-----------+----------+----------+-----------------------------+-----------------------------+-----------------------
+ postgres  | postgres | WIN1252  | English_United Kingdom.1252 | English_United Kingdom.1252 |
+ template0 | postgres | WIN1252  | English_United Kingdom.1252 | English_United Kingdom.1252 | =c/postgres          +
+           |          |          |                             |                             | postgres=CTc/postgres
+ template1 | postgres | WIN1252  | English_United Kingdom.1252 | English_United Kingdom.1252 | =c/postgres          +
+           |          |          |                             |                             | postgres=CTc/postgres
+(3 rows)
+
+
+postgres=# \l
+                                                  List of databases
+   Name    |  Owner   | Encoding |           Collate           |            Ctype            |   Access privileges
+-----------+----------+----------+-----------------------------+-----------------------------+-----------------------
+ postgres  | postgres | WIN1252  | English_United Kingdom.1252 | English_United Kingdom.1252 |
+ template0 | postgres | WIN1252  | English_United Kingdom.1252 | English_United Kingdom.1252 | =c/postgres          +
+           |          |          |                             |                             | postgres=CTc/postgres
+ template1 | postgres | WIN1252  | English_United Kingdom.1252 | English_United Kingdom.1252 | =c/postgres          +
+           |          |          |                             |                             | postgres=CTc/postgres
+(3 rows)
+
+
+postgres=# \dt
+Did not find any relations.
+postgres=# \connect postgres
+You are now connected to database "postgres" as user "postgres".
+postgres=# SELECT version();
+                          version
+------------------------------------------------------------
+ PostgreSQL 13.1, compiled by Visual C++ build 1914, 64-bit
+(1 row)
+
+
+postgres=# --Databases
+postgres=# SELECT datname FROM pg_database;
+  datname
+-----------
+ postgres
+ template1
+ template0
+(3 rows)
+
+
+postgres=# SELECT datname FROM pg_database WHERE datistemplate = false;
+ datname
+----------
+ postgres
+(1 row)
+
+
+postgres=# -- Alternatively
+postgres=# SELECT d.datname as "Name",
+postgres-#        pg_catalog.pg_get_userbyid(d.datdba) as "Owner",
+postgres-#        pg_catalog.pg_encoding_to_char(d.encoding) as "Encoding",
+postgres-#        d.datcollate as "Collate",
+postgres-#        d.datctype as "Ctype",
+postgres-#        pg_catalog.array_to_string(d.datacl, E'\n') AS "Access privileges"
+postgres-# FROM pg_catalog.pg_database d
+postgres-# ORDER BY 1;
+   Name    |  Owner   | Encoding |           Collate           |            Ctype            |   Access privileges
+-----------+----------+----------+-----------------------------+-----------------------------+-----------------------
+ postgres  | postgres | WIN1252  | English_United Kingdom.1252 | English_United Kingdom.1252 |
+ template0 | postgres | WIN1252  | English_United Kingdom.1252 | English_United Kingdom.1252 | =c/postgres          +
+           |          |          |                             |                             | postgres=CTc/postgres
+ template1 | postgres | WIN1252  | English_United Kingdom.1252 | English_United Kingdom.1252 | =c/postgres          +
+           |          |          |                             |                             | postgres=CTc/postgres
+(3 rows)
+
+
+postgres=# --Current Database
+postgres=# SELECT current_database();
+ current_database
+------------------
+ postgres
+(1 row)
+
+
+postgres=# --Tables in Current Database
+postgres=# SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';
+ table_name
+------------
+(0 rows)
+
+
+postgres=# -- Alternatively
+postgres=# SELECT table_schema, table_name
+postgres-# FROM information_schema.tables
+postgres-# ORDER BY table_schema DESC, table_name;
+    table_schema    |              table_name
+--------------------+---------------------------------------
+ pg_catalog         | pg_aggregate
+ pg_catalog         | pg_am
+ pg_catalog         | pg_amop
+ pg_catalog         | pg_amproc
+ pg_catalog         | pg_attrdef
+ pg_catalog         | pg_attribute
+ pg_catalog         | pg_auth_members
+ pg_catalog         | pg_authid
+ pg_catalog         | pg_available_extension_versions
+ pg_catalog         | pg_available_extensions
+ pg_catalog         | pg_cast
+ pg_catalog         | pg_class
+ pg_catalog         | pg_collation
+ pg_catalog         | pg_config
+ pg_catalog         | pg_constraint
+ pg_catalog         | pg_conversion
+ pg_catalog         | pg_cursors
+ pg_catalog         | pg_database
+ pg_catalog         | pg_db_role_setting
+ pg_catalog         | pg_default_acl
+ pg_catalog         | pg_depend
+ pg_catalog         | pg_description
+ pg_catalog         | pg_enum
+ pg_catalog         | pg_event_trigger
+ pg_catalog         | pg_extension
+ pg_catalog         | pg_file_settings
+ pg_catalog         | pg_foreign_data_wrapper
+ pg_catalog         | pg_foreign_server
+ pg_catalog         | pg_foreign_table
+ pg_catalog         | pg_group
+ pg_catalog         | pg_hba_file_rules
+ pg_catalog         | pg_index
+ pg_catalog         | pg_indexes
+ pg_catalog         | pg_inherits
+ pg_catalog         | pg_init_privs
+ pg_catalog         | pg_language
+ pg_catalog         | pg_largeobject
+ pg_catalog         | pg_largeobject_metadata
+ pg_catalog         | pg_locks
+ pg_catalog         | pg_matviews
+ pg_catalog         | pg_namespace
+ pg_catalog         | pg_opclass
+ pg_catalog         | pg_operator
+ pg_catalog         | pg_opfamily
+ pg_catalog         | pg_partitioned_table
+ pg_catalog         | pg_policies
+ pg_catalog         | pg_policy
+ pg_catalog         | pg_prepared_statements
+ pg_catalog         | pg_prepared_xacts
+ pg_catalog         | pg_proc
+ pg_catalog         | pg_publication
+ pg_catalog         | pg_publication_rel
+ pg_catalog         | pg_publication_tables
+ pg_catalog         | pg_range
+ pg_catalog         | pg_replication_origin
+ pg_catalog         | pg_replication_origin_status
+ pg_catalog         | pg_replication_slots
+ pg_catalog         | pg_rewrite
+ pg_catalog         | pg_roles
+ pg_catalog         | pg_rules
+ pg_catalog         | pg_seclabel
+ pg_catalog         | pg_seclabels
+ pg_catalog         | pg_sequence
+ pg_catalog         | pg_sequences
+ pg_catalog         | pg_settings
+ pg_catalog         | pg_shadow
+ pg_catalog         | pg_shdepend
+ pg_catalog         | pg_shdescription
+ pg_catalog         | pg_shmem_allocations
+ pg_catalog         | pg_shseclabel
+ pg_catalog         | pg_stat_activity
+ pg_catalog         | pg_stat_all_indexes
+ pg_catalog         | pg_stat_all_tables
+ pg_catalog         | pg_stat_archiver
+ pg_catalog         | pg_stat_bgwriter
+ pg_catalog         | pg_stat_database
+ pg_catalog         | pg_stat_database_conflicts
+ pg_catalog         | pg_stat_gssapi
+ pg_catalog         | pg_stat_progress_analyze
+ pg_catalog         | pg_stat_progress_basebackup
+ pg_catalog         | pg_stat_progress_cluster
+ pg_catalog         | pg_stat_progress_create_index
+ pg_catalog         | pg_stat_progress_vacuum
+ pg_catalog         | pg_stat_replication
+ pg_catalog         | pg_stat_slru
+ pg_catalog         | pg_stat_ssl
+ pg_catalog         | pg_stat_subscription
+ pg_catalog         | pg_stat_sys_indexes
+ pg_catalog         | pg_stat_sys_tables
+ pg_catalog         | pg_stat_user_functions
+ pg_catalog         | pg_stat_user_indexes
+ pg_catalog         | pg_stat_user_tables
+ pg_catalog         | pg_stat_wal_receiver
+ pg_catalog         | pg_stat_xact_all_tables
+ pg_catalog         | pg_stat_xact_sys_tables
+ pg_catalog         | pg_stat_xact_user_functions
+ pg_catalog         | pg_stat_xact_user_tables
+ pg_catalog         | pg_statio_all_indexes
+ pg_catalog         | pg_statio_all_sequences
+ pg_catalog         | pg_statio_all_tables
+ pg_catalog         | pg_statio_sys_indexes
+ pg_catalog         | pg_statio_sys_sequences
+ pg_catalog         | pg_statio_sys_tables
+ pg_catalog         | pg_statio_user_indexes
+ pg_catalog         | pg_statio_user_sequences
+ pg_catalog         | pg_statio_user_tables
+ pg_catalog         | pg_statistic
+ pg_catalog         | pg_statistic_ext
+ pg_catalog         | pg_statistic_ext_data
+ pg_catalog         | pg_stats
+ pg_catalog         | pg_stats_ext
+ pg_catalog         | pg_subscription
+ pg_catalog         | pg_subscription_rel
+ pg_catalog         | pg_tables
+ pg_catalog         | pg_tablespace
+ pg_catalog         | pg_timezone_abbrevs
+ pg_catalog         | pg_timezone_names
+ pg_catalog         | pg_transform
+ pg_catalog         | pg_trigger
+ pg_catalog         | pg_ts_config
+ pg_catalog         | pg_ts_config_map
+ pg_catalog         | pg_ts_dict
+ pg_catalog         | pg_ts_parser
+ pg_catalog         | pg_ts_template
+ pg_catalog         | pg_type
+ pg_catalog         | pg_user
+ pg_catalog         | pg_user_mapping
+ pg_catalog         | pg_user_mappings
+ pg_catalog         | pg_views
+ information_schema | _pg_foreign_data_wrappers
+ information_schema | _pg_foreign_servers
+ information_schema | _pg_foreign_table_columns
+ information_schema | _pg_foreign_tables
+ information_schema | _pg_user_mappings
+ information_schema | administrable_role_authorizations
+ information_schema | applicable_roles
+ information_schema | attributes
+ information_schema | character_sets
+ information_schema | check_constraint_routine_usage
+ information_schema | check_constraints
+ information_schema | collation_character_set_applicability
+ information_schema | collations
+ information_schema | column_column_usage
+ information_schema | column_domain_usage
+ information_schema | column_options
+ information_schema | column_privileges
+ information_schema | column_udt_usage
+ information_schema | columns
+ information_schema | constraint_column_usage
+ information_schema | constraint_table_usage
+ information_schema | data_type_privileges
+ information_schema | domain_constraints
+ information_schema | domain_udt_usage
+ information_schema | domains
+ information_schema | element_types
+ information_schema | enabled_roles
+ information_schema | foreign_data_wrapper_options
+ information_schema | foreign_data_wrappers
+ information_schema | foreign_server_options
+ information_schema | foreign_servers
+ information_schema | foreign_table_options
+ information_schema | foreign_tables
+ information_schema | information_schema_catalog_name
+ information_schema | key_column_usage
+ information_schema | parameters
+ information_schema | referential_constraints
+ information_schema | role_column_grants
+ information_schema | role_routine_grants
+ information_schema | role_table_grants
+ information_schema | role_udt_grants
+ information_schema | role_usage_grants
+ information_schema | routine_privileges
+ information_schema | routines
+ information_schema | schemata
+ information_schema | sequences
+ information_schema | sql_features
+ information_schema | sql_implementation_info
+ information_schema | sql_parts
+ information_schema | sql_sizing
+ information_schema | table_constraints
+ information_schema | table_privileges
+ information_schema | tables
+ information_schema | transforms
+ information_schema | triggered_update_columns
+ information_schema | triggers
+ information_schema | udt_privileges
+ information_schema | usage_privileges
+ information_schema | user_defined_types
+ information_schema | user_mapping_options
+ information_schema | user_mappings
+ information_schema | view_column_usage
+ information_schema | view_routine_usage
+ information_schema | view_table_usage
+ information_schema | views
+(194 rows)
+
+
+postgres=# DROP DATABASE IF EXISTS sampledb;
+NOTICE:  database "sampledb" does not exist, skipping
+DROP DATABASE
+postgres=# CREATE DATABASE sampledb;
+CREATE DATABASE
+postgres=# -- \connect sampledb;
+postgres=# DROP TABLE IF EXISTS users;
+NOTICE:  table "users" does not exist, skipping
+DROP TABLE
+postgres=# CREATE TABLE users
+postgres-# (
+postgres(#     id SERIAL NOT NULL,
+postgres(#     username VARCHAR(50) NOT NULL,
+postgres(#     login_date DATE NOT NULL DEFAULT CURRENT_DATE,
+postgres(#     login_time TIME NOT NULL DEFAULT CURRENT_TIME,
+postgres(#     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+postgres(#     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+postgres(#     CONSTRAINT pk_id PRIMARY KEY(id),
+postgres(#     CONSTRAINT idx_username UNIQUE(username)
+postgres(# );
+CREATE TABLE
+postgres=# SELECT * FROM users;
+ id | username | login_date | login_time | created_at | updated_at
+----+----------+------------+------------+------------+------------
+(0 rows)
+
+
+postgres=# INSERT INTO users(username, login_date, login_time, created_at, updated_at)
+postgres-# VALUES('Foo', '2016-11-06', '10:49:35', '2016-11-06 10:49:35.0', '2016-11-06 10:49:35.0');
+INSERT 0 1
+postgres=# SELECT * FROM users;
+ id | username | login_date | login_time |     created_at      |     updated_at
+----+----------+------------+------------+---------------------+---------------------
+  1 | Foo      | 2016-11-06 | 10:49:35   | 2016-11-06 10:49:35 | 2016-11-06 10:49:35
+(1 row)
+
+
+postgres=# SELECT column_name FROM information_schema.columns WHERE table_name = 'users';
+ column_name
+-------------
+ id
+ username
+ login_date
+ login_time
+ created_at
+ updated_at
+(6 rows)
+
+
+postgres=# SELECT column_name, udt_name FROM information_schema.columns WHERE table_name = 'users';
+ column_name | udt_name
+-------------+-----------
+ id          | int4
+ username    | varchar
+ login_date  | date
+ login_time  | time
+ created_at  | timestamp
+ updated_at  | timestamp
+(6 rows)
+
+
+postgres=# SELECT * FROM information_schema.columns WHERE table_name = 'users';
+ table_catalog | table_schema | table_name | column_name | ordinal_position |          column_default           | is_nullable |          data_type          | character_maximum_
+length | character_octet_length | numeric_precision | numeric_precision_radix | numeric_scale | datetime_precision | interval_type | interval_precision | character_set_catalog
+| character_set_schema | character_set_name | collation_catalog | collation_schema | collation_name | domain_catalog | domain_schema | domain_name | udt_catalog | udt_schema |
+udt_name  | scope_catalog | scope_schema | scope_name | maximum_cardinality | dtd_identifier | is_self_referencing | is_identity | identity_generation | identity_start | identi
+ty_increment | identity_maximum | identity_minimum | identity_cycle | is_generated | generation_expression | is_updatable
+---------------+--------------+------------+-------------+------------------+-----------------------------------+-------------+-----------------------------+-------------------
+-------+------------------------+-------------------+-------------------------+---------------+--------------------+---------------+--------------------+-----------------------
++----------------------+--------------------+-------------------+------------------+----------------+----------------+---------------+-------------+-------------+------------+-
+----------+---------------+--------------+------------+---------------------+----------------+---------------------+-------------+---------------------+----------------+-------
+-------------+------------------+------------------+----------------+--------------+-----------------------+--------------
+ postgres      | public       | users      | id          |                1 | nextval('users_id_seq'::regclass) | NO          | integer                     |
+       |                        |                32 |                       2 |             0 |                    |               |                    |
+|                      |                    |                   |                  |                |                |               |             | postgres    | pg_catalog |
+int4      |               |              |            |                     | 1              | NO                  | NO          |                     |                |
+             |                  |                  | NO             | NEVER        |                       | YES
+ postgres      | public       | users      | username    |                2 |                                   | NO          | character varying           |
+    50 |                     50 |                   |                         |               |                    |               |                    |
+|                      |                    |                   |                  |                |                |               |             | postgres    | pg_catalog |
+varchar   |               |              |            |                     | 2              | NO                  | NO          |                     |                |
+             |                  |                  | NO             | NEVER        |                       | YES
+ postgres      | public       | users      | login_date  |                3 | CURRENT_DATE                      | NO          | date                        |
+       |                        |                   |                         |               |                  0 |               |                    |
+|                      |                    |                   |                  |                |                |               |             | postgres    | pg_catalog |
+date      |               |              |            |                     | 3              | NO                  | NO          |                     |                |
+             |                  |                  | NO             | NEVER        |                       | YES
+ postgres      | public       | users      | login_time  |                4 | CURRENT_TIME                      | NO          | time without time zone      |
+       |                        |                   |                         |               |                  6 |               |                    |
+|                      |                    |                   |                  |                |                |               |             | postgres    | pg_catalog |
+time      |               |              |            |                     | 4              | NO                  | NO          |                     |                |
+             |                  |                  | NO             | NEVER        |                       | YES
+ postgres      | public       | users      | created_at  |                5 | CURRENT_TIMESTAMP                 | YES         | timestamp without time zone |
+       |                        |                   |                         |               |                  6 |               |                    |
+|                      |                    |                   |                  |                |                |               |             | postgres    | pg_catalog |
+timestamp |               |              |            |                     | 5              | NO                  | NO          |                     |                |
+             |                  |                  | NO             | NEVER        |                       | YES
+ postgres      | public       | users      | updated_at  |                6 | CURRENT_TIMESTAMP                 | YES         | timestamp without time zone |
+       |                        |                   |                         |               |                  6 |               |                    |
+|                      |                    |                   |                  |                |                |               |             | postgres    | pg_catalog |
+timestamp |               |              |            |                     | 6              | NO                  | NO          |                     |                |
+             |                  |                  | NO             | NEVER        |                       | YES
+(6 rows)
+
+
+postgres=# \x on
+Expanded display is on.
+postgres=# SELECT * FROM information_schema.columns WHERE table_name = 'users';
+-[ RECORD 1 ]------------+----------------------------------
+table_catalog            | postgres
+table_schema             | public
+table_name               | users
+column_name              | id
+ordinal_position         | 1
+column_default           | nextval('users_id_seq'::regclass)
+is_nullable              | NO
+data_type                | integer
+character_maximum_length |
+character_octet_length   |
+numeric_precision        | 32
+numeric_precision_radix  | 2
+numeric_scale            | 0
+datetime_precision       |
+interval_type            |
+interval_precision       |
+character_set_catalog    |
+character_set_schema     |
+character_set_name       |
+collation_catalog        |
+collation_schema         |
+collation_name           |
+domain_catalog           |
+domain_schema            |
+domain_name              |
+udt_catalog              | postgres
+udt_schema               | pg_catalog
+udt_name                 | int4
+scope_catalog            |
+scope_schema             |
+scope_name               |
+maximum_cardinality      |
+dtd_identifier           | 1
+is_self_referencing      | NO
+is_identity              | NO
+identity_generation      |
+identity_start           |
+identity_increment       |
+identity_maximum         |
+identity_minimum         |
+identity_cycle           | NO
+is_generated             | NEVER
+generation_expression    |
+is_updatable             | YES
+-[ RECORD 2 ]------------+----------------------------------
+table_catalog            | postgres
+table_schema             | public
+table_name               | users
+column_name              | username
+ordinal_position         | 2
+column_default           |
+is_nullable              | NO
+data_type                | character varying
+character_maximum_length | 50
+character_octet_length   | 50
+numeric_precision        |
+numeric_precision_radix  |
+numeric_scale            |
+datetime_precision       |
+interval_type            |
+interval_precision       |
+character_set_catalog    |
+character_set_schema     |
+character_set_name       |
+collation_catalog        |
+collation_schema         |
+collation_name           |
+domain_catalog           |
+domain_schema            |
+domain_name              |
+udt_catalog              | postgres
+udt_schema               | pg_catalog
+udt_name                 | varchar
+scope_catalog            |
+scope_schema             |
+scope_name               |
+maximum_cardinality      |
+dtd_identifier           | 2
+is_self_referencing      | NO
+is_identity              | NO
+identity_generation      |
+identity_start           |
+identity_increment       |
+identity_maximum         |
+identity_minimum         |
+identity_cycle           | NO
+is_generated             | NEVER
+generation_expression    |
+is_updatable             | YES
+-[ RECORD 3 ]------------+----------------------------------
+table_catalog            | postgres
+table_schema             | public
+table_name               | users
+column_name              | login_date
+ordinal_position         | 3
+column_default           | CURRENT_DATE
+is_nullable              | NO
+data_type                | date
+character_maximum_length |
+character_octet_length   |
+numeric_precision        |
+numeric_precision_radix  |
+numeric_scale            |
+datetime_precision       | 0
+interval_type            |
+interval_precision       |
+character_set_catalog    |
+character_set_schema     |
+character_set_name       |
+collation_catalog        |
+collation_schema         |
+collation_name           |
+domain_catalog           |
+domain_schema            |
+domain_name              |
+udt_catalog              | postgres
+udt_schema               | pg_catalog
+udt_name                 | date
+scope_catalog            |
+scope_schema             |
+scope_name               |
+maximum_cardinality      |
+dtd_identifier           | 3
+is_self_referencing      | NO
+is_identity              | NO
+identity_generation      |
+identity_start           |
+identity_increment       |
+identity_maximum         |
+identity_minimum         |
+identity_cycle           | NO
+is_generated             | NEVER
+generation_expression    |
+is_updatable             | YES
+-[ RECORD 4 ]------------+----------------------------------
+table_catalog            | postgres
+table_schema             | public
+table_name               | users
+column_name              | login_time
+ordinal_position         | 4
+column_default           | CURRENT_TIME
+is_nullable              | NO
+data_type                | time without time zone
+character_maximum_length |
+character_octet_length   |
+numeric_precision        |
+numeric_precision_radix  |
+numeric_scale            |
+datetime_precision       | 6
+interval_type            |
+interval_precision       |
+character_set_catalog    |
+character_set_schema     |
+character_set_name       |
+collation_catalog        |
+collation_schema         |
+collation_name           |
+domain_catalog           |
+domain_schema            |
+domain_name              |
+udt_catalog              | postgres
+udt_schema               | pg_catalog
+udt_name                 | time
+scope_catalog            |
+scope_schema             |
+scope_name               |
+maximum_cardinality      |
+dtd_identifier           | 4
+is_self_referencing      | NO
+is_identity              | NO
+identity_generation      |
+identity_start           |
+identity_increment       |
+identity_maximum         |
+identity_minimum         |
+identity_cycle           | NO
+is_generated             | NEVER
+generation_expression    |
+is_updatable             | YES
+-[ RECORD 5 ]------------+----------------------------------
+table_catalog            | postgres
+table_schema             | public
+table_name               | users
+column_name              | created_at
+ordinal_position         | 5
+column_default           | CURRENT_TIMESTAMP
+is_nullable              | YES
+data_type                | timestamp without time zone
+character_maximum_length |
+character_octet_length   |
+numeric_precision        |
+numeric_precision_radix  |
+numeric_scale            |
+datetime_precision       | 6
+interval_type            |
+interval_precision       |
+character_set_catalog    |
+character_set_schema     |
+character_set_name       |
+collation_catalog        |
+collation_schema         |
+collation_name           |
+domain_catalog           |
+domain_schema            |
+domain_name              |
+udt_catalog              | postgres
+udt_schema               | pg_catalog
+udt_name                 | timestamp
+scope_catalog            |
+scope_schema             |
+scope_name               |
+maximum_cardinality      |
+dtd_identifier           | 5
+is_self_referencing      | NO
+is_identity              | NO
+identity_generation      |
+identity_start           |
+identity_increment       |
+identity_maximum         |
+identity_minimum         |
+identity_cycle           | NO
+is_generated             | NEVER
+generation_expression    |
+is_updatable             | YES
+-[ RECORD 6 ]------------+----------------------------------
+table_catalog            | postgres
+table_schema             | public
+table_name               | users
+column_name              | updated_at
+ordinal_position         | 6
+column_default           | CURRENT_TIMESTAMP
+is_nullable              | YES
+data_type                | timestamp without time zone
+character_maximum_length |
+character_octet_length   |
+numeric_precision        |
+numeric_precision_radix  |
+numeric_scale            |
+datetime_precision       | 6
+interval_type            |
+interval_precision       |
+character_set_catalog    |
+character_set_schema     |
+character_set_name       |
+collation_catalog        |
+collation_schema         |
+collation_name           |
+domain_catalog           |
+domain_schema            |
+domain_name              |
+udt_catalog              | postgres
+udt_schema               | pg_catalog
+udt_name                 | timestamp
+scope_catalog            |
+scope_schema             |
+scope_name               |
+maximum_cardinality      |
+dtd_identifier           | 6
+is_self_referencing      | NO
+is_identity              | NO
+identity_generation      |
+identity_start           |
+identity_increment       |
+identity_maximum         |
+identity_minimum         |
+identity_cycle           | NO
+is_generated             | NEVER
+generation_expression    |
+is_updatable             | YES
+
+
+postgres=# \x auto
+Expanded display is used automatically.
+postgres=# \connect postgres;
+You are now connected to database "postgres" as user "postgres".
+postgres=# DROP DATABASE IF EXISTS sampledb;
+DROP DATABASE
+postgres=# CREATE DATABASE testdb;
+CREATE DATABASE
+postgres=# \l
+                                                  List of databases
+   Name    |  Owner   | Encoding |           Collate           |            Ctype            |   Access privileges
+-----------+----------+----------+-----------------------------+-----------------------------+-----------------------
+ postgres  | postgres | WIN1252  | English_United Kingdom.1252 | English_United Kingdom.1252 |
+ template0 | postgres | WIN1252  | English_United Kingdom.1252 | English_United Kingdom.1252 | =c/postgres          +
+           |          |          |                             |                             | postgres=CTc/postgres
+ template1 | postgres | WIN1252  | English_United Kingdom.1252 | English_United Kingdom.1252 | =c/postgres          +
+           |          |          |                             |                             | postgres=CTc/postgres
+ testdb    | postgres | WIN1252  | English_United Kingdom.1252 | English_United Kingdom.1252 |
+(4 rows)
+
+
+postgres=# --In PostgreSQL, close one database connection to use another database
+postgres=# \connect testdb;
+You are now connected to database "testdb" as user "postgres".
+testdb=#
+postgres=# SELECT pg_terminate_backend(pg_stat_activity.pid)
+postgres-# FROM pg_stat_activity
+postgres-# WHERE pg_stat_activity.datname = 'testdb'
+postgres-# AND pid <> pg_backend_pid();
+ pg_terminate_backend
+----------------------
+(0 rows)
+
+
+testdb=# \connect postgres;
+You are now connected to database "postgres" as user "postgres".
+postgres=# DROP DATABASE IF EXISTS testdb;
+DROP DATABASE
+postgres=# \q
+
+rajanis@MSSPLLAP165 MINGW64 /
+$ pg_ctl -D "C:/Users/rajanis/Downloads/PostgreSQL/postgresql-13.1-1-windows-x64-binaries/pgsql/bin/data" -l "C:/Users/rajanis/Downloads/PostgreSQL/postgresql-13.1-1-windows-x6naries/pgsql/bin/log/pgsql.log" stop
+waiting for server to shut down.... done
+server stopped
+
+rajanis@MSSPLLAP165 MINGW64 /
+$

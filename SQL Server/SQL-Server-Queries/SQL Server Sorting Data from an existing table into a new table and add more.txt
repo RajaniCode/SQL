@@ -1,0 +1,501 @@
+Sorting Data from an existing table into a new table and add more:
+USE master
+
+CREATE TABLE ExternalCandidate
+(
+cName varchar(20),
+cRating int,
+cCity varchar(50)
+) 
+
+INSERT INTO ExternalCandidate
+VALUES
+(
+'Strastrup',
+'10',
+'Sanfrancisco'
+)
+
+INSERT INTO ExternalCandidate
+VALUES
+(
+'Gosling',
+'7',
+'Los Angeles'
+)
+
+INSERT INTO ExternalCandidate
+VALUES
+(
+'Gates',
+'12',
+'Seattle'
+) 
+
+SELECT * FROM ExternalCandidate
+
+SELECT * INTO PreferredCandidate FROM ExternalCandidate WHERE cRating > 8
+
+SELECT * FROM PreferredCandidate
+
+
+(Note:
+Table PreferredCandidate will be created so it should not exist already)
+
+
+INSERT INTO PreferredCandidate 
+SELECT * FROM ExternalCandidate 
+WHERE cRating = 7
+
+SELECT * FROM PreferredCandidate
+
+SELECT * FROM ExternalCandidate
+
+
+INSERT INTO PreferredCandidate 
+SELECT * FROM ExternalCandidate
+
+SELECT * FROM PreferredCandidate
+
+SELECT * FROM ExternalCandidate
+
+
+DROP TABLE PreferredCandidate
+
+DROP TABLE ExternalCandidate
+
+
+
+
+
+
+
+
+
+
+Sorting Data from an existing table with PRIMARY KEY and IDENTITY into a new table and add more:
+CREATE TABLE ExternalCandidate
+(
+cCode int IDENTITY(1001,1) CONSTRAINT pkCode PRIMARY KEY CLUSTERED,
+cName varchar(20),
+cRating int,
+cCity varchar(50)
+) 
+
+INSERT INTO ExternalCandidate
+VALUES
+(
+'Strastrup',
+'10',
+'Sanfrancisco'
+)
+
+INSERT INTO ExternalCandidate
+VALUES
+(
+'Gosling',
+'7',
+'Los Angeles'
+)
+
+INSERT INTO ExternalCandidate
+VALUES
+(
+'Gates',
+'12',
+'Seattle'
+)
+
+SELECT * FROM ExternalCandidate
+
+SELECT * INTO PreferredCandidate 
+FROM ExternalCandidate 
+WHERE cRating > 8
+
+SELECT * FROM PreferredCandidate
+
+SELECT * FROM ExternalCandidate
+
+
+(Note:
+Table PreferredCandidate will be created so it should not exist already)
+
+
+SET IDENTITY_INSERT PreferredCandidate ON
+
+INSERT INTO PreferredCandidate
+(
+cCode,
+cName,
+cRating,
+cCity
+) 
+SELECT * FROM ExternalCandidate 
+WHERE cRating = 7
+
+SELECT * FROM PreferredCandidate
+
+SELECT * FROM ExternalCandidate
+
+
+INSERT INTO PreferredCandidate
+(
+cCode,
+cName,
+cRating,
+cCity
+) 
+SELECT * FROM ExternalCandidate 
+
+SELECT * FROM PreferredCandidate
+
+SELECT * FROM ExternalCandidate
+
+
+
+DROP TABLE PreferredCandidate
+
+DROP TABLE ExternalCandidate
+
+
+
+
+
+
+
+
+
+
+Sorting Data from an existing table with FOREIGN KEY that REFERENCES PRIMARY KEY, and IDENTITY into a new table and add more:
+CREATE TABLE Candidate
+(
+cCode int IDENTITY(1001,1) NOT NULL CONSTRAINT pkCode1 PRIMARY KEY CLUSTERED,
+cNAME varchar(20),
+cRating int,
+cCity varchar(50)
+) 
+
+INSERT INTO Candidate
+VALUES
+(
+'Strastrup',
+'10',
+'Sanfrancisco'
+)
+
+INSERT INTO Candidate
+VALUES
+(
+'Gosling',
+'7',
+'Los Angeles'
+)
+
+INSERT INTO Candidate
+VALUES
+(
+'Gates',
+'12',
+'Seattle'
+) 
+
+INSERT INTO Candidate
+VALUES
+(
+'Babbage',
+'14',
+'Seattle'
+)
+ 
+SELECT * FROM Candidate
+
+CREATE TABLE ExternalCandidate
+(
+cCode int IDENTITY (1001, 1) NOT NULL CONSTRAINT pkCode2 PRIMARY KEY CLUSTERED,
+cName varchar(20),
+cRating int,
+cCity varchar(50)
+CONSTRAINT fkCode FOREIGN KEY(cCode) REFERENCES Candidate(cCode)
+)
+ 
+INSERT INTO ExternalCandidate
+VALUES
+(
+'Strastrup',
+'10',
+'Sanfrancisco'
+)
+
+INSERT INTO ExternalCandidate
+VALUES
+(
+'Gosling',
+'7',
+'Los Angeles'
+) 
+
+INSERT INTO ExternalCandidate
+VALUES
+(
+'Gates',
+'12',
+'Seattle'
+)
+
+SELECT * FROM ExternalCandidate
+
+SELECT * INTO PreferredCandidate
+FROM ExternalCandidate
+WHERE cRating > 8
+
+SELECT * FROM PreferredCandidate
+
+SELECT * FROM ExternalCandidate
+
+
+(Note:
+Table PreferredCandidate will be created so it should not exist already)
+
+SET IDENTITY_INSERT PreferredCandidate ON
+
+INSERT INTO PreferredCandidate
+(
+cCode,
+cName,
+cRating,
+cCity
+) 
+SELECT * FROM ExternalCandidate 
+WHERE cRating = 7
+
+SELECT * FROM PreferredCandidate
+
+SELECT * FROM ExternalCandidate
+
+
+INSERT INTO PreferredCandidate
+(
+cCode,
+cName,
+cRating,
+cCity
+) 
+SELECT * FROM ExternalCandidate 
+
+SELECT * FROM PreferredCandidate
+
+SELECT * FROM ExternalCandidate
+
+
+DROP TABLE PreferredCandidate
+
+DROP TABLE ExternalCandidate
+
+DROP TABLE Candidate
+
+
+
+
+
+
+
+
+
+
+Sorting Data from an existing table with PRIMARY KEY into a new table and add more:
+CREATE TABLE ExternalCandidate
+(
+cCode int CONSTRAINT pkCode PRIMARY KEY CLUSTERED,
+cName varchar(20),
+cRating int,
+cCity varchar(50)
+) 
+
+INSERT INTO ExternalCandidate
+VALUES
+(
+'1001',
+'Strastrup',
+'10',
+'Sanfrancisco'
+)
+
+INSERT INTO ExternalCandidate
+VALUES
+(
+'1002',
+'Gosling',
+'7',
+'Los Angeles'
+)
+
+INSERT INTO ExternalCandidate
+VALUES
+(
+'1003',
+'Gates',
+'12',
+'Seattle'
+)
+
+SELECT * FROM ExternalCandidate
+
+SELECT * INTO PreferredCandidate
+FROM ExternalCandidate
+WHERE cRating > 8
+
+SELECT * FROM PreferredCandidate
+
+SELECT * FROM ExternalCandidate
+
+
+(Note:
+Table PreferredCandidate will be created so it should not exist already)
+
+
+INSERT INTO PreferredCandidate
+SELECT * FROM ExternalCandidate
+WHERE cRating = 7
+
+SELECT * FROM PreferredCandidate
+
+SELECT * FROM ExternalCandidate
+
+
+INSERT INTO PreferredCandidate
+SELECT * FROM ExternalCandidate
+
+SELECT * FROM PreferredCandidate
+
+SELECT * FROM ExternalCandidate
+
+
+DROP TABLE PreferredCandidate
+
+DROP TABLE ExternalCandidate
+
+
+
+
+
+
+
+
+
+
+Sorting Data from an existing table with FOREIGN KEY that REFERENCES PRIMARY KEY and add more:
+CREATE TABLE Candidate
+(
+cCode int IDENTITY(1001,1) NOT NULL CONSTRAINT pkCode1 PRIMARY KEY CLUSTERED,
+cNAME varchar(20),
+cRating int,
+cCity varchar(50)
+) 
+
+INSERT INTO Candidate
+VALUES
+(
+'Strastrup',
+'10',
+'Sanfrancisco'
+)
+
+INSERT INTO Candidate
+VALUES
+(
+'Gosling',
+'7',
+'Los Angeles'
+)
+
+INSERT INTO Candidate
+VALUES
+(
+'Gates',
+'12',
+'Seattle'
+) 
+
+INSERT INTO Candidate
+VALUES
+(
+'Babbage',
+'14',
+'Seattle'
+)
+ 
+SELECT * FROM Candidate
+
+CREATE TABLE ExternalCandidate
+(
+cCode int NOT NULL CONSTRAINT pkCode2 PRIMARY KEY CLUSTERED,
+cName varchar(20),
+cRating int,
+cCity varchar(50)
+CONSTRAINT fkCode FOREIGN KEY(cCode) REFERENCES Candidate(cCode)
+)
+ 
+INSERT INTO ExternalCandidate
+VALUES
+(
+'1001',
+'Strastrup',
+'10',
+'Sanfrancisco'
+)
+
+INSERT INTO ExternalCandidate
+VALUES
+(
+'1002',
+'Gosling',
+'7',
+'Los Angeles'
+) 
+
+INSERT INTO ExternalCandidate
+VALUES
+(
+'1003',
+'Gates',
+'12',
+'Seattle'
+)
+
+SELECT * FROM ExternalCandidate
+
+SELECT * INTO PreferredCandidate
+FROM ExternalCandidate
+WHERE cRating > 8
+
+SELECT * FROM PreferredCandidate
+
+SELECT * FROM ExternalCandidate
+
+
+(Note:
+Table PreferredCandidate will be created so it should not exist already)
+
+
+INSERT INTO PreferredCandidate
+SELECT * FROM ExternalCandidate
+WHERE cRating = 7
+
+SELECT * FROM PreferredCandidate
+
+SELECT * FROM ExternalCandidate
+
+
+INSERT INTO PreferredCandidate
+SELECT * FROM ExternalCandidate
+
+SELECT * FROM PreferredCandidate
+
+SELECT * FROM ExternalCandidate
+
+
+DROP TABLE PreferredCandidate
+
+DROP TABLE ExternalCandidate
+
+DROP TABLE Candidate

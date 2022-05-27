@@ -1,0 +1,159 @@
+
+rajanis@MSSPLLAP165 MINGW64 /
+$ export PATH=$PATH:"/C/Python38/:/C/Python38/Scripts/"
+
+rajanis@MSSPLLAP165 MINGW64 /
+$ winpty python --version
+Python 3.8.5
+
+rajanis@MSSPLLAP165 MINGW64 /
+$ python --version
+Python 3.8.5
+
+rajanis@MSSPLLAP165 MINGW64 /
+$ pip --version
+pip 20.1.1 from c:\python38\lib\site-packages\pip (python 3.8)
+
+rajanis@MSSPLLAP165 MINGW64 /
+$ winpty pip --version
+pip 20.1.1 from c:\python38\lib\site-packages\pip (python 3.8)
+
+rajanis@MSSPLLAP165 MINGW64 /
+$ pip install pgadmin4
+Collecting pgadmin4
+  Using cached pgadmin4-4.29-py3-none-any.whl (89.9 MB)
+Collecting psutil>=5.7.0
+  Using cached psutil-5.7.3-cp38-cp38-win_amd64.whl (243 kB)
+Collecting pytz<2021,>=2020.1
+  Using cached pytz-2020.4-py2.py3-none-any.whl (509 kB)
+Collecting Flask-Mail==0.9.1
+  Using cached Flask-Mail-0.9.1.tar.gz (45 kB)
+Collecting blinker==1.4
+  Using cached blinker-1.4.tar.gz (111 kB)
+Collecting ldap3>=2.5.1
+  Using cached ldap3-2.8.1-py2.py3-none-any.whl (423 kB)
+Collecting Flask-WTF==0.14.3
+  Using cached Flask_WTF-0.14.3-py2.py3-none-any.whl (13 kB)
+Collecting SQLAlchemy>=1.3.13
+  Using cached SQLAlchemy-1.3.20-cp38-cp38-win_amd64.whl (1.2 MB)
+Collecting psycopg2-binary>=2.8
+  Using cached psycopg2_binary-2.8.6-cp38-cp38-win_amd64.whl (1.1 MB)
+Collecting speaklater==1.3
+  Using cached speaklater-1.3.tar.gz (3.6 kB)
+Collecting Werkzeug>=0.15.0
+  Using cached Werkzeug-1.0.1-py2.py3-none-any.whl (298 kB)
+Collecting sqlparse<0.4,>=0.3.0
+  Using cached sqlparse-0.3.1-py2.py3-none-any.whl (40 kB)
+Collecting Flask-Migrate==2.4.0
+  Using cached Flask_Migrate-2.4.0-py2.py3-none-any.whl (13 kB)
+Collecting Flask==1.0.2
+  Using cached Flask-1.0.2-py2.py3-none-any.whl (91 kB)
+Collecting Flask-Login==0.4.1
+  Using cached Flask-Login-0.4.1.tar.gz (14 kB)
+Collecting WTForms==2.2.1
+  Using cached WTForms-2.2.1-py2.py3-none-any.whl (166 kB)
+Collecting Flask-Compress==1.4.0
+  Using cached Flask-Compress-1.4.0.tar.gz (6.0 kB)
+Collecting Flask-Security-Too>=3.0.0
+  Using cached Flask_Security_Too-3.4.4-py2.py3-none-any.whl (186 kB)
+Collecting cryptography<=3.0
+  Using cached cryptography-3.0-cp38-cp38-win_amd64.whl (1.5 MB)
+Collecting six>=1.12.0
+  Using cached six-1.15.0-py2.py3-none-any.whl (10 kB)
+Collecting Flask-SQLAlchemy==2.4.1
+  Using cached Flask_SQLAlchemy-2.4.1-py2.py3-none-any.whl (17 kB)
+Collecting Flask-Principal==0.4.0
+  Using cached Flask-Principal-0.4.0.tar.gz (5.5 kB)
+Collecting sshtunnel>=0.1.5
+  Using cached sshtunnel-0.3.1-py2.py3-none-any.whl (24 kB)
+Collecting Flask-Gravatar==0.5.0
+  Using cached Flask_Gravatar-0.5.0-py2.py3-none-any.whl (7.5 kB)
+Collecting python-dateutil>=2.8.0
+  Using cached python_dateutil-2.8.1-py2.py3-none-any.whl (227 kB)
+Collecting bcrypt<=3.1.7
+  Using cached bcrypt-3.1.7-cp38-cp38-win_amd64.whl (28 kB)
+Collecting passlib==1.7.2
+  Using cached passlib-1.7.2-py2.py3-none-any.whl (507 kB)
+Collecting simplejson==3.16.0
+  Using cached simplejson-3.16.0.tar.gz (81 kB)
+Collecting Flask-Paranoid==0.2.0
+  Using cached Flask_Paranoid-0.2.0-py2.py3-none-any.whl (4.1 kB)
+Collecting pyasn1>=0.4.6
+  Using cached pyasn1-0.4.8-py2.py3-none-any.whl (77 kB)
+Collecting itsdangerous
+  Using cached itsdangerous-1.1.0-py2.py3-none-any.whl (16 kB)
+Collecting alembic>=0.7
+  Using cached alembic-1.4.3-py2.py3-none-any.whl (159 kB)
+Collecting click>=5.1
+  Using cached click-7.1.2-py2.py3-none-any.whl (82 kB)
+Collecting Jinja2>=2.10
+  Using cached Jinja2-2.11.2-py2.py3-none-any.whl (125 kB)
+Collecting Flask-BabelEx>=0.9.3
+  Using cached Flask_BabelEx-0.9.4-py3-none-any.whl (8.7 kB)
+Collecting email-validator>=1.0.5
+  Using cached email_validator-1.1.2-py2.py3-none-any.whl (17 kB)
+Collecting cffi!=1.11.3,>=1.8
+  Using cached cffi-1.14.4-cp38-cp38-win_amd64.whl (179 kB)
+Collecting paramiko>=1.15.2
+  Using cached paramiko-2.7.2-py2.py3-none-any.whl (206 kB)
+Collecting Mako
+  Using cached Mako-1.1.3-py2.py3-none-any.whl (75 kB)
+Collecting python-editor>=0.3
+  Using cached python_editor-1.0.4-py3-none-any.whl (4.9 kB)
+Collecting MarkupSafe>=0.23
+  Using cached MarkupSafe-1.1.1-cp38-cp38-win_amd64.whl (16 kB)
+Collecting Babel>=1.0
+  Using cached Babel-2.9.0-py2.py3-none-any.whl (8.8 MB)
+Collecting idna>=2.0.0
+  Using cached idna-2.10-py2.py3-none-any.whl (58 kB)
+Collecting dnspython>=1.15.0
+  Using cached dnspython-2.0.0-py3-none-any.whl (208 kB)
+Collecting pycparser
+  Using cached pycparser-2.20-py2.py3-none-any.whl (112 kB)
+Collecting pynacl>=1.0.1
+  Using cached PyNaCl-1.4.0-cp38-cp38-win_amd64.whl (206 kB)
+Using legacy setup.py install for Flask-Mail, since package 'wheel' is not installed.
+Using legacy setup.py install for blinker, since package 'wheel' is not installed.
+Using legacy setup.py install for speaklater, since package 'wheel' is not installed.
+Using legacy setup.py install for Flask-Login, since package 'wheel' is not installed.
+Using legacy setup.py install for Flask-Compress, since package 'wheel' is not installed.
+Using legacy setup.py install for Flask-Principal, since package 'wheel' is not installed.
+Using legacy setup.py install for simplejson, since package 'wheel' is not installed.
+Installing collected packages: psutil, pytz, itsdangerous, Werkzeug, click, MarkupSafe, Jinja2, Flask, blinker, Flask-Mail, pyasn1, ldap3, WTForms, Flask-WTF, SQLAlchemy, psycopg2-binary, speaklater, sqlparse, six, python-dateutil, Mako, python-editor, alembic, Flask-SQLAlchemy, Flask-Migrate, Flask-Login, Flask-Compress, passlib, Babel, Flask-BabelEx, idna, dnspython, email-validator, Flask-Principal, Flask-Security-Too, pycparser, cffi, cryptography, bcrypt, pynacl, paramiko, sshtunnel, Flask-Gravatar, simplejson, Flask-Paranoid, pgadmin4
+    Running setup.py install for blinker: started
+    Running setup.py install for blinker: finished with status 'done'
+    Running setup.py install for Flask-Mail: started
+    Running setup.py install for Flask-Mail: finished with status 'done'
+    Running setup.py install for speaklater: started
+    Running setup.py install for speaklater: finished with status 'done'
+    Running setup.py install for Flask-Login: started
+    Running setup.py install for Flask-Login: finished with status 'done'
+    Running setup.py install for Flask-Compress: started
+    Running setup.py install for Flask-Compress: finished with status 'done'
+    Running setup.py install for Flask-Principal: started
+    Running setup.py install for Flask-Principal: finished with status 'done'
+    Running setup.py install for simplejson: started
+    Running setup.py install for simplejson: finished with status 'done'
+Successfully installed Babel-2.9.0 Flask-1.0.2 Flask-BabelEx-0.9.4 Flask-Compress-1.4.0 Flask-Gravatar-0.5.0 Flask-Login-0.4.1 Flask-Mail-0.9.1 Flask-Migrate-2.4.0 Flask-Paranoid-0.2.0 Flask-Principal-0.4.0 Flask-SQLAlchemy-2.4.1 Flask-Security-Too-3.4.4 Flask-WTF-0.14.3 Jinja2-2.11.2 Mako-1.1.3 MarkupSafe-1.1.1 SQLAlchemy-1.3.20 WTForms-2.2.1 Werkzeug-1.0.1 alembic-1.4.3 bcrypt-3.1.7 blinker-1.4 cffi-1.14.4 click-7.1.2 cryptography-3.0 dnspython-2.0.0 email-validator-1.1.2 idna-2.10 itsdangerous-1.1.0 ldap3-2.8.1 paramiko-2.7.2 passlib-1.7.2 pgadmin4-4.29 psutil-5.7.3 psycopg2-binary-2.8.6 pyasn1-0.4.8 pycparser-2.20 pynacl-1.4.0 python-dateutil-2.8.1 python-editor-1.0.4 pytz-2020.4 simplejson-3.16.0 six-1.15.0 speaklater-1.3 sqlparse-0.3.1 sshtunnel-0.3.1
+WARNING: You are using pip version 20.1.1; however, version 20.3.1 is available.
+You should consider upgrading via the 'c:\python38\python.exe -m pip install --upgrade pip' command.
+
+
+rajanis@MSSPLLAP165 MINGW64 /
+$ export PATH=$PATH:"/C/Python38/:/C/Python38/Scripts/"
+
+rajanis@MSSPLLAP165 MINGW64 /
+$ winpty pgadmin4
+NOTE: Configuring authentication for SERVER mode.
+
+Enter the email address and password to use for the initial pgAdmin user account:
+
+Email address: #####@gmail.com
+Password: CanadaDry
+Retype password:CanadaDry 
+Starting pgAdmin 4. Please navigate to http://127.0.0.1:5050 in your browser.
+ * Serving Flask app "pgadmin" (lazy loading)
+ * Environment: production
+   WARNING: Do not use the development server in a production environment.
+   Use a production WSGI server instead.
+ * Debug mode: off

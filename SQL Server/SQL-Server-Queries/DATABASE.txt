@@ -1,0 +1,157 @@
+[NOTE SQL Server 2000:'C:\Program Files\Microsoft SQL Server\MSSQL\Data . . .']
+
+Create database:          
+USE  master 
+
+IF EXISTS (SELECT * FROM dbo.sysdatabases 
+WHERE name = 'exampledb') 
+
+DROP DATABASE exampledb
+
+CREATE DATABASE exampledb
+ON
+(NAME = exampledb_dat,
+FILENAME = 'C:\Program Files\Microsoft SQL Server\MSSQL.1\MSSQL\Data\exampledb.mdf', 
+SIZE = 12,
+MAXSIZE = 100,
+FILEGROWTH = 2)
+LOG ON
+(NAME = 'exampledb_log', 
+FILENAME = 'C:\Program Files\Microsoft SQL Server\MSSQL.1\MSSQL\Data\exampledb.ldf', 
+SIZE = 4 MB,
+MAXSIZE = 50 MB,
+FILEGROWTH = 2 MB)
+
+
+View database: 
+sp_helpdb exampledb
+
+
+Database options (TRUE/FALSE/ON/OFF): 
+EXEC sp_dboption 'exampledb', 'DBO USE ONLY', 'TRUE'
+[POSSIBLE ONLY WHEN - EXEC sp_dboption 'exampledb', 'SINGLE USER', 'FALSE']
+
+EXEC sp_dboption 'exampledb', 'SINGLE USER', 'TRUE' 
+[POSSIBLE ONLY WHEN - EXEC sp_dboption 'exampledb', 'DBO USE ONLY', 'FALSE']
+
+
+EXEC sp_dboption 'exampledb', 'OFFLINE', 'TRUE' (USE master)
+[USE exampledb - POSSIBLE ONLY WHEN - EXEC sp_dboption 'exampledb', 'OFFLINE', 'FALSE']
+
+
+EXEC sp_dboption 'exampledb', 'READ ONLY', 'TRUE'
+
+
+EXEC sp_dboption 'exampledb', 'SELECT INTO', 'TRUE'
+
+
+EXEC sp_dboption 'exampledb', 'BULKCOPY', 'TRUE'
+
+
+EXEC sp_dboption 'exampledb', 'TRUNC. LOG ON CHKPT', 'TRUE' 
+
+
+Rename database: 
+sp_renamedb 'exampledb', 'exdb'
+[POSSIBLE ONLY WHEN - EXEC sp_dboption 'exampledb', 'READ ONLY', 'FALSE']
+[WHICH IS POSSIBLE ONLY WHEN - EXEC sp_dboption 'exampledb', 'OFFLINE', 'FALSE']
+
+
+Delete database: (USE master)
+DROP DATABASE exdb
+
+
+Create database filegroup:
+CREATE DATABASE exampledb
+ON PRIMARY
+(NAME = exampledb_dat,
+FILENAME = 'C:\Program Files\Microsoft SQL Server\MSSQL.1\MSSQL\Data\exampledb.mdf', 
+SIZE = 12,
+MAXSIZE = 100,
+FILEGROWTH = 2),
+FILEGROUP exampledbgroup
+(NAME = exampledbgroup_dat,
+FILENAME = 'C:\Program Files\Microsoft SQL Server\MSSQL.1\MSSQL\Data\exampledbgroup.ndf', 
+SIZE = 12, MAXSIZE = 100, FILEGROWTH = 2)
+LOG ON
+(NAME = 'exampledb_log', 
+FILENAME = 'C:\Program Files\Microsoft SQL Server\MSSQL.1\MSSQL\Data\exampledb.ldf', 
+SIZE = 4 MB,
+MAXSIZE = 50 MB,
+FILEGROWTH = 2 MB)
+
+
+Create table on filegroup: 
+USE exampledb
+
+CREATE TABLE employee
+(
+ecode int IDENTITY(100,1),
+ename char(25) NOT NULL,
+edepartment char(25) NOT NULL
+)
+ON exampledbgroup
+
+
+Delete database: (USE master)
+DROP DATABASE exampledb
+
+
+
+
+Create database named Sales with 3 filegroups and multiple transaction log files(
+Primary filegroup with the files SPri1_dat and SPri2_dat;
+A filegroup named  SalesGroup1 with the files SGrp1Fi1_dat and SGrp1Fi2_dat;
+A filegroup named  SalesGroup2 with the files SGrp2Fi1_dat and SGrp2Fi2_dat;
+.mdf is used for primary data files; 
+.ndf is used for the secondary data files; 
+.ldf is used for the transaction log files):
+CREATE DATABASE Sales
+ON PRIMARY
+(NAME = SPri1_dat,
+FILENAME = 'C:\Program Files\Microsoft SQL Server\MSSQL.1\MSSQL\Data\Spri1dat.mdf',
+SIZE = 10,
+MAXSIZE = 50,
+FILEGROWTH = 15%),
+(NAME = SPri2_dat,
+FILENAME = 'C:\Program Files\Microsoft SQL Server\MSSQL.1\MSSQL\Data\SPri2dat.ndf',
+SIZE = 10,
+MAXSIZE = 50,
+FILEGROWTH = 15%),
+FILEGROUP SalesGroup1
+(NAME = SGrp1Fi1_dat,
+FILENAME =  'C:\Program Files\Microsoft SQL Server\MSSQL.1\MSSQL\Data\SGrp1Fi1dat.ndf',
+SIZE = 10,
+MAXSIZE = 50,
+FILEGROWTH = 15%),
+(NAME = SGrp1Fi2_dat,
+FILENAME = 'C:\Program Files\Microsoft SQL Server\MSSQL.1\MSSQL\Data\SGrp1Fi2dat.ndf',
+SIZE = 10,
+MAXSIZE = 50,
+FILEGROWTH = 15%),
+FILEGROUP SalesGroup2
+(NAME = SGrp2Fi1_dat,
+FILENAME = 'C:\Program Files\Microsoft SQL Server\MSSQL.1\MSSQL\Data\SGrp2Fi1dat.ndf',
+SIZE = 10,
+MAXSIZE = 50,
+FILEGROWTH = 15%),
+(NAME = SGrp2Fi2_dat,
+FILENAME = 'C:\Program Files\Microsoft SQL Server\MSSQL.1\MSSQL\Data\SGrp2Fi2dat.ndf',
+SIZE = 10,
+MAXSIZE = 50,
+FILEGROWTH = 15%)
+LOG ON
+(NAME = 'Saleslog1',
+FILENAME = 'C:\Program Files\Microsoft SQL Server\MSSQL.1\MSSQL\Data\saleslog1.ldf',
+SIZE = 5 MB,
+MAXSIZE = 25 MB,
+FILEGROWTH = 5 MB),
+(NAME = 'Saleslog2',
+FILENAME = 'C:\Program Files\Microsoft SQL Server\MSSQL.1\MSSQL\Data\saleslog2.ldf',
+SIZE = 5 MB,
+MAXSIZE = 25 MB,
+FILEGROWTH = 5 MB)
+
+
+Delete database: (USE master)
+DROP DATABASE Sales

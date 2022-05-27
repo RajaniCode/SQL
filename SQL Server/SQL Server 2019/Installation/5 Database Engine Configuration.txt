@@ -1,0 +1,29 @@
+Server Configuration
+Mixed Mode (SQL Server authentication and Windows authentication)
+
+Specify the password for the SQL Server system administrator (sa) account
+SQL-$erver-15
+
+Specify SQL Server administrators (SQL Server administrators have unrestricted access to the Database Engine)
+DESKTOP-CSN1DHD\Rajani
+
+
+Data Directories
+Data root directory:
+C:\Program Files\Microsoft SQL Server\
+
+System database directory:
+C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Data
+
+User database directory: 
+C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Data
+
+User database log directory:
+C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Data
+
+Backup directory: 
+C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Backup
+
+
+TempDB
+C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Data

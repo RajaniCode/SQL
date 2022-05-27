@@ -1,0 +1,501 @@
+Constraint (Column level):
+USE master
+
+CREATE TABLE Sales1
+(
+ItemCode char(4) NOT NULL,
+ItemName char(10) NULL,
+QtySold int NOT NULL CONSTRAINT chkQtySold1 CHECK (QtySold > 10),
+SellingDate datetime NOT NULL
+)
+
+INSERT INTO SALES1
+(
+ItemCode,
+ItemName,
+QtySold,
+SellingDate
+)
+VALUES
+('0001',
+'Column',
+11,
+'2007-06-13 23:59:59:998'
+)
+
+
+View contraint:
+sp_help chkQtySold1
+
+
+Drop constraint (Column level):
+ALTER TABLE Sales1
+DROP CONSTRAINT chkQtySold1
+
+INSERT INTO SALES1
+(
+ItemCode,
+ItemName,
+QtySold,
+SellingDate
+)
+VALUES
+('0002',
+'Column',
+10,
+'2007-06-13 23:59:59:998'
+)
+
+
+Constraint (Table level with nocheck):
+USE master
+
+CREATE TABLE Sales2
+(
+ItemCode char(4) NOT NULL,
+ItemName char(10) NULL,
+QtySold int NOT NULL,
+SellingDate datetime NOT NULL
+)
+
+ALTER TABLE Sales2 WITH NOCHECK
+ADD CONSTRAINT chkQtySold2 CHECK (QtySold > 10)
+
+INSERT INTO SALES2
+(
+ItemCode,
+ItemName,
+QtySold,
+SellingDate
+)
+VALUES
+('0001',
+'Table',
+11,
+'2007-06-13 23:59:59:998'
+)
+
+
+Drop constraint (Table level with nocheck):
+ALTER TABLE Sales2
+DROP CONSTRAINT chkQtySold2
+
+INSERT INTO SALES2
+(
+ItemCode,
+ItemName,
+QtySold,
+SellingDate
+)
+VALUES
+('0002',
+'Table',
+10,
+'2007-06-13 23:59:59:998'
+)
+
+
+Constraint (Table level with check):
+USE master
+
+CREATE TABLE Sales3
+(
+ItemCode char(4) NOT NULL,
+ItemName char(10) NULL,
+QtySold int NOT NULL,
+SellingDate datetime NOT NULL
+)
+
+INSERT INTO SALES3
+(
+ItemCode,
+ItemName,
+QtySold,
+SellingDate
+)
+VALUES
+('0001',
+'Table',
+10,
+'2007-06-13 23:59:59:998'
+)
+
+ALTER TABLE Sales3 WITH CHECK
+ADD CONSTRAINT chkQtySold3 CHECK (QtySold > 9)
+
+INSERT INTO SALES3
+(
+ItemCode,
+ItemName,
+QtySold,
+SellingDate
+)
+VALUES
+('0002',
+'Table',
+10,
+'2007-06-13 23:59:59:998'
+)
+
+
+Drop constraint (Table level with check):
+ALTER TABLE Sales3
+DROP CONSTRAINT chkQtySold3
+
+INSERT INTO SALES3
+(
+ItemCode,
+ItemName,
+QtySold,
+SellingDate
+)
+VALUES
+('0003',
+'Table',
+9,
+'2007-06-13 23:59:59:998'
+)
+
+
+(NOTE: Dropping tables Sales1, Sales2 and Sales3 will drop their respective constraints too)
+
+
+Primary key constraint (Column level):
+USE master
+
+CREATE TABLE Employee1
+(
+cEmployeeCode char(4) CONSTRAINT pkEmployeeCode1 PRIMARY KEY CLUSTERED
+)
+
+
+View primary key constraint (Column level):
+sp_help pkEmployeeCode1
+
+
+Drop primary key constraint (Column level):
+ALTER TABLE Employee1
+DROP CONSTRAINT pkEmployeeCode1
+
+
+Primary key constraint (Table level):
+CREATE TABLE Employee2
+(
+cEmployeeCode char(4) NOT NULL
+)
+
+ALTER TABLE Employee2
+ADD CONSTRAINT pkEmployeeCode2 PRIMARY KEY CLUSTERED(cEmployeeCode)
+
+(Note: cEmployeeCode must be NOT NULL)
+
+
+View primary key constraint (Table level):
+sp_help pkEmployeeCode2
+
+
+Drop primary key constraint (Table level):
+ALTER TABLE Employee2
+DROP CONSTRAINT pkEmployeeCode2
+
+
+Unique Constraint(Column level):
+CREATE TABLE Employee3
+(
+imPhoto image,
+dJoiningDate datetime,
+dResignationDate datetime,
+cSocialSecurityNo char(15) CONSTRAINT unqSocialSecurity1 UNIQUE
+)
+
+
+View unique Constraint(Column level):
+sp_help unqSocialSecurity1
+
+
+Drop unique Constraint(Column level):
+ALTER TABLE Employee3
+DROP CONSTRAINT unqSocialSecurity1
+
+
+Unique Constraint(Table level):
+CREATE TABLE Employee4
+(
+imPhoto image,
+dJoiningDate datetime,
+dResignationDate datetime,
+cSocialSecurityNo char(15) 
+)
+
+ALTER TABLE Employee4
+ADD CONSTRAINT unqSocialSecurity2 UNIQUE (cSocialSecurityNo)
+
+
+View unique Constraint(Table level):
+sp_help unqSocialSecurity2
+
+
+Drop unique Constraint(Table level):
+ALTER TABLE Employee4
+DROP CONSTRAINT unqSocialSecurity2
+
+
+(NOTE: Dropping tables Employee1, Employee2, Employee3 and Employee4 
+will drop their primary key\unique constraints too)
+
+
+Foreign key constraint(Column level):
+CREATE TABLE Department1
+(
+cDepartmentCode char(4) CONSTRAINT pkDepartmentCode1 PRIMARY KEY CLUSTERED
+)
+
+CREATE TABLE Employee5
+(
+cDepartmentCode char(4) REFERENCES Department1(cDepartmentCode)
+)
+
+(Or)
+
+CREATE TABLE Employee5
+(
+cDepartmentCode char(4),
+cRegion char(20),
+imPhoto image,
+dJoiningDate datetime,
+cSocialSecurityNo char(15) UNIQUE,
+FOREIGN KEY(cDepartmentCode) REFERENCES Department1(cDepartmentCode)
+)
+
+
+(Note: 
+cDepartmentCode(Department1) must be PRIMARY KEY
+
+cDepartmentCode(Department1) = cDepartmentCode(Employee5) = char
+
+cDepartmentCode(Department1) = cDepartmentCode(Employee5) = char(4)
+)
+
+
+(Note: Here the foreign key references cannot be dropped unless its table (Employee5) itself is dropped)
+
+
+(Note: Table Department1 cannot be dropped/truncated (but can be deleted) 
+unless the foreign key table (Employee5) that references it is dropped)
+
+
+Foreign key constraint(Table level):
+CREATE TABLE Department2
+(
+cDepartmentCode char(4) CONSTRAINT pkDepartmentCode2 PRIMARY KEY CLUSTERED
+)
+
+CREATE TABLE Employee6
+(
+cDepartmentCode char(4),
+cRegion char(20),
+imPhoto image,
+dJoiningDate datetime,
+cSocialSecurityNo char(15) UNIQUE
+)
+
+ALTER TABLE Employee6
+ADD CONSTRAINT fkDepartmentCode FOREIGN KEY(cDepartmentCode) REFERENCES Department2(cDepartmentCode)
+
+
+(Note: 
+cDepartmentCode(Department2) must be PRIMARY KEY
+
+cDepartmentCode(Department2) = cDepartmentCode(Employee6) = char
+
+cDepartmentCode(Department2) = cDepartmentCode(Employee6) = char(4)
+)
+
+
+View foreign key constraint(Table level):
+sp_help fkDepartmentCode
+
+
+Drop foreign key constraint(Table level):
+ALTER TABLE Employee6
+DROP CONSTRAINT fkDepartmentCode
+
+(Note: Table Department2 cannot be dropped/truncated (but can be deleted) 
+unless the foreign key (fkDepartmentCode) that references it is dropped)
+
+
+Check in constraint(Column level):
+CREATE TABLE ContractRecruiter1
+(
+cCity char(15) CONSTRAINT chkCity1 CHECK(cCity IN('Berkeley','Boston',
+'Chicago','Dallas','Munchen','New Jersey','New York','Paris','Washington'))
+)
+
+
+View check in constraint(Column level):
+sp_help chkCity1
+
+
+Drop check in constraint(Column level):
+ALTER TABLE ContractRecruiter1
+DROP CONSTRAINT chkCity1
+
+
+Check in constraint(Table level):
+CREATE TABLE ContractRecruiter2
+(
+cCity char(15)
+)
+
+ALTER TABLE ContractRecruiter2
+ADD CONSTRAINT chkCity2 CHECK(cCity IN('Berkeley','Boston',
+'Chicago','Dallas','Munchen','New Jersey','New York','Paris','Washington'))
+
+
+View check in constraint(Table level):
+sp_help chkCity2
+
+
+Drop check in constraint(Table level):
+ALTER TABLE ContractRecruiter2
+DROP CONSTRAINT chkCity2
+
+
+Check like constraint(Column level):
+CREATE TABLE ContractRecruiter3
+(
+cContractRecruiterCode int CONSTRAINT chkContractRecruiterCode1 
+CHECK(cContractRecruiterCode LIKE '[0-9][0-9][0-9][0-9]')
+)
+
+
+View check like constraint(Column level):
+sp_help chkContractRecruiterCode1
+
+
+Drop check like constraint(Column level):
+ALTER TABLE ContractRecruiter3
+DROP CONSTRAINT chkContractRecruiterCode1
+
+
+Check like constraint(Table level):
+CREATE TABLE ContractRecruiter4
+(
+cContractRecruiterCode int 
+)
+
+ALTER TABLE ContractRecruiter4
+ADD CONSTRAINT chkContractRecruiterCode2 
+CHECK(cContractRecruiterCode LIKE '[0-9][0-9][0-9][0-9]')
+
+
+View check like constraint(Table level):
+sp_help chkContractRecruiterCode2
+
+
+Drop check like constraint(Table level):
+ALTER TABLE ContractRecruiter4
+DROP CONSTRAINT chkContractRecruiterCode2
+
+
+Check between constraint(Column level):
+CREATE TABLE ContractRecruiter5
+(
+mTotalPaid int CONSTRAINT chkTotalPaid1 
+CHECK(mTotalPaid BETWEEN 0 AND 50000)
+)
+
+
+View check between constraint(Column level):
+sp_help chkTotalPaid1
+
+
+Drop check between constraint(Column level):
+ALTER TABLE ContractRecruiter5
+DROP CONSTRAINT chkTotalPaid1
+
+
+Check between constraint(Table level):
+CREATE TABLE ContractRecruiter6
+(
+mTotalPaid int 
+)
+
+ALTER TABLE ContractRecruiter6
+ADD CONSTRAINT chkTotalPaid2 
+CHECK(mTotalPaid BETWEEN 0 AND 50000)
+
+
+View check between constraint(Table level):
+sp_help chkTotalPaid2
+
+
+Drop check between constraint(Table level):
+ALTER TABLE ContractRecruiter6
+DROP CONSTRAINT chkTotalPaid2
+
+
+(Note: Dropping tables ContractRecruiter1, ContractRecruiter2, ContractRecruiter3, 
+ContractRecruiter4, ContractRecruiter5, ContractRecruiter6 will drop their respective constraints too.)
+
+
+Default constraint(Column level):
+CREATE TABLE City1
+(
+cEmpName char(20),
+cCity char(15) DEFAULT 'Chicago'
+)
+
+INSERT INTO City1
+(
+cEmpName
+)
+VALUES
+(
+'Bill Gates'
+)
+
+SELECT * FROM city1
+
+
+(Note: The default constraint cannot be dropped unless its table (City1) itself is dropped)
+
+
+Default constraint(Table level):
+CREATE TABLE City2
+(
+cEmpName char(20),
+cCity char(15) 
+)
+
+ALTER TABLE City2
+ADD CONSTRAINT chkCity DEFAULT 'Chicago' FOR cCity
+
+INSERT INTO City2
+(
+cEmpName
+)
+VALUES
+(
+'Bill Gates'
+)
+
+SELECT * FROM city2
+
+View default constraint(Table level):
+sp_help chkCity 
+
+(Note:
+View DEFAULT:
+sp_help DEFAULT)
+
+
+Drop default constraint(Table level):
+ALTER TABLE City2
+DROP CONSTRAINT chkCity
+
+
+(Note: Dropping table City2 will drop its default constraint too.)
+
+
+(Note: Constraint remains even after deleting/truncating its respective table)

@@ -1,0 +1,29 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hsqlado", "hsqlado.csproj", "{9BCC45EC-AA95-47D9-9630-A917B99D6F72}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tests", "tests\tests.csproj", "{F2CF0887-6A33-4098-92BB-D585F720C19E}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{9BCC45EC-AA95-47D9-9630-A917B99D6F72}.Debug.ActiveCfg = Debug|.NET
+		{9BCC45EC-AA95-47D9-9630-A917B99D6F72}.Debug.Build.0 = Debug|.NET
+		{9BCC45EC-AA95-47D9-9630-A917B99D6F72}.Release.ActiveCfg = Release|.NET
+		{9BCC45EC-AA95-47D9-9630-A917B99D6F72}.Release.Build.0 = Release|.NET
+		{F2CF0887-6A33-4098-92BB-D585F720C19E}.Debug.ActiveCfg = Debug|.NET
+		{F2CF0887-6A33-4098-92BB-D585F720C19E}.Debug.Build.0 = Debug|.NET
+		{F2CF0887-6A33-4098-92BB-D585F720C19E}.Release.ActiveCfg = Release|.NET
+		{F2CF0887-6A33-4098-92BB-D585F720C19E}.Release.Build.0 = Release|.NET
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

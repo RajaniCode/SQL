@@ -1,0 +1,10 @@
+http://stackoverflow.com/questions/1601697/sqlite-reset-primary-key-field
+
+SQLite Reset Primary Key Field
+
+delete from your_table;    
+delete from sqlite_sequence where name='your_table';
+
+SQLite Autoincrement [http://sqlite.org/autoinc.html]
+
+SQLite keeps track of the largest ROWID that a table has ever held using the special sqlite_sequence table. The sqlite_sequence table is created and initialized automatically whenever a normal table that contains an AUTOINCREMENT column is created. The content of the sqlite_sequence table can be modified using ordinary UPDATE, INSERT, and DELETE statements. But making modifications to this table will likely perturb the AUTOINCREMENT key generation algorithm. Make sure you know what you are doing before you undertake such changes.

@@ -1,0 +1,81 @@
+PostgreSQL Password:
+PostgreSQL-10.5-1
+
+PostgreSQL data directory:
+C:\PostgreSQL\data\pg10
+
+PostgreSQL Port:
+5432
+
+
+/*
+
+--Command
+> psql -U postgres
+
+-- Git Bash
+$ psql -U postgres
+\list 
+\l
+\dt
+\connect postgres
+
+SELECT version();
+
+--Databases
+SELECT datname FROM pg_database
+WHERE datistemplate = false;
+-- Alternatively
+SELECT d.datname as "Name",
+       pg_catalog.pg_get_userbyid(d.datdba) as "Owner",
+       pg_catalog.pg_encoding_to_char(d.encoding) as "Encoding",
+       d.datcollate as "Collate",
+       d.datctype as "Ctype",
+       pg_catalog.array_to_string(d.datacl, E'\n') AS "Access privileges"
+FROM pg_catalog.pg_database d
+ORDER BY 1;
+
+--Current Database
+SELECT current_database();
+
+--Tables in Current Database
+SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';
+-- Alternatively
+SELECT table_schema, table_name
+FROM information_schema.tables
+ORDER BY table_schema DESC, table_name
+
+
+\connect customerdb
+
+SELECT * FROM customer;
+
+SELECT column_name FROM information_schema.columns
+WHERE table_name = 'customer';
+
+SELECT column_name, udt_name FROM information_schema.columns
+WHERE table_name = 'customer';
+
+SELECT * FROM information_schema.columns
+WHERE table_name = 'customer';
+
+--In PostgreSQL, close one database connection to use another database
+
+CREATE DATABASE testdb;
+
+SELECT pg_terminate_backend(pg_stat_activity.pid)
+FROM pg_stat_activity
+WHERE pg_stat_activity.datname = 'testdb'
+AND pid <> pg_backend_pid();
+
+DROP DATABASE IF EXISTS testdb;
+
+DROP DATABASE testdb;
+
+-- Note:
+-- COMMIT; 
+-- ROLLBACK;
+
+\q
+
+*/
