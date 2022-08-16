@@ -1,0 +1,41 @@
+
+Aspire@Acer MINGW64 /
+$ java -version
+java version "1.8.0_102"
+Java(TM) SE Runtime Environment (build 1.8.0_102-b14)
+Java HotSpot(TM) 64-Bit Server VM (build 25.102-b14, mixed mode)
+
+Aspire@Acer MINGW64 /
+$ cd "E:\Working\SQL\HSQLDB\Java"
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB/Java
+$ javac HSQLDB.java
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB/Java
+$ java -cp "E:\Working\SQL\HSQLDB\Java\HSQLDB-JDBC\hsqldb.jar;.;" HSQLDB
+Connected to HSQLDB successfully.
+101     Foo     2016-11-062016-11-06    2016-11-06 10:49:35.000000      2016-11-06 10:49:35.000000
+Number of Rows: 1
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB/Java
+$ javac HSQLDBConnection.java
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB/Java
+$ java -cp "E:\Working\SQL\HSQLDB\Java\HSQLDB-JDBC\hsqldb.jar;.;" HSQLDBConnection
+Connected to HSQLDB Server successfully.
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB/Java
+$ javac HSQLDBMetaData.java
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB/Java
+$ java -cp "E:\Working\SQL\HSQLDB\Java\HSQLDB-JDBC\hsqldb.jar;.;" HSQLDBMetaData
+URL in use: jdbc:hsqldb:hsql://localhost/sampledb
+User name: SA
+DBMS name: HSQL Database Engine
+DBMS version: 2.3.4
+Driver name: HSQL Database Engine Driver
+Driver version: 2.3.4
+supp. SQL Keywords:
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB/Java
+$

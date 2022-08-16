@@ -1,0 +1,7 @@
+A composite key is a primary key which has more than 1 column. For example consider the many to many relation between student and courses. Here we need another table , lets say studentcourses . 
+
+This studentcourses table will have student id and course id as its columns. This will form your composite key. 
+
+Candidate key is a set of columns which can uniquely identify the values in a table and can act as a unique key. One of these candidate keys will become the primary key and the rest will become alternate keys. 
+
+Unique key as the name suggests , is used to uniquely identify a value in a table. For example Emp_id etc. Every candidate key will act as a unique key.

@@ -1,0 +1,18 @@
+export CLASSPATH="E:\Working\SQL\HSQLDB\Java\HSQLDB-JDBC\sqltool.jar;.;"
+
+echo $CLASSPATH
+
+export CLASSPATH="E:\Working\SQL\HSQLDB\Java\HSQLDB-JDBC\hsqldb.jar;.;"
+
+echo $CLASSPATH
+
+
+
+
+set CLASSPATH=E:\Working\SQL\HSQLDB\Java\HSQLDB-JDBC\sqltool.jar;.;
+
+echo %CLASSPATH%
+
+set CLASSPATH=E:\Working\SQL\HSQLDB\Java\HSQLDB-JDBC\hsqldb.jar;.;
+
+echo %CLASSPATH%

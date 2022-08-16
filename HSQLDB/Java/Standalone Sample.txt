@@ -1,0 +1,81 @@
+[
+$ export CLASSPATH="E:\Working\SQL\HSQLDB\Java\HSQLDB-JDBC\hsqldb.jar;.;"
+
+$ export CLASSPATH="E:\Working\SQL\HSQLDB\Java\HSQLDB-JDBC\sqltool.jar;.;"
+
+$ echo $CLASSPATH
+]
+
+## Create Database
+
+$ java -version
+
+[
+$ export CLASSPATH="E:\Working\SQL\HSQLDB\Java\HSQLDB-JDBC\hsqldb.jar;.;"
+]
+
+$ cd "E:\Working\SQL\HSQLDB\Java"
+
+$ touch server.properties
+
+# server.properties
+server.database.0 = file:hsqldb/sampledb
+server.dbname.0 = sampledb
+
+$ java -classpath HSQLDB-JDBC/hsqldb.jar org.hsqldb.server.Server
+
+[Ctrl]+[C]
+
+## Start Server
+
+$ java -classpath HSQLDB-JDBC/hsqldb.jar org.hsqldb.server.Server --database.0 file:hsqldb/sampledb --dbname.0 sampledb
+
+
+## Git Bash # Command Line # HSQLDB-JDBC/sqltool.jar
+
+$ java -version
+
+[
+$ export CLASSPATH="E:\Working\SQL\HSQLDB\Java\HSQLDB-JDBC\sqltool.jar;.;"
+]
+
+$ cd "E:\Working\SQL\HSQLDB\Java"
+
+# Download sqltool.rc [http://hsqldb.org/doc/2.0/verbatim/sample/sqltool.rc] to hsqldb
+$ curl -O http://hsqldb.org/doc/2.0/verbatim/sample/sqltool.rc
+
+$ mv sqltool.rc hsqldb
+# hsqldb/sqltool.rc
+# A personal, local, persistent database.
+
+urlid personal
+# url jdbc:hsqldb:file:${user.home}/db/personal;shutdown=true
+
+url jdbc:hsqldb:hsql://localhost/sampledb;shutdown=true
+
+
+$ java -jar HSQLDB-JDBC/sqltool.jar --driver=org.hsqldb.jdbcDriver --rcFile hsqldb/sqltool.rc personal
+
+sql>\?
+
+sql>\i hsqldb_table_users.sql
+
+sql>COMMIT;
+
+sql>\q
+
+[
+$ export CLASSPATH="E:\Working\SQL\HSQLDB\Java\HSQLDB-JDBC\hsqldb.jar;.;"
+]
+
+$ javac HSQLDB.java
+
+$ java -cp "E:\Working\SQL\HSQLDB\Java\HSQLDB-JDBC\hsqldb.jar;.;" HSQLDB
+
+$ javac HSQLDBConnection.java
+
+$ java -cp "E:\Working\SQL\HSQLDB\Java\HSQLDB-JDBC\hsqldb.jar;.;" HSQLDBConnection
+
+$ javac HSQLDBMetaData.java
+
+$ java -cp "E:\Working\SQL\HSQLDB\Java\HSQLDB-JDBC\hsqldb.jar;.;" HSQLDBMetaData

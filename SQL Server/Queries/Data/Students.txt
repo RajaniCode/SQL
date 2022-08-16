@@ -1,0 +1,52 @@
+1,Sebastien,Porter,2/12/1995,Male,4442 Shane Ave,Silver Spring,MD,20902,(301) 591-6236,porters@rosh.md.us,John and Christine Porter,0,John Porter,(202) 662-4825
+2,Suzie,Hoak,10/5/1991,Female,1866 Old Conference Rd. #1412,Hyattsville,MD,20782,(301) 736-0002,hoaks@rosh.md.us,Christianne Hoak,0,Christianne Hoak,(301) 364-0221
+3,Antoinette,Clarck,4/10/1996,Female,282 Centerway st.,Rockville,MD,20875,(301) 598-9292,clarcka@rosh.md.us,Daniel and Henriette Clarck,0,Henriette Clarck,(301) 598-9292
+4,Koko,Domba,2/5/1990,Male,8782 South Waterfront Blvd #14D2,Alexandria,VA,20212,(703) 363-1066,dombak@rosh.md.us,Dr. Julie and Mr. Jeremiah Domba,0,Jeremiah Domba,
+5,Janet,West,6/2/1996,Female,980 Washington Blvd.,Bethesda,MD,20872,(301) 515-2831,westj@rosh.md.us,Kirsten Farmer,1,Kirsten Farmer,
+6,Catherine,Chang,6/12/1997,Female,2186 Holm St. N.E.,Washington,DC,20010,(202) 434-0034,changc@rosh.md.us,Julie Best and Dr. Peter Chang,0,Ernie Change,(202) 215-6663
+7,Nehemiah,Dean,12/2/1995,Male,442 Lakefront Ave.,Silver Spring,MD,20910,(301) 938-2763,deann@rosh.md.us,Marie Rodnat,1,Marie Rodnat,(703) 434-8756
+8,Sherryl,Ashburn,10/7/1995,Female,1771 N. Frederick Rd.,Chevy Chase,MD,20870,(301) 410-3346,ashburns@rosh.md.us,Shelia and Patrick Ashburn,0,Shelia Ashburn,(703) 292-8340
+9,Santos,Pacheco,5/5/1998,Male,14277 Grand Misty Dr.,Arlington,VA,20202,(703) 652-4412,pachecos@rosh.md.us,Dr. Julia Santana,0,,(202) 938-7772
+10,Mohamed,Husseini,1/5/1998,Male,888 Democracy Rd. #D8,Washington,DC,20008,(202) 556-4766,husseinim@rosh.md.us,Drs. Phyllis and Ezra Husseini,0,Dr. Phyllis Husseini,(202) 631-8855
+11,Dean,Chen,5/2/1997,Male,4608 St. Leonard St.,Vienna,VA,20204,(703) 518-3372,chend@rosh.md.us,Alexandra Chen,1,Alexandra Chen,
+12,Ruby,DeGaram,10/11/1998,Female,8782 South Wells St.,Silver Spring,MD,20906,(301) 430-7712,degaramr@rosh.md.us,Lynn and Anthony DeGaram,0,Anthony DeGaram,(301) 938-1220
+13,Carole,Chance,10/22/1990,Female,445 Farmers Av.,Rockville,MD,20875,(301) 724-1810,chancec@rosh.md.us,Carole and Andy Chance,0,Andy Chance,(301) 422-1001
+14,Justin,Vittas,5/4/1991,Male,12881 Northpoint Blvd. #1410,Bethesda,MD,20815,(301) 549-4004,vittasj@rosh.md.us,Clarice Vittas,1,,(301) 549-0020
+15,Ismael,Zara,5/25/1990,Male,9009 Kentland St,Laurel,MD,20707,(301) 356-1826,zarai@rosh.md.us,Melinda and Robert Zara,0,Robert Zara,(202) 978-6642
+16,Anselme,Waters,7/23/1990,Male,1872 Hunters Dr.,Washington,DC,20002,(202) 525-0160,watersa@rosh.md.us,Claudette and Dr. Celestin Waters,1,Celestin Waters,(703) 894-6624
+17,Brenda,Lobo,10/5/1989,Female,2490 Chanting Rd.,Alexandria,VA,20214,(703) 894-2888,lobob@rosh.md.us,Priscilla and Michel Lobo,0,,(703) 894-2888
+18,Suzanna,Verde,3/12/1988,Female,3844 John McGill St.,Silver Spring,MD,20904,(301) 831-2420,verdes@rosh.md.us,Suzanne and Thommy Verder,0,Thommy Verde,
+19,Danilo,Chico,6/20/1997,Male,291 Nixon Av.,Chevy Chase,MD,20872,(301) 364-9212,chicod@rosh.md.us,Michelle and Stephen Chico,0,Stephen Chico,(202) 299-7001
+20,Mincy,Franse,10/8/1991,Female,1788 Old Montgomery Av.,Laurel,MD,20707,(301) 799-1112,fransem@rosh.md.us,Dr. Melanie and Cleve Franse,0,Melanie Franse,(301) 986-4445
+21,Arlene,Andriamirano,2/15/1989,Female,11124 Old Tribute Av. #12E2,Arlington,VA,20212,(703) 593-2820,Andriam@rosh.md.us,Christianne Burton,1,Christianne Andriamirano,(703) 593-2820
+22,Gabrielle,Ledoux,6/23/1989,Female,752 West Farm Blvd.,Hyattsville,MD,20782,(301) 780-4424,ledouxg@rosh.md.us,Brenda and Patrick Fasten,0,,
+23,Koko,Lobila,8/20/1990,Female,2888 Wolf Terrace,Washington,DC,20002,(202) 538-2008,lobilak@rosh.md.us,Aquilla and Dr. Diallo Lobila,0,Aquilla Lobila,(301) 752-0002
+24,Paul,Farms,4/30/1996,Male,4490 Presidents Square,Silver Spring,MD,20902,(301) 695-7727,farmsp@rosh.md.us,Rebecca and Peter Farms,0,Rebecca Farms,(301) 696-8281
+25,Lester,Bell,12/6/1995,Male,2882 April Av. #D4,Silver Spring,MD,20815,(301) 979-0032,belll@rosh.md.us,Bernadette and Paulin Bell,0,Bernadette Bell,(301) 979-0032
+26,Christian,Liss,10/8/1988,Male,902 Continental Rd,Washington,DC,20020,(202) 389-7487,lissc@rosh.md.us,Sandra and Paul Liss,0,Sandra Liss,(703) 797-9762
+27,Arlette,Duma,9/28/1995,Female,10008 Paloma Drive #1204,Bethesda,MD,20850,(301) 206-8623,dumat@rosh.md.us,Ursula Duma,1,,(301) 206-8623
+28,Harriette,Sans,8/2/1996,Female,402 Dublin Rd,Alexandria,VA,22032,(703) 684-1500,sansh@rosh.md.us,Thomas Sans,0,Thomas Sans,(703) 684-1500
+29,Clint,Fuller,4/19/1996,Male,6812 Thousand Way,Silver Spring,MD,20904,(301) 490-6390,clintf@rosh.md.us,Shelley and Dr. Oregon Fuller,0,Shelley Fuller,
+30,Thomas,Moore,4/22/1988,Male,11312 Crane Drive #12,Columbia,MD,21102,(410) 730-8100,mooret@rosh.md.us,Deborah Moore,0,Deborah Moore,(410) 730-8100
+31,Bernadette,Howerson,6/11/1996,Female,4440 Public Sq,Silver Spring,MD,20910,(301) 899-1800,howb@rosh.md.us,Caron and Rick Howerson,0,Caron Howerson,(301) 899-1800
+32,Tim,Amorros,2/14/1989,Male,125 Eutah Rd,Rockville,MD,20854,(301) 262-1717,amorrost@rosh.md.us,Eduardo Amoros,0,Helena,
+33,Judith,Steinberg,2/22/1989,Female,9 Alberton Circle #D,Takoma Park,MD,20912,(301) 322-7130,steinbergj@rosh.md.us,Jim,0,Jim,(301) 322-7130
+34,Ella,Napolis,4/24/1991,Female,820 Chisom Rd,Silver Spring,MD,20906,(301) 925-7041,napolise@rosh.md.us,Sandra and Pedro Napolis,0,Sandra Napolis,(301) 925-7041
+35,Maurice,Walken,10/8/1990,Male,7200 St Francis Ave #16,Washington,DC,20010,(202) 583-4228,walkenm@rosh.md.us,,0,,(202) 583-4228
+36,Charles,Edelman,12/26/1996,Male,54 Sommerset Rd,Hyattsville,MD,20774,(301) 656-4441,edelmane@rosh.md.us,Jasmine Beaulieu,1,Jasmine Bealieu,(301) 656-4441
+37,Arthur,Milley,5/1/1995,Male,3734 Bond St,Silver Spring,MD,20906,(301) 229-1600,milleya@rosh.md.us,Jeffrey Milley,0,Jeffrey Milley,(301) 229-1600
+38,Martin,Davis,10/14/1996,Male,856 Worry Lane,Bethesda,MD,20860,(703) 836-1100,davism@rosh.md.us,,0,,
+39,Ann,Miller,6/21/1997,Female,1948 Hagers St,Rockville,MD,20855,(301) 571-0400,millern@rosh.md.us,,0,,
+40,Millicent,Broadskey,9/10/1989,Female,2800 Freight Way,Silver Spring,MD,20910,(301) 879-4567,broadskeym@rosh.md.us,,0,,
+41,Victoria,Milchen,4/18/1988,Female,105 Military Rd,Silver Spring,MD,20905,(301) 540-2300,milchenv@rosh.md.us,Paul Milchen,1,Paul Milchen,(301) 540-2300
+42,Arthur,Junger,8/8/1991,Male,3022 Connecticut Ave,Chevry Chase,MD,20850,(301) 656-4060,jungera@rosh.md.us,Heleine Pitts,1,,(301) 656-4060
+43,Martine,Quarles,2/4/1996,Female,808 Patuxent Rd,Washington,DC,20004,(202) 833-4167,quarlesm@rosh.md.us,,0,Carole Zarra,
+44,Julie,Laurens,6/22/1988,Female,4012 Sunset Rd,Rockville,MD,20854,(301) 649-6900,laurensj@rosh.md.us,,0,,
+45,Martha,Bastens,2/12/1995,Female,506 Smallwall Circle,Chevy Chase,MD,20840,(301) 736-8747,bastensm@rosh.md.us,,0,,(301) 780-4424
+46,Jeannette,Hutchins,4/24/1988,Female,704 Summit Ave,Silver Spring,MD,20910,(301) 662-0013,hutchinsj@rosh.md.us,,0,,
+47,Paul,Marlly,10/20/1990,Female,2900 Cooke Rd,Silver Spring,MD,20905,(301) 661-5050,marllyp@rosh.md.us,Arlette Hutchins,1,Arlette Hutchins,(301) 661-5050
+48,Donnie,Mart,6/8/1990,Female,3002 Magnuson Ave,Rockville,MD,20854,(301) 276-6068,martd@rosh.md.us,Alan Marly,1,Alan Marly,(301) 276-6068
+49,George,Orion,12/22/1995,Male,12004 Shepherd Way,Bethesda,MD,20850,(301) 805-2233,oriong@rosh.md.us,Jennifer Freemont,1,,
+50,Albert,Linken,5/14/1988,Male,5909 Freemont Ave,Chevy Chase,MD,20845,(301) 530-0540,linkena@rosh.md.us,Sandra Kallahan,1,,(301) 530-0540
+51,Ralph,Hagers,2/21/1990,Male,312 Friendship Ave,Chevy Chase,MD,20845,(301) 805-6008,hagersr@rosh.md.us,,0,,
+52,Charles,Laurel,8/20/1990,Male,4422 Davison Rd #1205,College Park,MD,20747,(301) 628-3200,laurelc@rosh.md.us,,0,Stephen Laurel,(301) 628-3200

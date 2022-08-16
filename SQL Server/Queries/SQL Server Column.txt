@@ -1,0 +1,259 @@
+CREATE TABLE Employee
+(
+eCode int IDENTITY(1001,1) NOT NULL, 
+eNAME varchar(20) NOT NULL,
+eDate datetime NOT NULL DEFAULT getdate(),
+eAddress varchar(50) NULL DEFAULT 'Sanfrancisco',
+CONSTRAINT pkCode PRIMARY KEY CLUSTERED (eCode) 
+)
+
+INSERT INTO Employee
+VALUES
+(
+'Bjarne',
+DEFAULT,
+NULL
+)
+
+SELECT * FROM Employee
+
+INSERT INTO Employee
+VALUES
+(
+'Strastrup',
+DEFAULT,
+DEFAULT
+)
+
+SELECT * FROM Employee
+
+
+
+
+
+
+
+
+
+
+ALTER TABLE Employee
+ADD ePhone varchar(20)
+
+SELECT * FROM Employee
+
+
+(Note: Column ePhone cannot be declared NOT NULL without DEFAULT)
+
+
+INSERT INTO Employee
+VALUES
+(
+'James',
+'1960-01-31',
+'Los Angeles',
+'007'
+)
+
+SELECT * FROM Employee
+
+ALTER TABLE Employee
+DROP COLUMN ePhone
+
+SELECT * FROM Employee
+
+
+(Note: Although column ePhone can be dropped even after inserting values, 
+it cannot be dropped if it is ever declared with DEFAULT)
+
+
+
+
+
+
+
+
+
+
+ALTER TABLE Employee
+ADD eMobile varchar(20) NULL DEFAULT '911'
+
+SELECT * FROM Employee
+
+(Or)
+
+ALTER TABLE Employee
+ADD eMobile varchar(20) DEFAULT '911'
+
+SELECT * FROM Employee
+
+
+INSERT INTO Employee
+VALUES
+(
+'Charles',
+'1900-01-31',
+'New York',
+DEFAULT
+)
+
+SELECT * FROM Employee
+
+
+ALTER TABLE Employee
+ALTER COLUMN eMobile varchar(20) 
+
+SELECT * FROM Employee
+
+
+INSERT INTO Employee
+VALUES
+(
+'Babbage',
+'1910-01-31',
+'Washington D.C.',
+DEFAULT
+)
+
+SELECT * FROM Employee
+
+(Note: NULL cannot be altered to NOT NULL and DEFAULT cannot be altered too 
+(see NULL and DEFAULT still prevailing in the following inserts)
+so the column cannot be dropped (even before inserting values)
+
+
+
+
+
+
+
+
+
+
+ALTER TABLE Employee
+ADD eEmail varchar(30) NOT NULL DEFAULT 'employee@office.com'
+
+SELECT * FROM Employee
+
+
+INSERT INTO Employee
+VALUES
+(
+'Bill',
+'1950-01-31',
+'Seattle',
+NULL,
+DEFAULT
+)
+
+SELECT * FROM Employee
+
+
+ALTER TABLE Employee
+ALTER COLUMN eEmail varchar(30) NULL
+
+SELECT * FROM Employee
+
+
+INSERT INTO Employee
+VALUES
+(
+'Gates',
+'1970-01-31',
+'Seattle',
+NULL,
+NULL
+)
+
+SELECT * FROM Employee
+
+
+INSERT INTO Employee
+VALUES
+(
+'Goosling',
+'1995-01-31',
+'Seattle',
+DEFAULT,
+DEFAULT
+)
+
+SELECT * FROM Employee
+
+
+(Note: NOT NULL can be altered to NULL (even after inserting values) but DEFAULT still prevails)
+
+
+DROP TABLE Employee
+
+
+
+
+
+
+ROWGUIDCOL 
+
+
+CREATE TABLE Test
+(
+uCode int
+)
+
+ALTER TABLE Test
+ADD uID uniqueidentifier ROWGUIDCOL DEFAULT NEWID()
+
+SELECT * FROM Test
+
+INSERT Test
+(
+uCode 
+)
+VALUES
+(
+1
+)
+
+SELECT * FROM Test
+
+
+ALTER TABLE Test
+ALTER COLUMN uID DROP ROWGUIDCOL
+
+SELECT * FROM Test
+
+
+
+
+
+
+DROP TABLE Test
+
+
+
+
+
+
+
+
+
+
+Column heading:
+USE master
+
+CREATE Table Publishers
+(
+Pub_Id varchar(10),
+Pub_Name varchar(20)
+)
+
+SELECT * FROM Publishers
+
+SELECT 'Publishers Identity' = Pub_Id, 'Publishers Name' = Pub_Name 
+FROM Publishers
+
+(Or)
+
+SELECT Pub_Id 'Publishers Identity', Pub_Name 'Publishers Name' 
+FROM Publishers
+
+
+DROP TABLE Publishers

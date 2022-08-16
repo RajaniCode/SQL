@@ -1,0 +1,78 @@
+SELECT  
+   CONNECTIONPROPERTY('net_transport') AS net_transport,
+   CONNECTIONPROPERTY('protocol_type') AS protocol_type,
+   CONNECTIONPROPERTY('auth_scheme') AS auth_scheme,
+   CONNECTIONPROPERTY('local_net_address') AS local_net_address,
+   CONNECTIONPROPERTY('local_tcp_port') AS local_tcp_port,
+   CONNECTIONPROPERTY('client_net_address') AS client_net_address;
+
+SELECT   
+    c.session_id, c.net_transport, c.encrypt_option,   
+    c.auth_scheme, s.host_name, s.program_name,   
+    s.client_interface_name, s.login_name, s.nt_domain,   
+    s.nt_user_name, s.original_login_name, c.connect_time,   
+    s.login_time   
+FROM sys.dm_exec_connections AS c  
+JOIN sys.dm_exec_sessions AS s  
+    ON c.session_id = s.session_id  
+WHERE c.session_id = @@SPID;  
+GO
+
+
+CREATE PROCEDURE sp_get_ip_address (@ip varchar(40) out)
+AS
+BEGIN
+DECLARE @ipLine varchar(200)
+DECLARE @pos int
+SET NOCOUNT ON
+          SET @ip = NULL
+          CREATE TABLE #temp (ipLine varchar(200))
+          INSERT #temp EXEC master..xp_cmdshell 'ipconfig'
+          SELECT @ipLine = ipLine
+          FROM #temp
+          WHERE UPPER (ipLine) LIKE '%IP ADDRESS%'
+          IF (ISNULL (@ipLine,'***') != '***')
+          BEGIN 
+                SET @pos = CHARINDEX (':', @ipLine, 1);
+                SET @ip = RTRIM (LTRIM(substring (@ipLine , @pos + 1,
+                LEN (@ipLine) - @pos)))
+           END 
+DROP TABLE #temp
+SET NOCOUNT OFF
+END 
+GO
+
+DECLARE @ip varchar(40)
+EXEC sp_get_ip_address @ip out
+PRINT @ip
+GO
+
+
+---- To allow advanced options to be changed.
+EXEC sp_configure 'show advanced options', 1
+GO
+---- To update the currently configured value for advanced options.
+RECONFIGURE
+GO
+---- To enable the feature.
+EXEC sp_configure 'xp_cmdshell', 1
+GO
+---- To update the currently configured value for this feature.
+RECONFIGURE
+GO
+
+
+SELECT 
+    SERVERPROPERTY('ComputerNamePhysicalNetBios')  as 'Is_Current_Owner'
+    ,SERVERPROPERTY('MachineName')  as 'MachineName'
+    ,case when @@ServiceName = 
+    Right (@@Servername,len(@@ServiceName)) then @@Servername 
+      else @@servername +' \ ' + @@Servicename
+      end as '@@Servername \ Servicename',  
+    CONNECTIONPROPERTY('net_transport') AS net_transport,
+    CONNECTIONPROPERTY('local_tcp_port') AS local_tcp_port,
+    dec.local_tcp_port,
+    CONNECTIONPROPERTY('local_net_address') AS local_net_address,
+    dec.local_net_address as 'dec.local_net_address'
+    FROM sys.dm_exec_connections AS dec
+    WHERE dec.session_id = @@SPID;

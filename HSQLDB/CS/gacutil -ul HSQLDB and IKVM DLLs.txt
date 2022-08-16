@@ -1,0 +1,33 @@
+$ cd "E:\Working\SQL\HSQLDB\CS"
+
+$ gacutil -ul DLLListUninstall.txt
+
+# Note 
+# DLLListUninstall.txt file contains the following list of (1 H2 and 26 IKVM) assembly names  to be uninstalled from GAC
+hsqldb
+IKVM.OpenJDK.Beans
+IKVM.OpenJDK.Misc
+IKVM.OpenJDK.Util
+IKVM.OpenJDK.XML.XPath
+IKVM.OpenJDK.Charsets
+IKVM.OpenJDK.Naming
+IKVM.OpenJDK.XML.API
+IKVM.OpenJDK.Corba
+IKVM.OpenJDK.Remoting
+IKVM.OpenJDK.XML.Bind
+IKVM.OpenJDK.Core
+IKVM.OpenJDK.Security
+IKVM.OpenJDK.XML.Crypto
+IKVM.Runtime.JNI
+IKVM.AWT.WinForms
+IKVM.OpenJDK.Jdbc
+IKVM.OpenJDK.SwingAWT
+IKVM.OpenJDK.XML.Parse
+IKVM.OpenJDK.Management
+IKVM.OpenJDK.Text
+IKVM.OpenJDK.XML.Transform
+IKVM.OpenJDK.Media
+IKVM.OpenJDK.Tools
+IKVM.OpenJDK.XML.WebServices
+IKVM.Reflection
+IKVM.Runtime

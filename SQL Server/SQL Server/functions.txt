@@ -1,0 +1,195 @@
+USE [master];
+GO
+
+--IF EXISTS(SELECT name FROM sys.databases WHERE name = N'sampledb')
+IF DB_ID (N'sampledb') IS NOT NULL
+DROP DATABASE [sampledb];
+GO
+
+CREATE DATABASE sampledb;
+GO
+
+USE [sampledb];
+GO
+
+--IF EXISTS(SELECT name FROM sys.tables WHERE name = N'greek')
+IF OBJECT_ID (N'greek', N'U') IS NOT NULL
+DROP TABLE [greek];
+GO
+
+CREATE TABLE greek
+(
+  id int IDENTITY(1,1),
+  name nvarchar(max),
+  rgb nvarchar(max),
+  score int
+);
+GO
+
+SELECT * FROM greek;
+GO
+
+INSERT INTO greek 
+SELECT 'Alpha', 'Green', 85 UNION ALL
+SELECT 'Beta', 'Green', 85 UNION ALL
+SELECT 'Gamma', 'Green', 80 UNION ALL
+SELECT 'Delta', 'Blue', 70 UNION ALL
+SELECT 'Epsilon', 'Blue', 71 UNION ALL
+SELECT 'Zeta', 'Blue', 72 UNION ALL
+SELECT 'Eta', 'Blue', 73 UNION ALL
+SELECT 'Theta', 'Blue', 74 UNION ALL
+SELECT 'Iota', 'Red', 60 UNION ALL
+SELECT 'Kappa', 'Red', 60 UNION ALL
+SELECT 'Lambda', 'Red', 60 UNION ALL
+SELECT 'Mu', 'Red', 65 UNION ALL
+SELECT 'Nu', 'Green', 89 UNION ALL
+SELECT 'Xi', 'Green', 87 UNION ALL
+SELECT 'Omicron', 'Green', 89;
+GO
+
+SELECT * FROM greek;
+GO
+
+--IF EXISTS(SELECT name FROM sys.tables WHERE name = N'alphabet')
+IF OBJECT_ID (N'alphabet', N'U') IS NOT NULL
+DROP TABLE [alphabet];
+GO
+
+CREATE TABLE alphabet
+(
+  id int,
+  name nvarchar(max),
+  date datetime2
+);
+GO
+
+SELECT * FROM alphabet;
+GO
+
+INSERT INTO alphabet
+SELECT 1, 'A', GETDATE() UNION ALL
+SELECT 2, 'B', GETDATE() UNION ALL
+SELECT 3, 'C', GETDATE() UNION ALL
+SELECT 4, 'D', GETDATE() UNION ALL
+SELECT 5, 'E', GETDATE() UNION ALL
+SELECT 6, 'F', GETDATE() UNION ALL
+SELECT 7, 'G', GETDATE() UNION ALL
+SELECT 8, 'H', GETDATE() UNION ALL
+SELECT 9, 'I', GETDATE() UNION ALL
+SELECT 10, 'J', GETDATE() UNION ALL
+SELECT 11, 'K', GETDATE() UNION ALL
+SELECT 12, 'L', GETDATE() UNION ALL
+SELECT 13, 'M', GETDATE() UNION ALL
+SELECT 14, 'N', GETDATE() UNION ALL
+SELECT 15, 'O', GETDATE();
+GO
+
+SELECT * FROM alphabet;
+GO
+
+--sys.objects contains a row for each user-defined, schema-scoped object that is created within a database, including natively compiled scalar user-defined function.
+--sys.all_objects shows the UNION of all schema-scoped user-defined objects and system objects.
+
+--FN = SQL scalar function
+--IF = SQL inline table-valued function
+--TF = SQL table-valued-function
+--FS = Assembly (CLR) scalar-function
+--FT = Assembly (CLR) table-valued function
+--AF = Aggregate function (CLR)
+
+--IF EXISTS(SELECT name FROM sys.objects WHERE name = N'F1' AND type =N'FN')
+IF OBJECT_ID(N'F1', N'FN') IS NOT NULL
+DROP FUNCTION F1
+GO
+
+CREATE FUNCTION F1
+(
+ @in nvarchar(max)
+)
+RETURNS int
+AS
+BEGIN
+ --DECLARE @counter int
+ --SET @counter = (SELECT COUNT(rgb) FROM greek WHERE rgb = @in);
+ --RETURN @counter
+ RETURN (SELECT COUNT(rgb) FROM greek WHERE rgb = @in);
+END
+GO
+
+--DECLARE @ret int;
+--EXECUTE @ret = F1 'Green';
+--SELECT @ret;
+--GO
+
+SELECT [dbo].F1('Green');
+GO
+
+--IF EXISTS(SELECT name FROM sys.objects WHERE name = N'F2' AND type = N'IF')
+IF OBJECT_ID(N'F2', N'IF') IS NOT NULL
+DROP FUNCTION F2;
+GO
+
+CREATE FUNCTION F2
+(
+ @rgb nvarchar(max)
+)
+RETURNS TABLE
+AS
+RETURN (SELECT id, name, rgb, score FROM greek WHERE rgb = @rgb);
+GO
+
+SELECT * FROM F2('Green');
+GO
+
+--IF EXISTS(SELECT name FROM sys.objects WHERE name = N'F3' AND type =N'TF')
+IF OBJECT_ID(N'F3', N'TF') IS NOT NULL
+DROP FUNCTION F3;
+GO
+
+CREATE FUNCTION F3
+(
+ @in int
+)
+RETURNS @T1 TABLE
+(
+  id int IDENTITY(1,1),
+  name nvarchar(max),
+  [table] nvarchar(max)
+)
+AS
+BEGIN
+ INSERT INTO @T1 
+ SELECT name, 'greek' FROM greek WHERE (id % 2 = @in);
+ INSERT INTO @T1 
+ SELECT name, 'alphabet' FROM alphabet WHERE (id % 2 = @in);
+ RETURN;
+END
+GO
+
+SELECT * FROM F3(0);
+GO
+
+
+--Returning all the user-defined functions in a database
+SELECT name AS function_name   
+  ,SCHEMA_NAME(schema_id) AS schema_name  
+  ,type_desc  
+  ,create_date  
+  ,modify_date  
+FROM sys.objects  
+WHERE type_desc LIKE '%FUNCTION%';  
+GO  
+
+SELECT name, definition, type_desc 
+  FROM sys.sql_modules m 
+INNER JOIN sys.objects o 
+        ON m.object_id=o.object_id
+WHERE type_desc like '%FUNCTION%';
+GO
+
+SELECT * 
+FROM sys.objects
+--WHERE object_id = OBJECT_ID(N'[dbo].[F1]')
+WHERE --AND
+type IN ( N'FN', N'IF', N'TF', N'FS', N'FT', N'AF');
+GO

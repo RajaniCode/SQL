@@ -1,0 +1,37 @@
+-Initial HSQL DB communication protocol implementation. 
+	MISSING commands:
+		SQLENDTRAN
+		SAVEPOINT_NAME_RELEASE
+		SAVEPOINT_NAME_ROLLBACK
+		SQLSETCONNECTATTR
+		SQLSTARTTRAN
+
+	MISSING data types:
+		NUMERIC
+		DECIMAL
+		TIMESTAMP - ** May not be supported **
+		BINARY
+		VARBINARY
+		LONGVARBINARY
+		
+
+-Initial IDbConnection interface implementation
+	MISSING functionality: 
+		ChangeDatabase(string) - ** This is not supported by the HSQL database engine **
+		BeginTransaction
+		BeginTransaction(IsolationLevel)
+
+-Initial IDbCommand interface implementation
+	MISSING functionality: 
+		Cancel() - ** This is not supported by the HSQL database engine **
+
+-Initial IDbDataAdapter interface implementation
+
+-Initial IDataReader interface implementation
+	MISSING functionality: 
+		NextResult()
+		GetBytes(int, long, byte[], int, int)
+		GetChars(int, long, char[], int, int)
+		GetDecimal(int)
+		GetData(int)
+

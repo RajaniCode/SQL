@@ -1,0 +1,365 @@
+-- 1. Using a simple procedure
+-- The following stored procedure returns all employees (first and last names supplied), 
+-- their job titles, and their department names from a view.
+-- This stored procedure does not use any parameters.
+
+USE AdventureWorks;
+GO
+IF OBJECT_ID ( 'HumanResources.usp_GetAllEmployees', 'P' ) IS NOT NULL 
+    DROP PROCEDURE HumanResources.usp_GetAllEmployees;
+GO
+CREATE PROCEDURE HumanResources.usp_GetAllEmployees
+AS
+    SELECT LastName, FirstName, JobTitle, Department
+    FROM HumanResources.vEmployeeDepartment;
+GO
+ 
+
+-- The usp_GetEmployees stored procedure can be executed in the following ways:
+
+
+EXECUTE HumanResources.usp_GetAllEmployees;
+GO
+-- Or
+EXEC HumanResources.usp_GetAllEmployees;
+GO
+-- Or, if this procedure is the first statement within a batch:
+HumanResources.usp_GetAllEmployees;
+
+
+
+
+
+-- 2. Using a simple procedure with parameters
+-- The following stored procedure returns only the specified employee (first and last name supplied), 
+-- her title, and her department name from a view. 
+-- This stored procedure accepts exact matches for the parameters passed.
+
+
+USE AdventureWorks;
+GO
+IF OBJECT_ID ( 'HumanResources.usp_GetEmployees', 'P' ) IS NOT NULL 
+    DROP PROCEDURE HumanResources.usp_GetEmployees;
+GO
+CREATE PROCEDURE HumanResources.usp_GetEmployees 
+    @lastname varchar(40), 
+    @firstname varchar(20) 
+AS 
+    SELECT LastName, FirstName, JobTitle, Department
+    FROM HumanResources.vEmployeeDepartment
+    WHERE FirstName = @firstname AND LastName = @lastname;
+GO
+
+
+-- The usp_GetEmployees stored procedure can be executed in the following ways:
+
+ 
+EXECUTE HumanResources.usp_GetEmployees 'Ackerman', 'Pilar';
+-- Or
+EXEC HumanResources.usp_GetEmployees @lastname = 'Ackerman', @firstname = 'Pilar';
+GO
+-- Or
+EXECUTE HumanResources.usp_GetEmployees @firstname = 'Pilar', @lastname = 'Ackerman';
+GO
+-- Or, if this procedure is the first statement within a batch:
+HumanResources.usp_GetEmployees 'Ackerman', 'Pilar';
+
+
+
+
+
+-- 3. Using a simple procedure with wildcard parameters
+-- The following stored procedure returns only the specified employees (first and last names supplied), their titles, 
+-- and their departments from a view. 
+-- This stored procedure pattern matches the parameters passed or, if not supplied, uses the preset default 
+-- (last names that start with the letter D).
+
+ 
+USE AdventureWorks;
+GO
+IF OBJECT_ID ( 'HumanResources.usp_GetEmployees2', 'P' ) IS NOT NULL 
+    DROP PROCEDURE HumanResources.usp_GetEmployees2;
+GO
+CREATE PROCEDURE HumanResources.usp_GetEmployees2 
+    @lastname varchar(40) = 'D%', 
+    @firstname varchar(20) = '%'
+AS 
+    SELECT LastName, FirstName, JobTitle, Department
+    FROM HumanResources.vEmployeeDepartment
+    WHERE FirstName LIKE @firstname 
+        AND LastName LIKE @lastname;
+GO
+
+
+-- The usp_GetEmployees2 stored procedure can be executed in many combinations. Only several combinations are shown here:
+
+EXECUTE HumanResources.usp_GetEmployees2;
+-- Or
+EXECUTE HumanResources.usp_GetEmployees2 'Wi%';
+-- Or
+EXECUTE HumanResources.usp_GetEmployees2 @firstname = '%';
+-- Or
+EXECUTE HumanResources.usp_GetEmployees2 '[CK]ars[OE]n';
+-- Or
+EXECUTE HumanResources.usp_GetEmployees2 'Hesse', 'Stefen';
+-- Or
+EXECUTE HumanResources.usp_GetEmployees2 'H%', 'S%';
+
+
+
+
+
+-- 4. Using OUTPUT parameters
+-- The following example creates the usp_GetList stored procedure. 
+-- This procedures returns a list of products that have prices that do not exceed a specified amount. 
+-- The example shows using multiple SELECT statements and multiple OUTPUT parameters. 
+-- OUTPUT parameters enable an external procedure, a batch, or more than one Transact-SQL statement 
+-- to access a value set during the procedure execution. 
+
+
+USE AdventureWorks;
+GO
+IF OBJECT_ID ( 'Production.usp_GetList', 'P' ) IS NOT NULL 
+    DROP PROCEDURE Production.usp_GetList;
+GO
+CREATE PROCEDURE Production.usp_GetList @product varchar(40) 
+    , @maxprice money 
+    , @compareprice money OUTPUT
+    , @listprice money OUT
+AS
+    SELECT p.Name AS Product, p.ListPrice AS 'List Price'
+    FROM Production.Product p
+    JOIN Production.ProductSubcategory s 
+      ON p.ProductSubcategoryID = s.ProductSubcategoryID
+    WHERE s.Name LIKE @product AND p.ListPrice < @maxprice;
+-- Populate the output variable @listprice.
+SET @listprice = (SELECT MAX(p.ListPrice)
+        FROM Production.Product p
+        JOIN  Production.ProductSubcategory s 
+          ON p.ProductSubcategoryID = s.ProductSubcategoryID
+        WHERE s.Name LIKE @product AND p.ListPrice < @maxprice);
+-- Populate the output variable @compareprice.
+SET @compareprice = @maxprice;
+GO
+
+-- Execute usp_GetList to return a list of Adventure Works products (Bikes) that cost less than $700. 
+-- The OUTPUT parameters @cost and @compareprices are used with control-of-flow language to return a message in the Messages window.
+
+-- Note: The OUTPUT variable must be defined when the procedure is created and also when the variable is used. 
+-- The parameter name and variable name do not have to match; however, the data type and parameter positioning must match, 
+-- unless @listprice = variable is used. 
+
+
+DECLARE @compareprice money, @cost money 
+EXECUTE Production.usp_GetList '%Bikes%', 700, 
+    @compareprice OUT, 
+    @cost OUTPUT
+IF @cost <= @compareprice 
+BEGIN
+    PRINT 'These products can be purchased for less than 
+    $'+RTRIM(CAST(@compareprice AS varchar(20)))+'.'
+END
+ELSE
+    PRINT 'The prices for all products in this category exceed 
+    $'+ RTRIM(CAST(@compareprice AS varchar(20)))+'.'
+
+
+
+
+
+-- 5. Using the WITH RECOMPILE option
+-- The WITH RECOMPILE clause is helpful when the parameters supplied to the procedure will not be typical, 
+-- and when a new execution plan should not be cached or stored in memory.
+
+
+USE AdventureWorks;
+GO
+IF OBJECT_ID ( 'dbo.usp_product_by_vendor', 'P' ) IS NOT NULL 
+    DROP PROCEDURE dbo.usp_product_by_vendor;
+GO
+CREATE PROCEDURE dbo.usp_product_by_vendor @name varchar(30) = '%'
+WITH RECOMPILE
+AS
+    SELECT v.Name AS 'Vendor name', p.Name AS 'Product name'
+    FROM Purchasing.Vendor v 
+    JOIN Purchasing.ProductVendor pv 
+      ON v.VendorID = pv.VendorID 
+    JOIN Production.Product p 
+      ON pv.ProductID = p.ProductID
+    WHERE v.Name LIKE @name;
+GO
+
+
+
+
+
+-- 6. Using the WITH ENCRYPTION option
+The following example creates the HumanResources.usp_encrypt_this stored procedure. 
+
+
+USE AdventureWorks;
+GO
+IF OBJECT_ID ( 'HumanResources.usp_encrypt_this', 'P' ) IS NOT NULL 
+    DROP PROCEDURE HumanResources.usp_encrypt_this;
+GO
+CREATE PROCEDURE HumanResources.usp_encrypt_this
+WITH ENCRYPTION
+AS
+    SELECT EmployeeID, Title, NationalIDNumber, VacationHours, SickLeaveHours 
+    FROM HumanResources.Employee;
+GO
+
+ 
+-- The WITH ENCRYPTION option prevents the definition of the stored procedure from being returned, as shown by the following examples. 
+
+-- Run sp_helptext:
+
+EXEC sp_helptext 'HumanResources.usp_encrypt_this';
+ 
+
+-- Directly query the sys.sql_modules catalog view:
+
+
+USE AdventureWorks;
+GO
+SELECT definition FROM sys.sql_modules
+WHERE object_id = OBJECT_ID('HumanResources.usp_encrypt_this');
+
+
+
+
+
+
+-- 7. Using deferred name resolution
+-- The following example creates the usp_proc1 procedure. It uses deferred name resolution. 
+-- The stored procedure is created although the table that is referenced does not exist at compile time. 
+-- However, the table must exist when the procedure is executed.
+
+
+USE AdventureWorks;
+GO
+IF OBJECT_ID ( 'dbo.usp_proc1', 'P' ) IS NOT NULL 
+    DROP PROCEDURE dbo.usp_proc1;
+GO
+CREATE PROCEDURE dbo.usp_proc1
+AS
+    SELECT column1, column2 FROM table_does_not_exist
+GO
+
+
+-- To verify that the stored procedure has been created, run the following query:
+
+
+USE AdventureWorks;
+GO
+SELECT definition
+FROM sys.sql_modules
+WHERE object_id = OBJECT_ID('dbo.usp_proc1');
+
+
+
+
+
+-- 8. Using the EXECUTE AS clause
+-- The following example shows using the EXECUTE AS clause to specify the security context in which a stored procedure can be executed. 
+-- In the example, the option CALLER specifies that the procedure can be executed in the context of the user that calls it. 
+
+
+USE AdventureWorks;
+GO
+IF OBJECT_ID ( 'Purchasing.usp_vendor_info_all', 'P' ) IS NOT NULL 
+    DROP PROCEDURE Purchasing.usp_vendor_info_all;
+GO
+CREATE PROCEDURE Purchasing.usp_vendor_info_all
+WITH EXECUTE AS CALLER
+AS
+    SELECT v.Name AS Vendor, p.Name AS 'Product name', 
+      v.CreditRating AS 'Credit Rating', 
+      v.ActiveFlag AS Availability
+    FROM Purchasing.Vendor v 
+    INNER JOIN Purchasing.ProductVendor pv
+      ON v.VendorID = pv.VendorID 
+    INNER JOIN Production.Product p
+      ON pv.ProductID = p.ProductID 
+    ORDER BY v.Name ASC;
+GO
+
+
+
+
+
+-- 9. Creating a CLR stored procedure
+-- The following example creates the GetPhotoFromDB stored procedure that references the GetPhotoFromDB method of the LargeObjectBinary class 
+-- in the HandlingLOBUsingCLR assembly. 
+-- Before the stored procedure is created, the HandlingLOBUsingCLR assembly is registered in the local database. 
+
+
+CREATE ASSEMBLY HandlingLOBUsingCLR
+FROM '\\MachineName\HandlingLOBUsingCLR\bin\Debug\HandlingLOBUsingCLR.dll'';
+GO
+CREATE PROCEDURE dbo.GetPhotoFromDB
+(
+    @ProductPhotoID int,
+    @CurrentDirectory nvarchar(1024),
+    @FileName nvarchar(1024)
+)
+AS EXTERNAL NAME HandlingLOBUsingCLR.LargeObjectBinary.GetPhotoFromDB;
+GO
+
+
+
+
+
+-- 10. Using an OUTPUT cursor parameter
+-- OUTPUT cursor parameters are used to pass a cursor that is local to a stored procedure back to the calling batch, stored procedure, or trigger.
+
+-- First, create the procedure that declares and then opens a cursor on the titles table:
+
+
+USE AdventureWorks;
+GO
+IF OBJECT_ID ( 'dbo.currency_cursor', 'P' ) IS NOT NULL
+    DROP PROCEDURE dbo.currency_cursor;
+GO
+CREATE PROCEDURE dbo.currency_cursor 
+    @currency_cursor CURSOR VARYING OUTPUT
+AS
+    SET @currency_cursor = CURSOR
+    FORWARD_ONLY STATIC FOR
+      SELECT CurrencyCode, Name
+      FROM Sales.Currency;
+    OPEN @currency_cursor;
+GO
+
+ 
+-- Next, run a batch that declares a local cursor variable, executes the procedure to assign the cursor to the local variable, 
+-- and then fetches the rows from the cursor.
+
+ 
+USE AdventureWorks;
+GO
+DECLARE @MyCursor CURSOR;
+EXEC dbo.currency_cursor @currency_cursor = @MyCursor OUTPUT;
+WHILE (@@FETCH_STATUS = 0)
+BEGIN;
+     FETCH NEXT FROM @MyCursor;
+END;
+CLOSE @MyCursor;
+DEALLOCATE @MyCursor;
+GO
+
+ 
+
+
+ 
+
+ 
+
+
+ 
+
+ 
+
+ 
+
+

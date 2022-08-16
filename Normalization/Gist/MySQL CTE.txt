@@ -1,0 +1,28 @@
+WITH
+  cte1 AS (SELECT a, b FROM table1),
+  cte2 AS (SELECT c, d FROM table2)
+SELECT b, d FROM cte1 JOIN cte2
+WHERE cte1.a = cte2.c;
+
+
+WITH cte (col1, col2) AS
+(
+  SELECT 1, 2
+  UNION ALL
+  SELECT 3, 4
+)
+SELECT col1, col2 FROM cte;
+
+;WITH CTE(Salary, Rnk) AS 
+(
+	SELECT Salary, Rnk = DENSE_RANK() OVER (ORDER BY Salary DESC) FROM Employee
+) 
+SELECT DISTINCT Salary FROM CTE WHERE Rnk = 5;
+
+
+/* TOP 1 just grabs one of them, while DISTINCT does imply a sort and therefore might be more costly without any obvious benefit */
+WITH CTE AS 
+(
+	SELECT Salary, Rnk = DENSE_RANK() OVER (ORDER BY Salary DESC) FROM Employee
+) 
+SELECT TOP 1 Salary FROM CTE WHERE Rnk = 5;

@@ -1,0 +1,69 @@
+
+$ java -version
+
+[
+$ export CLASSPATH="E:\Working\SQL\HSQLDB\Java\JDBC-Client-In-Memory-Table-Example\HSQLDB-JDBC\hsqldb.jar;.;"
+]
+
+$ cd "E:\Working\SQL\HSQLDB\Java\JDBC-Client-In-Memory-Table-Example"
+
+[
+$ rm -rf src Testdb.java Testdb.class db_file.properties db_file.script
+]
+
+$ cp Original/Testdb.java Testdb.java
+
+[
+# Testdb
+// package org.hsqldb.sample;
+import java.sql.DatabaseMetaData;
+
+        DatabaseMetaData mtdt = conn.getMetaData();
+        System.out.println("URL in use: " + mtdt.getURL());
+        System.out.println("User name: " + mtdt.getUserName());
+        System.out.println("DBMS name: " + mtdt.getDatabaseProductName());
+        System.out.println("DBMS version: " + mtdt.getDatabaseProductVersion());
+        System.out.println("Driver name: " + mtdt.getDriverName());
+        System.out.println("Driver version: " + mtdt.getDriverVersion());
+        System.out.println("supp. SQL Keywords: " + mtdt.getSQLKeywords());
+]
+
+$ javac Testdb.java
+
+$ java -cp "E:\Working\SQL\HSQLDB\Java\JDBC-Client-In-Memory-Table-Example\HSQLDB-JDBC\hsqldb.jar;.;" Testdb
+
+[
+URL in use: jdbc:hsqldb:db_file
+User name: SA
+DBMS name: HSQL Database Engine
+DBMS version: 2.3.4
+Driver name: HSQL Database Engine Driver
+Driver version: 2.3.4
+supp. SQL Keywords:
+0 Ford 100
+1 Toyota 200
+]
+
+
+// Use Testdb.java as is
+
+[
+$ rm -rf src Testdb.java Testdb.class db_file.properties db_file.script
+]
+
+$ mkdir -p "src/org/hsqldb/sample"
+
+$ cp Original/Testdb.java src/org/hsqldb/sample
+
+[
+$ cd src
+
+$ javac org/hsqldb/sample/Testdb.java
+
+$ java org.hsqldb.sample.Testdb
+]
+
+$ javac src/org/hsqldb/sample/Testdb.java
+
+$ java -cp "src;E:\Working\SQL\HSQLDB\Java\JDBC-Client-In-Memory-Table-Example\HSQLDB-JDBC\hsqldb.jar;.;" org.hsqldb.sample.Testdb
+

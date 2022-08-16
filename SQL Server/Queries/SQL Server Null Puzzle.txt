@@ -1,0 +1,5 @@
+--SQL Server Null Puzzle
+--Just CAST NULL AS INT and it will return the final result as NULL:
+SELECT SUM(data)
+FROM (SELECT CAST(NULL AS INT) AS data) t
+ 

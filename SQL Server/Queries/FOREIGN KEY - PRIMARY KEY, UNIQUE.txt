@@ -1,0 +1,162 @@
+NOTE: By default [int IDENTITY(0, 1), PRIMARY KEY] are NOT NULL (CANNOT be declared using NULL)
+
+NOTE: By default [UNIQUE (candidate key)] is NULL, can accept only one NULL (CAN be declared using NULL)
+ 
+NOTE: FOREIGN KEY can REFERENCE both PRIMARY KEY(S)(in different tables) AND UNIQUE (candidate key(s))(in same/different tables)
+
+NOTE: Only one [int IDENTITY(0, 1), PRIMARY KEY, CLUSTERED]  per table is allowed
+
+NOTE: More than one [UNIQUE (candidate key), FOREIGN KEY (reference same/different tables)]  per table are allowed
+
+NOTE: ADD CONSTRAINT [PRIMARY KEY], the column should be NOT NULL
+[Otherwise DROP COLUMN, ADD COLUMN]
+
+NOTE: ADD CONSTRAINT [UNIQUE (candidate key), the column need not be NOT NULL
+
+NOTE: FOREIGN KEY need not have same name as that of the PRIMARY KEY or UNIQUE (candidate key), which the FOREIGN KEY REFERENCES
+[BUT same type and size]
+
+
+
+
+
+
+
+
+
+
+
+-- =============================================
+-- Database: testdb
+-- =============================================
+USE master
+GO
+-- Drop the database if it already exists
+IF  EXISTS (SELECT name FROM sys.databases WHERE name = N'testdb')
+DROP DATABASE testdb
+GO
+-- =============================================
+-- Database: testdb
+-- =============================================
+USE master
+GO
+-- Drop the database if it already exists
+IF  EXISTS (SELECT name FROM sys.databases WHERE name = N'testdb')
+DROP DATABASE testdb
+GO
+
+CREATE DATABASE testdb
+GO
+-- =========================================
+-- Table: Employees
+-- =========================================
+USE testdb
+GO
+
+IF OBJECT_ID('dbo.Employees', 'U') IS NOT NULL
+  DROP TABLE dbo.Employees
+GO
+
+CREATE TABLE dbo.Employees
+(
+    EmployeeID int identity(1,1) NOT NULL,
+    EmployeeNumber nchar(10) NULL,
+    FirstName varchar(20) NULL,
+    LastName varchar(10),
+    FullName AS ((LastName+ ', ') + FirstName),
+    Title varchar(100),
+    HourlySalary money,
+    Username varchar(20),
+    Password varchar(20),
+    CONSTRAINT UNIQUE_Username UNIQUE(Username),
+    CONSTRAINT UNIQUE_Password UNIQUE(Password),
+    CONSTRAINT PK_EmployeeID PRIMARY KEY(EmployeeID)
+)
+GO
+
+SELECT * FROM dbo.Employees
+
+-- =========================================
+-- Table: Payments
+-- =========================================
+USE testdb
+GO
+
+IF OBJECT_ID('dbo.Payments', 'U') IS NOT NULL
+  DROP TABLE dbo.Payments
+GO
+
+CREATE TABLE dbo.Payments
+(
+    PaymentID int identity(1, 1) NOT NULL,
+    PaymentDate datetime NOT NULL, 
+    EmployeeID int NULL
+		CONSTRAINT FK_EmployeeID
+		FOREIGN KEY REFERENCES Employees(EmployeeID),
+    Username varchar(20)
+		CONSTRAINT FK_Username
+		FOREIGN KEY REFERENCES Employees(Username),
+    Password varchar(20)
+		CONSTRAINT FK_Password
+		FOREIGN KEY REFERENCES Employees(Password),
+    PaymentAmount money NOT NULL,
+    Balance money,
+    Notes Text,
+    CONSTRAINT PK_Payments PRIMARY KEY(PaymentID)
+)
+GO
+
+SELECT * FROM dbo.Payments
+
+
+
+
+
+
+USE master
+DROP DATABASE testdb
+
+
+USE [master]
+GO
+
+IF OBJECT_ID('Users', 'U') IS NOT NULL
+	DROP TABLE dbo.Users
+GO
+
+CREATE TABLE dbo.Users
+(
+	UserName3 nvarchar(100),
+	UserName41 nvarchar(100),
+	UserName42 nvarchar(100),
+    CONSTRAINT PK_Username3 PRIMARY KEY(UserName3),
+    CONSTRAINT UK_Username41 UNIQUE(UserName41),
+    CONSTRAINT UK_Username42 UNIQUE(UserName42)     
+)
+
+SELECT * FROM dbo.Users
+
+
+IF OBJECT_ID('Email', 'U') IS NOT NULL
+	DROP TABLE dbo.Email
+GO
+
+CREATE TABLE dbo.Email
+(
+    UserName1 [nvarchar](100),      
+    UserName21 [nvarchar](100),  
+    UserName22 [nvarchar](100),   
+    Pword [nvarchar](100),
+    CONSTRAINT PK_UserName1 PRIMARY KEY(UserName1), 
+    CONSTRAINT UK_UserName21 UNIQUE(UserName21),
+    CONSTRAINT UK_UserName22 UNIQUE(UserName22),
+    CONSTRAINT FK_Pword1 FOREIGN KEY(Pword) REFERENCES Email(UserName1),
+    CONSTRAINT FK_Pword21 FOREIGN KEY(Pword) REFERENCES Email(UserName21),
+    CONSTRAINT FK_Pword22 FOREIGN KEY(Pword) REFERENCES Email(UserName22),
+    CONSTRAINT FK_Pword3 FOREIGN KEY(Pword) REFERENCES Users(UserName3), 
+    CONSTRAINT FK_Pword41 FOREIGN KEY(Pword) REFERENCES Users(UserName41),    
+    CONSTRAINT FK_Pword42 FOREIGN KEY(Pword) REFERENCES Users(UserName42)
+)
+GO
+
+SELECT * FROM dbo.Email

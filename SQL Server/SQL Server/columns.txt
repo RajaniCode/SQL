@@ -1,0 +1,65 @@
+USE [master];
+GO
+
+--IF EXISTS(SELECT name FROM sys.databases WHERE name = N'sampledb')
+IF DB_ID (N'sampledb') IS NOT NULL
+DROP DATABASE [sampledb];
+GO
+
+CREATE DATABASE sampledb;
+GO
+
+USE [sampledb];
+GO
+
+--IF EXISTS(SELECT name FROM sys.tables WHERE name = N'users')
+IF OBJECT_ID (N'users', N'U') IS NOT NULL
+DROP TABLE [users];
+GO
+
+CREATE TABLE users
+(
+    id INT IDENTITY(1,1) NOT NULL,
+    username VARCHAR(50) NOT NULL, 
+    login_date DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    login_time TIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_at DATETIME2 DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,    
+    CONSTRAINT pk_id PRIMARY KEY(id),
+    CONSTRAINT idx_username UNIQUE(username)    
+);
+GO
+
+SELECT * FROM users;
+GO
+
+sp_help users;
+GO
+
+SELECT *
+FROM INFORMATION_SCHEMA.COLUMNS
+WHERE TABLE_NAME = 'users';
+GO
+
+sp_columns users
+GO
+
+--sys.columns returns a row for each column of an object that has columns, such as views or tables. The following is a list of object types that have columns:
+--• Table-valued assembly functions (FT)
+--• Inline table-valued SQL functions (IF)
+--• Internal tables (IT)
+--• System tables (S)
+--• Table-valued SQL functions (TF)
+--• User tables (U)
+--• Views (V)
+--sys.all_columns shows the union of all columns belonging to user-defined objects and system objects.
+
+SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'users');
+GO
+
+SELECT   o.name, c.name
+FROM     sys.columns c 
+         JOIN sys.objects o ON o.object_id = c.object_id 
+WHERE    o.type = 'U' --AND o.name = 'users'
+ORDER BY o.name, c.name;
+GO

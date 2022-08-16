@@ -1,0 +1,111 @@
+IF EXISTS(SELECT name FROM tempdb.sys.tables WHERE name LIKE '#T1%')
+--IF OBJECT_ID(N'tempdb.dbo.#T1', N'U') IS NOT NULL
+DROP TABLE #T1;
+GO
+
+CREATE TABLE #T1
+(
+  Id int IDENTITY(1,1),
+  Name nvarchar(max),
+  Rgb nvarchar(max),
+  Score int
+);
+GO
+
+INSERT INTO #T1
+SELECT 'Alpha', 'Green', 90 UNION ALL 
+SELECT 'Beta', 'Green', 91 UNION ALL
+SELECT 'Gamma', 'Green', 93 UNION ALL
+SELECT 'Gamma', 'Green', 94 UNION ALL
+SELECT 'Alpha', 'Blue', 85 UNION ALL
+SELECT 'Beta', 'Blue', 81 UNION ALL
+SELECT 'Beta', 'Blue', 83 UNION ALL
+SELECT 'Gamma', 'Blue', 81 UNION ALL
+SELECT 'Gamma', 'Blue', 83 UNION ALL
+SELECT 'Alpha', 'Blue', 80 UNION ALL
+SELECT 'Alpha', 'Red', 70 UNION ALL
+SELECT 'Alpha', 'Red', 70 UNION ALL
+SELECT 'Gamma', 'Red', 70 UNION ALL
+SELECT 'Gamma', 'Red', 70 UNION ALL
+SELECT 'Beta', 'Red', 71 UNION ALL
+SELECT 'Beta', 'Red', 72 UNION ALL
+SELECT 'Alpha', 'Green', 95 UNION ALL
+SELECT 'Beta', 'Green', 93;
+GO
+
+SELECT * FROM #T1 ORDER BY name, score;
+GO
+
+--Pivot
+SELECT Rgb, Alpha, Beta, Gamma FROM
+(SELECT Name, Rgb, Score From #T1) AS Table1
+PIVOT (SUM(Score) For Name IN (Alpha, Beta, Gamma)) AS Table2
+ORDER BY Table2.Rgb;
+GO
+
+--Pivot
+SELECT Name, Blue, Green, Red FROM
+(SELECT Name, Rgb, Score From #T1) AS Table1
+PIVOT (SUM(Score) For Rgb IN (Blue, Green, Red)) AS Table2
+ORDER BY Table2.Name;
+GO
+
+--Pivot
+DECLARE @Pivot nvarchar(max);
+DECLARE @DynamicQuery nvarchar(max);
+SELECT @Pivot = COALESCE(@Pivot + ', ',  '') + QUOTENAME(Rgb) FROM
+(SELECT DISTINCT (Rgb) FROM #T1) AS Table1;
+
+--PRINT @Pivot;
+
+SELECT @DynamicQuery = 'SELECT Name, ' + @Pivot + ' FROM 
+(SELECT Name, Rgb, Score FROM #T1) AS Table2
+PIVOT (SUM(Score) FOR RGB IN ('+ @Pivot + ')) AS Table3
+ORDER BY Table3.Name';
+
+--PRINT @DynamicQuery;
+
+EXECUTE sp_executesql @DynamicQuery;
+
+
+--Unpivot
+DECLARE @T1 table
+(
+ Rgb nvarchar(max),
+ Alpha nvarchar(max),
+ Beta nvarchar(max),
+ Gamma nvarchar(max)
+ );
+ 
+INSERT INTO @T1
+SELECT Rgb, Alpha, Beta, Gamma FROM
+(SELECT Name, Rgb, Score From #T1) AS Table1
+PIVOT (SUM(Score) FOR Name IN (Alpha, Beta, Gamma)) AS Table2
+ORDER BY Table2.Rgb;
+
+SELECT * FROM @T1;
+
+SELECT Name, Rgb, Score FROM @T1 AS T1
+UNPIVOT (Score FOR Name IN (Alpha, Beta, Gamma)) AS T2;
+GO
+
+--Unpivot
+DECLARE @T2 table
+(
+ Name nvarchar(max),
+ Blue nvarchar(max),
+ Green nvarchar(max),
+ Red nvarchar(max)
+);
+
+INSERT @T2
+SELECT Name, Blue, Green, Red FROM
+(SELECT Name, Rgb, Score FROM #T1) AS T1
+PIVOT (SUM(Score) FOR Rgb IN (Blue, Green, Red)) AS T2
+ORDER BY T2.Name;
+
+SELECT * FROM @T2;
+
+SELECT Name, Rgb, Score FROM @T2 AS Table1
+UNPIVOT (Score FOR Rgb IN (Blue, Green, Red)) AS Table2;
+GO

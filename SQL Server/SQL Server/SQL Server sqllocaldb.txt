@@ -1,0 +1,214 @@
+# (localdb)\MSSQLLocalDB # (localdb)\SampleInstance
+# Windows Authentication
+
+
+--C:\Users\rajanis\AppData\Local\Microsoft\Microsoft SQL Server Local DB\Instances\SampleInstance
+sqllocaldb create "SampleInstance"
+sqllocaldb stop "SampleInstance"
+sqllocaldb delete "SampleInstance"
+
+
+$ winpty sqlcmd -S "(localdb)\MSSQLLocalDB"
+> sqlcmd -S "(localdb)\MSSQLLocalDB"
+$ winpty sqlcmd -S "(localdb)\SampleInstance"
+> sqlcmd -S "(localdb)\SampleInstance"
+
+
+sqlcmd -S "(localdb)\MSSQLLocalDB" -E -Q "ALTER LOGIN sa ENABLE"
+sqlcmd -S "(localdb)\SampleInstance" -E -Q "ALTER LOGIN sa ENABLE"
+
+
+sqlcmd -S "(localdb)\MSSQLLocalDB" -E -Q "ALTER LOGIN sa WITH PASSWORD = '$qlServer2016'"
+sqlcmd -S "(localdb)\SampleInstance" -E -Q "ALTER LOGIN sa WITH PASSWORD = '$qlServer2016'"
+
+
+$ winpty sqlcmd -S "(localdb)\MSSQLLocalDB" -U sa
+> sqlcmd -S "(localdb)\MSSQLLocalDB" -U sa
+$ winpty sqlcmd -S "(localdb)\SampleInstance" -U sa
+> sqlcmd -S "(localdb)\SampleInstance" -U sa
+
+
+sqlcmd -S "(localdb)\MSSQLLocalDB" -Q "SELECT @@VERSION;"
+sqlcmd -S "(localdb)\SampleInstance" -Q "SELECT @@VERSION;"
+
+
+$ winpty sqlcmd -S "(localdb)\MSSQLLocalDB" -U sa -P "$qlServer2016"
+$ winpty sqlcmd -S "(localdb)\SampleInstance" -U sa -P "$qlServer2016"
+> sqlcmd -S "(localdb)\MSSQLLocalDB" -U sa -P $qlServer2016
+> sqlcmd -S "(localdb)\SampleInstance" -U sa -P $qlServer2016
+
+# SQL Server Prompt
+
+> :XML ON
+
+> BACKUP DATABASE [northwind] TO DISK = 'D:\RajaniS Master Folder\SQL\SQL Server\SQL Server Sample Databases\SQL Server\BAK\northwind.bak';  
+> GO  
+
+
+[
+> SELECT DB_NAME();
+> GO
+
+> USE [master];
+> GO
+]
+
+> DROP DATABASE [northwind]; 
+> GO
+
+> RESTORE FILELISTONLY FROM DISK = 'D:\RajaniS Master Folder\SQL\SQL Server\SQL Server Sample Databases\SQL Server\BAK\northwind.bak';
+> GO
+
+> RESTORE DATABASE [northwind]
+FROM DISK = 'D:\RajaniS Master Folder\SQL\SQL Server\SQL Server Sample Databases\SQL Server\BAK\northwind.bak'
+WITH MOVE 'northwind' TO 'D:\RajaniS Master Folder\SQL\SQL Server\SQL Server Sample Databases\SQL Server\MDF and LDF\northwind.mdf',
+MOVE 'northwind_log' TO 'D:\RajaniS Master Folder\SQL\SQL Server\SQL Server Sample Databases\SQL Server\MDF and LDF\northwind.ldf';
+> GO
+
+
+> EXEC sp_attach_db @dbname = N'northwind', 
+    @filename1 = 
+N'D:\RajaniS Master Folder\SQL\SQL Server\SQL Server Sample Databases\SQL Server\MDF and LDF\northwind.mdf',   
+    @filename2 = 
+N'D:\RajaniS Master Folder\SQL\SQL Server\SQL Server Sample Databases\SQL Server\MDF and LDF\northwind.ldf';  
+> GO
+
+> SELECT @@VERSION;
+> GO
+Microsoft SQL Server 2016 (SP1) (KB3182545) - 13.0.4001.0 (X64)
+        Oct 28 2016 18:17:30
+        Copyright (c) Microsoft Corporation
+        Express Edition (64-bit) on Windows 10 Pro 6.3 <X64> (Build 18363: ) (Hypervisor)
+
+> :help
+[
+> :quit
+]
+> :exit
+
+# SqlPackage
+$ export PATH=$PATH:"/C/Program Files (x86)/Microsoft SQL Server/140/DAC/bin/"
+> set path=%path%;C:\Program Files (x86)\Microsoft SQL Server\140\DAC\bin\
+# SqlPackage # Visual Studio
+$ export PATH=$PATH:"/C/Program Files (x86)/Microsoft Visual Studio/2019/Professional/Common7/IDE/Extensions/Microsoft/SQLDB/DAC/150/"
+> set path=%path%;C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\Common7\IDE\Extensions\Microsoft\SQLDB\DAC\150\
+# Import
+$ sqlpackage -a:Import -tsn:"(localdb)\MSSQLLocalDB" -sf:"D:\RajaniS Master Folder\SQL\SQL Server\SQL Server Sample Databases\SQL Server\SQL Server Sample Databases\BACPAC\northwind.bacpac" -tdn:northwind
+> sqlpackage /a:Import /tsn:"(localdb)\MSSQLLocalDB" /sf:"D:\RajaniS Master Folder\SQL\SQL Server\SQL Server Sample Databases\SQL Server\SQL Server Sample Databases\BACPAC\northwind.bacpac" /tdn:northwind
+# Export
+$ sqlpackage -a:Export -ssn:"(localdb)\MSSQLLocalDB" -sdn:"northwind" -tf:"D:\RajaniS Master Folder\SQL\SQL Server\SQL Server Sample Databases\SQL Server\BACPAC\northwind.bacpac"
+> sqlpackage /a:Export /ssn:"(localdb)\MSSQLLocalDB" /sdn:"northwind" /tf:"D:\RajaniS Master Folder\SQL\SQL Server\SQL Server Sample Databases\SQL Server\BACPAC\northwind.bacpac"
+# Extract
+$ sqlpackage -TargetFile:"D:\RajaniS Master Folder\SQL\SQL Server\SQL Server Sample Databases\SQL Server\DACPAC\northwind.dacpac" -Action:Extract -SourceServerName:"(localdb)\MSSQLLocalDB" -SourceDatabaseName:"northwind"
+# Extract # SourceUser # SourcePassword
+$ sqlpackage -TargetFile:"D:\RajaniS Master Folder\SQL\SQL Server\SQL Server Sample Databases\SQL Server\DACPAC\northwind.dacpac" -Action:Extract -SourceServerName:"(localdb)\MSSQLLocalDB" -SourceDatabaseName:"northwind" -SourceUser:"sa" -SourcePassword:'$qlServer2016'
+> sqlpackage /TargetFile:"D:\RajaniS Master Folder\SQL\SQL Server\SQL Server Sample Databases\SQL Server\DACPAC\northwind.dacpac" /Action:Extract /SourceServerName:"(localdb)\MSSQLLocalDB" /SourceDatabaseName:"northwind"
+> sqlpackage /TargetFile:"D:\RajaniS Master Folder\SQL\SQL Server\SQL Server Sample Databases\SQL Server\DACPAC\northwind.dacpac" /Action:Extract /SourceServerName:"(localdb)\MSSQLLocalDB" /SourceDatabaseName:"northwind" /SourceUser:"sa" /SourcePassword:"$qlServer2016"
+# DacUnpack
+$ dacunpack "D:\RajaniS Master Folder\SQL\SQL Server\SQL Server Sample Databases\SQL Server\DACPAC\northwind.dacpac" 
+> dacunpack "D:\RajaniS Master Folder\SQL\SQL Server\SQL Server Sample Databases\SQL Server\DACPAC\northwind.dacpac" 
+# Publish
+$ sqlpackage -Action:Publish -SourceFile:"D:\RajaniS Master Folder\SQL\SQL Server\SQL Server Sample Databases\SQL Server\DACPAC\northwind.dacpac" -TargetDatabaseName:northwind -TargetServerName:"(localdb)\MSSQLLocalDB"
+> sqlpackage /Action:Publish /SourceFile:"D:\RajaniS Master Folder\SQL\SQL Server\SQL Server Sample Databases\SQL Server\DACPAC\northwind.dacpac" /TargetDatabaseName:northwind /TargetServerName:"(localdb)\MSSQLLocalDB"
+# Publish # TargetUser # TargetPassword
+$ sqlpackage -Action:Publish -SourceFile:"D:\RajaniS Master Folder\SQL\SQL Server\SQL Server Sample Databases\SQL Server\DACPAC\northwind.dacpac" -TargetDatabaseName:northwind -TargetServerName:"(localdb)\MSSQLLocalDB" -TargetUser:"sa" -TargetPassword:'$qlServer2016'
+> sqlpackage /Action:Publish /SourceFile:"D:\RajaniS Master Folder\SQL\SQL Server\SQL Server Sample Databases\SQL Server\DACPAC\northwind.dacpac" /TargetDatabaseName:northwind /TargetServerName:"(localdb)\MSSQLLocalDB" /TargetUser:"sa" /TargetPassword:"$qlServer2016"
+
+
+# bcp
+$ bcp [dbo].[Customers] OUT "D:\RajaniS Master Folder\SQL\SQL Server\SQL Server Sample Databases\SQL Server\DAT\northwind_customers.dat" -T -c -S "(localdb)\MSSQLLocalDB" -d northwind -U sa -P $qlServer2016
+> bcp [dbo].[Customers] OUT "D:\RajaniS Master Folder\SQL\SQL Server\SQL Server Sample Databases\SQL Server\DAT\northwind_customers.dat" -T -c -S "(localdb)\MSSQLLocalDB" -d northwind -U sa -P $qlServer2016
+
+
+
+
+# Modify Database Name # Move MDF and LDF # Modify physical_name # Rename MDF and LDF # Modify logical_file_name
+USE [master];
+GO
+
+IF EXISTS(SELECT name FROM sys.databases WHERE name = N'northwind')
+--IF DB_ID (N'northwind') IS NOT NULL
+ALTER DATABASE [northwind] MODIFY NAME = [northwind_backup];
+GO
+
+
+USE [northwind_backup];
+GO
+
+SELECT file_id, name as [logical_file_name], physical_name FROM sys.database_files;
+GO
+
+
+USE [master];
+GO
+
+--Set database to single-user mode that specifies only one user at a time can access the database
+ALTER DATABASE [northwind_backup] SET SINGLE_USER WITH ROLLBACK IMMEDIATE
+GO
+
+--The database is closed, shut down cleanly, and marked offline. The database can't be modified while it's offline.
+ALTER DATABASE [northwind_backup] SET OFFLINE;
+GO
+
+
+--Move MDF and LDF
+EXEC xp_cmdshell 'MOVE "C:\Users\rajanis\AppData\Local\Microsoft\Microsoft SQL Server Local DB\Instances\MSSQLLocalDB\northwind_Primary.mdf", "C:\Users\rajanis\northwind_Primary.mdf"';
+GO
+
+EXEC xp_cmdshell 'MOVE "C:\Users\rajanis\AppData\Local\Microsoft\Microsoft SQL Server Local DB\Instances\MSSQLLocalDB\northwind_Primary.ldf", "C:\Users\rajanis\northwind_Primary.ldf"';
+GO
+
+
+--Modify physical_name
+ALTER DATABASE [northwind_backup] MODIFY FILE (NAME = 'northwind', FILENAME = 'C:\Users\rajanis\northwind_backup.mdf')
+GO
+
+ALTER DATABASE [northwind_backup] MODIFY FILE (NAME = 'northwind_log', FILENAME='C:\Users\rajanis\northwind_backup_log.ldf')
+GO
+
+
+--Rename MDF and LDF
+EXEC xp_cmdshell 'RENAME "C:\Users\rajanis\northwind_Primary.mdf", "northwind_backup.mdf"';
+GO
+
+EXEC xp_cmdshell 'RENAME "C:\Users\rajanis\northwind_Primary.ldf", "northwind_backup_log.ldf"';
+GO
+
+
+USE [master];
+GO
+
+--The database is open and available for use.
+ALTER DATABASE [northwind_backup] SET ONLINE
+GO
+
+--Set database to multi-user mode
+ALTER DATABASE [northwind_backup] SET MULTI_USER
+GO
+
+
+--Modify logical_file_name
+ALTER DATABASE [northwind_backup] MODIFY FILE (NAME = 'northwind', NEWNAME = 'northwind_backup')
+GO
+
+ALTER DATABASE [northwind_backup] MODIFY FILE (NAME = 'northwind_log', NEWNAME = 'northwind_backup_log')
+GO
+
+
+USE [northwind_backup];
+GO
+
+SELECT file_id, name as [logical_file_name], physical_name FROM sys.database_files;
+GO
+
+
+
+
+# Connection String
+"Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=sampledb;Integrated Security=true;"
+# OR
+"Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=sampledb;User ID=sa;Password=$qlServer2016;"
+# OR
+"Server=(localdb)\\MSSQLLocalDB;Database=sampledb;Integrated Security=true;"
+# OR
+"Server=(localdb)\\MSSQLLocalDB;Database=sampledb;User ID=sa;Password=$qlServer2016;"

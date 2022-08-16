@@ -1,0 +1,288 @@
+Insert rows:
+CREATE TABLE Sales
+(
+ItemCode char(6) NOT NULL,
+QtySold int NULL,
+SaleDate datetime NOT NULL DEFAULT getdate()
+)
+
+INSERT INTO Sales
+VALUES
+('I001',
+20,
+'2007-01-31 23:59:59.998'
+)
+
+SELECT * FROM Sales
+
+Insert in the order of entry:
+INSERT INTO Sales
+(
+SaleDate,
+ItemCode,
+QtySold
+)
+VALUES
+(
+'01/31/2007',
+'I002',
+-1
+)
+
+SELECT * FROM Sales
+
+
+Insert in particular columns:
+INSERT INTO Sales
+(
+ItemCode,
+QtySold
+)
+VALUES
+(
+'I003',
+0
+)
+
+SELECT * FROM Sales
+
+
+Insert with null:
+INSERT INTO Sales
+VALUES
+(
+'I004',
+NULL,
+'00:00'
+)
+
+SELECT * FROM Sales
+
+
+Insert with default:
+INSERT INTO Sales
+VALUES
+(
+'I005',
+NULL,
+DEFAULT
+)
+
+SELECT * FROM Sales
+
+
+DROP TABLE Sales
+
+
+
+
+
+
+
+
+
+
+(ON\OFF) Insert in identity column:
+CREATE TABLE Purchases
+(
+cCode int IDENTITY(101,1) NOT NULL, 
+cItem varchar(20),
+cQuantity int
+) 
+
+INSERT INTO Purchases
+VALUES
+(
+'Shares',
+20
+)
+
+SELECT * FROM Purchases
+
+
+SET IDENTITY_INSERT Purchases ON
+
+INSERT INTO Purchases
+(
+cCode, 
+cItem,
+cQuantity
+)
+VALUES
+(
+102,
+'Debentures',
+30
+)
+
+SELECT * FROM Purchases
+
+
+(Note: IDENTITY is always NOT NULL)
+
+
+DROP TABLE Purchases
+
+
+
+
+
+
+
+
+
+
+Update rows:
+CREATE TABLE Item
+(
+ItemCode char(6) NOT NULL,
+ItemName char(40) NOT NULL,
+QuantityOnHand int NOT NULL
+)
+
+INSERT INTO Item 
+VALUES
+('I001',
+'Printer',
+200
+)
+
+SELECT * FROM Item
+
+CREATE TABLE Sales
+(
+ItemCode char(6) NOT NULL,
+QtySold int NOT NULL,
+SaleDate datetime NOT NULL DEFAULT getdate()
+)
+
+INSERT INTO Sales
+VALUES
+('I001',
+20,
+DEFAULT
+)
+
+SELECT * FROM Sales
+
+INSERT INTO Sales
+VALUES
+('I001',
+30,
+'2007-06-09 19:52:10.327'
+)
+
+SELECT * FROM Sales
+
+UPDATE Item
+SET QuantityOnHand = QuantityOnHand - QtySold
+FROM Item, Sales
+WHERE Item.ItemCode = Sales.ItemCode
+AND SaleDate = '2007-06-09 19:52:10.327'
+
+SELECT * FROM Item
+
+SELECT * FROM Sales
+
+
+DROP TABLE Item 
+
+DROP TABLE Sales
+
+
+
+
+
+
+
+
+
+
+Delete rows:
+CREATE TABLE Test
+(
+tCode int IDENTITY(101, 1) NOT NULL,
+tName varchar(20),
+tDate datetime NOT NULL DEFAULT getdate()
+)
+
+INSERT INTO Test
+VALUES
+(
+'CAT',
+DEFAULT
+)
+
+SELECT * FROM Test
+
+INSERT INTO Test
+VALUES
+(
+'GRE',
+'2007-06-07'
+)
+
+SELECT * FROM Test
+
+INSERT INTO Test
+VALUES
+(
+'TOEFL',
+'2007-06-06'
+)
+
+SELECT * FROM Test
+
+
+INSERT INTO Test
+VALUES
+(
+'GMAT',
+'2005-06-10'
+)
+
+SELECT * FROM Test
+
+
+DELETE FROM Test
+WHERE tDate > dateadd(yy, -2, getdate()) 
+
+SELECT * FROM Test
+
+
+DROP TABLE Test
+
+
+
+
+
+
+
+
+
+
+Truncate table:
+CREATE TABLE Test
+(
+tName varchar(20),
+tDate datetime NOT NULL DEFAULT getdate()
+)
+
+INSERT INTO Test
+VALUES
+(
+'Date',
+dateadd(yy, -2, getdate()) 
+)
+
+SELECT * FROM Test
+
+
+TRUNCATE TABLE Test
+
+SELECT * FROM Test
+
+sp_help Test
+
+
+DROP TABLE Test

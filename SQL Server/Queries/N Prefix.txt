@@ -1,0 +1,9 @@
+Why do some SQL strings have an 'N' prefix?
+You may have seen Transact-SQL code that passes strings around using an N prefix. This denotes that the subsequent string is in Unicode (the N actually stands for National language character set). Which means that you are passing an NCHAR, NVARCHAR or NTEXT value, as opposed to CHAR, VARCHAR or TEXT. See Article #2354 for a comparison of these data types. 
+
+
+IF OBJECT_ID (N'dbo.TestTable', N'U') IS NOT NULL 
+DROP TABLE dbo.TestTable;
+CREATE TABLE dbo.TestTable(Name VARCHAR(100));
+
+EXEC sp_ExecuteSQL N'SELECT Name FROM dbo.TestTable'

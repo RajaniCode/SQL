@@ -1,0 +1,76 @@
+## pgAdmin 4
+$ export PATH=$PATH:"/C/Users/rajanis/Downloads/PostgreSQL/postgresql-13.1-1-windows-x64-binaries/pgsql/pgAdmin 4/bin/"
+$ pgAdmin4
+
+
+## SERVER_MODE
+C:\Users\rajanis\Downloads\PostgreSQL\postgresql-13.1-1-windows-x64-binaries\pgsql\pgAdmin 4\web\config_distro.py
+SERVER_MODE = True
+
+C:\Users\rajanis\Downloads\PostgreSQL\postgresql-13.1-1-windows-x64-binaries\pgsql\pgAdmin 4\web\pgAdmin4.py
+F5
+[
+Python 3.8.5 (tags/v3.8.5:580fbb0, Jul 20 2020, 15:57:54) [MSC v.1924 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license()" for more information.
+>>> 
+= RESTART: C:\Users\rajanis\Downloads\PostgreSQL\New folder\pgsql\pgAdmin 4\web\pgAdmin4.py
+NOTE: Configuring authentication for SERVER mode.
+
+Enter the email address and password to use for the initial pgAdmin user account:
+
+Email address: #####@gmail.com
+
+Warning (from warnings module):
+  File "C:\Python38\lib\getpass.py", line 100
+    return fallback_getpass(prompt, stream)
+GetPassWarning: Can not control echo on the terminal.
+Warning: Password input may be echoed.
+Password: CanadaDry
+Warning: Password input may be echoed.
+Retype password:CanadaDry
+pgAdmin 4 - Application Initialisation
+======================================
+
+Starting pgAdmin 4. Please navigate to http://127.0.0.1:5050 in your browser.
+ * Serving Flask app "pgadmin" (lazy loading)
+ * Environment: production
+   WARNING: Do not use the development server in a production environment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+]
+
+C:\Users\rajanis\Downloads\PostgreSQL\postgresql-13.1-1-windows-x64-binaries\pgsql\pgAdmin 4\web\pgadmin\__init__.py
+Line 47
+[
+...
+# Explicitly set the mime-types so that a corrupted windows registry will not
+# affect pgAdmin 4 to be load properly. This will avoid the issues that may
+# occur due to security fix of X_CONTENT_TYPE_OPTIONS = "nosniff".
+import mimetypes
+mimetypes.add_type('text/javascript', '.js')
+mimetypes.add_type('text/css', '.css')
+...
+]
+
+http://127.0.0.1:5050/login?next=%2F
+Email Address: #####@gmail.com
+Password: CanadaDry
+# CREATE - Server
+# General
+Name: PostgreSQL-13
+Server group: Servers
+# Connection
+Host name/address: localhost
+Port: 5432
+Maintenance database: postgres
+Username: postgres
+Password: PostgreSQL-13.1-1
+
+
+## DESKTOP MODE
+C:\Users\rajanis\Downloads\PostgreSQL\postgresql-13.1-1-windows-x64-binaries\pgsql\pgAdmin 4\web\config_distro.py
+SERVER_MODE = False
+
+
+## %APPDATA%
+C:\Users\rajanis\AppData\Roaming\pgAdmin
