@@ -1,0 +1,184 @@
+USE [master];
+GO
+
+--IF EXISTS(SELECT name FROM sys.databases WHERE name = N'sampledb')
+IF DB_ID (N'sampledb') IS NOT NULL
+DROP DATABASE [sampledb];
+GO
+
+CREATE DATABASE sampledb;
+GO
+
+USE [sampledb];
+GO
+
+IF OBJECT_ID('Table1', 'U') IS NOT NULL
+DROP TABLE Table1;
+GO
+
+CREATE TABLE Table1
+(
+ ID int, 
+ Value nvarchar(max)
+);
+GO
+
+INSERT INTO Table1
+SELECT 1, 'First' UNION ALL
+SELECT 2, 'Second' UNION ALL
+SELECT 3, 'Third' UNION ALL
+SELECT 4, 'Fourth' UNION ALL
+SELECT 5, 'Fifth';
+GO
+
+SELECT * FROM Table1;
+GO
+
+IF OBJECT_ID('Table2', 'U') IS NOT NULL
+DROP TABLE Table2;
+GO
+
+CREATE TABLE Table2
+(
+ ID int, 
+ Value nvarchar(max)
+);
+GO
+
+INSERT INTO Table2
+SELECT 1, 'I' UNION ALL
+SELECT 2, 'II' UNION ALL
+SELECT 3, 'III' UNION ALL
+SELECT 6, 'VI' UNION ALL
+SELECT 7, 'VII' UNION ALL
+SELECT 8, 'VIII';
+GO
+
+SELECT * FROM Table2;
+GO
+
+--(INNER) JOIN
+SELECT t1.*, t2.* 
+FROM Table1 t1
+JOIN Table2 t2 
+ON t1.ID = t2.ID;
+GO
+
+--CROSS APPLY
+SELECT t1.*, t3.* 
+FROM Table1 t1
+CROSS APPLY
+(SELECT * FROM Table2 t2 
+WHERE t1.ID = t2.ID) t3;
+GO
+
+--LEFT (OUTER) JOIN
+SELECT t1.*, t2.* 
+FROM Table1 t1
+LEFT JOIN Table2 t2 
+ON t1.ID = t2.ID;
+GO
+
+--OUTER APPLY
+SELECT t1.*, t3.* 
+FROM Table1 t1
+OUTER APPLY
+(SELECT * FROM Table2 t2 
+WHERE t1.ID = t2.ID) t3;
+GO
+
+--IF EXISTS(SELECT name FROM sys.objects WHERE name = N'F1' AND type =N'FN')
+IF OBJECT_ID(N'F1', N'FN') IS NOT NULL
+DROP FUNCTION F1
+GO
+
+CREATE FUNCTION F1
+(
+ @In int
+)
+RETURNS nvarchar(max)
+AS
+BEGIN
+ --DECLARE @Return nvarchar(max)
+ --SET @Return = (SELECT TOP 1 ID FROM Table2 WHERE ID = @In);
+ --RETURN @Return
+ RETURN (SELECT TOP 1 ID FROM Table2 WHERE ID = @In);
+END
+GO
+
+--CROSS APPLY with User-Defined Function
+SELECT t1.*, t3.* 
+FROM Table1 t1
+CROSS APPLY
+(SELECT [dbo].[F1](t1.ID)) t3(ID);
+GO
+
+--IF EXISTS(SELECT name FROM sys.objects WHERE name = N'F2' AND type =N'TF')
+IF OBJECT_ID(N'F2', N'TF') IS NOT NULL
+DROP FUNCTION F2;
+GO
+
+CREATE FUNCTION F2
+(
+ @In int
+)
+RETURNS @R2 TABLE
+(
+  ID int,
+  Value nvarchar(max)
+)
+AS
+BEGIN
+ INSERT INTO @R2 
+ SELECT ID, Value FROM Table2 WHERE (ID > @In);
+ RETURN;
+END
+GO
+
+SELECT * FROM Table1;
+GO
+
+DECLARE @ID int;
+DECLARE CursorID CURSOR 
+  LOCAL STATIC READ_ONLY FORWARD_ONLY
+FOR 
+SELECT DISTINCT ID FROM Table1
+OPEN CursorID
+FETCH NEXT FROM CursorID INTO @ID
+WHILE @@FETCH_STATUS = 0
+BEGIN
+    SELECT * FROM F2(@ID);
+    FETCH NEXT FROM CursorID INTO @ID;
+END
+CLOSE CursorID
+DEALLOCATE CursorID
+
+/*
+1 + 1 + 1 + 1 + 1 + 1 = 5
+2 + 2 + 2 + 2 = 8
+3 + 3 + 3 = 9
+4 + 4 + 4 = 12
+5 + 5 + 5 = 15
+SELECT t1.ID, t2.ID
+FROM Table1 t1
+OUTER APPLY
+F2(t1.ID) t2;
+GO
+*/
+--OUTER APPLY with User-Defined Function
+SELECT t1.ID, SUM(t1.ID) AS Total
+FROM Table1 t1
+OUTER APPLY
+F2(t1.ID) t2
+GROUP BY t1.ID;
+GO
+
+--CROSS APPLY with TOP
+SELECT t1.*, t3.* FROM Table1 t1
+CROSS APPLY(SELECT TOP 4(ID), Value FROM Table2 t2 WHERE t1.ID = t2.ID) t3;
+GO
+
+--OUTER APPLY with TOP
+SELECT t1.*, t3.* FROM Table1 t1
+OUTER APPLY(SELECT TOP 4(ID), Value FROM Table2 t2 WHERE t1.ID = t2.ID) t3;
+GO

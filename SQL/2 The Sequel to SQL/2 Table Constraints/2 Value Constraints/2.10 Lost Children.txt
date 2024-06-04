@@ -1,0 +1,7 @@
+2.10 Lost Children
+
+
+A row in a table containing a FOREIGN KEY that references a missing row in another table is called an [ ] record.
+
+
+Answer: orphan

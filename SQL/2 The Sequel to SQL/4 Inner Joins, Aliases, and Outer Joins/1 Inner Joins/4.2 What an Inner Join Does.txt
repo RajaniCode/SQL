@@ -1,0 +1,28 @@
+4.2 What an Inner Join Does
+
+
+Given the following tables, what is the result of a query using an INNER JOIN?
+
+
+Tables
+Movies
+id 	title
+1 	Don Juan
+2 	The Lost World
+3 	Peter Pan
+4 	Robin Hood
+Rooms
+id 	seats 	movie_id
+1 	50 	2
+2 	100 	1
+3 	100 	NULL
+4 	150 	3
+
+[Single Answer]
+
+Only the movies that have rooms associated with them.
+All the movies and rooms, where only 1 room is associated with that movie.
+All the rooms and movies, where only 1 movie is playing in that room.
+
+
+Answer: Only the movies that have rooms associated with them.

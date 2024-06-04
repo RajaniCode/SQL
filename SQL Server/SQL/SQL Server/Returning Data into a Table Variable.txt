@@ -1,0 +1,31 @@
+Returning Data into a Table Variable
+
+CREATE TABLE dbo.UDFTable (Col1 int, Col2 nvarchar(10))
+GO
+INSERT dbo.UDFTable(Col1,Col2) VALUES (1, N'One')
+INSERT dbo.UDFTable(Col1,Col2) VALUES (2, N'Two')
+INSERT dbo.UDFTable(Col1,Col2) VALUES (3, N'Three')
+INSERT dbo.UDFTable(Col1,Col2) VALUES (4, N'Four')
+GO
+
+CREATE FUNCTION dbo.ReturnsUDFTable (@MinRange int = 1, @MaxRange int = 4)
+-- Procedure B
+RETURNS TABLE
+AS
+   RETURN(SELECT A.Col2 AS N'TextNumber' 
+   FROM dbo.UDFTable AS A
+   WHERE A.Col1 BETWEEN @MinRange AND @MaxRange)
+GO
+
+CREATE PROCEDURE dbo.MySP_CallsUDF
+-- Procedure A
+AS
+   DECLARE @MyTable TABLE (MyTextName nvarchar(10))
+   -- Call the UDF. Note the use of the explicit default value.
+   INSERT @MyTable SELECT A.TextNumber FROM dbo.ReturnsUDFTable(2, default) AS A
+   SELECT * FROM @MyTable
+GO
+
+-- And see what happens.
+EXEC dbo.MySP_CallsUDF
+

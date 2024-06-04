@@ -1,0 +1,15 @@
+2.5 Primary Differences
+
+
+Although they look similar at first, using the PRIMARY KEY constraint is not the same as using UNIQUE and NOT NULL. What are some of the differences?
+
+[Single Answer]
+
+The PRIMARY KEY can only be defined once per table, whereas NOT NULL and UNIQUE can be used on multiple columns.
+
+The PRIMARY KEY can be defined multiple times per table, whereas the NOT NULL and UNIQUE combination can only be used once.
+
+
+Answer:
+
+The PRIMARY KEY can only be defined once per table, whereas NOT NULL and UNIQUE can be used on multiple columns.

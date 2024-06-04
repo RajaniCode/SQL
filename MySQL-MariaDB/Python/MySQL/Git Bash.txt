@@ -1,0 +1,372 @@
+
+MINGW64 ~
+$ python --version
+Python 2.7.11
+
+MINGW64 ~
+$ pip --version
+pip 8.1.2 from c:\python27\lib\site-packages (python 2.7)
+
+MINGW64 ~
+$ pip install mysql.connector
+Collecting mysql.connector
+  Could not find a version that satisfies the requirement mysql.connector (from versions: )
+No matching distribution found for mysql.connector
+
+MINGW64 ~
+$ pip install --allow-external mysql-connector-python mysql-connector-python
+DEPRECATION: --allow-external has been deprecated and will be removed in the future. Due to changes in the repository protocol, it no longer has any effect.
+Collecting mysql-connector-python
+  Could not find a version that satisfies the requirement mysql-connector-python (from versions: )
+No matching distribution found for mysql-connector-python
+
+MINGW64 ~
+$ pip install mysql-connector-python==1.0.12
+Collecting mysql-connector-python==1.0.12
+  Could not find a version that satisfies the requirement mysql-connector-python==1.0.12 (from versions: )
+No matching distribution found for mysql-connector-python==1.0.12
+
+MINGW64 ~
+$ cd "E:\Working\Database\SQL\MySQL\Python\MySQL\GitHub"
+
+MINGW64 /e/Working/Database/SQL/MySQL/Python/MySQL/GitHub
+$ git clone https://github.com/mysql/mysql-connector-python.git
+Cloning into 'mysql-connector-python'...
+remote: Counting objects: 2176, done.
+remote: Total 2176 (delta 0), reused 0 (delta 0), pack-reused 2176
+Receiving objects: 100% (2176/2176), 11.84 MiB | 202.00 KiB/s, done.
+Resolving deltas: 100% (1382/1382), done.
+Checking connectivity... done.
+Checking out files: 100% (158/158), done.
+
+MINGW64 /e/Working/Database/SQL/MySQL/Python/MySQL/GitHub
+$ cd mysql-connector-python
+
+MINGW64 /e/Working/Database/SQL/MySQL/Python/MySQL/GitHub/mysql-connector-python (master)
+$ python ./setup.py build
+running build
+running build_py
+creating build
+creating build\lib.win-amd64-2.7
+creating build\lib.win-amd64-2.7\mysql
+copying lib\mysql\__init__.py -> build\lib.win-amd64-2.7\mysql
+creating build\lib.win-amd64-2.7\mysql\connector
+copying lib\mysql\connector\abstracts.py -> build\lib.win-amd64-2.7\mysql\connector
+copying lib\mysql\connector\authentication.py -> build\lib.win-amd64-2.7\mysql\connector
+copying lib\mysql\connector\catch23.py -> build\lib.win-amd64-2.7\mysql\connector
+copying lib\mysql\connector\charsets.py -> build\lib.win-amd64-2.7\mysql\connector
+copying lib\mysql\connector\connection.py -> build\lib.win-amd64-2.7\mysql\connector
+copying lib\mysql\connector\connection_cext.py -> build\lib.win-amd64-2.7\mysql\connector
+copying lib\mysql\connector\constants.py -> build\lib.win-amd64-2.7\mysql\connector
+copying lib\mysql\connector\conversion.py -> build\lib.win-amd64-2.7\mysql\connector
+copying lib\mysql\connector\cursor.py -> build\lib.win-amd64-2.7\mysql\connector
+copying lib\mysql\connector\cursor_cext.py -> build\lib.win-amd64-2.7\mysql\connector
+copying lib\mysql\connector\custom_types.py -> build\lib.win-amd64-2.7\mysql\connector
+copying lib\mysql\connector\dbapi.py -> build\lib.win-amd64-2.7\mysql\connector
+copying lib\mysql\connector\errorcode.py -> build\lib.win-amd64-2.7\mysql\connector
+copying lib\mysql\connector\errors.py -> build\lib.win-amd64-2.7\mysql\connector
+copying lib\mysql\connector\network.py -> build\lib.win-amd64-2.7\mysql\connector
+copying lib\mysql\connector\optionfiles.py -> build\lib.win-amd64-2.7\mysql\connector
+copying lib\mysql\connector\pooling.py -> build\lib.win-amd64-2.7\mysql\connector
+copying lib\mysql\connector\protocol.py -> build\lib.win-amd64-2.7\mysql\connector
+copying lib\mysql\connector\utils.py -> build\lib.win-amd64-2.7\mysql\connector
+copying lib\mysql\connector\version.py -> build\lib.win-amd64-2.7\mysql\connector
+copying lib\mysql\connector\__init__.py -> build\lib.win-amd64-2.7\mysql\connector
+creating build\lib.win-amd64-2.7\mysql\connector\locales
+copying lib\mysql\connector\locales\__init__.py -> build\lib.win-amd64-2.7\mysql\connector\locales
+creating build\lib.win-amd64-2.7\mysql\connector\locales\eng
+copying lib\mysql\connector\locales\eng\client_error.py -> build\lib.win-amd64-2.7\mysql\connector\locales\eng
+copying lib\mysql\connector\locales\eng\__init__.py -> build\lib.win-amd64-2.7\mysql\connector\locales\eng
+creating build\lib.win-amd64-2.7\mysql\connector\django
+copying lib\mysql\connector\django\base.py -> build\lib.win-amd64-2.7\mysql\connector\django
+copying lib\mysql\connector\django\client.py -> build\lib.win-amd64-2.7\mysql\connector\django
+copying lib\mysql\connector\django\compiler.py -> build\lib.win-amd64-2.7\mysql\connector\django
+copying lib\mysql\connector\django\creation.py -> build\lib.win-amd64-2.7\mysql\connector\django
+copying lib\mysql\connector\django\features.py -> build\lib.win-amd64-2.7\mysql\connector\django
+copying lib\mysql\connector\django\introspection.py -> build\lib.win-amd64-2.7\mysql\connector\django
+copying lib\mysql\connector\django\operations.py -> build\lib.win-amd64-2.7\mysql\connector\django
+copying lib\mysql\connector\django\schema.py -> build\lib.win-amd64-2.7\mysql\connector\django
+copying lib\mysql\connector\django\validation.py -> build\lib.win-amd64-2.7\mysql\connector\django
+copying lib\mysql\connector\django\__init__.py -> build\lib.win-amd64-2.7\mysql\connector\django
+creating build\lib.win-amd64-2.7\mysql\connector\fabric
+copying lib\mysql\connector\fabric\balancing.py -> build\lib.win-amd64-2.7\mysql\connector\fabric
+copying lib\mysql\connector\fabric\caching.py -> build\lib.win-amd64-2.7\mysql\connector\fabric
+copying lib\mysql\connector\fabric\connection.py -> build\lib.win-amd64-2.7\mysql\connector\fabric
+copying lib\mysql\connector\fabric\__init__.py -> build\lib.win-amd64-2.7\mysql\connector\fabric
+creating build\lib.win-amd64-2.7\mysqlx
+copying lib\mysqlx\authentication.py -> build\lib.win-amd64-2.7\mysqlx
+copying lib\mysqlx\charsets.py -> build\lib.win-amd64-2.7\mysqlx
+copying lib\mysqlx\connection.py -> build\lib.win-amd64-2.7\mysqlx
+copying lib\mysqlx\crud.py -> build\lib.win-amd64-2.7\mysqlx
+copying lib\mysqlx\dbdoc.py -> build\lib.win-amd64-2.7\mysqlx
+copying lib\mysqlx\errorcode.py -> build\lib.win-amd64-2.7\mysqlx
+copying lib\mysqlx\errors.py -> build\lib.win-amd64-2.7\mysqlx
+copying lib\mysqlx\expr.py -> build\lib.win-amd64-2.7\mysqlx
+copying lib\mysqlx\expr_unparser.py -> build\lib.win-amd64-2.7\mysqlx
+copying lib\mysqlx\protocol.py -> build\lib.win-amd64-2.7\mysqlx
+copying lib\mysqlx\result.py -> build\lib.win-amd64-2.7\mysqlx
+copying lib\mysqlx\statement.py -> build\lib.win-amd64-2.7\mysqlx
+copying lib\mysqlx\__init__.py -> build\lib.win-amd64-2.7\mysqlx
+creating build\lib.win-amd64-2.7\mysqlx\locales
+copying lib\mysqlx\locales\__init__.py -> build\lib.win-amd64-2.7\mysqlx\locales
+creating build\lib.win-amd64-2.7\mysqlx\locales\eng
+copying lib\mysqlx\locales\eng\client_error.py -> build\lib.win-amd64-2.7\mysqlx\locales\eng
+copying lib\mysqlx\locales\eng\__init__.py -> build\lib.win-amd64-2.7\mysqlx\locales\eng
+creating build\lib.win-amd64-2.7\mysqlx\protobuf
+copying lib\mysqlx\protobuf\mysqlx_connection_pb2.py -> build\lib.win-amd64-2.7\mysqlx\protobuf
+copying lib\mysqlx\protobuf\mysqlx_crud_pb2.py -> build\lib.win-amd64-2.7\mysqlx\protobuf
+copying lib\mysqlx\protobuf\mysqlx_datatypes_pb2.py -> build\lib.win-amd64-2.7\mysqlx\protobuf
+copying lib\mysqlx\protobuf\mysqlx_expect_pb2.py -> build\lib.win-amd64-2.7\mysqlx\protobuf
+copying lib\mysqlx\protobuf\mysqlx_expr_pb2.py -> build\lib.win-amd64-2.7\mysqlx\protobuf
+copying lib\mysqlx\protobuf\mysqlx_notice_pb2.py -> build\lib.win-amd64-2.7\mysqlx\protobuf
+copying lib\mysqlx\protobuf\mysqlx_pb2.py -> build\lib.win-amd64-2.7\mysqlx\protobuf
+copying lib\mysqlx\protobuf\mysqlx_resultset_pb2.py -> build\lib.win-amd64-2.7\mysqlx\protobuf
+copying lib\mysqlx\protobuf\mysqlx_session_pb2.py -> build\lib.win-amd64-2.7\mysqlx\protobuf
+copying lib\mysqlx\protobuf\mysqlx_sql_pb2.py -> build\lib.win-amd64-2.7\mysqlx\protobuf
+copying lib\mysqlx\protobuf\t.py -> build\lib.win-amd64-2.7\mysqlx\protobuf
+copying lib\mysqlx\protobuf\__init__.py -> build\lib.win-amd64-2.7\mysqlx\protobuf
+running build_ext
+
+MINGW64 /e/Working/Database/SQL/MySQL/Python/MySQL/GitHub/mysql-connector-python (master)
+$ python ./setup.py install
+running install
+Not Installing C Extension
+running build
+running build_py
+creating build\lib
+creating build\lib\mysql
+copying lib\mysql\__init__.py -> build\lib\mysql
+creating build\lib\mysql\connector
+copying lib\mysql\connector\abstracts.py -> build\lib\mysql\connector
+copying lib\mysql\connector\authentication.py -> build\lib\mysql\connector
+copying lib\mysql\connector\catch23.py -> build\lib\mysql\connector
+copying lib\mysql\connector\charsets.py -> build\lib\mysql\connector
+copying lib\mysql\connector\connection.py -> build\lib\mysql\connector
+copying lib\mysql\connector\connection_cext.py -> build\lib\mysql\connector
+copying lib\mysql\connector\constants.py -> build\lib\mysql\connector
+copying lib\mysql\connector\conversion.py -> build\lib\mysql\connector
+copying lib\mysql\connector\cursor.py -> build\lib\mysql\connector
+copying lib\mysql\connector\cursor_cext.py -> build\lib\mysql\connector
+copying lib\mysql\connector\custom_types.py -> build\lib\mysql\connector
+copying lib\mysql\connector\dbapi.py -> build\lib\mysql\connector
+copying lib\mysql\connector\errorcode.py -> build\lib\mysql\connector
+copying lib\mysql\connector\errors.py -> build\lib\mysql\connector
+copying lib\mysql\connector\network.py -> build\lib\mysql\connector
+copying lib\mysql\connector\optionfiles.py -> build\lib\mysql\connector
+copying lib\mysql\connector\pooling.py -> build\lib\mysql\connector
+copying lib\mysql\connector\protocol.py -> build\lib\mysql\connector
+copying lib\mysql\connector\utils.py -> build\lib\mysql\connector
+copying lib\mysql\connector\version.py -> build\lib\mysql\connector
+copying lib\mysql\connector\__init__.py -> build\lib\mysql\connector
+creating build\lib\mysql\connector\locales
+copying lib\mysql\connector\locales\__init__.py -> build\lib\mysql\connector\locales
+creating build\lib\mysql\connector\locales\eng
+copying lib\mysql\connector\locales\eng\client_error.py -> build\lib\mysql\connector\locales\eng
+copying lib\mysql\connector\locales\eng\__init__.py -> build\lib\mysql\connector\locales\eng
+creating build\lib\mysql\connector\django
+copying lib\mysql\connector\django\base.py -> build\lib\mysql\connector\django
+copying lib\mysql\connector\django\client.py -> build\lib\mysql\connector\django
+copying lib\mysql\connector\django\compiler.py -> build\lib\mysql\connector\django
+copying lib\mysql\connector\django\creation.py -> build\lib\mysql\connector\django
+copying lib\mysql\connector\django\features.py -> build\lib\mysql\connector\django
+copying lib\mysql\connector\django\introspection.py -> build\lib\mysql\connector\django
+copying lib\mysql\connector\django\operations.py -> build\lib\mysql\connector\django
+copying lib\mysql\connector\django\schema.py -> build\lib\mysql\connector\django
+copying lib\mysql\connector\django\validation.py -> build\lib\mysql\connector\django
+copying lib\mysql\connector\django\__init__.py -> build\lib\mysql\connector\django
+creating build\lib\mysql\connector\fabric
+copying lib\mysql\connector\fabric\balancing.py -> build\lib\mysql\connector\fabric
+copying lib\mysql\connector\fabric\caching.py -> build\lib\mysql\connector\fabric
+copying lib\mysql\connector\fabric\connection.py -> build\lib\mysql\connector\fabric
+copying lib\mysql\connector\fabric\__init__.py -> build\lib\mysql\connector\fabric
+creating build\lib\mysqlx
+copying lib\mysqlx\authentication.py -> build\lib\mysqlx
+copying lib\mysqlx\charsets.py -> build\lib\mysqlx
+copying lib\mysqlx\connection.py -> build\lib\mysqlx
+copying lib\mysqlx\crud.py -> build\lib\mysqlx
+copying lib\mysqlx\dbdoc.py -> build\lib\mysqlx
+copying lib\mysqlx\errorcode.py -> build\lib\mysqlx
+copying lib\mysqlx\errors.py -> build\lib\mysqlx
+copying lib\mysqlx\expr.py -> build\lib\mysqlx
+copying lib\mysqlx\expr_unparser.py -> build\lib\mysqlx
+copying lib\mysqlx\protocol.py -> build\lib\mysqlx
+copying lib\mysqlx\result.py -> build\lib\mysqlx
+copying lib\mysqlx\statement.py -> build\lib\mysqlx
+copying lib\mysqlx\__init__.py -> build\lib\mysqlx
+creating build\lib\mysqlx\locales
+copying lib\mysqlx\locales\__init__.py -> build\lib\mysqlx\locales
+creating build\lib\mysqlx\locales\eng
+copying lib\mysqlx\locales\eng\client_error.py -> build\lib\mysqlx\locales\eng
+copying lib\mysqlx\locales\eng\__init__.py -> build\lib\mysqlx\locales\eng
+creating build\lib\mysqlx\protobuf
+copying lib\mysqlx\protobuf\mysqlx_connection_pb2.py -> build\lib\mysqlx\protobuf
+copying lib\mysqlx\protobuf\mysqlx_crud_pb2.py -> build\lib\mysqlx\protobuf
+copying lib\mysqlx\protobuf\mysqlx_datatypes_pb2.py -> build\lib\mysqlx\protobuf
+copying lib\mysqlx\protobuf\mysqlx_expect_pb2.py -> build\lib\mysqlx\protobuf
+copying lib\mysqlx\protobuf\mysqlx_expr_pb2.py -> build\lib\mysqlx\protobuf
+copying lib\mysqlx\protobuf\mysqlx_notice_pb2.py -> build\lib\mysqlx\protobuf
+copying lib\mysqlx\protobuf\mysqlx_pb2.py -> build\lib\mysqlx\protobuf
+copying lib\mysqlx\protobuf\mysqlx_resultset_pb2.py -> build\lib\mysqlx\protobuf
+copying lib\mysqlx\protobuf\mysqlx_session_pb2.py -> build\lib\mysqlx\protobuf
+copying lib\mysqlx\protobuf\mysqlx_sql_pb2.py -> build\lib\mysqlx\protobuf
+copying lib\mysqlx\protobuf\t.py -> build\lib\mysqlx\protobuf
+copying lib\mysqlx\protobuf\__init__.py -> build\lib\mysqlx\protobuf
+running install_lib
+creating C:\Python27\Lib\site-packages\mysql
+creating C:\Python27\Lib\site-packages\mysql\connector
+copying build\lib\mysql\connector\abstracts.py -> C:\Python27\Lib\site-packages\mysql\connector
+copying build\lib\mysql\connector\authentication.py -> C:\Python27\Lib\site-packages\mysql\connector
+copying build\lib\mysql\connector\catch23.py -> C:\Python27\Lib\site-packages\mysql\connector
+copying build\lib\mysql\connector\charsets.py -> C:\Python27\Lib\site-packages\mysql\connector
+copying build\lib\mysql\connector\connection.py -> C:\Python27\Lib\site-packages\mysql\connector
+copying build\lib\mysql\connector\connection_cext.py -> C:\Python27\Lib\site-packages\mysql\connector
+copying build\lib\mysql\connector\constants.py -> C:\Python27\Lib\site-packages\mysql\connector
+copying build\lib\mysql\connector\conversion.py -> C:\Python27\Lib\site-packages\mysql\connector
+copying build\lib\mysql\connector\cursor.py -> C:\Python27\Lib\site-packages\mysql\connector
+copying build\lib\mysql\connector\cursor_cext.py -> C:\Python27\Lib\site-packages\mysql\connector
+copying build\lib\mysql\connector\custom_types.py -> C:\Python27\Lib\site-packages\mysql\connector
+copying build\lib\mysql\connector\dbapi.py -> C:\Python27\Lib\site-packages\mysql\connector
+creating C:\Python27\Lib\site-packages\mysql\connector\django
+copying build\lib\mysql\connector\django\base.py -> C:\Python27\Lib\site-packages\mysql\connector\django
+copying build\lib\mysql\connector\django\client.py -> C:\Python27\Lib\site-packages\mysql\connector\django
+copying build\lib\mysql\connector\django\compiler.py -> C:\Python27\Lib\site-packages\mysql\connector\django
+copying build\lib\mysql\connector\django\creation.py -> C:\Python27\Lib\site-packages\mysql\connector\django
+copying build\lib\mysql\connector\django\features.py -> C:\Python27\Lib\site-packages\mysql\connector\django
+copying build\lib\mysql\connector\django\introspection.py -> C:\Python27\Lib\site-packages\mysql\connector\django
+copying build\lib\mysql\connector\django\operations.py -> C:\Python27\Lib\site-packages\mysql\connector\django
+copying build\lib\mysql\connector\django\schema.py -> C:\Python27\Lib\site-packages\mysql\connector\django
+copying build\lib\mysql\connector\django\validation.py -> C:\Python27\Lib\site-packages\mysql\connector\django
+copying build\lib\mysql\connector\django\__init__.py -> C:\Python27\Lib\site-packages\mysql\connector\django
+copying build\lib\mysql\connector\errorcode.py -> C:\Python27\Lib\site-packages\mysql\connector
+copying build\lib\mysql\connector\errors.py -> C:\Python27\Lib\site-packages\mysql\connector
+creating C:\Python27\Lib\site-packages\mysql\connector\fabric
+copying build\lib\mysql\connector\fabric\balancing.py -> C:\Python27\Lib\site-packages\mysql\connector\fabric
+copying build\lib\mysql\connector\fabric\caching.py -> C:\Python27\Lib\site-packages\mysql\connector\fabric
+copying build\lib\mysql\connector\fabric\connection.py -> C:\Python27\Lib\site-packages\mysql\connector\fabric
+copying build\lib\mysql\connector\fabric\__init__.py -> C:\Python27\Lib\site-packages\mysql\connector\fabric
+creating C:\Python27\Lib\site-packages\mysql\connector\locales
+creating C:\Python27\Lib\site-packages\mysql\connector\locales\eng
+copying build\lib\mysql\connector\locales\eng\client_error.py -> C:\Python27\Lib\site-packages\mysql\connector\locales\eng
+copying build\lib\mysql\connector\locales\eng\__init__.py -> C:\Python27\Lib\site-packages\mysql\connector\locales\eng
+copying build\lib\mysql\connector\locales\__init__.py -> C:\Python27\Lib\site-packages\mysql\connector\locales
+copying build\lib\mysql\connector\network.py -> C:\Python27\Lib\site-packages\mysql\connector
+copying build\lib\mysql\connector\optionfiles.py -> C:\Python27\Lib\site-packages\mysql\connector
+copying build\lib\mysql\connector\pooling.py -> C:\Python27\Lib\site-packages\mysql\connector
+copying build\lib\mysql\connector\protocol.py -> C:\Python27\Lib\site-packages\mysql\connector
+copying build\lib\mysql\connector\utils.py -> C:\Python27\Lib\site-packages\mysql\connector
+copying build\lib\mysql\connector\version.py -> C:\Python27\Lib\site-packages\mysql\connector
+copying build\lib\mysql\connector\__init__.py -> C:\Python27\Lib\site-packages\mysql\connector
+copying build\lib\mysql\__init__.py -> C:\Python27\Lib\site-packages\mysql
+creating C:\Python27\Lib\site-packages\mysqlx
+copying build\lib\mysqlx\authentication.py -> C:\Python27\Lib\site-packages\mysqlx
+copying build\lib\mysqlx\charsets.py -> C:\Python27\Lib\site-packages\mysqlx
+copying build\lib\mysqlx\connection.py -> C:\Python27\Lib\site-packages\mysqlx
+copying build\lib\mysqlx\crud.py -> C:\Python27\Lib\site-packages\mysqlx
+copying build\lib\mysqlx\dbdoc.py -> C:\Python27\Lib\site-packages\mysqlx
+copying build\lib\mysqlx\errorcode.py -> C:\Python27\Lib\site-packages\mysqlx
+copying build\lib\mysqlx\errors.py -> C:\Python27\Lib\site-packages\mysqlx
+copying build\lib\mysqlx\expr.py -> C:\Python27\Lib\site-packages\mysqlx
+copying build\lib\mysqlx\expr_unparser.py -> C:\Python27\Lib\site-packages\mysqlx
+creating C:\Python27\Lib\site-packages\mysqlx\locales
+creating C:\Python27\Lib\site-packages\mysqlx\locales\eng
+copying build\lib\mysqlx\locales\eng\client_error.py -> C:\Python27\Lib\site-packages\mysqlx\locales\eng
+copying build\lib\mysqlx\locales\eng\__init__.py -> C:\Python27\Lib\site-packages\mysqlx\locales\eng
+copying build\lib\mysqlx\locales\__init__.py -> C:\Python27\Lib\site-packages\mysqlx\locales
+creating C:\Python27\Lib\site-packages\mysqlx\protobuf
+copying build\lib\mysqlx\protobuf\mysqlx_connection_pb2.py -> C:\Python27\Lib\site-packages\mysqlx\protobuf
+copying build\lib\mysqlx\protobuf\mysqlx_crud_pb2.py -> C:\Python27\Lib\site-packages\mysqlx\protobuf
+copying build\lib\mysqlx\protobuf\mysqlx_datatypes_pb2.py -> C:\Python27\Lib\site-packages\mysqlx\protobuf
+copying build\lib\mysqlx\protobuf\mysqlx_expect_pb2.py -> C:\Python27\Lib\site-packages\mysqlx\protobuf
+copying build\lib\mysqlx\protobuf\mysqlx_expr_pb2.py -> C:\Python27\Lib\site-packages\mysqlx\protobuf
+copying build\lib\mysqlx\protobuf\mysqlx_notice_pb2.py -> C:\Python27\Lib\site-packages\mysqlx\protobuf
+copying build\lib\mysqlx\protobuf\mysqlx_pb2.py -> C:\Python27\Lib\site-packages\mysqlx\protobuf
+copying build\lib\mysqlx\protobuf\mysqlx_resultset_pb2.py -> C:\Python27\Lib\site-packages\mysqlx\protobuf
+copying build\lib\mysqlx\protobuf\mysqlx_session_pb2.py -> C:\Python27\Lib\site-packages\mysqlx\protobuf
+copying build\lib\mysqlx\protobuf\mysqlx_sql_pb2.py -> C:\Python27\Lib\site-packages\mysqlx\protobuf
+copying build\lib\mysqlx\protobuf\t.py -> C:\Python27\Lib\site-packages\mysqlx\protobuf
+copying build\lib\mysqlx\protobuf\__init__.py -> C:\Python27\Lib\site-packages\mysqlx\protobuf
+copying build\lib\mysqlx\protocol.py -> C:\Python27\Lib\site-packages\mysqlx
+copying build\lib\mysqlx\result.py -> C:\Python27\Lib\site-packages\mysqlx
+copying build\lib\mysqlx\statement.py -> C:\Python27\Lib\site-packages\mysqlx
+copying build\lib\mysqlx\__init__.py -> C:\Python27\Lib\site-packages\mysqlx
+byte-compiling C:\Python27\Lib\site-packages\mysql\connector\abstracts.py to abstracts.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysql\connector\authentication.py to authentication.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysql\connector\catch23.py to catch23.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysql\connector\charsets.py to charsets.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysql\connector\connection.py to connection.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysql\connector\connection_cext.py to connection_cext.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysql\connector\constants.py to constants.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysql\connector\conversion.py to conversion.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysql\connector\cursor.py to cursor.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysql\connector\cursor_cext.py to cursor_cext.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysql\connector\custom_types.py to custom_types.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysql\connector\dbapi.py to dbapi.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysql\connector\django\base.py to base.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysql\connector\django\client.py to client.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysql\connector\django\compiler.py to compiler.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysql\connector\django\creation.py to creation.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysql\connector\django\features.py to features.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysql\connector\django\introspection.py to introspection.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysql\connector\django\operations.py to operations.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysql\connector\django\schema.py to schema.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysql\connector\django\validation.py to validation.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysql\connector\django\__init__.py to __init__.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysql\connector\errorcode.py to errorcode.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysql\connector\errors.py to errors.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysql\connector\fabric\balancing.py to balancing.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysql\connector\fabric\caching.py to caching.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysql\connector\fabric\connection.py to connection.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysql\connector\fabric\__init__.py to __init__.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysql\connector\locales\eng\client_error.py to client_error.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysql\connector\locales\eng\__init__.py to __init__.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysql\connector\locales\__init__.py to __init__.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysql\connector\network.py to network.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysql\connector\optionfiles.py to optionfiles.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysql\connector\pooling.py to pooling.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysql\connector\protocol.py to protocol.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysql\connector\utils.py to utils.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysql\connector\version.py to version.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysql\connector\__init__.py to __init__.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysql\__init__.py to __init__.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysqlx\authentication.py to authentication.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysqlx\charsets.py to charsets.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysqlx\connection.py to connection.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysqlx\crud.py to crud.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysqlx\dbdoc.py to dbdoc.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysqlx\errorcode.py to errorcode.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysqlx\errors.py to errors.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysqlx\expr.py to expr.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysqlx\expr_unparser.py to expr_unparser.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysqlx\locales\eng\client_error.py to client_error.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysqlx\locales\eng\__init__.py to __init__.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysqlx\locales\__init__.py to __init__.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysqlx\protobuf\mysqlx_connection_pb2.py to mysqlx_connection_pb2.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysqlx\protobuf\mysqlx_crud_pb2.py to mysqlx_crud_pb2.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysqlx\protobuf\mysqlx_datatypes_pb2.py to mysqlx_datatypes_pb2.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysqlx\protobuf\mysqlx_expect_pb2.py to mysqlx_expect_pb2.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysqlx\protobuf\mysqlx_expr_pb2.py to mysqlx_expr_pb2.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysqlx\protobuf\mysqlx_notice_pb2.py to mysqlx_notice_pb2.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysqlx\protobuf\mysqlx_pb2.py to mysqlx_pb2.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysqlx\protobuf\mysqlx_resultset_pb2.py to mysqlx_resultset_pb2.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysqlx\protobuf\mysqlx_session_pb2.py to mysqlx_session_pb2.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysqlx\protobuf\mysqlx_sql_pb2.py to mysqlx_sql_pb2.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysqlx\protobuf\t.py to t.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysqlx\protobuf\__init__.py to __init__.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysqlx\protocol.py to protocol.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysqlx\result.py to result.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysqlx\statement.py to statement.pyc
+byte-compiling C:\Python27\Lib\site-packages\mysqlx\__init__.py to __init__.pyc
+running install_egg_info
+Writing C:\Python27\Lib\site-packages\mysql_connector_python-2.2.0-py2.7.egg-info
+
+MINGW64 /e/Working/Database/SQL/MySQL/Python/MySQL/GitHub/mysql-connector-python (master)
+$ python -i
+Python 2.7.11 (v2.7.11:6d1b6a68f775, Dec  5 2015, 20:40:30) [MSC v.1500 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import mysql.connector as msc
+>>> msc.__version__
+'2.2.0a1'
+>>> exit()
+
+MINGW64 /e/Working/Database/SQL/MySQL/Python/MySQL/GitHub/mysql-connector-python (master)
+$

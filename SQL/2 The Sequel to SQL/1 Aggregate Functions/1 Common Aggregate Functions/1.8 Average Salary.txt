@@ -1,0 +1,26 @@
+1.8 Average Salary
+
+
+We already know how to find the total sum of everybody’s salaries, but our accountant reached out to us asking for the average salary.
+
+
+Tables
+Actors
+name 			country 	salary
+Vivien Leigh 		IN 		150000
+Clark Gable 		USA 		120000
+Olivia de Havilland 	Japan 		30000
+Hattie McDaniel 	USA 		45000
+
+
+1. Write a query that calculates the average salary for all actors in our Actors table.
+
+Answer: SELECT AVG(salary) FROM Actors;
+
+
+2. Now filter the query in order to calculate the average of only American actors.
+
+Answer: SELECT AVG(salary) FROM Actors WHERE country = 'USA';
+
+
+

@@ -1,0 +1,5 @@
+2.10 UPDATE and WHERE
+
+A WHERE condition can be added to the end of an UPDATE statement to further refine the location to update.
+
+Answer: TRUE

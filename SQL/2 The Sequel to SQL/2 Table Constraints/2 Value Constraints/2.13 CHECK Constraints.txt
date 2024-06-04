@@ -1,0 +1,60 @@
+2.13 CHECK Constraints
+
+
+Let's add some CHECK constraints to our Actors table to prevent bad data from being inserted.
+
+
+Countries
+id 	name 		code
+1 	United States 	US
+2 	India 		IN
+3 	Japan 		JP
+
+
+schema.sql
+CREATE TABLE Countries (
+  id int PRIMARY KEY,
+  name varchar(50),
+  code varchar(3)
+);
+
+INSERT INTO Countries (id, name, code) VALUES
+  (1, 'United States',  'US'),
+  (2, 'India',          'IN'),
+  (3, 'Japan',          'JP');
+
+
+query.sql
+CREATE TABLE Actors (
+  id int PRIMARY KEY,
+  name varchar(50) NOT NULL UNIQUE,
+  salary integer,
+  bonus integer,
+  country_id int REFERENCES Countries(id)
+);
+
+
+1. Some of our actors have been way underpaid. This is just not right! Add a CHECK constraint to prevent values less than 500 from being assigned to the salary column.
+
+Answer:
+query.sql
+CREATE TABLE Actors (
+  id int PRIMARY KEY,
+  name varchar(50) NOT NULL UNIQUE,
+  salary integer CHECK(salary > 500),
+  bonus integer,
+  country_id int REFERENCES Countries(id)
+);
+
+
+2. On top of their salaries, actors will start receiving bonuses. However, values for bonus need to be less than values for salary. Add a table CHECK constraint to enforce this condition.
+
+Answer:
+query.sql
+CREATE TABLE Actors (
+  id int PRIMARY KEY,
+  name varchar(50) NOT NULL UNIQUE,
+  salary integer CHECK(salary > 500),
+  bonus integer CHECK(bonus < salary),
+  country_id int REFERENCES Countries(id)
+);

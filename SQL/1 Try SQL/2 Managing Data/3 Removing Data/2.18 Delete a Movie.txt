@@ -1,0 +1,6 @@
+2.18 Delete a Movie
+
+Choose the rows that would be deleted by the following query:
+DELETE FROM movies WHERE title = 'Nosferatu';
+
+Answer: 2 (id selection)

@@ -1,0 +1,303 @@
+--sys.objects contains a row for each user-defined, schema-scoped object that is created within a database, including natively compiled scalar user-defined function.
+--sys.all_objects shows the UNION of all schema-scoped user-defined objects and system objects.
+--sys.procedures contains a row for each object that is a procedure of some kind, with sys.objects.type = P, X, RF, and PC.
+
+--P = SQL Stored Procedure
+--X = Extended Stored Procedure
+--RF = Replication-filter-procedure
+--PC = CLR Stored Procedure
+
+SELECT * FROM sys.all_objects
+WHERE ([type] = N'P' OR [type] = N'X' OR [type] = N'RF' OR [type] = N'PC')
+ORDER BY [name];
+GO
+
+SELECT * FROM sys.all_objects
+WHERE ([type] = N'P' OR [type] = N'X' OR [type] = N'RF' OR [type] = N'PC')
+AND [is_ms_shipped] = 0
+ORDER BY [name];
+GO
+
+SELECT QUOTENAME(SCHEMA_NAME(schema_id)) + '.' + QUOTENAME(name)
+FROM   sys.all_objects
+WHERE  (type = N'P' OR type = N'X' OR type = N'RF' OR type = N'PC')
+-- Only User Defined Procedures
+AND is_ms_shipped = 0
+-- Only System Stored Procedures
+--AND is_ms_shipped = 1
+ORDER BY name
+GO
+
+SELECT QUOTENAME(SCHEMA_NAME(schema_id)) + '.' + QUOTENAME(name)
+FROM   sys.all_objects
+WHERE type IN (N'P', N'X', N'PC')
+-- Only User Defined Procedures
+AND is_ms_shipped = 0
+-- Only System Stored Procedures
+--AND is_ms_shipped = 1
+ORDER BY name
+GO
+
+--Extended stored procedures reside inside the master database
+--Extended stored procedures will be removed in a future version - Use CLR Integration instead
+--sp_addextendedproc can only be executed in the master database
+--Only members of the sysadmin fixed server role can execute sp_addextendedproc
+--Existing DLLs that were not registered with a complete path will not work after upgrading to SQL Server 2019 (15.x) - To correct the problem, use sp_dropextendedproc to unregister the DLL, and then reregister it with sp_addextendedproc, specifying the complete path
+
+USE [master];
+GO
+
+--IF EXISTS(SELECT name FROM sys.procedures WHERE name = N'xp_hello')
+IF OBJECT_ID(N'xp_hello', N'X') IS NOT NULL
+--DROP PROCEDURE xp_hello;
+EXECUTE sp_dropextendedproc 'xp_hello';
+GO
+
+sp_addextendedproc 'xp_hello', 'c:\xp_hello.dll';  
+GO
+
+GRANT EXECUTE
+ON [xp_hello]
+TO PUBLIC
+GO
+
+DECLARE @txt varchar(33);  
+--EXEC xp_hello @txt OUTPUT;
+GO
+
+sp_helpextendedproc;
+GO
+
+SELECT * FROM sys.extended_properties;
+GO
+
+SELECT *
+FROM 
+    sys.objects             O LEFT OUTER JOIN
+    sys.extended_properties E ON O.object_id = E.major_id
+WHERE
+    O.name IS NOT NULL
+    AND ISNULL(O.is_ms_shipped, 0) = 0
+    AND ISNULL(E.name, '') <> 'microsoft_database_tools_support'
+    AND O.type_desc = 'SQL_STORED_PROCEDURE'
+ORDER BY O.name;
+GO
+
+--IF EXISTS(SELECT name FROM sys.databases WHERE name = N'sampledb')
+IF DB_ID (N'sampledb') IS NOT NULL
+DROP DATABASE [sampledb];
+GO
+
+CREATE DATABASE sampledb;
+GO
+
+USE [sampledb];
+GO
+
+--IF EXISTS(SELECT name FROM sys.tables WHERE name = N'greek')
+IF OBJECT_ID (N'greek', N'U') IS NOT NULL
+DROP TABLE [greek];
+GO
+
+CREATE TABLE greek
+(
+  id int IDENTITY(1,1),
+  name nvarchar(max),
+  rgb nvarchar(max),
+  score int
+);
+GO
+
+SELECT * FROM greek;
+GO
+
+INSERT INTO greek 
+SELECT 'Alpha', 'Green', 85 UNION ALL
+SELECT 'Beta', 'Green', 85 UNION ALL
+SELECT 'Gamma', 'Green', 80 UNION ALL
+SELECT 'Delta', 'Blue', 70 UNION ALL
+SELECT 'Epsilon', 'Blue', 71 UNION ALL
+SELECT 'Zeta', 'Blue', 72 UNION ALL
+SELECT 'Eta', 'Blue', 73 UNION ALL
+SELECT 'Theta', 'Blue', 74 UNION ALL
+SELECT 'Iota', 'Red', 60 UNION ALL
+SELECT 'Kappa', 'Red', 60 UNION ALL
+SELECT 'Lambda', 'Red', 60 UNION ALL
+SELECT 'Mu', 'Red', 65 UNION ALL
+SELECT 'Nu', 'Green', 89 UNION ALL
+SELECT 'Xi', 'Green', 87 UNION ALL
+SELECT 'Omicron', 'Green', 89;
+GO
+
+SELECT * FROM greek;
+GO
+
+IF EXISTS(SELECT name FROM sys.procedures WHERE name = N'P1')
+--IF OBJECT_ID(N'P1', N'P') IS NOT NULL
+DROP PROCEDURE P1;
+GO
+
+CREATE PROCEDURE P1
+AS
+SELECT * FROM greek ORDER BY id OFFSET 5 ROW FETCH NEXT 5 ROWS ONLY;
+GO
+
+EXECUTE P1;
+GO
+
+SELECT object_id FROM sys.procedures WHERE name = N'P1';
+GO
+
+SELECT * FROM sys.sql_modules WHERE object_id = (SELECT object_id FROM sys.procedures WHERE name = N'P1');
+GO
+
+SELECT * FROM sys.all_sql_modules WHERE object_id = (SELECT object_id FROM sys.procedures WHERE name = N'P1');
+GO
+
+SELECT sp.name, sp.object_id, sm.definition
+FROM sys.procedures sp
+JOIN sys.sql_modules sm
+ON sp.object_id = sm.object_id;
+GO
+
+SELECT sp.name, sp.object_id, sa.definition
+FROM sys.procedures sp
+JOIN sys.all_sql_modules sa
+ON sp.object_id = sa.object_id;
+GO
+
+IF EXISTS(SELECT name FROM sys.procedures WHERE name = N'Recursion')
+--IF OBJECT_ID(N'Recursion', N'P') IS NOT NULL
+DROP PROCEDURE Recursion;
+GO
+
+CREATE PROCEDURE Recursion
+(
+  @Number int,
+  @Result nvarchar(max) OUTPUT
+)
+AS
+DECLARE @In int;
+DECLARE @Out int;
+IF @Number > 1
+ BEGIN
+  SELECT @In = @Number - 1;
+  EXECUTE Recursion @In, @Out OUTPUT;
+  SELECT @Result = @Number * @Out;
+ END
+ELSE IF @Number = 1 OR @Number = 0
+ BEGIN
+  SELECT @Result = 1;
+ END
+ELSE
+ BEGIN
+  SELECT @Result = 'Invalid input';
+ END
+RETURN
+GO
+
+DECLARE @In int;
+DECLARE @Out nvarchar(max);
+SET @In = -1;
+EXECUTE Recursion @In, @Out OUTPUT;
+SELECT @Out;
+GO
+
+IF EXISTS(SELECT name FROM sys.procedures WHERE name = N'Recursion')
+--IF OBJECT_ID(N'Recursion', N'P') IS NOT NULL
+DROP PROCEDURE Recursion;
+GO
+
+CREATE PROCEDURE Recursion
+(
+  @Number int,
+  @Result int OUTPUT
+)
+AS
+DECLARE @In int;
+DECLARE @Out int;
+IF @Number = 1 OR @Number = 0
+ BEGIN
+  SELECT @Result = 1;
+ END
+ELSE
+ BEGIN
+  BEGIN TRY
+   SELECT @In = @Number - 1;
+   EXECUTE Recursion @In, @Out OUTPUT;
+   SELECT @Result = @Number * @Out;
+  END TRY
+  BEGIN CATCH
+   /* 
+    SELECT 
+	 ERROR_NUMBER() AS ErrorNumber  
+     ,ERROR_SEVERITY() AS ErrorSeverity  
+     ,ERROR_STATE() AS ErrorState  
+     ,ERROR_PROCEDURE() AS ErrorProcedure  
+     ,ERROR_LINE() AS ErrorLine  
+     ,ERROR_MESSAGE() AS ErrorMessage;
+   */
+   THROW 51000, 'Invalid input.', 1; 
+  END CATCH;
+ END
+RETURN
+GO
+
+DECLARE @In int;
+DECLARE @Out int;
+SET @In = 6;
+EXECUTE Recursion @In, @Out OUTPUT;
+SELECT @Out;
+GO
+
+IF EXISTS(SELECT name FROM sys.procedures WHERE name = N'Recursion')
+--IF OBJECT_ID(N'Recursion', N'P') IS NOT NULL
+DROP PROCEDURE Recursion;
+GO
+
+CREATE PROCEDURE Recursion
+(
+  @Number sql_variant,
+  @Result sql_variant OUTPUT
+)
+AS
+DECLARE @In sql_variant;
+DECLARE @Out sql_variant;
+IF SQL_VARIANT_PROPERTY(@Number,'BaseType') = 'int'
+ BEGIN
+  IF @Number = 1 OR @Number = 0
+  BEGIN
+   SELECT @Result = 1;
+  END
+ ELSE
+  BEGIN
+   BEGIN TRY
+    SELECT @In = CONVERT(int, @Number) - 1;
+    EXECUTE Recursion @In, @Out OUTPUT;
+    SELECT @Result = CONVERT(int, @Number) * CONVERT(int, @Out);
+   END TRY
+  BEGIN CATCH
+   THROW 51000, 'Invalid input.', 1; 
+  END CATCH;
+  END
+ END
+ELSE
+ BEGIN
+  SELECT @Result = CONVERT(nvarchar, 'Positive interger required');
+ END
+RETURN
+GO
+
+DECLARE @In sql_variant;
+DECLARE @Out sql_variant;
+SET @In = 5
+EXECUTE Recursion @In, @Out OUTPUT;
+SELECT @Out;
+GO
+
+SELECT * 
+FROM sys.parameters sp
+INNER JOIN sys.objects so
+ON sp.object_id = so.object_id
+WHERE so.type IN ('P', 'X', 'RX', 'PC');
+GO

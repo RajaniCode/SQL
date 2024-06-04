@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Chapter 9 Connector/Python Other Topics</title>
+<link rel="stylesheet" href="mvl.css" type="text/css" />
+<meta name="generator" content="DocBook XSL Stylesheets + chunker.py v1.9.2" />
+<link rel="start" href="index.html" title="{book-title}" />
+<link rel="up" href="" title="" />
+<link rel="prev" href="connector-python-cext.html" title="Chapter 8 The Connector/Python C Extension" />
+<link rel="next" href="connector-python-reference.html" title="Chapter 10 Connector/Python API Reference" />
+<script language="javascript" type="text/javascript">
+  function addOnload(theFunc)
+  {
+    var previous = window.onload;
+    if (typeof window.onload != 'function')
+    {
+      window.onload = theFunc;
+    }
+    else
+    {
+      window.onload = function()
+      {
+        previous();
+        theFunc();
+      }
+    }
+  }
+
+  addOnload(function()
+  {
+    var base = new Date(1455899810*1000);
+    var now = new Date();
+    var diff = ((now-base)/1000)/(24*3600);
+
+    if (diff > 90) {
+      var nodes = document.getElementsByClassName('titlepage');
+      nodes[0].innerHTML = '<p style="border: 5px #ff0000 solid; padding: 5px; margin 5px">' +
+        'This copy of the manual is more than 90 days old. We encourage you to download a ' +
+        'new version from <a href="http://dev.mysql.com">dev.mysql.com/doc</a>.</p>' + nodes[0].innerHTML;
+    }
+  });
+</script>
+<noscript></noscript>
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr>
+<th colspan="3" align="center">Chapter 9 Connector/Python Other Topics</th>
+</tr>
+<tr>
+<td width="20%" align="left"><a accesskey="p" href="connector-python-cext.html">Prev</a> </td>
+<th width="60%" align="center"></th>
+<td width="20%" align="right"> <a accesskey="n" href="connector-python-reference.html">Next</a></td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="chapter">
+<div class="titlepage">
+<div>
+<div>
+<h1 class="title"><a name="connector-python-other"></a>Chapter 9 Connector/Python Other Topics</h1>
+
+</div>
+
+</div>
+
+</div>
+<div class="toc">
+<p><b>Table of Contents</b></p><dl class="toc"><dt><span class="section"><a href="connector-python-other.html#connector-python-connection-pooling">9.1 Connector/Python Connection Pooling</a></span></dt><dt><span class="section"><a href="connector-python-other.html#connector-python-fabric">9.2 Connector/Python Fabric Support</a></span></dt><dt><span class="section"><a href="connector-python-other.html#connector-python-django-backend">9.3 Connector/Python Django Backend</a></span></dt></dl>
+</div>
+<p>
+    This section describes additional Connection/Python features:
+</p>
+<div class="itemizedlist">
+<ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>
+        Connection pooling:
+        <a class="xref" href="connector-python-other.html#connector-python-connection-pooling" title="9.1 Connector/Python Connection Pooling">Section 9.1, “Connector/Python Connection Pooling”</a>
+      </p></li><li class="listitem"><p>
+        Django backend for MySQL:
+        <a class="xref" href="connector-python-other.html#connector-python-django-backend" title="9.3 Connector/Python Django Backend">Section 9.3, “Connector/Python Django Backend”</a>
+</p></li></ul>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-connection-pooling"></a>9.1 Connector/Python Connection Pooling</h2>
+
+</div>
+
+</div>
+
+</div>
+<p>
+      MySQL Connector/Python 1.1.1 and up supports simple connection pooling that has
+      these characteristics:
+</p>
+<div class="itemizedlist">
+<ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>
+          The <code class="literal">mysql.connector.pooling</code> module
+          implements pooling.
+        </p></li><li class="listitem"><p>
+          A pool opens a number of connections and handles thread safety
+          when providing connections to requesters.
+        </p></li><li class="listitem"><p>
+          The size of a connection pool is configurable at pool creation
+          time. It cannot be resized thereafter.
+        </p></li><li class="listitem"><p>
+          A connection pool can be named at pool creation time. If no
+          name is given, one is generated using the connection
+          parameters.
+        </p></li><li class="listitem"><p>
+          The connection pool name can be retrieved from the connection
+          pool or connections obtained from it.
+        </p></li><li class="listitem"><p>
+          It is possible to have multiple connection pools. This enables
+          applications to support pools of connections to different
+          MySQL servers, for example.
+        </p></li><li class="listitem"><p>
+          For each connection request, the pool provides the next
+          available connection. No round-robin or other scheduling
+          algorithm is used. If a pool is exhausted, a
+          <code class="literal">PoolError</code> is raised.
+        </p></li><li class="listitem"><p>
+          It is possible to reconfigure the connection parameters used
+          by a pool. These apply to connections obtained from the pool
+          thereafter. Reconfiguring individual connections obtained from
+          the pool by calling the connection <code class="literal">config()</code>
+          method is not supported.
+</p></li></ul>
+</div>
+<p>
+      Applications that can benefit from connection-pooling capability
+      include:
+</p>
+<div class="itemizedlist">
+<ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>
+          Middleware that maintains multiple connections to multiple
+          MySQL servers and requires connections to be readily
+          available.
+        </p></li><li class="listitem"><p>
+          Web sites that can have more <span class="quote">“<span class="quote">permanent</span>”</span>
+          connections open to the MySQL server.
+</p></li></ul>
+</div>
+<p>
+      A connection pool can be created implicitly or explicitly.
+    </p><p>
+      <span class="bold"><strong>To create a connection pool
+      implicitly:</strong></span> Open a connection and specify one or more
+      pool-related arguments (<code class="literal">pool_name</code>,
+      <code class="literal">pool_size</code>). For example:
+    </p><pre class="programlisting">
+dbconfig = {
+  "database": "test",
+  "user":     "joe"
+}
+
+cnx = mysql.connector.connect(pool_name = "mypool",
+                              pool_size = 3,
+                              **dbconfig)
+</pre><p>
+      The pool name is restricted to alphanumeric characters and the
+      special characters <code class="literal">.</code>, <code class="literal">_</code>,
+      <code class="literal">*</code>, <code class="literal">$</code>, and
+      <code class="literal">#</code>. The pool name must be no more than
+      <code class="literal">pooling.CNX_POOL_MAXNAMESIZE</code> characters long
+      (default 64).
+    </p><p>
+      The pool size must be greater than 0 and less than
+      <code class="literal">pooling.CNX_POOL_MAXSIZE</code> (default 32).
+    </p><p>
+      With either the <code class="literal">pool_name</code> or
+      <code class="literal">pool_size</code> argument present, Connector/Python creates the
+      new pool. If the <code class="literal">pool_name</code> argument is not
+      given, the <code class="literal">connect()</code> call automatically
+      generates the name, composed from whichever of the
+      <code class="literal">host</code>, <code class="literal">port</code>,
+      <code class="literal">user</code>, and <code class="literal">database</code>
+      connection arguments are given, in that order. If the
+      <code class="literal">pool_size</code> argument is not given, the default
+      size is 5 connections.
+    </p><p>
+      Subsequent calls to <code class="literal">connect()</code> that name the
+      same connection pool return connections from the existing pool.
+      Any <code class="literal">pool_size</code> or connection parameter arguments
+      are ignored, so the following <code class="literal">connect()</code> calls
+      are equivalent to the original <code class="literal">connect()</code> call
+      shown earlier:
+    </p><pre class="programlisting">
+cnx = mysql.connector.connect(pool_name = "mypool", pool_size = 3)
+cnx = mysql.connector.connect(pool_name = "mypool", **dbconfig)
+cnx = mysql.connector.connect(pool_name = "mypool")
+</pre><p>
+      Pooled connections obtained by calling
+      <code class="literal">connect()</code> with a pool-related argument have a
+      class of <code class="literal">PooledMySQLConnection</code> (see
+      <a class="xref" href="connector-python-reference.html#connector-python-api-pooledmysqlconnection" title="10.4 pooling.PooledMySQLConnection Class">Section 10.4, “pooling.PooledMySQLConnection Class”</a>).
+      <code class="literal">PooledMySQLConnection</code> pooled connection objects
+      are similar to <code class="literal">MySQLConnection</code> unpooled
+      connection objects, with these differences:
+</p>
+<div class="itemizedlist">
+<ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>
+          To release a pooled connection obtained from a connection
+          pool, invoke its <code class="literal">close()</code> method, just as
+          for any unpooled connection. However, for a pooled connection,
+          <code class="literal">close()</code> does not actually close the
+          connection but returns it to the pool and makes it available
+          for subsequent connection requests.
+        </p></li><li class="listitem"><p>
+          A pooled connection cannot be reconfigured using its
+          <code class="literal">config()</code> method. Connection changes must be
+          done through the pool object itself, as described shortly.
+        </p></li><li class="listitem"><p>
+          A pooled connection has a <code class="literal">pool_name</code>
+          property that returns the pool name.
+</p></li></ul>
+</div>
+<p>
+      <span class="bold"><strong>To create a connection pool
+      explicitly:</strong></span> Create a
+      <code class="literal">MySQLConnectionPool</code> object (see
+      <a class="xref" href="connector-python-reference.html#connector-python-api-mysqlconnectionpool" title="10.3 pooling.MySQLConnectionPool Class">Section 10.3, “pooling.MySQLConnectionPool Class”</a>):
+    </p><pre class="programlisting">
+dbconfig = {
+  "database": "test",
+  "user":     "joe"
+}
+
+cnxpool = mysql.connector.pooling.MySQLConnectionPool(pool_name = "mypool",
+                                                      pool_size = 3,
+                                                      **dbconfig)
+</pre><p>
+      To request a connection from the pool, use its
+      <code class="literal">get_connection()</code> method:
+    </p><pre class="programlisting">
+cnx1 = cnxpool.get_connection()
+cnx2 = cnxpool.get_connection()
+</pre><p>
+      When you create a connection pool explicitly, it is possible to
+      use the pool object's <code class="literal">set_config()</code> method to
+      reconfigure the pool connection parameters:
+    </p><pre class="programlisting">
+dbconfig = {
+  "database": "performance_schema",
+  "user":     "admin",
+  "password": "secret"
+}
+
+cnxpool.set_config(**dbconfig)
+</pre><p>
+      Connections requested from the pool after the configuration change
+      use the new parameters. Connections obtained before the change
+      remain unaffected, but when they are closed (returned to the pool)
+      are reopened with the new parameters before being returned by the
+      pool for subsequent connection requests.
+</p>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-fabric"></a>9.2 Connector/Python Fabric Support</h2>
+
+</div>
+
+</div>
+
+</div>
+<p>
+      MySQL Fabric is a system for managing a farm of MySQL servers (and
+      other components). Fabric provides an extensible and easy to use
+      system for managing a MySQL deployment for sharding and
+      high-availability.
+    </p><p>
+      Connector/Python 1.2.0 and up supports Fabric and provides these
+      capabilities:
+</p>
+<div class="itemizedlist">
+<ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>
+          Requesting a connection to a MySQL server managed by Fabric is
+          as transparent as possible to users already familiar with
+          Connector/Python.
+        </p></li><li class="listitem"><p>
+          Connector/Python is able to get a MySQL server connection given a
+          high-availability group and a mode specifying whether the
+          connection is read-only or also permits updates (read-write).
+        </p></li><li class="listitem"><p>
+          Connector/Python supports sharding and is able to find the correct MySQL
+          server for a given table or tables and key based on scope
+          (local or global) and mode (read-only or read-write).
+          <code class="literal">RANGE</code> and <code class="literal">HASH</code>
+          mechanisms are supported transparently to the user.
+        </p></li><li class="listitem"><p>
+          Among secondary MySQL servers in the same group, load
+          balancing of read-only operations occurs based on server
+          weight.
+        </p></li><li class="listitem"><p>
+          Faulty MySQL servers are reported to Fabric, and failover is
+          supported when failure occurs for a server in a group.
+        </p></li><li class="listitem"><p>
+          Connector/Python caches information coming from Fabric to speed up
+          operations. Failures connecting to a MySQL server reset this
+          cache. The time to live for cached information can be set by
+          Fabric, or a default is used otherwise.
+        </p></li><li class="listitem"><p>
+          Fabric support applies to versions of Python supported by
+          Connector/Python itself (see
+          <a class="xref" href="connector-python-versions.html" title="Chapter 3 Connector/Python Versions">Chapter 3, <i>Connector/Python Versions</i></a>). In particular,
+          you can use Connector/Python with Python 3.1 and later to establish
+          Fabric connections, even though Fabric does not support Python
+          3.
+</p></li></ul>
+</div>
+<p>
+      For more information, see <a class="ulink" href="http://dev.mysql.com/doc/mysql-utilities/1.5/en/fabric.html" target="_top">MySQL Fabric</a>.
+</p>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-django-backend"></a>9.3 Connector/Python Django Backend</h2>
+
+</div>
+
+</div>
+
+</div>
+<p>
+      Connector/Python 1.1.1 and up includes a
+      <code class="literal">mysql.connector.django</code> module that provides a
+      Django backend for MySQL. This backend supports new features found
+      in MySQL 5.6 such as fractional seconds support for temporal data
+      types.
+</p>
+<h3><a name="idm139908631751776"></a>Django Configuration</h3>
+<p>
+      Django uses a configuration file named
+      <code class="filename">settings.py</code> that contains a variable called
+      <code class="literal">DATABASES</code> (see
+      <a class="ulink" href="https://docs.djangoproject.com/en/1.5/ref/settings/#std:setting-DATABASES" target="_top">https://docs.djangoproject.com/en/1.5/ref/settings/#std:setting-DATABASES</a>).
+      To configure Django to use Connector/Python as the MySQL backend, the example
+      found in the Django manual can be used as a basis:
+    </p><pre class="programlisting">
+DATABASES = {
+    'default': {
+        'NAME': 'user_data',
+        'ENGINE': 'mysql.connector.django',
+        'USER': 'mysql_user',
+        'PASSWORD': 'priv4te',
+        'OPTIONS': {
+          'autocommit': True,
+        },
+    }
+}
+</pre><p>
+      It is possible to add more connection arguments using
+      <code class="literal">OPTIONS</code>.
+</p>
+<h3><a name="idm139908631746800"></a>Support for MySQL Features</h3>
+<p>
+      Django can launch the MySQL client application
+      <span class="command"><strong>mysql</strong></span>. When the Connector/Python backend does this, it
+      arranges for the <a class="ulink" href="http://dev.mysql.com/doc/refman/5.6/en/server-system-variables.html#sysvar_sql_mode" target="_top"><code class="literal">sql_mode</code></a> system
+      variable to be set to <code class="literal">TRADITIONAL</code> at startup.
+    </p><p>
+      Some MySQL features are enabled depending on the server version.
+      For example, support for fractional seconds precision is enabled
+      when connecting to a server from MySQL 5.6.4 or higher. Django's
+      <code class="literal">DateTimeField</code> is stored in a MySQL column
+      defined as <code class="literal">DATETIME(6)</code>, and
+      <code class="literal">TimeField</code> is stored as
+      <code class="literal">TIME(6)</code>. For more information about fractional
+      seconds support, see <a class="ulink" href="http://dev.mysql.com/doc/refman/5.6/en/fractional-seconds.html" target="_top">Fractional Seconds in Time Values</a>.
+</p>
+<h3><a name="idm139908631739376"></a>Django Unit Testing</h3>
+<p>
+      Django comes with an extensive set of unit tests. To run these,
+      use the <code class="filename">run_django_tests.py</code> script located in
+      the Connector/Python distribution <code class="filename">support/django</code>
+      directory. For example, to run the basic tests using Django 1.5,
+      run the following commands:
+    </p><pre class="programlisting">
+shell&gt; <strong class="userinput"><code>cd support/django</code></strong>
+shell&gt; <strong class="userinput"><code>python run_django_tests.py --django 1.5 --tests basic</code></strong>
+</pre><p>
+      The script can be run using Python 2 or Python 3. It downloads
+      Django, unpacks it and starts the tests. To avoid the download and
+      use an already-fetched version, use the <code class="option">--offline</code>
+      option.
+    </p><p>
+      To see the script requirements, run it with the
+      <code class="option">--help</code> option, or examine the script itself. Here
+      is an overview:
+</p>
+<div class="itemizedlist">
+<ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>
+          Two MySQL servers, configured as a master/slave pair
+        </p></li><li class="listitem"><p>
+          A database named <code class="literal">django_tests</code> on each
+          server
+</p></li></ul>
+</div>
+<p>
+      To alter the settings of the MySQL servers, modify the file
+      <code class="filename">test_mysqlconnector_settings.py</code>, also located
+      in the <code class="filename">support/django</code> directory.
+</p>
+</div>
+
+</div>
+<div class="copyright-footer">
+
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left"><a accesskey="p" href="connector-python-cext.html">Prev</a></td>
+<td width="20%" align="center"><a accesskey="u" href="">Up</a></td>
+<td width="40%" align="right"> <a accesskey="n" href="connector-python-reference.html">Next</a></td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">Chapter 8 The Connector/Python C Extension</td>
+<td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td>
+<td width="40%" align="right" valign="top">Chapter 10 Connector/Python API Reference</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

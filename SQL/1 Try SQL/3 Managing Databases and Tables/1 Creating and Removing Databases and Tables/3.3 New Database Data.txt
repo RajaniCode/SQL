@@ -1,0 +1,5 @@
+3.3 New Database Data
+
+Once a new database is created, it will contain no data.
+
+Answer: TRUE

@@ -1,0 +1,92 @@
+/*
+USE [master];
+GO
+
+CREATE LOGIN samplelogin WITH PASSWORD = '$qlServer2019';
+GO
+
+DROP LOGIN samplelogin;
+GO
+*/
+
+
+/*
+USE [master];
+GO
+
+IF EXISTS(SELECT name FROM sys.databases WHERE name = N'sampledb')
+--IF DB_ID (N'sampledb') IS NOT NULL
+DROP DATABASE [sampledb];
+GO
+
+CREATE DATABASE sampledb;
+GO
+
+USE [sampledb];
+GO
+
+
+--CREATE USER sampleuser FOR LOGIN samplelogin;  
+--GO 
+
+IF NOT EXISTS (SELECT * FROM sys.database_principals WHERE name = N'sampleuser')
+BEGIN
+    CREATE USER [sampleuser] FOR LOGIN [samplelogin];
+    EXEC sp_addrolemember N'db_owner', N'sampleuser';
+END;
+GO
+
+
+SELECT DP1.name AS DatabaseRoleName,   
+   isnull (DP2.name, 'No members') AS DatabaseUserName   
+ FROM sys.database_role_members AS DRM  
+ RIGHT OUTER JOIN sys.database_principals AS DP1  
+   ON DRM.role_principal_id = DP1.principal_id  
+ LEFT OUTER JOIN sys.database_principals AS DP2  
+   ON DRM.member_principal_id = DP2.principal_id  
+WHERE DP1.type = 'R'
+ORDER BY DP1.name; 
+GO
+
+
+--EXEC sp_addrolemember  @rolename='db_owner', @membername = 'sampleuser';  
+--EXEC sp_addrolemember 'db_owner', 'sampleuser';
+
+SELECT DP1.name AS DatabaseRoleName,   
+   isnull (DP2.name, 'No members') AS DatabaseUserName   
+ FROM sys.database_role_members AS DRM  
+ RIGHT OUTER JOIN sys.database_principals AS DP1  
+   ON DRM.role_principal_id = DP1.principal_id  
+ LEFT OUTER JOIN sys.database_principals AS DP2  
+   ON DRM.member_principal_id = DP2.principal_id  
+WHERE DP1.type = 'R'
+ORDER BY DP1.name; 
+GO
+
+
+--EXEC sp_droprolemember @rolename='db_owner', @membername = 'sampleuser';
+EXEC sp_droprolemember 'db_owner', 'sampleuser';
+
+SELECT DP1.name AS DatabaseRoleName,   
+   isnull (DP2.name, 'No members') AS DatabaseUserName   
+ FROM sys.database_role_members AS DRM  
+ RIGHT OUTER JOIN sys.database_principals AS DP1  
+   ON DRM.role_principal_id = DP1.principal_id  
+ LEFT OUTER JOIN sys.database_principals AS DP2  
+   ON DRM.member_principal_id = DP2.principal_id  
+WHERE DP1.type = 'R'
+ORDER BY DP1.name; 
+GO
+
+
+DROP USER [sampleuser];
+GO
+
+
+GRANT CONNECT TO guest;
+GO
+
+REVOKE CONNECT FROM guest;
+GO
+*/
+

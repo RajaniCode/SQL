@@ -1,0 +1,16 @@
+1.18 Returning Title
+
+Let's start writing some queries to return specific columns. The name of the table shown below is movies.
+id 	title 		genre 		duration
+1 	Metropolis 	Sci-Fi 		153
+2 	Nosferatu 	Horror 		94
+3 	The Kid 	Comedy 		68
+4 	The Gold Rush 	Adventure 	95
+
+1. Return the title of all results from the movies table.
+
+ANSWER: SELECT title FROM movies;
+
+2. Filter the result set by the genre of 'Sci-Fi'.
+
+ANSWER: SELECT title FROM movies WHERE genre = 'Sci-Fi';

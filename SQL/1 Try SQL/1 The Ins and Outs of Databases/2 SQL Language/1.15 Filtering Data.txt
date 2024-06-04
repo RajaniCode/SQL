@@ -1,0 +1,7 @@
+1.15 Filtering Data
+
+The [ ] clause can be used to filter data within a SELECT statement.
+
+Answer:
+
+WHERE

@@ -1,0 +1,14 @@
+2.12 Updating Genre
+
+Use SQL to update the genre to Comedy for the film Metropolis. The name of the table shown below is movies.
+
+id 	title 		genre 		duration
+1 	Metropolis 	Sci-Fi 		153
+2 	Nosferatu 	Horror 		94
+3 	The Kid 	Comedy 		68
+4 	The Gold Rush 	Adventure 	95
+5 	The Circus 	Comedy 		71
+
+Update the movies table, setting the genre to 'Comedy' where the id is 1.
+
+Answer: UPDATE movies SET genre = 'Comedy' WHERE id = 1;

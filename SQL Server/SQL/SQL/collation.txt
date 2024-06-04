@@ -1,0 +1,100 @@
+USE [master];
+GO
+
+IF EXISTS(SELECT name FROM sys.databases WHERE name = N'sample')
+DROP DATABASE [sample];
+GO
+
+--OR
+
+IF DB_ID (N'sample') IS NOT NULL
+DROP DATABASE [sample];
+GO
+
+CREATE DATABASE sample;
+GO
+
+USE [sample];
+GO
+
+IF EXISTS(SELECT name FROM sys.tables WHERE name = N'example')
+DROP TABLE [example];
+GO
+
+--OR
+
+IF OBJECT_ID (N'example', N'U') IS NOT NULL
+DROP TABLE [example];
+GO
+
+CREATE TABLE example
+(
+ [id] int IDENTITY(1, 1),
+ [name] nvarchar(max),
+ [date] datetime2
+);
+GO
+
+SELECT * FROM example;
+GO
+
+INSERT INTO example VALUES('ABC', GETDATE());
+GO
+
+INSERT INTO example (date) VALUES(GETDATE());
+GO
+
+INSERT INTO example
+SELECT 'Alpha', GETDATE() UNION ALL
+SELECT 'Beta', GETDATE() UNION ALL
+SELECT 'Gamma', GETDATE();
+GO
+
+SELECT * FROM example;
+GO
+
+SELECT c.name, c.collation
+FROM SYSCOLUMNS c
+WHERE [id] = OBJECT_ID('example');
+GO
+
+
+--All available collations
+SELECT * FROM sys.fn_helpcollations();
+GO
+
+--Server collation for an instance of SQL Server
+SELECT CONVERT(varchar, SERVERPROPERTY('collation'));
+GO
+
+--Retrieve current collation of database
+SELECT CONVERT (NVARCHAR(50), DATABASEPROPERTYEX('sample','collation'));
+GO
+
+--Change collation of database 
+ALTER DATABASE [sample] COLLATE Latin1_General_CI_AS;
+GO
+--Retrieve current collation of database
+SELECT CONVERT (NVARCHAR(50), DATABASEPROPERTYEX('sample','collation'));
+GO
+
+--Change collation of a column
+ALTER TABLE [example] ALTER COLUMN [name] nvarchar(max) COLLATE Latin1_General_CI_AS;
+GO
+
+--Expression-level collations are set when a statement is run, and they affect the way a result set is returned
+--This enables ORDER BY sort results to be locale-specific
+SELECT [name] FROM example ORDER BY [name] COLLATE Latin1_General_CI_AI; 
+GO
+
+SELECT c.name, c.collation
+FROM SYSCOLUMNS c
+WHERE [id] = OBJECT_ID(N'example')
+AND c.name = 'name';
+GO
+
+SELECT *
+FROM SYSCOLUMNS c
+WHERE [id] = OBJECT_ID('example')
+AND c.name = 'name';
+GO

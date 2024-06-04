@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Chapter 1 Introduction to MySQL Connector/Python</title>
+<link rel="stylesheet" href="mvl.css" type="text/css" />
+<meta name="generator" content="DocBook XSL Stylesheets + chunker.py v1.9.2" />
+<link rel="start" href="index.html" title="{book-title}" />
+<link rel="up" href="" title="" />
+<link rel="prev" href="preface.html" title=" Preface and Legal Notices" />
+<link rel="next" href="connector-python-coding.html" title="Chapter 2 Guidelines for Python Developers" />
+<script language="javascript" type="text/javascript">
+  function addOnload(theFunc)
+  {
+    var previous = window.onload;
+    if (typeof window.onload != 'function')
+    {
+      window.onload = theFunc;
+    }
+    else
+    {
+      window.onload = function()
+      {
+        previous();
+        theFunc();
+      }
+    }
+  }
+
+  addOnload(function()
+  {
+    var base = new Date(1455899810*1000);
+    var now = new Date();
+    var diff = ((now-base)/1000)/(24*3600);
+
+    if (diff > 90) {
+      var nodes = document.getElementsByClassName('titlepage');
+      nodes[0].innerHTML = '<p style="border: 5px #ff0000 solid; padding: 5px; margin 5px">' +
+        'This copy of the manual is more than 90 days old. We encourage you to download a ' +
+        'new version from <a href="http://dev.mysql.com">dev.mysql.com/doc</a>.</p>' + nodes[0].innerHTML;
+    }
+  });
+</script>
+<noscript></noscript>
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr>
+<th colspan="3" align="center">Chapter 1 Introduction to MySQL Connector/Python</th>
+</tr>
+<tr>
+<td width="20%" align="left"><a accesskey="p" href="preface.html">Prev</a> </td>
+<th width="60%" align="center"></th>
+<td width="20%" align="right"> <a accesskey="n" href="connector-python-coding.html">Next</a></td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="chapter">
+<div class="titlepage">
+<div>
+<div>
+<h1 class="title"><a name="connector-python-introduction"></a>Chapter 1 Introduction to MySQL Connector/Python</h1>
+
+</div>
+
+</div>
+
+</div>
+<a class="indexterm" name="idm139908637966608"></a><a class="indexterm" name="idm139908637965504"></a><a class="indexterm" name="idm139908637964496"></a><a class="indexterm" name="idm139908637963424"></a><p>
+    MySQL Connector/Python enables Python programs to access MySQL databases, using an
+    API that is compliant with the
+    <a class="ulink" href="http://www.python.org/dev/peps/pep-0249/" target="_top">Python
+    Database API Specification v2.0 (PEP 249)</a>. It is written in
+    pure Python and does not have any dependencies except for the
+    <a class="ulink" href="http://docs.python.org/library/" target="_top">Python Standard
+    Library</a>.
+  </p><p>
+    For notes detailing the changes in each release of Connector/Python, see
+    <a class="ulink" href="http://dev.mysql.com/doc/relnotes/connector-python/en/" target="_top">MySQL Connector/Python Release
+    Notes</a>.
+  </p><p>
+    MySQL Connector/Python includes support for:
+</p>
+<div class="itemizedlist">
+<ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>
+        Almost all features provided by MySQL Server up to and including
+        MySQL Server version 5.7.
+      </p></li><li class="listitem"><p>
+        Converting parameter values back and forth between Python and
+        MySQL data types, for example Python <code class="literal">datetime</code>
+        and MySQL <code class="literal">DATETIME</code>. You can turn automatic
+        conversion on for convenience, or off for optimal performance.
+      </p></li><li class="listitem"><p>
+        All MySQL extensions to standard SQL syntax.
+      </p></li><li class="listitem"><p>
+        Protocol compression, which enables compressing the data stream
+        between the client and server.
+      </p></li><li class="listitem"><p>
+        Connections using TCP/IP sockets and on Unix using Unix sockets.
+      </p></li><li class="listitem"><p>
+        Secure TCP/IP connections using SSL.
+      </p></li><li class="listitem"><p>
+        Self-contained driver. Connector/Python does not require the MySQL client
+        library or any Python modules outside the standard library.
+</p></li></ul>
+</div>
+<p>
+    MySQL Connector/Python 2.0 supports Python 2.6 and 2.7, and Python 3.3 and later.
+    MySQL Connector/Python 1.2 and 1.1 support Python from version 2.6 through 2.7, and
+    Python 3.1 and later. MySQL Connector/Python 1.0 supports Python from version 2.4
+    through 2.7, and Python 3.1 and later.
+</p>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+
+<div class="admon-title">
+Note
+</div>
+<p>
+      Connector/Python does not support the old MySQL Server authentication
+      methods, which means that MySQL versions prior to 4.1 will not
+      work.
+</p>
+</div>
+
+</div>
+<div class="copyright-footer">
+
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left"><a accesskey="p" href="preface.html">Prev</a></td>
+<td width="20%" align="center"><a accesskey="u" href="">Up</a></td>
+<td width="40%" align="right"> <a accesskey="n" href="connector-python-coding.html">Next</a></td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top"> Preface and Legal Notices</td>
+<td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td>
+<td width="40%" align="right" valign="top">Chapter 2 Guidelines for Python Developers</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

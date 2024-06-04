@@ -1,0 +1,22 @@
+1.14 Fix SELECT
+
+Have a look at the table below, and then correct the SQL in the editor on the right according to the written objectives. 
+
+id 	title 	        genre 		duration
+1 	Metropolis 	Sci-Fi 		153
+2 	Nosferatu 	Horror 		94
+3 	The Kid 	Comedy 		68
+4 	The Gold Rush 	Adventure 	95
+
+The following SQL statement has an error. Fix the query so that it will return the id and title of all movies.
+
+movies.sql
+
+SELECT id; title;
+FROM movies;
+
+Answer:
+
+movies.sql
+
+SELECT id, title FROM movies;

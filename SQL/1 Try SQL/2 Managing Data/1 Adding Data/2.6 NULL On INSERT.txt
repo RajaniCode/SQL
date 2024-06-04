@@ -1,0 +1,15 @@
+2.6 NULL On INSERT
+
+Which column will have a null value?
+
+  INSERT INTO movies (id, title, genre) 
+  VALUES (8, 'Don Juan', 'Adventure');
+
+
+id 	title 		genre 		duration
+1 	Metropolis 	Sci-Fi 		153
+2 	Nosferatu 	Horror 		94
+3 	The Kid 	Comedy 		68
+4 	The Gold Rush 	Adventure 	95
+
+Answer: duration

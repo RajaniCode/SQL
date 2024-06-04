@@ -1,0 +1,7 @@
+1.21 ORDER BY
+
+Fill in the blank below: When we query for movies ordered by genre, we see the listings in descending order (from Z to A)
+
+SELECT * FROM movies ORDER BY genre _______;
+
+ANSWER: DESC

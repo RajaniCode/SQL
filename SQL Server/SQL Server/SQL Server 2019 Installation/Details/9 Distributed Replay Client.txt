@@ -1,0 +1,9 @@
+Specify controller machine name and directory locations
+Controller Name:
+RajaniDistributedReplayClient
+
+Working Directory:
+C:\Program Files (x86)\Microsoft SQL Server\DReplayClient\WorkingDir\
+
+Result Directory
+C:\Program Files (x86)\Microsoft SQL Server\DReplayClient\ResultDir\

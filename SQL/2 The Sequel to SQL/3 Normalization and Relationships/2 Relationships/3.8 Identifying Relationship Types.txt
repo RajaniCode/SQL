@@ -1,0 +1,23 @@
+3.8 Identifying Relationship Types
+
+
+Given the following table creation statements, what kind of relationships do Countries have with Actors?
+
+CREATE TABLE Countries (
+  id int PRIMARY KEY,
+  name varchar(50),
+  code varchar(3)
+);
+
+CREATE TABLE Actors (
+  id int PRIMARY KEY,
+  name varchar(50),
+  country_id int REFERENCES Countries(id),
+);
+[Single Answer]
+One-to-One
+One-to-Many
+Many-to-Many
+
+
+Answer: One-to-Many

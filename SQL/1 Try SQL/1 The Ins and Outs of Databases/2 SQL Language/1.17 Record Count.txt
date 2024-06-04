@@ -1,0 +1,14 @@
+1.17 Record Count
+
+How many records will the following query return?
+
+SELECT title, duration FROM movies WHERE title = 'The Lone Ranger';
+
+
+id 	title 		genre 		duration
+1 	Metropolis 	Sci-Fi 		153
+2 	Nosferatu 	Horror 		94
+3 	The Kid 	Comedy 		68
+4 	The Gold Rush 	Adventure 	95
+
+ANSWER: 0

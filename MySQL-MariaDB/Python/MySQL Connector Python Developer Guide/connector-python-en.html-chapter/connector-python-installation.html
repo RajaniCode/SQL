@@ -1,0 +1,527 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Chapter 4 Connector/Python Installation</title>
+<link rel="stylesheet" href="mvl.css" type="text/css" />
+<meta name="generator" content="DocBook XSL Stylesheets + chunker.py v1.9.2" />
+<link rel="start" href="index.html" title="{book-title}" />
+<link rel="up" href="" title="" />
+<link rel="prev" href="connector-python-versions.html" title="Chapter 3 Connector/Python Versions" />
+<link rel="next" href="connector-python-examples.html" title="Chapter 5 Connector/Python Coding Examples" />
+<script language="javascript" type="text/javascript">
+  function addOnload(theFunc)
+  {
+    var previous = window.onload;
+    if (typeof window.onload != 'function')
+    {
+      window.onload = theFunc;
+    }
+    else
+    {
+      window.onload = function()
+      {
+        previous();
+        theFunc();
+      }
+    }
+  }
+
+  addOnload(function()
+  {
+    var base = new Date(1455899810*1000);
+    var now = new Date();
+    var diff = ((now-base)/1000)/(24*3600);
+
+    if (diff > 90) {
+      var nodes = document.getElementsByClassName('titlepage');
+      nodes[0].innerHTML = '<p style="border: 5px #ff0000 solid; padding: 5px; margin 5px">' +
+        'This copy of the manual is more than 90 days old. We encourage you to download a ' +
+        'new version from <a href="http://dev.mysql.com">dev.mysql.com/doc</a>.</p>' + nodes[0].innerHTML;
+    }
+  });
+</script>
+<noscript></noscript>
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr>
+<th colspan="3" align="center">Chapter 4 Connector/Python Installation</th>
+</tr>
+<tr>
+<td width="20%" align="left"><a accesskey="p" href="connector-python-versions.html">Prev</a> </td>
+<th width="60%" align="center"></th>
+<td width="20%" align="right"> <a accesskey="n" href="connector-python-examples.html">Next</a></td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="chapter">
+<div class="titlepage">
+<div>
+<div>
+<h1 class="title"><a name="connector-python-installation"></a>Chapter 4 Connector/Python Installation</h1>
+
+</div>
+
+</div>
+
+</div>
+<div class="toc">
+<p><b>Table of Contents</b></p><dl class="toc"><dt><span class="section"><a href="connector-python-installation.html#connector-python-obtaining">4.1 Obtaining Connector/Python</a></span></dt><dt><span class="section"><a href="connector-python-installation.html#connector-python-installation-binary">4.2 Installing Connector/Python from a Binary Distribution</a></span></dt><dt><span class="section"><a href="connector-python-installation.html#connector-python-installation-source">4.3 Installing Connector/Python from a Source Distribution</a></span></dt><dt><span class="section"><a href="connector-python-installation.html#connector-python-verification">4.4 Verifying Your Connector/Python Installation</a></span></dt></dl>
+</div>
+<p>
+    Connector/Python runs on any platform where Python is installed. Python comes
+    preinstalled on most Unix and Unix-like systems, such as Linux, OS
+    X, and FreeBSD. On Microsoft Windows, a Python installer is
+    available at the <a class="ulink" href="http://python.org/download/" target="_top">Python
+    Download website</a>. If necessary, download and install Python
+    for Windows before attempting to install Connector/Python.
+</p>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+
+<div class="admon-title">
+Note
+</div>
+<p>
+      Connector/Python requires <span class="command"><strong>python</strong></span> to be in the system's
+      <code class="literal">PATH</code> and installation fails if
+      <span class="command"><strong>python</strong></span> cannot be located. On Unix and Unix-like
+      systems, <span class="command"><strong>python</strong></span> is normally located in a
+      directory included in the default <code class="literal">PATH</code> setting.
+      On Windows, if you install Python, either enable <span class="guilabel">Add
+      python.exe to Path</span> during the installation process, or
+      manually add the directory containing
+      <span class="command"><strong>python.exe</strong></span> yourself.
+    </p><p>
+      For more information about installation and configuration of
+      Python on Windows, see
+      <a class="ulink" href="http://docs.python.org/using/windows.html" target="_top">Using
+      Python on Windows</a> in the Python documentation.
+</p>
+</div>
+<p>
+    Connector/Python implements the MySQL client/server protocol two ways:
+</p>
+<div class="itemizedlist">
+<ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>
+        As pure Python. This implementation of the protocol does not
+        require any other MySQL client libraries or other components.
+      </p></li><li class="listitem"><p>
+        As a C Extension that interfaces with the MySQL C client
+        library. This implementation of the protocol is dependent on the
+        client library, but can use the library provided by either MySQL Connector/C
+        or MySQL Server packages (see
+        <a class="ulink" href="http://dev.mysql.com/doc/refman/5.6/en/c-api-implementations.html" target="_top">MySQL C API Implementations</a>). The C Extension is
+        available as of Connector/Python 2.1.1.
+</p></li></ul>
+</div>
+<p>
+    Neither implementation of the client/server protocol has any
+    third-party dependencies. However, if you need SSL support, verify
+    that your Python installation has been compiled using the
+    <a class="ulink" href="http://www.openssl.org/" target="_top">OpenSSL</a> libraries.
+  </p><p>
+    Installation of Connector/Python is similar on every platform and follows the
+    standard
+    <a class="ulink" href="http://docs.python.org/install/index.html#install-index" target="_top">Python
+    Distribution Utilities</a> or
+    <a class="ulink" href="http://docs.python.org/distutils/" target="_top">Distutils</a>.
+    Distributions are available in native format for some platforms,
+    such as RPM packages for Linux.
+  </p><p>
+    Python terminology regarding distributions:
+</p>
+<div class="itemizedlist">
+<ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>
+        <span class="bold"><strong>Built Distribution</strong></span>: A package
+        created in the native packaging format intended for a given
+        platform. It contains both sources and platform-independent
+        bytecode. Connector/Python binary distributions are built distributions.
+      </p></li><li class="listitem"><p>
+        <span class="bold"><strong>Source Distribution</strong></span>: A
+        distribution that contains only source files and is generally
+        platform independent.
+</p></li></ul>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-obtaining"></a>4.1 Obtaining Connector/Python</h2>
+
+</div>
+
+</div>
+
+</div>
+<p>
+      Packages are available at the
+      <a class="ulink" href="http://dev.mysql.com/downloads/connector/python/" target="_top">Connector/Python download
+      site</a>. For some packaging formats, there are different
+      packages for different versions of Python; choose the one
+      appropriate for the version of Python installed on your system.
+</p>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-installation-binary"></a>4.2 Installing Connector/Python from a Binary Distribution</h2>
+
+</div>
+
+</div>
+
+</div>
+<p>
+      Connector/Python installers in native package formats are available for
+      Windows and for Unix and Unix-like systems:
+</p>
+<div class="itemizedlist">
+<ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>
+          Windows: MSI installer package
+        </p></li><li class="listitem"><p>
+          Linux: Yum repository for EL6 and EL7 and Fedora 20 and 21;
+          RPM packages for Oracle Linux, Red Hat, and SuSE; Debian
+          packages for Debian and Ubuntu
+        </p></li><li class="listitem"><p>
+          OS X: Disk image package with PKG installer
+</p></li></ul>
+</div>
+<p>
+      You may need <code class="literal">root</code> or administrator privileges
+      to perform the installation operation.
+    </p><p>
+      As of Connector/Python 2.1.1, binary distributions are available that include
+      a C Extension that interfaces with the MySQL C client library.
+      Some packaging types have a single distribution file that includes
+      the pure-Python Connector/Python code together with the C Extension. (Windows
+      MSI and OS X Disk Image packages fall into this category.) Other
+      packaging types have two related distribution files: One that
+      includes the pure-Python Connector/Python code, and one that includes only
+      the C Extension. For packaging types that have separate
+      distribution files, install both distributions if you want to use
+      the C Extension. The two files have related names, the difference
+      being that the one that contains the C Extension has
+      <span class="quote">“<span class="quote">cext</span>”</span> in the distribution file name.
+    </p><p>
+      Binary distributions that provide the C Extension are either
+      statically linked to MySQL Connector/C or link to an already installed C
+      client library provided by a Connector/C or MySQL Server installation.
+      For those distributions that are not statically linked, you must
+      install Connector/C or MySQL Server if it is not already present on your
+      system. To obtain either product, visit the
+      <a class="ulink" href="http://dev.mysql.com/downloads/" target="_top">MySQL download site</a>.
+</p>
+<h3><a name="idm139908632322672"></a>Installing Connector/Python on Microsoft Windows Using an MSI Package</h3>
+<p>
+      Connector/Python Windows MSI Installers (<code class="filename">.msi</code> files) are
+      available from the Connector/Python download site (see
+      <a class="xref" href="connector-python-installation.html#connector-python-obtaining" title="4.1 Obtaining Connector/Python">Section 4.1, “Obtaining Connector/Python”</a>). Choose an installer
+      appropriate for the version of Python installed on your system. As
+      of Connector/Python 2.1.1, MSI Installers include the C Extension; it need
+      not be installed separately.
+    </p><p>
+      To use the MSI Installer, launch it and follow the prompts in the
+      screens it presents to install Connector/Python in the location of your
+      choosing.
+    </p><p>
+      Alternatively, to run the installer from the command line, use
+      this command in a console window, where
+      <em class="replaceable"><code>VER</code></em> and
+      <em class="replaceable"><code>PYVER</code></em> are the respective
+      Connector/Python and Python version numbers in the installer file
+      name:
+    </p><pre class="programlisting">
+shell&gt; <strong class="userinput"><code>msiexec /i mysql-connector-python-<em class="replaceable"><code>VER</code></em>-py<em class="replaceable"><code>PYVER</code></em>.msi</code></strong>
+</pre><p>
+      Subsequent executions of Connector/Python using the MSI installer permit you
+      to either repair or remove the existing Connector/Python installation.
+</p>
+<h3><a name="idm139908632315472"></a>Installing Connector/Python on Linux Using the MySQL Yum Repository</h3>
+<p>
+      For EL6 or EL7-based platforms and Fedora 19 or 20, you can
+      install Connector/Python using the MySQL Yum repository (see
+      <a class="ulink" href="http://dev.mysql.com/doc/refman/5.6/en/linux-installation-yum-repo.html#yum-install-components" target="_top">Installing Additional MySQL Products and Components with Yum</a>). You must have the MySQL
+      Yum repository on your system's repository list (for details, see
+      <a class="ulink" href="http://dev.mysql.com/doc/refman/5.6/en/linux-installation-yum-repo.html#yum-repo-setup" target="_top">Adding the MySQL Yum Repository</a>). To make sure that your Yum
+      repository is up-to-date, use this command:
+    </p><pre class="programlisting">
+shell&gt; <strong class="userinput"><code>sudo yum update mysql-community-release</code></strong>
+</pre><p>
+      Then install Connector/Python as follows:
+    </p><pre class="programlisting">
+shell&gt; <strong class="userinput"><code>sudo yum install mysql-connector-python</code></strong>
+</pre>
+<h3><a name="idm139908632309504"></a>Installing Connector/Python on Linux Using an RPM Package</h3>
+<p>
+      Connector/Python Linux RPM packages (<code class="filename">.rpm</code> files) are
+      available from the Connector/Python download site (see
+      <a class="xref" href="connector-python-installation.html#connector-python-obtaining" title="4.1 Obtaining Connector/Python">Section 4.1, “Obtaining Connector/Python”</a>).
+    </p><p>
+      To install a Connector/Python RPM package (denoted here as
+      <code class="filename"><em class="replaceable"><code>PACKAGE</code></em>.rpm</code>), use
+      this command:
+    </p><pre class="programlisting">
+shell&gt; <strong class="userinput"><code>rpm -i <em class="replaceable"><code>PACKAGE</code></em>.rpm</code></strong>
+</pre><p>
+      To install the C Extension (available as of Connector/Python 2.1.1), install
+      the corresponding package with <span class="quote">“<span class="quote">cext</span>”</span> in the package
+      name.
+    </p><p>
+      RPM provides a feature to verify the integrity and authenticity of
+      packages before installing them. To learn more, see
+      <a class="ulink" href="http://dev.mysql.com/doc/refman/5.6/en/verifying-package-integrity.html" target="_top">Verifying Package Integrity Using MD5 Checksums or GnuPG</a>.
+</p>
+<h3><a name="idm139908632301888"></a>Installing Connector/Python on Linux Using a Debian Package</h3>
+<p>
+      Connector/Python Debian packages (<code class="filename">.deb</code> files) are
+      available for Debian or Debian-like Linux systems from the Connector/Python
+      download site (see <a class="xref" href="connector-python-installation.html#connector-python-obtaining" title="4.1 Obtaining Connector/Python">Section 4.1, “Obtaining Connector/Python”</a>).
+    </p><p>
+      To install a Connector/Python Debian package (denoted here as
+      <code class="filename"><em class="replaceable"><code>PACKAGE</code></em>.deb</code>), use
+      this command:
+    </p><pre class="programlisting">
+shell&gt; <strong class="userinput"><code>dpkg -i <em class="replaceable"><code>PACKAGE</code></em>.deb</code></strong>
+</pre><p>
+      To install the C Extension (available as of Connector/Python 2.1.1), install
+      the corresponding package with <span class="quote">“<span class="quote">cext</span>”</span> in the package
+      name.
+</p>
+<h3><a name="idm139908632295568"></a>Installing Connector/Python on OS X Using a Disk Image</h3>
+<p>
+      Connector/Python OS X disk images (<code class="filename">.dmg</code> files) are
+      available from the Connector/Python download site (see
+      <a class="xref" href="connector-python-installation.html#connector-python-obtaining" title="4.1 Obtaining Connector/Python">Section 4.1, “Obtaining Connector/Python”</a>). As of Connector/Python 2.1.1,
+      OS X disk images include the C Extension; it need not be installed
+      separately.
+    </p><p>
+      Download the <code class="filename">.dmg</code> file and install Connector/Python by
+      opening it and double clicking the resulting
+      <code class="filename">.pkg</code> file.
+</p>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-installation-source"></a>4.3 Installing Connector/Python from a Source Distribution</h2>
+
+</div>
+
+</div>
+
+</div>
+<p>
+      Connector/Python source distributions are platform independent and can be
+      used on any platform. Source distributions are packaged in two
+      formats:
+</p>
+<div class="itemizedlist">
+<ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>
+          Zip archive format (<code class="filename">.zip</code> file)
+        </p></li><li class="listitem"><p>
+          Compressed <span class="command"><strong>tar</strong></span> archive format
+          (<code class="filename">.tar.gz</code> file)
+</p></li></ul>
+</div>
+<p>
+      Either packaging format can be used on any platform, but Zip
+      archives are more commonly used on Windows systems and
+      <span class="command"><strong>tar</strong></span> archives on Unix and Unix-like systems.
+</p>
+<h3><a name="connector-python-installation-source-cext-prereqs"></a>Prerequisites for Compiling Connector/Python with the C Extension</h3>
+<p>
+      As of Connector/Python 2.1.1, source distributions include the C Extension
+      that interfaces with the MySQL C client library. You can build the
+      distribution with or without support for this extension. To build
+      Connector/Python with support for the C Extension, you must satisfy the
+      following prerequisites.
+</p>
+<div class="itemizedlist">
+<ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>
+          Prerequisites for Windows systems:
+</p>
+<div class="itemizedlist">
+<ul class="itemizedlist" style="list-style-type: circle; "><li class="listitem"><p>
+              Correct version of Visual Studio: VS 2009 for Python 2.7,
+              VS 2010 for Python 3.3
+            </p></li><li class="listitem"><p>
+              Python development files
+            </p></li><li class="listitem"><p>
+              MySQL Connector/C or MySQL Server installed, including development
+              files
+</p></li></ul>
+</div>
+</li><li class="listitem"><p>
+          Prerequisites for Unix and Unix-like systems:
+</p>
+<div class="itemizedlist">
+<ul class="itemizedlist" style="list-style-type: circle; "><li class="listitem"><p>
+              A C/C++ compiler, such as <span class="command"><strong>gcc</strong></span>
+            </p></li><li class="listitem"><p>
+              Python development files
+            </p></li><li class="listitem"><p>
+              MySQL Connector/C or MySQL Server installed, including development
+              files
+</p></li></ul>
+</div>
+</li></ul>
+</div>
+<p>
+      You must install Connector/C or MySQL Server if it is not already present
+      on your system. To obtain either product, visit the
+      <a class="ulink" href="http://dev.mysql.com/downloads/" target="_top">MySQL download site</a>.
+    </p><p>
+      For certain platforms, MySQL development files are provided in
+      separate packages. This is true for RPM and Debian packages, for
+      example.
+</p>
+<h3><a name="connector-python-installation-source-windows"></a>Installing Connector/Python from Source on Microsoft Windows</h3>
+<p>
+      A Connector/Python Zip archive (<code class="filename">.zip</code> file) is available
+      from the Connector/Python download site (see
+      <a class="xref" href="connector-python-installation.html#connector-python-obtaining" title="4.1 Obtaining Connector/Python">Section 4.1, “Obtaining Connector/Python”</a>).
+    </p><p>
+      To install Connector/Python from a Zip archive, download the latest version
+      and follow these steps:
+</p>
+<div class="orderedlist">
+<ol class="orderedlist" type="1"><li class="listitem"><p>
+          Unpack the Zip archive in the intended installation directory
+          (for example, <code class="filename">C:\mysql-connector\</code>) using
+          <span class="command"><strong>WinZip</strong></span> or another tool that can read
+          <code class="filename">.zip</code> files.
+        </p></li><li class="listitem"><p>
+          Start a console window and change location to the folder where
+          you unpacked the Zip archive:
+        </p><pre class="programlisting">
+shell&gt; <strong class="userinput"><code>cd C:\mysql-connector\</code></strong>
+</pre></li><li class="listitem"><p>
+          Inside the Connector/Python folder, perform the installation using this
+          command:
+        </p><pre class="programlisting">
+shell&gt; <strong class="userinput"><code>python setup.py install</code></strong>
+</pre><p>
+          To include the C Extension (available as of Connector/Python 2.1.1), use
+          this command instead:
+        </p><pre class="programlisting">
+shell&gt; <strong class="userinput"><code>python setup.py install --with-mysql-capi="<em class="replaceable"><code>path_name</code></em>"</code></strong>
+</pre><p>
+          The argument to <code class="option">--with-mysql-capi</code> is the path
+          to the installation directory of either MySQL Connector/C or MySQL Server.
+</p></li></ol>
+</div>
+<p>
+      To see all options and commands supported by
+      <code class="filename">setup.py</code>, use this command:
+    </p><pre class="programlisting">
+shell&gt; <strong class="userinput"><code>python setup.py --help</code></strong>
+</pre>
+<h3><a name="connector-python-installation-source-unix"></a>Installing Connector/Python from Source on Unix and Unix-Like Systems</h3>
+<p>
+      For Unix and Unix-like systems such as Linux, Solaris, OS X, and
+      FreeBSD, a Connector/Python <span class="command"><strong>tar</strong></span> archive
+      (<code class="filename">.tar.gz</code> file) is available from the Connector/Python
+      download site (see <a class="xref" href="connector-python-installation.html#connector-python-obtaining" title="4.1 Obtaining Connector/Python">Section 4.1, “Obtaining Connector/Python”</a>).
+    </p><p>
+      To install Connector/Python from a <span class="command"><strong>tar</strong></span> archive, download
+      the latest version (denoted here as
+      <em class="replaceable"><code>VER</code></em>), and execute these commands:
+    </p><pre class="programlisting">
+shell&gt; <strong class="userinput"><code>tar xzf mysql-connector-python-<em class="replaceable"><code>VER</code></em>.tar.gz</code></strong>
+shell&gt; <strong class="userinput"><code>cd mysql-connector-python-<em class="replaceable"><code>VER</code></em></code></strong>
+shell&gt; <strong class="userinput"><code>sudo python setup.py install</code></strong>
+</pre><p>
+      To include the C Extension (available as of Connector/Python 2.1.1), use this
+      command instead:
+    </p><pre class="programlisting">
+shell&gt; <strong class="userinput"><code>sudo python setup.py install --with-mysql-capi=<em class="replaceable"><code>value</code></em></code></strong>
+</pre><p>
+      The argument to <code class="option">--with-mysql-capi</code> is the path to
+      the installation directory of either MySQL Connector/C or MySQL Server, or the
+      path to the <span class="command"><strong>mysql_config</strong></span> command.
+    </p><p>
+      To see all options and commands supported by
+      <code class="filename">setup.py</code>, use this command:
+    </p><pre class="programlisting">
+shell&gt; <strong class="userinput"><code>python setup.py --help</code></strong>
+</pre>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-verification"></a>4.4 Verifying Your Connector/Python Installation</h2>
+
+</div>
+
+</div>
+
+</div>
+<p>
+      On Windows, the default Connector/Python installation location is
+      <code class="filename">C:\Python<em class="replaceable"><code>X.Y</code></em>\Lib\site-packages\</code>,
+      where <em class="replaceable"><code>X.Y</code></em> is the Python version you
+      used to install the connector.
+    </p><p>
+      On Unix-like systems, the default Connector/Python installation location is
+      <code class="filename">/<em class="replaceable"><code>prefix</code></em>/python<em class="replaceable"><code>X.Y</code></em>/site-packages/</code>,
+      where <em class="replaceable"><code>prefix</code></em> is the location where
+      Python is installed and <em class="replaceable"><code>X.Y</code></em> is the
+      Python version. See
+      <a class="ulink" href="http://docs.python.org/install/index.html#how-installation-works" target="_top">How
+      installation works</a> in the Python manual.
+    </p><p>
+      The C Extension is installed as
+      <code class="filename">_mysql_connector.so</code> in the
+      <code class="filename">site-packages</code> directory, not in the
+      <code class="filename">mysql/connector</code> directory.
+    </p><p>
+      Depending on your platform, the installation path might differ
+      from the default. If you are not sure where Connector/Python is installed, do
+      the following to determine its location. The output here shows
+      installation locations as might be seen on OS X:
+    </p><pre class="programlisting">
+shell&gt; <strong class="userinput"><code>python</code></strong>
+&gt;&gt;&gt; from distutils.sysconfig import get_python_lib
+
+&gt;&gt;&gt; print get_python_lib()            # Python v2.x
+/Library/Python/2.7/site-packages
+
+&gt;&gt;&gt; print(get_python_lib())           # Python v3.x
+/Library/Frameworks/Python.framework/Versions/3.1/lib/python3.1/site-packages
+</pre><p>
+      To test that your Connector/Python installation is working and able to
+      connect to MySQL Server, you can run a very simple program where
+      you supply the login credentials and host information required for
+      the connection. For an example, see
+      <a class="xref" href="connector-python-examples.html#connector-python-example-connecting" title="5.1 Connecting to MySQL Using Connector/Python">Section 5.1, “Connecting to MySQL Using Connector/Python”</a>.
+</p>
+</div>
+
+</div>
+<div class="copyright-footer">
+
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left"><a accesskey="p" href="connector-python-versions.html">Prev</a></td>
+<td width="20%" align="center"><a accesskey="u" href="">Up</a></td>
+<td width="40%" align="right"> <a accesskey="n" href="connector-python-examples.html">Next</a></td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">Chapter 3 Connector/Python Versions</td>
+<td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td>
+<td width="40%" align="right" valign="top">Chapter 5 Connector/Python Coding Examples</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

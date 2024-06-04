@@ -1,0 +1,7 @@
+1.13 Only Genre
+
+The following SQL code will help us find all records for only the column of genre in the table movies.
+
+  SELECT * FROM movies;
+
+Answer: FALSE

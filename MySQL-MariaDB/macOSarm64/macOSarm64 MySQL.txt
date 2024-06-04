@@ -1,0 +1,71 @@
+###########################################################################################################################
+
+# MySQL
+
+###########################################################################################################################
+
+# brew install mysql
+% mysql --version
+% where mysql    
+% which mysql  
+% type mysql
+% man mysql
+% brew services start mysql
+[
+% ls /opt/homebrew/var/
+% ls /opt/homebrew/var/mysql
+
+% ls /opt/homebrew/Cellar
+% ls /opt/homebrew/Cellar/mysql
+% ls /opt/homebrew/Cellar/mysql/8.1.0
+
+% ls /opt/homebrew/opt
+% ls /opt/homebrew/opt/mysql
+
+# mysql # mysql.server # mysqladmin
+% ls /opt/homebrew/opt/mysql/bin
+]
+
+# NB: If root password was not set during mysql installation, then the password is blank.
+
+# REPL
+% mysql -u root
+> SELECT VERSION();
+> exit
+[
+% brew services stop mysql
+% brew services restart mysql
+]
+% sudo mysql.server start
+% sudo mysql.server stop
+% mysqladmin -u root status
+
+###########################################################################################################################
+
+
+###########################################################################################################################
+
+# MySQL Shell # mysql-shell-8.2.0-macos13-arm64.dmg
+
+###########################################################################################################################
+
+% mysqlsh --version
+% where mysqlsh    
+% which mysqlsh  
+% type mysqlsh
+
+# NB: If root password was not set during mysql installation, then the password is blank.
+
+# REPL
+% mysqlsh              
+> \sql
+> \connect root@localhost:3306
+> SELECT VERSION();
+> \exit
+
+[
+# mysqlsh
+% ls /usr/local/bin
+]
+
+###########################################################################################################################

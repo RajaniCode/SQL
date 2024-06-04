@@ -1,0 +1,44 @@
+2.4 PK Constraint
+
+
+Let's add a new column to our Actors table.
+
+
+Fullscreen
+
+actors.sql
+CREATE TABLE Actors (
+  
+  name varchar(50) NOT NULL UNIQUE,
+  country varchar(50)
+);
+
+
+1. Add a new id column to the Actors table with the int type.
+
+Answer:
+actors.sql
+CREATE TABLE Actors (
+  id int,
+  name varchar(50) NOT NULL UNIQUE,
+  country varchar(50)
+);
+
+
+2. Add a single constraint to the id column that ensures it is both UNIQUE and NOT NULL
+
+Answer:
+actors.sql
+CREATE TABLE Actors (
+  id int Primary Key,
+  name varchar(50) NOT NULL UNIQUE,
+  country varchar(50)
+);
+
+
+--Note:
+CREATE TABLE Actors (
+  id int NOT NULL Primary Key,
+  name varchar(50) NOT NULL UNIQUE,
+  country varchar(50)
+);

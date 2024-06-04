@@ -1,0 +1,26 @@
+1.4 Counting Valid Actors
+
+
+According to the Actors table below, what would be the COUNT() number for the following SQL query?
+
+SELECT COUNT(name) FROM Actors;
+
+name 			country
+Vivien Leigh 		IN
+Clark Gable 		USA
+Olivia de Havilland 	Japan
+Hattie McDaniel 	USA
+Lillian Kemble-Cooper 	UK
+NULL 			CA
+
+[Single Answer]
+
+6
+
+0
+
+3
+
+5
+
+Answer: 5

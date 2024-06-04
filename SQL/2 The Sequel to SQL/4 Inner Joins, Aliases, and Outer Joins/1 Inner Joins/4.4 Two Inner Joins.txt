@@ -1,0 +1,72 @@
+4.4 Two Inner Joins
+
+
+Let's build a query, step by step, that joins the Actors and the Movies table.
+
+
+Tables
+Actors
+id 	name
+1 	Vivien Leigh
+2 	Clark Gable
+3 	Olivia de Havilland
+Movies
+id 	title
+1 	Don Juan
+2 	The Lost World
+3 	Peter Pan
+4 	Robin Hood
+Actors_Movies
+actor_id 	movie_id
+1 		1
+1 		2
+2 		3
+3 		2
+3 		4
+
+
+query.sql
+SELECT * FROM Actors;
+
+
+1. First, join the Actors table with the Actors_Movies table so that only actors participating in movies are returned on the result.
+
+Answer:
+query.sql
+SELECT * FROM Actors A
+INNER JOIN Actors_Movies AM
+ON A.id = AM.actor_id;
+
+
+2. Next, create another INNER JOIN from the Actors_Movies table to the Movies table so that our result shows information about the movies.
+
+Answer:
+query.sql
+SELECT * FROM Actors A
+INNER JOIN Actors_Movies AM
+ON A.id = AM.actor_id
+INNER JOIN Movies M
+ON AM.movie_id = M.id;
+
+
+3. Great! Now change the query to only fetch actor names and movie titles.
+
+Answer:
+query.sql
+SELECT A.name, M.title FROM Actors A
+INNER JOIN Actors_Movies AM
+ON A.id = AM.actor_id
+INNER JOIN Movies M
+ON AM.movie_id = M.id;
+
+
+4. Lastly, let's sort this query by movie title, alphabetically.
+
+Answer:
+query.sql
+SELECT A.name, M.title FROM Actors A
+INNER JOIN Actors_Movies AM
+ON A.id = AM.actor_id
+INNER JOIN Movies M
+ON AM.movie_id = M.id
+ORDER BY M.title ASC;

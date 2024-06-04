@@ -1,0 +1,5 @@
+1.5 Table Structure
+
+A database is composed of [ ], where columns and rows store the actual data.
+
+Answer: tables

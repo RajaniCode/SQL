@@ -1,0 +1,75 @@
+3.4 Join Table Creation SQL
+
+
+Now that we've named the join table for the tables below, please finish the create table definition, adding the proper foreign keys.
+
+Tables
+Actors
+id 	name
+1 	Vivien Leigh
+2 	Clark Gable
+3 	Olivia de Havilland
+Movies
+id 	title
+1 	Don Juan
+2 	The Lost World
+3 	Peter Pan
+4 	Robin Hood
+
+
+schema.sql
+CREATE TABLE Actors (
+  id int,
+  name varchar(50)
+);
+
+INSERT INTO Actors (id, name) VALUES
+  (1, 'Vivien Leigh'),
+  (2, 'Clark Gable'),
+  (3, 'Olivia de Havilland');
+
+CREATE TABLE Movies (
+  id int,
+  title varchar(50)
+);
+
+INSERT INTO Movies (id, title) VALUES
+  (1, 'Don Juan'),
+  (2, 'The Lost World'),
+  (3, 'Peter Pan'),
+  (4, 'Robin Hood');
+
+
+actors_movies.sql
+CREATE TABLE Actors_Movies (
+  
+);
+
+
+1. First, let's add the new columns. The new columns we add should have type int type to match the data they will hold. Per convention, let's name these columns actor_id and movie_id.
+
+Answer:
+actors_movies.sql
+CREATE TABLE Actors_Movies (
+  actor_id int,
+  movie_id int
+);
+
+
+2. Now, let's add FOREIGN KEY constraints to both of these columns, as column constraints, referencing the appropriate tables.
+
+Answer:
+actors_movies.sql
+CREATE TABLE Actors_Movies (
+  actor_id int,
+  movie_id int,
+  FOREIGN KEY (actor_id) REFERENCES Actors,
+  FOREIGN KEY (movie_id) REFERENCES Movies
+);
+
+
+--Note:
+CREATE TABLE Actors_Movies (
+  actor_id int REFERENCES Actors,
+  movie_id int REFERENCES Movies
+);

@@ -1,0 +1,77 @@
+USE [master];
+GO
+
+IF EXISTS(SELECT name FROM sys.databases WHERE name = N'northwind')
+--IF DB_ID (N'northwind') IS NOT NULL
+ALTER DATABASE [northwind] MODIFY NAME = [northwind_backup];
+GO
+
+
+USE [northwind_backup];
+GO
+
+SELECT file_id, name as [logical_file_name], physical_name FROM sys.database_files;
+GO
+
+
+USE [master];
+GO
+
+--Set database to single-user mode that specifies only one user at a time can access the database
+ALTER DATABASE [northwind_backup] SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+GO
+
+--The database is closed, shut down cleanly, and marked offline. The database can't be modified while it's offline.
+ALTER DATABASE [northwind_backup] SET OFFLINE;
+GO
+
+
+--Move MDF and LDF
+EXEC xp_cmdshell 'MOVE "C:\Users\rajanis\AppData\Local\Microsoft\Microsoft SQL Server Local DB\Instances\MSSQLLocalDB\northwind_Primary.mdf", "C:\Users\rajanis\northwind_Primary.mdf"';
+GO
+
+EXEC xp_cmdshell 'MOVE "C:\Users\rajanis\AppData\Local\Microsoft\Microsoft SQL Server Local DB\Instances\MSSQLLocalDB\northwind_Primary.ldf", "C:\Users\rajanis\northwind_Primary.ldf"';
+GO
+
+
+--Modify physical_name
+ALTER DATABASE [northwind_backup] MODIFY FILE (NAME = 'northwind', FILENAME = 'C:\Users\rajanis\northwind_backup.mdf')
+GO
+
+ALTER DATABASE [northwind_backup] MODIFY FILE (NAME = 'northwind_log', FILENAME='C:\Users\rajanis\northwind_backup_log.ldf')
+GO
+
+
+--Rename MDF and LDF
+EXEC xp_cmdshell 'RENAME "C:\Users\rajanis\northwind_Primary.mdf", "northwind_backup.mdf"';
+GO
+
+EXEC xp_cmdshell 'RENAME "C:\Users\rajanis\northwind_Primary.ldf", "northwind_backup_log.ldf"';
+GO
+
+
+USE [master];
+GO
+
+--The database is open and available for use.
+ALTER DATABASE [northwind_backup] SET ONLINE;
+GO
+
+--Set database to multi-user mode
+ALTER DATABASE [northwind_backup] SET MULTI_USER;
+GO
+
+
+--Modify logical_file_name
+ALTER DATABASE [northwind_backup] MODIFY FILE (NAME = 'northwind', NEWNAME = 'northwind_backup');
+GO
+
+ALTER DATABASE [northwind_backup] MODIFY FILE (NAME = 'northwind_log', NEWNAME = 'northwind_backup_log');
+GO
+
+
+USE [northwind_backup];
+GO
+
+SELECT file_id, name as [logical_file_name], physical_name FROM sys.database_files;
+GO

@@ -1,0 +1,62 @@
+IF OBJECT_ID(N'tempdb.dbo.#Source', N'U') IS NOT NULL
+DROP TABLE #Source; 
+GO
+
+CREATE TABLE #Source
+(
+ source_name nvarchar(max)
+);
+GO
+
+INSERT INTO #Source VALUES('Alpha');
+INSERT INTO #Source VALUES('Beta');
+INSERT INTO #Source VALUES('Gamma');
+GO
+
+SELECT * FROM #Source;
+GO
+
+IF OBJECT_ID(N'tempdb.dbo.#Target', N'U') IS NOT NULL
+DROP TABLE #Target; 
+GO
+
+--IDENTITY function is used only in a SELECT statement with an INTO table clause to insert an identity column into a new table
+--IDENTITY function is not the IDENTITY property that is used with CREATE TABLE and ALTER TABLE
+--SELECT IDENTITY(int, 1, 1) AS target_id, 'name' as target_name INTO #Target;
+SELECT IDENTITY(int, 1, 1) AS target_id, source_name as target_name INTO #Target FROM #Source;
+GO
+
+SELECT * FROM #Target;
+GO
+
+
+IF OBJECT_ID(N'tempdb.dbo.#T1', N'U') IS NOT NULL
+DROP TABLE #T1; 
+GO
+
+CREATE TABLE #T1
+(
+ id int IDENTITY(1, 1),
+ name nvarchar(max)
+);
+GO
+
+INSERT INTO #T1 VALUES('Alpha');
+INSERT INTO #T1 VALUES('Beta');
+INSERT INTO #T1 VALUES('Gamma');
+GO
+
+SELECT * FROM #T1;
+GO
+
+INSERT INTO #T1 VALUES('Gamma');
+--SCOPE_IDENTITY returns the last identity values that are generated in any table in the current session
+--SCOPE_IDENTITY returns values inserted only within the current scope
+SELECT SCOPE_IDENTITY() as 'Scope_Identity';
+--@@IDENTITY return the last identity values that are generated in any table in the current session
+--@@IDENTITY is not limited to a specific scope
+SELECT @@IDENTITY as 'Identity';
+--IDENT_CURRENT is not limited by scope and session; it is limited to a specified table or view
+--IDENT_CURRENT returns the value generated for a specific table or view in any session and any scope
+SELECT IDENT_CURRENT('#T1') as 'Ident_Current';
+GO

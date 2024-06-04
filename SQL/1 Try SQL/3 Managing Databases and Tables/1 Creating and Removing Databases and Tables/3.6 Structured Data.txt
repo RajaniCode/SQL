@@ -1,0 +1,20 @@
+3.6 Structured Data
+
+We've added a few more rows to the advertisements table, but there are still a few more changes that need to be made. Check out the objectives below.
+id 	name 		category 	cost
+1 	Poster 		Paper 		20
+2 	Billboard 	Paper 		100
+3 	Banner Ad 	Web 		35
+4 	Commercial 			150
+
+1. It looks like one of the rows is missing some information. Let's write an UPDATE statement to update that row. Set the category of the 'Commercial' row to 'Television'.
+
+Answer: UPDATE advertisements SET category = 'Television' WHERE name = 'Commercial';
+
+
+2. Uh oh! Our boss just said we don't have the budget for advertisements, so we don't need this table any more. Below your existing code, remove the entire advertisements table.
+
+Answer: 
+
+UPDATE advertisements SET category = 'Television' WHERE name = 'Commercial'; 
+DROP TABLE advertisements;

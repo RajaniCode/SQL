@@ -1,0 +1,7 @@
+2.7 Another Key
+
+
+When a column in one table references the primary key of another table, it’s called a [ ] .
+
+
+Answer: foreign key

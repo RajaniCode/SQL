@@ -1,0 +1,645 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Chapter 5 Connector/Python Coding Examples</title>
+<link rel="stylesheet" href="mvl.css" type="text/css" />
+<meta name="generator" content="DocBook XSL Stylesheets + chunker.py v1.9.2" />
+<link rel="start" href="index.html" title="{book-title}" />
+<link rel="up" href="" title="" />
+<link rel="prev" href="connector-python-installation.html" title="Chapter 4 Connector/Python Installation" />
+<link rel="next" href="connector-python-tutorials.html" title="Chapter 6 Connector/Python Tutorials" />
+<script language="javascript" type="text/javascript">
+  function addOnload(theFunc)
+  {
+    var previous = window.onload;
+    if (typeof window.onload != 'function')
+    {
+      window.onload = theFunc;
+    }
+    else
+    {
+      window.onload = function()
+      {
+        previous();
+        theFunc();
+      }
+    }
+  }
+
+  addOnload(function()
+  {
+    var base = new Date(1455899810*1000);
+    var now = new Date();
+    var diff = ((now-base)/1000)/(24*3600);
+
+    if (diff > 90) {
+      var nodes = document.getElementsByClassName('titlepage');
+      nodes[0].innerHTML = '<p style="border: 5px #ff0000 solid; padding: 5px; margin 5px">' +
+        'This copy of the manual is more than 90 days old. We encourage you to download a ' +
+        'new version from <a href="http://dev.mysql.com">dev.mysql.com/doc</a>.</p>' + nodes[0].innerHTML;
+    }
+  });
+</script>
+<noscript></noscript>
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr>
+<th colspan="3" align="center">Chapter 5 Connector/Python Coding Examples</th>
+</tr>
+<tr>
+<td width="20%" align="left"><a accesskey="p" href="connector-python-installation.html">Prev</a> </td>
+<th width="60%" align="center"></th>
+<td width="20%" align="right"> <a accesskey="n" href="connector-python-tutorials.html">Next</a></td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="chapter">
+<div class="titlepage">
+<div>
+<div>
+<h1 class="title"><a name="connector-python-examples"></a>Chapter 5 Connector/Python Coding Examples</h1>
+
+</div>
+
+</div>
+
+</div>
+<div class="toc">
+<p><b>Table of Contents</b></p><dl class="toc"><dt><span class="section"><a href="connector-python-examples.html#connector-python-example-connecting">5.1 Connecting to MySQL Using Connector/Python</a></span></dt><dt><span class="section"><a href="connector-python-examples.html#connector-python-example-ddl">5.2 Creating Tables Using Connector/Python</a></span></dt><dt><span class="section"><a href="connector-python-examples.html#connector-python-example-cursor-transaction">5.3 Inserting Data Using Connector/Python</a></span></dt><dt><span class="section"><a href="connector-python-examples.html#connector-python-example-cursor-select">5.4 Querying Data Using Connector/Python</a></span></dt></dl>
+</div>
+<p>
+    These coding examples illustrate how to develop Python applications
+    and scripts which connect to MySQL Server using MySQL Connector/Python.
+</p>
+<div class="section">
+
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-example-connecting"></a>5.1 Connecting to MySQL Using Connector/Python</h2>
+</div>
+</div>
+</div>
+<p>
+      The <code class="literal">connect()</code> constructor creates a connection
+      to the MySQL server and returns a
+      <code class="literal">MySQLConnection</code> object.
+    </p><p>
+      The following example shows how to connect to the MySQL server:
+    </p><pre class="programlisting">
+import mysql.connector
+
+cnx = mysql.connector.connect(user='scott', password='tiger',
+                              host='127.0.0.1',
+                              database='employees')
+cnx.close()
+</pre><p>
+      <a class="xref" href="connector-python-connecting.html#connector-python-connectargs" title="7.1 Connector/Python Connection Arguments">Section 7.1, “Connector/Python Connection Arguments”</a> describes the
+      permitted connection arguments.
+    </p><p>
+      It is also possible to create connection objects using the
+      <a class="link" href="connector-python-reference.html#connector-python-api-mysqlconnection" title="10.2 connection.MySQLConnection Class">connection.MySQLConnection()</a>
+      class:
+    </p><pre class="programlisting">
+from mysql.connector import (connection)
+
+cnx = connection.MySQLConnection(user='scott', password='tiger',
+                                 host='127.0.0.1',
+                                 database='employees')
+cnx.close()
+</pre><p>
+      Both methods, using the <code class="literal">connect()</code> constructor,
+      or the class directly, are valid and functionally equal, but using
+      <code class="literal">connector()</code> is preferred and is used in most
+      examples in this manual.
+    </p><p>
+      To handle connection errors, use the <code class="literal">try</code>
+      statement and catch all errors using the
+      <a class="link" href="connector-python-reference.html#connector-python-api-errors-error" title="10.12.2 errors.Error Exception">errors.Error</a>
+      exception:
+    </p><pre class="programlisting">
+import mysql.connector
+from mysql.connector import errorcode
+
+try:
+  cnx = mysql.connector.connect(user='scott',
+                                database='testt')
+except mysql.connector.Error as err:
+  if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+    print("Something is wrong with your user name or password")
+  elif err.errno == errorcode.ER_BAD_DB_ERROR:
+    print("Database does not exist")
+  else:
+    print(err)
+else:
+  cnx.close()
+</pre><p>
+      If you have lots of connection arguments, it's best to keep them
+      in a dictionary and use the <code class="literal">**</code> operator:
+    </p><pre class="programlisting">
+import mysql.connector
+
+config = {
+  'user': 'scott',
+  'password': 'tiger',
+  'host': '127.0.0.1',
+  'database': 'employees',
+  'raise_on_warnings': True,
+}
+
+cnx = mysql.connector.connect(**config)
+
+cnx.close()
+</pre>
+<h3><a name="idm139908632214656"></a>Using the Connector/Python C Extension</h3>
+<p>
+      As of Connector/Python 2.1.1, the <code class="literal">use_pure</code> connection
+      argument determines whether to connect using a pure Python
+      interface to MySQL, or a C Extension that uses the MySQL C client
+      library (see <a class="xref" href="connector-python-cext.html" title="Chapter 8 The Connector/Python C Extension">Chapter 8, <i>The Connector/Python C Extension</i></a>). The default
+      is <code class="literal">True</code> (use the pure Python implementation).
+      Setting <code class="literal">use_pure</code> to <code class="literal">False</code>
+      causes the connection to use the C Extension if your Connector/Python
+      installation includes it. The following examples are similar to
+      others shown previously but with the includion of
+      <code class="literal">use_pure=False</code>.
+    </p><p>
+      Connect by naming arguments in the <code class="literal">connect()</code>
+      call:
+    </p><pre class="programlisting">
+import mysql.connector
+
+cnx = mysql.connector.connect(user='scott', password='tiger',
+                              host='127.0.0.1',
+                              database='employees',
+                              use_pure=False)
+cnx.close()
+</pre><p>
+      Connect using an argument dictionary:
+    </p><pre class="programlisting">
+import mysql.connector
+
+config = {
+  'user': 'scott',
+  'password': 'tiger',
+  'host': '127.0.0.1',
+  'database': 'employees',
+  'raise_on_warnings': True,
+  'use_pure': False,
+}
+
+cnx = mysql.connector.connect(**config)
+
+cnx.close()
+</pre><p>
+      It is also possible to use the C Extension directly, by importing
+      the <code class="literal">_mysql_connector</code> module rather than the
+      <code class="literal">mysql.connector</code> module. For more information,
+      see <a class="xref" href="connector-python-cext.html#connector-python-cext-module" title="8.2 The _mysql_connector C Extension Module">Section 8.2, “The _mysql_connector C Extension Module”</a>.
+</p>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-example-ddl"></a>5.2 Creating Tables Using Connector/Python</h2>
+
+</div>
+
+</div>
+
+</div>
+<p>
+      All <a class="ulink" href="http://dev.mysql.com/doc/refman/5.6/en/glossary.html#glos_ddl" target="_top">DDL</a> (Data Definition Language)
+      statements are executed using a handle structure known as a
+      cursor. The following examples show how to create the tables of
+      the
+      <a class="ulink" href="http://dev.mysql.com/doc/employee/en/index.html" target="_top">Employee
+      Sample Database</a>. You need them for the other examples.
+    </p><p>
+      In a MySQL server, tables are very long-lived objects, and are
+      often accessed by multiple applications written in different
+      languages. You might typically work with tables that are already
+      set up, rather than creating them within your own application.
+      Avoid setting up and dropping tables over and over again, as that
+      is an expensive operation. The exception is
+      <a class="ulink" href="http://dev.mysql.com/doc/refman/5.6/en/glossary.html#glos_temporary_table" target="_top">temporary tables</a>,
+      which can be created and dropped quickly within an application.
+    </p><pre class="programlisting">
+from __future__ import print_function
+
+import mysql.connector
+from mysql.connector import errorcode
+
+DB_NAME = 'employees'
+
+TABLES = {}
+TABLES['employees'] = (
+    "CREATE TABLE `employees` ("
+    "  `emp_no` int(11) NOT NULL AUTO_INCREMENT,"
+    "  `birth_date` date NOT NULL,"
+    "  `first_name` varchar(14) NOT NULL,"
+    "  `last_name` varchar(16) NOT NULL,"
+    "  `gender` enum('M','F') NOT NULL,"
+    "  `hire_date` date NOT NULL,"
+    "  PRIMARY KEY (`emp_no`)"
+    ") ENGINE=InnoDB")
+
+TABLES['departments'] = (
+    "CREATE TABLE `departments` ("
+    "  `dept_no` char(4) NOT NULL,"
+    "  `dept_name` varchar(40) NOT NULL,"
+    "  PRIMARY KEY (`dept_no`), UNIQUE KEY `dept_name` (`dept_name`)"
+    ") ENGINE=InnoDB")
+
+TABLES['salaries'] = (
+    "CREATE TABLE `salaries` ("
+    "  `emp_no` int(11) NOT NULL,"
+    "  `salary` int(11) NOT NULL,"
+    "  `from_date` date NOT NULL,"
+    "  `to_date` date NOT NULL,"
+    "  PRIMARY KEY (`emp_no`,`from_date`), KEY `emp_no` (`emp_no`),"
+    "  CONSTRAINT `salaries_ibfk_1` FOREIGN KEY (`emp_no`) "
+    "     REFERENCES `employees` (`emp_no`) ON DELETE CASCADE"
+    ") ENGINE=InnoDB")
+
+TABLES['dept_emp'] = (
+    "CREATE TABLE `dept_emp` ("
+    "  `emp_no` int(11) NOT NULL,"
+    "  `dept_no` char(4) NOT NULL,"
+    "  `from_date` date NOT NULL,"
+    "  `to_date` date NOT NULL,"
+    "  PRIMARY KEY (`emp_no`,`dept_no`), KEY `emp_no` (`emp_no`),"
+    "  KEY `dept_no` (`dept_no`),"
+    "  CONSTRAINT `dept_emp_ibfk_1` FOREIGN KEY (`emp_no`) "
+    "     REFERENCES `employees` (`emp_no`) ON DELETE CASCADE,"
+    "  CONSTRAINT `dept_emp_ibfk_2` FOREIGN KEY (`dept_no`) "
+    "     REFERENCES `departments` (`dept_no`) ON DELETE CASCADE"
+    ") ENGINE=InnoDB")
+
+TABLES['dept_manager'] = (
+    "  CREATE TABLE `dept_manager` ("
+    "  `dept_no` char(4) NOT NULL,"
+    "  `emp_no` int(11) NOT NULL,"
+    "  `from_date` date NOT NULL,"
+    "  `to_date` date NOT NULL,"
+    "  PRIMARY KEY (`emp_no`,`dept_no`),"
+    "  KEY `emp_no` (`emp_no`),"
+    "  KEY `dept_no` (`dept_no`),"
+    "  CONSTRAINT `dept_manager_ibfk_1` FOREIGN KEY (`emp_no`) "
+    "     REFERENCES `employees` (`emp_no`) ON DELETE CASCADE,"
+    "  CONSTRAINT `dept_manager_ibfk_2` FOREIGN KEY (`dept_no`) "
+    "     REFERENCES `departments` (`dept_no`) ON DELETE CASCADE"
+    ") ENGINE=InnoDB")
+
+TABLES['titles'] = (
+    "CREATE TABLE `titles` ("
+    "  `emp_no` int(11) NOT NULL,"
+    "  `title` varchar(50) NOT NULL,"
+    "  `from_date` date NOT NULL,"
+    "  `to_date` date DEFAULT NULL,"
+    "  PRIMARY KEY (`emp_no`,`title`,`from_date`), KEY `emp_no` (`emp_no`),"
+    "  CONSTRAINT `titles_ibfk_1` FOREIGN KEY (`emp_no`)"
+    "     REFERENCES `employees` (`emp_no`) ON DELETE CASCADE"
+    ") ENGINE=InnoDB")
+</pre><p>
+      The preceding code shows how we are storing the
+      <code class="literal">CREATE</code> statements in a Python dictionary called
+      <code class="literal">TABLES</code>. We also define the database in a global
+      variable called <code class="literal">DB_NAME</code>, which enables you to
+      easily use a different schema.
+    </p><pre class="programlisting">
+cnx = mysql.connector.connect(user='scott')
+cursor = cnx.cursor()
+</pre><p>
+      A single MySQL server can manage multiple
+      <a class="ulink" href="http://dev.mysql.com/doc/refman/5.6/en/glossary.html#glos_database" target="_top">databases</a>. Typically, you
+      specify the database to switch to when connecting to the MySQL
+      server. This example does not connect to the database upon
+      connection, so that it can make sure the database exists, and
+      create it if not:
+    </p><pre class="programlisting">
+def create_database(cursor):
+    try:
+        cursor.execute(
+            "CREATE DATABASE {} DEFAULT CHARACTER SET 'utf8'".format(DB_NAME))
+    except mysql.connector.Error as err:
+        print("Failed creating database: {}".format(err))
+        exit(1)
+
+try:
+    cnx.database = DB_NAME    
+except mysql.connector.Error as err:
+    if err.errno == errorcode.ER_BAD_DB_ERROR:
+        create_database(cursor)
+        cnx.database = DB_NAME
+    else:
+        print(err)
+        exit(1)
+</pre><p>
+      We first try to change to a particular database using the
+      <code class="literal">database</code> property of the connection object
+      <code class="literal">cnx</code>. If there is an error, we examine the error
+      number to check if the database does not exist. If so, we call the
+      <code class="literal">create_database</code> function to create it for us.
+    </p><p>
+      On any other error, the application exits and displays the error
+      message.
+    </p><p>
+      After we successfully create or change to the target database, we
+      create the tables by iterating over the items of the
+      <code class="literal">TABLES</code> dictionary:
+    </p><pre class="programlisting">
+for name, ddl in TABLES.iteritems():
+    try:
+        print("Creating table {}: ".format(name), end='')
+        cursor.execute(ddl)
+    except mysql.connector.Error as err:
+        if err.errno == errorcode.ER_TABLE_EXISTS_ERROR:
+            print("already exists.")
+        else:
+            print(err.msg)
+    else:
+        print("OK")
+
+cursor.close()
+cnx.close()
+</pre><p>
+      To handle the error when the table already exists, we notify the
+      user that it was already there. Other errors are printed, but we
+      continue creating tables. (The example shows how to handle the
+      <span class="quote">“<span class="quote">table already exists</span>”</span> condition for illustration
+      purposes. In a real application, we would typically avoid the
+      error condition entirely by using the <code class="literal">IF NOT
+      EXISTS</code> clause of the <a class="ulink" href="http://dev.mysql.com/doc/refman/5.6/en/create-table.html" target="_top"><code class="literal">CREATE
+      TABLE</code></a> statement.)
+    </p><p>
+      The output would be something like this:
+    </p><pre class="programlisting">
+Creating table employees: already exists.
+Creating table salaries: already exists.
+Creating table titles: OK
+Creating table departments: already exists.
+Creating table dept_manager: already exists.
+Creating table dept_emp: already exists.
+</pre><p>
+      To populate the employees tables, use the dump files of the
+      <a class="ulink" href="http://dev.mysql.com/doc/employee/en/index.html" target="_top">Employee
+      Sample Database</a>. Note that you only need the data dump
+      files that you will find in an archive named like
+      <code class="literal">employees_db-dump-files-1.0.5.tar.bz2</code>. After
+      downloading the dump files, execute the following commands, adding
+      connection options to the <span class="command"><strong>mysql</strong></span> commands if
+      necessary:
+    </p><pre class="programlisting">
+shell&gt; <strong class="userinput"><code>tar xzf employees_db-dump-files-1.0.5.tar.bz2</code></strong>
+shell&gt; <strong class="userinput"><code>cd employees_db</code></strong>
+shell&gt; <strong class="userinput"><code>mysql employees &lt; load_employees.dump</code></strong>
+shell&gt; <strong class="userinput"><code>mysql employees &lt; load_titles.dump</code></strong>
+shell&gt; <strong class="userinput"><code>mysql employees &lt; load_departments.dump</code></strong>
+shell&gt; <strong class="userinput"><code>mysql employees &lt; load_salaries.dump</code></strong>
+shell&gt; <strong class="userinput"><code>mysql employees &lt; load_dept_emp.dump</code></strong>
+shell&gt; <strong class="userinput"><code>mysql employees &lt; load_dept_manager.dump</code></strong>
+</pre>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-example-cursor-transaction"></a>5.3 Inserting Data Using Connector/Python</h2>
+
+</div>
+
+</div>
+
+</div>
+<p>
+      Inserting or updating data is also done using the handler
+      structure known as a cursor. When you use a transactional storage
+      engine such as <code class="literal">InnoDB</code> (the default in MySQL 5.5
+      and later), you must <a class="ulink" href="http://dev.mysql.com/doc/refman/5.6/en/glossary.html#glos_commit" target="_top">commit</a> the
+      data after a sequence of <a class="ulink" href="http://dev.mysql.com/doc/refman/5.6/en/insert.html" target="_top"><code class="literal">INSERT</code></a>,
+      <a class="ulink" href="http://dev.mysql.com/doc/refman/5.6/en/delete.html" target="_top"><code class="literal">DELETE</code></a>, and
+      <a class="ulink" href="http://dev.mysql.com/doc/refman/5.6/en/update.html" target="_top"><code class="literal">UPDATE</code></a> statements.
+    </p><p>
+      This example shows how to insert new data. The second
+      <a class="ulink" href="http://dev.mysql.com/doc/refman/5.6/en/insert.html" target="_top"><code class="literal">INSERT</code></a> depends on the value of the
+      newly created <a class="ulink" href="http://dev.mysql.com/doc/refman/5.6/en/glossary.html#glos_primary_key" target="_top">primary key</a>
+      of the first. The example also demonstrates how to use extended
+      formats. The task is to add a new employee starting to work
+      tomorrow with a salary set to 50000.
+</p>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+
+<div class="admon-title">
+Note
+</div>
+<p>
+        The following example uses tables created in the example
+        <a class="xref" href="connector-python-examples.html#connector-python-example-ddl" title="5.2 Creating Tables Using Connector/Python">Section 5.2, “Creating Tables Using Connector/Python”</a>. The
+        <code class="literal">AUTO_INCREMENT</code> column option for the primary
+        key of the <code class="literal">employees</code> table is important to
+        ensure reliable, easily searchable data.
+</p>
+</div>
+<pre class="programlisting">
+from __future__ import print_function
+from datetime import date, datetime, timedelta
+import mysql.connector
+
+cnx = mysql.connector.connect(user='scott', database='employees')
+cursor = cnx.cursor()
+
+tomorrow = datetime.now().date() + timedelta(days=1)
+
+add_employee = ("INSERT INTO employees "
+               "(first_name, last_name, hire_date, gender, birth_date) "
+               "VALUES (%s, %s, %s, %s, %s)")
+add_salary = ("INSERT INTO salaries "
+              "(emp_no, salary, from_date, to_date) "
+              "VALUES (%(emp_no)s, %(salary)s, %(from_date)s, %(to_date)s)")
+
+data_employee = ('Geert', 'Vanderkelen', tomorrow, 'M', date(1977, 6, 14))
+
+# Insert new employee
+cursor.execute(add_employee, data_employee)
+emp_no = cursor.lastrowid
+
+# Insert salary information
+data_salary = {
+  'emp_no': emp_no,
+  'salary': 50000,
+  'from_date': tomorrow,
+  'to_date': date(9999, 1, 1),
+}
+cursor.execute(add_salary, data_salary)
+
+# Make sure data is committed to the database
+cnx.commit()
+
+cursor.close()
+cnx.close()
+</pre><p>
+      We first open a connection to the MySQL server and store the
+      <a class="link" href="connector-python-reference.html#connector-python-api-mysqlconnection" title="10.2 connection.MySQLConnection Class">connection
+      object</a> in the variable <code class="literal">cnx</code>. We then
+      create a new cursor, by default a
+      <a class="link" href="connector-python-reference.html#connector-python-api-mysqlcursor" title="10.5 cursor.MySQLCursor Class">MySQLCursor</a>
+      object, using the connection's
+      <a class="link" href="connector-python-reference.html#connector-python-api-mysqlconnection-cursor" title="10.2.6 MySQLConnection.cursor() Method"><code class="literal">cursor()</code></a>
+      method.
+    </p><p>
+      We could calculate tomorrow by calling a database function, but
+      for clarity we do it in Python using the
+      <code class="literal">datetime</code> module.
+    </p><p>
+      Both <code class="literal">INSERT</code> statements are stored in the
+      variables called <code class="literal">add_employee</code> and
+      <code class="literal">add_salary</code>. Note that the second
+      <code class="literal">INSERT</code> statement uses extended Python format
+      codes.
+    </p><p>
+      The information of the new employee is stored in the tuple
+      <code class="literal">data_employee</code>. The query to insert the new
+      employee is executed and we retrieve the newly inserted value for
+      the <code class="literal">emp_no</code> column (an
+      <code class="literal">AUTO_INCREMENT</code> column) using the
+      <code class="literal">lastrowid</code> property of the cursor object.
+    </p><p>
+      Next, we insert the new salary for the new employee, using the
+      <code class="literal">emp_no</code> variable in the dictionary holding the
+      data. This dictionary is passed to the
+      <code class="literal">execute()</code> method of the cursor object if an
+      error occurred.
+    </p><p>
+      Since by default Connector/Python turns
+      <a class="ulink" href="http://dev.mysql.com/doc/refman/5.6/en/glossary.html#glos_autocommit" target="_top">autocommit</a> off, and MySQL
+      5.5 and later uses transactional <code class="literal">InnoDB</code> tables
+      by default, it is necessary to commit your changes using the
+      connection's <code class="literal">commit()</code> method. You could also
+      <a class="ulink" href="http://dev.mysql.com/doc/refman/5.6/en/glossary.html#glos_rollback" target="_top">roll back</a> using the
+      <code class="literal">rollback()</code> method.
+</p>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-example-cursor-select"></a>5.4 Querying Data Using Connector/Python</h2>
+
+</div>
+
+</div>
+
+</div>
+<p>
+      The following example shows how to
+      <a class="ulink" href="http://dev.mysql.com/doc/refman/5.6/en/glossary.html#glos_query" target="_top">query</a> data using a cursor
+      created using the connection's
+      <a class="link" href="connector-python-reference.html#connector-python-api-mysqlconnection-cursor" title="10.2.6 MySQLConnection.cursor() Method"><code class="literal">cursor()</code></a>
+      method. The data returned is formatted and printed on the console.
+    </p><p>
+      The task is to select all employees hired in the year 1999 and
+      print their names and hire dates to the console.
+    </p><pre class="programlisting">
+import datetime
+import mysql.connector
+
+cnx = mysql.connector.connect(user='scott', database='employees')
+cursor = cnx.cursor()
+
+query = ("SELECT first_name, last_name, hire_date FROM employees "
+         "WHERE hire_date BETWEEN %s AND %s")
+
+hire_start = datetime.date(1999, 1, 1)
+hire_end = datetime.date(1999, 12, 31)
+
+cursor.execute(query, (hire_start, hire_end))
+
+for (first_name, last_name, hire_date) in cursor:
+  print("{}, {} was hired on {:%d %b %Y}".format(
+    last_name, first_name, hire_date))
+
+cursor.close()
+cnx.close()
+</pre><p>
+      We first open a connection to the MySQL server and store the
+      <a class="link" href="connector-python-reference.html#connector-python-api-mysqlconnection" title="10.2 connection.MySQLConnection Class">connection
+      object</a> in the variable <code class="literal">cnx</code>. We then
+      create a new cursor, by default a
+      <a class="link" href="connector-python-reference.html#connector-python-api-mysqlcursor" title="10.5 cursor.MySQLCursor Class">MySQLCursor</a>
+      object, using the connection's
+      <a class="link" href="connector-python-reference.html#connector-python-api-mysqlconnection-cursor" title="10.2.6 MySQLConnection.cursor() Method"><code class="literal">cursor()</code></a>
+      method.
+    </p><p>
+      In the preceding example, we store the <code class="literal">SELECT</code>
+      statement in the variable <code class="literal">query</code>. Note that we
+      are using unquoted <code class="literal">%s</code>-markers where dates
+      should have been. Connector/Python converts <code class="literal">hire_start</code> and
+      <code class="literal">hire_end</code> from Python types to a data type that
+      MySQL understands and adds the required quotes. In this case, it
+      replaces the first <code class="literal">%s</code> with
+      <code class="literal">'1999-01-01'</code>, and the second with
+      <code class="literal">'1999-12-31'</code>.
+    </p><p>
+      We then execute the operation stored in the
+      <code class="literal">query</code> variable using the
+      <a class="link" href="connector-python-reference.html#connector-python-api-mysqlcursor-execute" title="10.5.4 MySQLCursor.execute() Method"><code class="literal">execute()</code></a>
+      method. The data used to replace the <code class="literal">%s</code>-markers
+      in the query is passed as a tuple: <code class="literal">(hire_start,
+      hire_end)</code>.
+    </p><p>
+      After executing the query, the MySQL server is ready to send the
+      data. The result set could be zero rows, one row, or 100 million
+      rows. Depending on the expected volume, you can use different
+      techniques to process this result set. In this example, we use the
+      <code class="literal">cursor</code> object as an iterator. The first column
+      in the row is stored in the variable
+      <code class="literal">first_name</code>, the second in
+      <code class="literal">last_name</code>, and the third in
+      <code class="literal">hire_date</code>.
+    </p><p>
+      We print the result, formatting the output using Python's built-in
+      <code class="literal">format()</code> function. Note that
+      <code class="literal">hire_date</code> was converted automatically by Connector/Python
+      to a Python <code class="literal">datetime.date</code> object. This means
+      that we can easily format the date in a more human-readable form.
+    </p><p>
+      The output should be something like this:
+    </p><pre class="programlisting">
+..
+Wilharm, LiMin was hired on 16 Dec 1999
+Wielonsky, Lalit was hired on 16 Dec 1999
+Kamble, Dannz was hired on 18 Dec 1999
+DuBourdieux, Zhongwei was hired on 19 Dec 1999
+Fujisawa, Rosita was hired on 20 Dec 1999
+..
+</pre>
+</div>
+
+</div>
+<div class="copyright-footer">
+
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left"><a accesskey="p" href="connector-python-installation.html">Prev</a></td>
+<td width="20%" align="center"><a accesskey="u" href="">Up</a></td>
+<td width="40%" align="right"> <a accesskey="n" href="connector-python-tutorials.html">Next</a></td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">Chapter 4 Connector/Python Installation</td>
+<td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td>
+<td width="40%" align="right" valign="top">Chapter 6 Connector/Python Tutorials</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

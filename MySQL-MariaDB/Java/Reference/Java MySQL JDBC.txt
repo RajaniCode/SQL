@@ -1,0 +1,90 @@
+Java MySQL JDBC
+
+Driver class: The driver class for the MySQL database is com.mysql.jdbc.Driver.
+Connection URL: The connection URL for the MySQL database is jdbc:mysql://localhost:3306/sampledb where jdbc is the API, mysql is the database, localhost is the server name on which MySQL is running, we may also use IP address, 3306 is the port number and sampledb is the database name. 
+Username: The default username for the MySQL database is root.
+Password: Password is given at the time of installing the MySQL database. 
+
+
+
+
+DROP DATABASE IF EXISTS sampledb;
+CREATE DATABASE sampledb;
+USE sampledb;
+
+DROP TABLE IF EXISTS emp;
+CREATE TABLE emp(id int,name varchar(40),age int);  
+
+INSERT INTO emp(id, name, age)
+VALUES(1, 'Alpha', 21);
+
+INSERT INTO emp(id, name, age)
+VALUES(2, 'Beta', 22);
+
+INSERT INTO emp(id, name, age)
+VALUES(3, 'Gamma', 23);
+
+SELECT * FROM emp;
+
+
+
+
+Java
+
+import java.sql.*;
+
+class MySQL {
+    public static void main(String args[]) {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");            
+    
+            // Optional Check Connection // "root" is username, "My$ql@Server#5.7" is password
+			String dbURL = "jdbc:mysql://localhost/?user=root&password=My$ql@Server#5.7";
+			Connection conn = DriverManager.getConnection(dbURL);
+			if (conn != null) {
+				System.out.println("Connected");
+			}
+            conn.close();
+
+			// "sampledb" is database name, "root" is username, "My$ql@Server#5.7" is password
+            Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/sampledb","root","My$ql@Server#5.7");  
+            Statement stmt = con.createStatement();	
+            ResultSet rs = stmt.executeQuery("select * from emp");
+            int rowCount = 0;
+            while(rs.next()) {            
+                rowCount++;
+                System.out.println(rs.getInt(1) + "\t"+ rs.getString(2) + "\t"+ rs.getString(3));
+            }
+			System.out.println("Number of Rows: " + rowCount);
+            con.close();
+        }
+        catch(Exception e) { 
+             System.out.println(e);
+        }
+    }
+}
+The above example will fetch all the records of emp table. 
+
+
+
+
+JDBC
+
+To connect java application with the MySQL database "mysql-connector-java-5.1.37-bin.jar" file is required to be loaded. 
+
+Two ways to load the jar file:
+
+1.	Download and Copy "mysql-connector-java-5.1.37-bin.jar" to the following directories (optional if the "mysql-connector-java-5.1.37-bin.jar" exists already):
+C:\oraclexe\app\oracle\product\11.2.0\server\jdbc\lib
+(Optional) C:\Program Files\Java\jre1.8.0_51\lib\ext
+	
+2.	Set classpath:
+There are two ways to set the classpath: 
+•	Temporary
+Set classpath in Command Prompt:
+set classpath=C:\Program Files (x86)\MySQL\MySQL Connector J\mysql-connector-java-5.1.37-bin.jar;.;
+•	Permanent
+Add New Environment Variable:
+Variable name: classpath
+Variable value: As in the following case: C:\Program Files (x86)\MySQL\MySQL Connector J\mysql-connector-java-5.1.37-bin.jar;.;
+

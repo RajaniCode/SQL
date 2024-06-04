@@ -1,0 +1,7 @@
+2.12 Limit the Range
+
+
+The [ ] constraint is used to validate the value that can be placed in a column.
+
+
+Answer: CHECK

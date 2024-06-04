@@ -1,0 +1,28 @@
+http://stackoverflow.com/questions/5818312/mysql-with-node-js
+
+MySQL with Node.js
+
+Check out the node.js module list [https://github.com/joyent/node/wiki/modules#wiki-db-mysql]
+
+• node-mysql [https://github.com/felixge/node-mysql] (Moved to nodejs/node/wiki [https://github.com/nodejs/node/wiki]) — A node.js module implementing the MySQL protocol 
+• node-mysql2 [https://github.com/sidorares/node-mysql2] — Yet another pure JS async driver. Pipelining, prepared statements
+• node-mysql-libmysqlclient [https://github.com/Sannis/node-mysql-libmysqlclient] — MySQL asynchronous bindings based on libmysqlclient
+• node-mysql looks simple enough:
+
+var mysql      = require('mysql');
+var connection = mysql.createConnection({
+  host     : 'example.org',
+  user     : 'bob',
+  password : 'secret',
+});
+
+connection.connect(function(err) {
+  // connected! (unless `err` is set)
+});
+Queries:
+
+var post  = {id: 1, title: 'Hello MySQL'};
+var query = connection.query('INSERT INTO posts SET ?', post, function(err, result) {
+  // Neat!
+});
+console.log(query.sql); // INSERT INTO posts SET `id` = 1, `title` = 'Hello MySQL'

@@ -1,0 +1,92 @@
+IF EXISTS(SELECT name FROM tempdb.sys.tables WHERE name LIKE '#Target%')
+--IF OBJECT_ID(N'tempdb.dbo.#Target', N'U') IS NOT NULL
+DROP TABLE #Target;
+GO
+
+CREATE TABLE #Target
+(
+  id int,
+  name nvarchar(max),
+  date datetime2
+);
+GO
+
+SELECT * FROM #Target;
+GO
+
+INSERT INTO #Target VALUES(1, 'Alpha', GETDATE());
+INSERT INTO #Target VALUES(2, 'Beta', GETDATE());
+INSERT INTO #Target VALUES(3, 'Gamma', GETDATE());
+INSERT INTO #Target VALUES(4, 'Delta', GETDATE());
+GO
+
+SELECT * FROM #Target;
+GO
+
+IF EXISTS(SELECT name FROM tempdb.sys.tables WHERE name LIKE '#Source%')
+--IF OBJECT_ID(N'tempdb.dbo.#Source', N'U') IS NOT NULL
+DROP TABLE #Source;
+GO
+
+CREATE TABLE #Source
+(
+  id int,
+  name nvarchar(max),
+  date datetime2
+);
+GO
+
+SELECT * FROM #Source;
+GO
+
+INSERT INTO #Source VALUES(1, 'A', GETDATE());
+INSERT INTO #Source VALUES(3, 'C', GETDATE());
+INSERT INTO #Source VALUES(4, 'D', GETDATE());
+INSERT INTO #Source VALUES(5, 'E', GETDATE());
+INSERT INTO #Source VALUES(6, 'F', GETDATE());
+GO
+
+SELECT * FROM #Source;
+GO
+
+IF EXISTS(SELECT name FROM tempdb.sys.tables WHERE name LIKE '#Result%')
+--IF OBJECT_ID(N'tempdb.dbo.#Result', N'U') IS NOT NULL
+DROP TABLE #Result;
+GO
+
+CREATE TABLE #Result
+(
+ existing_id int,
+ existing_name nvarchar(max),
+ existing_date datetime2,
+ action_taken nvarchar(max),
+ new_id int,
+ new_name nvarchar(max),
+ new_date datetime2
+);
+GO
+
+SELECT * FROM #Result;
+GO
+
+MERGE #Target t USING #Source s
+ON t.id = s.id
+WHEN MATCHED THEN
+UPDATE SET 
+t.name = s.name,
+t.date = s.date
+WHEN NOT MATCHED BY TARGET THEN
+INSERT(id, name, date) VALUES (s.id, s.name, s.date)
+WHEN NOT MATCHED BY SOURCE THEN
+DELETE
+OUTPUT deleted.*, $action, inserted.* INTO #Result;
+GO
+
+SELECT * FROM #Target;
+GO
+
+SELECT * FROM #Source;
+GO
+
+SELECT * FROM #Result;
+GO

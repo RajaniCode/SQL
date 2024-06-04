@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Chapter 2 Guidelines for Python Developers</title>
+<link rel="stylesheet" href="mvl.css" type="text/css" />
+<meta name="generator" content="DocBook XSL Stylesheets + chunker.py v1.9.2" />
+<link rel="start" href="index.html" title="{book-title}" />
+<link rel="up" href="" title="" />
+<link rel="prev" href="connector-python-introduction.html" title="Chapter 1 Introduction to MySQL Connector/Python" />
+<link rel="next" href="connector-python-versions.html" title="Chapter 3 Connector/Python Versions" />
+<script language="javascript" type="text/javascript">
+  function addOnload(theFunc)
+  {
+    var previous = window.onload;
+    if (typeof window.onload != 'function')
+    {
+      window.onload = theFunc;
+    }
+    else
+    {
+      window.onload = function()
+      {
+        previous();
+        theFunc();
+      }
+    }
+  }
+
+  addOnload(function()
+  {
+    var base = new Date(1455899810*1000);
+    var now = new Date();
+    var diff = ((now-base)/1000)/(24*3600);
+
+    if (diff > 90) {
+      var nodes = document.getElementsByClassName('titlepage');
+      nodes[0].innerHTML = '<p style="border: 5px #ff0000 solid; padding: 5px; margin 5px">' +
+        'This copy of the manual is more than 90 days old. We encourage you to download a ' +
+        'new version from <a href="http://dev.mysql.com">dev.mysql.com/doc</a>.</p>' + nodes[0].innerHTML;
+    }
+  });
+</script>
+<noscript></noscript>
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr>
+<th colspan="3" align="center">Chapter 2 Guidelines for Python Developers</th>
+</tr>
+<tr>
+<td width="20%" align="left"><a accesskey="p" href="connector-python-introduction.html">Prev</a> </td>
+<th width="60%" align="center"></th>
+<td width="20%" align="right"> <a accesskey="n" href="connector-python-versions.html">Next</a></td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="chapter">
+<div class="titlepage">
+<div>
+<div>
+<h1 class="title"><a name="connector-python-coding"></a>Chapter 2 Guidelines for Python Developers</h1>
+
+</div>
+
+</div>
+
+</div>
+<p>
+    The following guidelines cover aspects of developing MySQL
+    applications that might not be immediately obvious to developers
+    coming from a Python background:
+</p>
+<div class="itemizedlist">
+<ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>
+        For security, do not hardcode the values needed to connect and
+        log into the database in your main script. Python has the
+        convention of a <code class="literal">config.py</code> module, where you
+        can keep such values separate from the rest of your code.
+      </p></li><li class="listitem"><p>
+        Python scripts often build up and tear down large data
+        structures in memory, up to the limits of available RAM. Because
+        MySQL often deals with data sets that are many times larger than
+        available memory, techniques that optimize storage space and
+        disk I/O are especially important. For example, in MySQL tables,
+        you typically use numeric IDs rather than string-based
+        dictionary keys, so that the key values are compact and have a
+        predictable length. This is especially important for columns
+        that make up the <a class="ulink" href="http://dev.mysql.com/doc/refman/5.6/en/glossary.html#glos_primary_key" target="_top">primary
+        key</a> for an <code class="literal">InnoDB</code> table, because those
+        column values are duplicated within each
+        <a class="ulink" href="http://dev.mysql.com/doc/refman/5.6/en/glossary.html#glos_secondary_index" target="_top">secondary index</a>.
+      </p></li><li class="listitem"><p>
+        Any application that accepts input must expect to handle bad
+        data.
+      </p><p>
+        The bad data might be accidental, such as out-of-range values or
+        misformatted strings. The application can use server-side checks
+        such as <a class="ulink" href="http://dev.mysql.com/doc/refman/5.6/en/glossary.html#glos_unique_constraint" target="_top">unique
+        constraints</a> and
+        <a class="ulink" href="http://dev.mysql.com/doc/refman/5.6/en/glossary.html#glos_not_null_constraint" target="_top">NOT NULL
+        constraints</a>, to keep the bad data from ever reaching the
+        database. On the client side, use techniques such as exception
+        handlers to report any problems and take corrective action.
+      </p><p>
+        The bad data might also be deliberate, representing an
+        <span class="quote">“<span class="quote">SQL injection</span>”</span> attack. For example, input values
+        might contain quotation marks, semicolons, <code class="literal">%</code>
+        and <code class="literal">_</code> wildcard characters and other
+        characters significant in SQL statements. Validate input values
+        to make sure they have only the expected characters. Escape any
+        special characters that could change the intended behavior when
+        substituted into a SQL statement. Never concatenate a user input
+        value into a SQL statement without doing validation and escaping
+        first. Even when accepting input generated by some other
+        program, expect that the other program could also have been
+        compromised and be sending you incorrect or malicious data.
+      </p></li><li class="listitem"><p>
+        Because the result sets from SQL queries can be very large, use
+        the appropriate method to retrieve items from the result set as
+        you loop through them.
+        <a class="link" href="connector-python-reference.html#connector-python-api-mysqlcursor-fetchone" title="10.5.8 MySQLCursor.fetchone() Method">fetchone()</a>
+        retrieves a single item, when you know the result set contains a
+        single row.
+        <a class="link" href="connector-python-reference.html#connector-python-api-mysqlcursor-fetchall" title="10.5.6 MySQLCursor.fetchall() Method">fetchall()</a>
+        retrieves all the items, when you know the result set contains a
+        limited number of rows that can fit comfortably into memory.
+        <a class="link" href="connector-python-reference.html#connector-python-api-mysqlcursor-fetchmany" title="10.5.7 MySQLCursor.fetchmany() Method">fetchmany()</a>
+        is the general-purpose method when you cannot predict the size
+        of the result set: you keep calling it and looping through the
+        returned items, until there are no more results to process.
+      </p></li><li class="listitem"><p>
+        Since Python already has convenient modules such as
+        <code class="literal">pickle</code> and <code class="literal">cPickle</code> to read
+        and write data structures on disk, data that you choose to store
+        in MySQL instead is likely to have special characteristics:
+</p>
+<div class="itemizedlist">
+<ul class="itemizedlist" style="list-style-type: circle; "><li class="listitem"><p>
+            <span class="bold"><strong>Too large to all fit in memory at one
+            time.</strong></span> You use
+            <a class="ulink" href="http://dev.mysql.com/doc/refman/5.6/en/select.html" target="_top"><code class="literal">SELECT</code></a> statements to query
+            only the precise items you need, and
+            <a class="ulink" href="http://dev.mysql.com/doc/refman/5.6/en/group-by-functions.html" target="_top">aggregate
+            functions</a> to perform calculations across multiple
+            items. You configure the
+            <a class="ulink" href="http://dev.mysql.com/doc/refman/5.6/en/innodb-parameters.html#sysvar_innodb_buffer_pool_size" target="_top"><code class="literal">innodb_buffer_pool_size</code></a>
+            option within the MySQL server to dedicate a certain amount
+            of RAM for caching query results.
+          </p></li><li class="listitem"><p>
+            <span class="bold"><strong>Too complex to be represented by a
+            single data structure.</strong></span> You divide the data
+            between different SQL tables. You can recombine data from
+            multiple tables by using a
+            <a class="ulink" href="http://dev.mysql.com/doc/refman/5.6/en/glossary.html#glos_join" target="_top">join</a> query. You make sure
+            that related data is kept in sync between different tables
+            by setting up <a class="ulink" href="http://dev.mysql.com/doc/refman/5.6/en/glossary.html#glos_foreign_key" target="_top">foreign
+            key</a> relationships.
+          </p></li><li class="listitem"><p>
+            <span class="bold"><strong>Updated frequently, perhaps by
+            multiple users simultaneously.</strong></span> The updates might
+            only affect a small portion of the data, making it wasteful
+            to write the whole structure each time. You use the SQL
+            <a class="ulink" href="http://dev.mysql.com/doc/refman/5.6/en/insert.html" target="_top"><code class="literal">INSERT</code></a>,
+            <a class="ulink" href="http://dev.mysql.com/doc/refman/5.6/en/update.html" target="_top"><code class="literal">UPDATE</code></a>, and
+            <a class="ulink" href="http://dev.mysql.com/doc/refman/5.6/en/delete.html" target="_top"><code class="literal">DELETE</code></a> statements to update
+            different items concurrently, writing only the changed
+            values to disk. You use <a class="ulink" href="http://dev.mysql.com/doc/refman/5.6/en/innodb-storage-engine.html" target="_top"><code class="literal">InnoDB</code></a>
+            tables and
+            <a class="ulink" href="http://dev.mysql.com/doc/refman/5.6/en/glossary.html#glos_transaction" target="_top">transactions</a> to keep
+            write operations from conflicting with each other, and to
+            return consistent query results even as the underlying data
+            is being updated.
+</p></li></ul>
+</div>
+</li><li class="listitem"><p>
+        Using MySQL best practices for performance can help your
+        application to scale without requiring major rewrites and
+        architectural changes. See <a class="ulink" href="http://dev.mysql.com/doc/refman/5.6/en/optimization.html" target="_top">Optimization</a> for
+        best practices for MySQL performance. It offers guidelines and
+        tips for SQL tuning, database design, and server configuration.
+      </p></li><li class="listitem"><p>
+        You can avoid reinventing the wheel by learning the MySQL SQL
+        statements for common operations: operators to use in queries,
+        techniques for bulk loading data, and so on. Some statements and
+        clauses are extensions to the basic ones defined by the SQL
+        standard. See <a class="ulink" href="http://dev.mysql.com/doc/refman/5.6/en/sql-syntax-data-manipulation.html" target="_top">Data Manipulation Statements</a>,
+        <a class="ulink" href="http://dev.mysql.com/doc/refman/5.6/en/sql-syntax-data-definition.html" target="_top">Data Definition Statements</a>, and
+        <a class="ulink" href="http://dev.mysql.com/doc/refman/5.6/en/select.html" target="_top">SELECT Syntax</a> for the main classes of statements.
+      </p></li><li class="listitem"><p>
+        Issuing SQL statements from Python typically involves declaring
+        very long, possibly multi-line string literals. Because string
+        literals within the SQL statements could be enclosed by single
+        quotation, double quotation marks, or contain either of those
+        characters, for simplicity you can use Python's triple-quoting
+        mechanism to enclose the entire statement. For example:
+      </p><pre class="programlisting">
+'''It doesn't matter if this string contains 'single'
+or "double" quotes, as long as there aren't 3 in a
+row.'''
+</pre><p>
+        You can use either of the <code class="literal">'</code> or
+        <code class="literal">"</code> characters for triple-quoting multi-line
+        string literals.
+      </p></li><li class="listitem"><p>
+        Many of the secrets to a fast, scalable MySQL application
+        involve using the right syntax at the very start of your setup
+        procedure, in the <a class="ulink" href="http://dev.mysql.com/doc/refman/5.6/en/create-table.html" target="_top"><code class="literal">CREATE TABLE</code></a>
+        statements. For example, Oracle recommends the
+        <code class="literal">ENGINE=INNODB</code> clause for most tables, and
+        makes <code class="literal">InnoDB</code> the default storage engine in
+        MySQL 5.5 and up. Using <code class="literal">InnoDB</code> tables enables
+        transactional behavior that helps scalability of read-write
+        workloads and offers automatic
+        <a class="ulink" href="http://dev.mysql.com/doc/refman/5.6/en/glossary.html#glos_crash_recovery" target="_top">crash recovery</a>.
+        Another recommendation is to declare a numeric
+        <a class="ulink" href="http://dev.mysql.com/doc/refman/5.6/en/glossary.html#glos_primary_key" target="_top">primary key</a> for each
+        table, which offers the fastest way to look up values and can
+        act as a pointer to associated values in other tables (a
+        <a class="ulink" href="http://dev.mysql.com/doc/refman/5.6/en/glossary.html#glos_foreign_key" target="_top">foreign key</a>). Also
+        within the <a class="ulink" href="http://dev.mysql.com/doc/refman/5.6/en/create-table.html" target="_top"><code class="literal">CREATE TABLE</code></a>
+        statement, using the most compact column data types that meet
+        your application requirements helps performance and scalability
+        because that enables the database server to move less data back
+        and forth between memory and disk.
+</p></li></ul>
+</div>
+
+</div>
+<div class="copyright-footer">
+
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left"><a accesskey="p" href="connector-python-introduction.html">Prev</a></td>
+<td width="20%" align="center"><a accesskey="u" href="">Up</a></td>
+<td width="40%" align="right"> <a accesskey="n" href="connector-python-versions.html">Next</a></td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">Chapter 1 Introduction to MySQL Connector/Python</td>
+<td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td>
+<td width="40%" align="right" valign="top">Chapter 3 Connector/Python Versions</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

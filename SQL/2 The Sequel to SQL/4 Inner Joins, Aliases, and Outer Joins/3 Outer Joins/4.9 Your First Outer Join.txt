@@ -1,0 +1,74 @@
+4.9 Your First Outer Join
+
+
+Let's create a query that returns all movies with some additional data.
+
+
+Tables
+Movies
+id 	title
+1 	Don Juan
+2 	The Lost World
+3 	Peter Pan
+4 	Robin Hood
+Rooms
+id 	seats 	movie_id
+1 	50 	2
+2 	100 	1
+3 	100 	NULL
+4 	150 	3
+
+
+schema.sql
+CREATE TABLE Movies (
+  id int PRIMARY KEY,
+  title varchar(50) NOT NULL
+);
+
+INSERT INTO Movies (id, title) VALUES
+  (1, 'Don Juan'),
+  (2, 'The Lost World'),
+  (3, 'Peter Pan'),
+  (4, 'Robin Hood');
+
+CREATE TABLE Rooms (
+  id INT PRIMARY KEY,
+  seats int,
+  movie_id int,
+  FOREIGN KEY (movie_id) REFERENCES Movies
+);
+
+INSERT INTO Rooms (id, seats, movie_id) VALUES
+  (1, 50, 2),
+  (2, 100, 1),
+  (3, 100, NULL),
+  (4, 150, 3);
+
+
+query.sql
+
+1. First, create a query that returns all movies and also displays a movie's room if it's playing in a room. For this query, select everything (*).
+
+Answer:
+query.sql
+SELECT * FROM Movies m
+LEFT OUTER JOIN Rooms r
+ON m.id = r.movie_id
+
+
+2. Now, let's select just the movie title and room id if it exists, and set a column alias for the room id to "Theatre Number".
+
+Answer:
+query.sql
+SELECT m.title, r.movie_id "Theatre Number" FROM Movies m
+LEFT OUTER JOIN Rooms r
+ON m.id = r.movie_id
+
+
+3. Lastly, it doesn't look like we've used table aliases with this query, which is usually a good practice. Why don't we do that now?
+
+Answer:
+query.sql
+SELECT m.title, r.movie_id "Theatre Number" FROM Movies m
+LEFT OUTER JOIN Rooms r
+ON m.id = r.movie_id

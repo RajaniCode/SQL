@@ -1,0 +1,11 @@
+1.7 Column Title
+
+id 	title 		genre 		duration
+1 	Metropolis 	Sci-Fi 		153
+2 	Nosferatu 	Horror 		94
+3 	The Kid 	Comedy 		68
+4 	The Gold Rush 	Adventure 	95
+
+The data 'The Kid' can be found in the column [ ].
+
+Answer: title

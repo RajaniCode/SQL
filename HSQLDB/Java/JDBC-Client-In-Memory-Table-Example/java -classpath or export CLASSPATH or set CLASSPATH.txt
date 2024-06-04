@@ -1,0 +1,10 @@
+export CLASSPATH="E:\Working\SQL\HSQLDB\Java\JDBC-Client-In-Memory-Table-Example\HSQLDB-JDBC\hsqldb.jar;.;"
+
+echo $CLASSPATH
+
+
+
+
+set CLASSPATH=E:\Working\SQL\HSQLDB\Java\JDBC-Client-In-Memory-Table-Example\HSQLDB-JDBC\hsqldb.jar;.;
+
+echo %CLASSPATH%

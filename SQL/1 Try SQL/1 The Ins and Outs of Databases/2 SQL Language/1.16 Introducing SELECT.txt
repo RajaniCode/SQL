@@ -1,0 +1,20 @@
+1.16 Introducing SELECT
+
+Write a SQL query to retrieve all movies that are currently showing. The name of the table shown below is movies.
+id 	title 		genre 		duration
+1 	Metropolis 	Sci-Fi 		153
+2 	Nosferatu 	Horror 		94
+3 	The Kid 	Comedy 		68
+4 	The Gold Rush 	Adventure 	95
+
+1. Write a SQL query to retrieve all films that are currently showing.
+
+Answer: SELECT title FROM movies;
+
+2. Great, – now add a filter to only show 'Adventure' films.  
+
+Answer: SELECT title FROM movies WHERE genre = 'Adventure';
+
+3. Lastly, modify the query to only return the title and duration of the 'Adventure' films. 
+
+Answer: SELECT title, duration FROM movies WHERE genre = 'Adventure';

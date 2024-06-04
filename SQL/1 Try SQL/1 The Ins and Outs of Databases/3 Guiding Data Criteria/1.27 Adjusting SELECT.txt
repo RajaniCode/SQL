@@ -1,0 +1,23 @@
+1.27 Adjusting SELECT
+
+It is time to write some more advanced SELECT statements. The name of the table shown below is movies.
+id 	title 		genre 		duration
+1 	Metropolis 	Sci-Fi 		153
+2 	Nosferatu 	Horror 		94
+3 	The Kid 	Comedy 		68
+4 	The Gold Rush 	Adventure 	95
+5 	Wolf Blood 	Horror 		86
+
+
+1. Generate a query that only returns the id and title of movies with a duration greater than or equal to 86.
+
+ANSWER: SELECT id, title FROM movies WHERE duration >= 86;
+
+
+2. Now, sort the results by their duration in ascending order.
+
+ANSWER: SELECT id, title FROM movies WHERE duration >= 86 ORDER BY duration ASC;
+
+3. Finally, only return records with genre of 'Horror'.
+
+ANSWER: SELECT id, title FROM movies WHERE genre = 'Horror' AND duration >= 86 ORDER BY duration ASC;

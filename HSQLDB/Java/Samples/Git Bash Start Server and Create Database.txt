@@ -1,0 +1,45 @@
+
+Aspire@Acer MINGW64 /
+$ java -version
+java version "1.8.0_102"
+Java(TM) SE Runtime Environment (build 1.8.0_102-b14)
+Java HotSpot(TM) 64-Bit Server VM (build 25.102-b14, mixed mode)
+
+Aspire@Acer MINGW64 /
+$ cd "E:\Working\SQL\HSQLDB\Java\Samples"
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB/Java/Samples
+$ touch server.properties
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB/Java/Samples
+$ java -classpath HSQLDB-JDBC/hsqldb.jar org.hsqldb.server.Server
+[Server@4517d9a3]: [Thread[main,5,main]]: checkRunning(false) entered
+[Server@4517d9a3]: [Thread[main,5,main]]: checkRunning(false) exited
+[Server@4517d9a3]: Startup sequence initiated from main() method
+[Server@4517d9a3]: Loaded properties from [E:\Working\SQL\HSQLDB\Java\Samples\server.properties]
+[Server@4517d9a3]: Initiating startup sequence...
+[Server@4517d9a3]: Server socket opened successfully in 16 ms.
+[Server@4517d9a3]: Database [index=0, id=0, db=file:hsqldb/testdb, alias=testdb] opened successfully in 980 ms.
+[Server@4517d9a3]: Startup sequence completed in 996 ms.
+[Server@4517d9a3]: 2017-01-21 19:05:28.877 HSQLDB server 2.3.4 is online on port 9001
+[Server@4517d9a3]: To close normally, connect and execute SHUTDOWN SQL
+[Server@4517d9a3]: From command line, use [Ctrl]+[C] to abort abruptly
+
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB/Java/Samples
+$ java -classpath HSQLDB-JDBC/hsqldb.jar org.hsqldb.server.Server --database.0 file:hsqldb/testdb --dbname.0 testdb
+[Server@4517d9a3]: [Thread[main,5,main]]: checkRunning(false) entered
+[Server@4517d9a3]: [Thread[main,5,main]]: checkRunning(false) exited
+[Server@4517d9a3]: Startup sequence initiated from main() method
+[Server@4517d9a3]: Loaded properties from [E:\Working\SQL\HSQLDB\Java\Samples\server.properties]
+[Server@4517d9a3]: Initiating startup sequence...
+[Server@4517d9a3]: Server socket opened successfully in 15 ms.
+[Server@4517d9a3]: Database [index=0, id=0, db=file:hsqldb/testdb, alias=testdb] opened successfully in 875 ms.
+[Server@4517d9a3]: Startup sequence completed in 890 ms.
+[Server@4517d9a3]: 2017-01-21 19:06:29.483 HSQLDB server 2.3.4 is online on port 9001
+[Server@4517d9a3]: To close normally, connect and execute SHUTDOWN SQL
+[Server@4517d9a3]: From command line, use [Ctrl]+[C] to abort abruptly
+
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB/Java/Samples
+$

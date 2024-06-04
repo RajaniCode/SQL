@@ -1,0 +1,66 @@
+3.10 Alter Table
+
+Using the table below (named concessions), perform the following tasks.
+id 	item 		price 	size
+1 	Popcorn 	2.00 	Small
+2 	Popcorn 	4.00 	Large
+3 	Candy 		3.00 	Regular
+4 	Soda 		1.50 	Small
+5 	Soda 		2.50 	Large
+6 	Hot Dog 	2.00 	Regular
+7 	Nachos 			Regular
+8 	Pizza 		2.00 	
+
+1. Prepare the SQL code to add a column called inventory to the current table.
+
+Answer: ALTER TABLE concessions ADD COLUMN inventory int;
+
+
+2. For now, set the number of 'Hot Dog' and 'Candy' items in the inventory to 100. You should be able to do this with one UPDATE statement.
+Answer:
+
+ALTER TABLE concessions ADD COLUMN inventory int;
+
+UPDATE concessions SET inventory = 100 WHERE (item = 'Hot Dog' OR item = 'Candy');
+
+3. Great, but the theater has decided to change the way it lists its inventory. Instead of listing the number of items, it’s going to list status of items (i.e., Full, Half, Empty). Change the data type for the column inventory from 'int' to a data type of 'varchar(10)'. 
+
+Answer: 
+
+ALTER TABLE concessions ADD COLUMN inventory int;
+
+UPDATE concessions SET inventory = 100 WHERE (item = 'Hot Dog' OR item = 'Candy');
+
+ALTER TABLE concessions ALTER COLUMN inventory TYPE varchar(10);
+
+4. Since the theater is changing its inventory listings, let’s UPDATE the column to reflect the following in the inventory column: All Popcorn should be 'Full', All 'Soda' should be 'Half', and both 'Candy' and 'Hot Dog' should be 'Empty'.
+
+Answer:
+
+ALTER TABLE concessions ADD COLUMN inventory int;
+
+UPDATE concessions SET inventory = 100 WHERE (item = 'Hot Dog' OR item = 'Candy');
+
+ALTER TABLE concessions ALTER COLUMN inventory TYPE varchar(10);
+
+UPDATE concessions SET inventory = 'Full' WHERE item = 'Popcorn';
+UPDATE concessions SET inventory = 'Half' WHERE item = 'Soda';
+UPDATE concessions SET inventory = 'Empty' WHERE item = 'Candy';
+UPDATE concessions SET inventory = 'Empty' WHERE item = 'Hot Dog';
+
+5. Sorry to do this to you, but the theater has decided to track inventory in a different way. Please remove the inventory column.
+
+Answer:
+
+ALTER TABLE concessions ADD COLUMN inventory int;
+
+UPDATE concessions SET inventory = 100 WHERE (item = 'Hot Dog' OR item = 'Candy');
+
+ALTER TABLE concessions ALTER COLUMN inventory TYPE varchar(10);
+
+UPDATE concessions SET inventory = 'Full' WHERE item = 'Popcorn';
+UPDATE concessions SET inventory = 'Half' WHERE item = 'Soda';
+UPDATE concessions SET inventory = 'Empty' WHERE item = 'Candy';
+UPDATE concessions SET inventory = 'Empty' WHERE item = 'Hot Dog';
+
+ALTER TABLE concessions DROP COLUMN inventory;

@@ -1,0 +1,5 @@
+2.16 Removing Data
+
+The data in a table can be removed using the statement.
+
+Answer: DELETE
