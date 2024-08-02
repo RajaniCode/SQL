@@ -1,0 +1,152 @@
+###########################################################################################################################
+
+# PostgreSQL
+
+###########################################################################################################################
+***************************************************************************************************************************
+
+% brew install postgresql@16
+# Restart terminal window
+% brew services start postgresql@16
+[
+% ls /opt/homebrew/var/log
+% ls /opt/homebrew/var/log/postgresql@16.log
+% cat /opt/homebrew/var/log/postgresql@16.log
+
+% ls /opt/homebrew/var/
+% ls /opt/homebrew/var/postgresql@16
+
+% ls /opt/homebrew/Cellar
+% ls /opt/homebrew/Cellar/postgresql@16
+% ls /opt/homebrew/Cellar/postgresql@16/16.1
+
+% ls /opt/homebrew/opt
+% ls /opt/homebrew/opt/postgresql@16
+
+# postgres # psql # pgbench
+% ls /opt/homebrew/opt/postgresql@16/bin
+]
+# % whoami
+% export PATH=$PATH:"/opt/homebrew/opt/postgresql@16/bin"
+# % createdb `whoami`
+# role "postgres"
+# % createuser -s postgres 
+
+% psql --version
+% where psql    
+% which psql  
+% type psql
+% man psql
+
+# REPL
+% psql               
+# SELECT version();
+# exit
+
+% psql -U postgres -l
+
+[
+% dropdb `whoami`
+]
+% dropdb `whoami` && createdb `whoami`
+
+[
+% brew services stop postgresql@16
+% brew services restart postgresql@16
+]
+
+% locale -a
+% locale
+% export PGDATA="/opt/homebrew/var/postgresql@16"
+% export LC_ALL="en_US"
+
+% postgres --version
+% where postgres    
+% which postgres  
+% type postgres
+% man postgres
+% postgres
+
+# In another terminal
+% psql
+
+% pgbench --version
+% where pgbench    
+% which pgbench  
+% type pgbench
+% man pgbench
+% pgbench -i `whoami`
+% pgbench
+
+[
+% brew uninstall postgresql@16
+
+% ls /opt/homebrew/var/log/postgresql@16.log
+% cat /opt/homebrew/var/log/postgresql@16.log
+% rm -r  /opt/homebrew/var/log/postgresql@16.log
+
+% ls /opt/homebrew/var/postgresql@16
+% rm -r  /opt/homebrew/var/postgresql@16
+
+[
+% ls /opt/homebrew/Cellar/postgresql@16
+% rm -r  /opt/homebrew/Cellar/postgresql@16
+
+% ls /opt/homebrew/opt/postgresql@16
+% rm -r  /opt/homebrew/opt/postgresql@16
+]
+]
+
+***************************************************************************************************************************
+
+# pgadmin4
+
+***************************************************************************************************************************
+
+% sudo mkdir -p /var/lib/pgadmin
+% ls /var/lib/pgadmin
+[
+% sudo rm -rf /var/lib/pgadmin
+]
+% sudo mkdir -p /var/log/pgadmin
+% ls /var/log/pgadmin
+[
+% sudo rm -rf /var/log/pgadmin
+]
+% sudo chown $USER /var/lib/pgadmin
+% sudo chown $USER /var/log/pgadmin
+[
+% python3 -m venv pgadmin4
+% source pgadmin4/bin/activate
+# (pgadmin4) % pip3 install pgadmin4
+# (pgadmin4) % where pgadmin4
+# (pgadmin4) % which pgadmin4
+# (pgadmin4) % type pgadmin4
+# (pgadmin4) % pgadmin4
+]
+% pip3 install pgadmin4
+% where pgadmin4
+% which pgadmin4
+% type pgadmin4
+% pgadmin4
+# pgadmin$4
+[
+NOTE: Configuring authentication for SERVER mode.
+
+Enter the email address and password to use for the initial pgAdmin user account:
+
+Email address: pgadmin4@example.com
+Password: *********
+Retype password: *********
+]
+[
+% pip3 uninstall pgadmin4
+% ls /var/lib/pgadmin
+% sudo rm -rf /var/lib/pgadmin
+
+% ls /var/log/pgadmin
+% sudo rm -rf /var/log/pgadmin
+]
+
+***************************************************************************************************************************
+###########################################################################################################################

@@ -1,0 +1,16 @@
+1.22 Which Rows
+
+Select all matching rows that would be included in the results of the following query:
+
+  SELECT * 
+  FROM  movies
+  WHERE duration >= 90;
+
+	id	title		duration	genre
+	1 	Metropolis 	153 		Sci-Fi
+	2 	Nosferatu 	94 		Horror
+	3 	The Kid 	68 		Comedy
+	4 	The Gold Rush 	95 		Adventure
+	5 	The Circus 	71 		Comedy 
+
+ANSWER: 1, 2, 4 (id selection)

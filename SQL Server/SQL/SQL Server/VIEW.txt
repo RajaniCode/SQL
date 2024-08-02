@@ -1,0 +1,437 @@
+Create database:          
+USE  master
+
+IF EXISTS (SELECT * FROM master..sysdatabases WHERE name = 'viewdb') 
+
+DROP DATABASE viewdb
+
+CREATE DATABASE viewdb
+ON PRIMARY
+(NAME = viewdb_dat,
+FILENAME = 'C:\Program Files\Microsoft SQL Server\MSSQL.1\MSSQL\Data\viewdb.mdf', 
+SIZE = 12,
+MAXSIZE = 100,
+FILEGROWTH = 2),
+FILEGROUP viewdbgroup
+(NAME = viewdbgroup_dat,
+FILENAME = 'C:\Program Files\Microsoft SQL Server\MSSQL.1\MSSQL\Data\viewdbgroup.ndf', 
+SIZE = 12, MAXSIZE = 100, FILEGROWTH = 2)
+LOG ON
+(NAME = 'viewdb_log', 
+FILENAME = 'C:\Program Files\Microsoft SQL Server\MSSQL.1\MSSQL\Data\viewdb.ldf', 
+SIZE = 4 MB,
+MAXSIZE = 50 MB,
+FILEGROWTH = 2 MB)
+
+
+
+
+
+
+
+
+
+
+Create tables for view:
+USE  viewdb
+
+IF OBJECT_ID('dbo.publisher', 'U') IS NOT NULL
+  
+DROP TABLE dbo.publisher
+
+CREATE TABLE publisher
+(
+id nvarchar(4) NOT NULL CONSTRAINT pkpid PRIMARY KEY CLUSTERED,
+pname nvarchar(20),
+pcity nvarchar(10),
+pstate nvarchar(5),
+pcountry nvarchar(15),
+)
+ON viewdbgroup
+
+
+INSERT INTO publisher
+VALUES
+(
+'0736',
+'New Moon Books',
+'Boston',
+'MA',
+'USA'
+)
+
+INSERT INTO publisher
+VALUES
+(
+'0877',
+'Binnet & Hardly',
+'Washington',
+'DC',
+'USA'
+)
+
+INSERT INTO publisher
+VALUES
+(
+'1389',
+'New Moon Books',
+'Boston',
+'MA',
+'USA'
+)
+
+SELECT * FROM publisher
+
+
+
+
+
+USE viewdb
+
+IF OBJECT_ID('dbo.title', 'U') IS NOT NULL
+  
+DROP TABLE dbo.title
+
+CREATE TABLE title
+(
+tid nchar(10) NOT NULL CONSTRAINT pktid PRIMARY KEY CLUSTERED,
+tname nvarchar(50),
+id nvarchar(4),
+tprice real,
+CONSTRAINT fkpid FOREIGN KEY(id) REFERENCES publisher(id)
+)
+ON viewdbgroup
+
+INSERT INTO title
+VALUES
+(
+'BU2075',
+'You Can Combat Computer Stress!',
+'0736',
+19.99
+)
+
+INSERT INTO title
+VALUES
+(
+'MC3021',
+'The Gourmet Microwave',
+'0877',
+2.99
+)
+
+INSERT INTO title
+VALUES
+(
+'BU7832',
+'Straight Talk About Computers',
+'1389',
+19.99
+)
+
+INSERT INTO title
+VALUES
+(
+'PS2091',
+'Is Anger the Enemy',
+'0736',
+10.95
+)
+
+INSERT INTO title
+VALUES
+(
+'TC7777',
+'Sishi, Anyone?',
+'0877',
+14.99
+)
+
+SELECT * FROM title
+
+
+
+
+
+Create view:
+CREATE VIEW v_publisher_title
+(v_pname, v_tname, v_tprice)
+WITH ENCRYPTION
+AS
+SELECT pname, tname, tprice
+FROM publisher JOIN title
+ON publisher.id = title.id
+WITH CHECK OPTION
+
+(cannot INSERT or DELETE) but can SELECT or UPDATE (modification should not affect more than one underlying table) (underlying table will also be updated):
+UPDATE v_publisher_title SET tprice = 55 WHERE pname = 'New Moon Books';
+
+
+SELECT * FROM title
+
+
+ALter view:
+ALTER VIEW v_publisher_title
+(view_pname, view_tname, view_tprice)
+AS
+SELECT pname, tname, tprice
+FROM publisher JOIN title
+ON publisher.id = title.id
+
+
+SELECT * FROM v_publisher_title
+
+
+sp_depends v_publisher_title
+
+sp_help v_publisher_title
+
+sp_helptext v_publisher_title
+
+sp_refreshview v_publisher_title
+
+sp_rename 'v_publisher_title', 'publisher_title_v'
+
+sp_rename 'publisher_title_v', 'v_publisher_title'
+
+DROP VIEW v_publisher_title
+
+
+
+
+
+
+
+
+
+
+Create tables for view:
+USE viewdb
+
+IF OBJECT_ID('dbo.employee', 'U') IS NOT NULL
+  
+DROP TABLE dbo.employee
+
+CREATE TABLE employee
+(
+ecode int IDENTITY(0,1),
+efirstname nvarchar(20),
+elastname nvarchar(20),
+eskill nvarchar(20),
+eposition nvarchar(20) NOT NULL CONSTRAINT pkeposition PRIMARY KEY CLUSTERED,
+equalification nvarchar(20),
+ephone nvarchar(20),
+escore float
+) 
+
+INSERT INTO employee
+VALUES
+(
+'Bill',
+'Gates',
+'C#',
+'C# Boss',
+'Master of C#',
+'1234567890',
+100.00
+)
+
+INSERT INTO employee
+VALUES
+(
+'James',
+'Goosling',
+'Java',
+'Java Boss',
+'Master of Java',
+'1234509876',
+99.99
+)
+
+SELECT * FROM employee
+
+
+
+
+
+USE viewdb
+
+IF OBJECT_ID('dbo.position', 'U') IS NOT NULL
+  
+DROP TABLE dbo.position
+
+
+CREATE TABLE position
+(
+scode nvarchar(20) NOT NULL CONSTRAINT pkscode1 PRIMARY KEY CLUSTERED,
+pcode nvarchar(20)
+CONSTRAINT fkpcode FOREIGN KEY(pcode) REFERENCES employee(eposition)
+) 
+
+INSERT INTO position
+VALUES
+(
+'C#SkillCode',
+'C# Boss'
+)
+
+INSERT INTO position
+VALUES
+(
+'JavaSkillCode',
+'Java Boss'
+)
+
+SELECT * FROM position
+
+
+
+
+
+USE viewdb
+
+IF OBJECT_ID('dbo.skill', 'U') IS NOT NULL
+  
+DROP TABLE dbo.skill
+
+
+CREATE TABLE skill
+(
+scode nvarchar(20) NOT NULL CONSTRAINT pkscode2 PRIMARY KEY CLUSTERED,
+CONSTRAINT fkscode FOREIGN KEY(scode) REFERENCES position(scode)
+) 
+
+INSERT INTO skill
+VALUES
+(
+'C#SkillCode'
+)
+
+INSERT INTO skill
+VALUES
+(
+'JavaSkillCode'
+)
+
+SELECT * FROM skill
+
+
+
+
+
+Create view:
+CREATE VIEW v_employee_position_skill
+AS
+SELECT efirstname, elastname, equalification, eskill
+FROM employee JOIN position
+ON employee.eposition = position.pcode
+JOIN skill
+ON position.scode = skill.scode
+
+
+
+
+
+SELECT * FROM v_employee_position_skill
+
+ALTER VIEW v_employee_position_skill
+AS
+SELECT efirstname, elastname, equalification, eskill 
+FROM employee JOIN position
+ON employee.eposition = position.pcode
+JOIN skill
+ON position.scode = skill.scode
+WHERE efirstname = 'Bill'
+WITH CHECK OPTION;
+
+
+sp_depends v_employee_position_skill
+
+sp_help v_employee_position_skill
+
+sp_helptext v_employee_position_skill
+
+sp_refreshview v_employee_position_skill
+
+sp_rename 'v_employee_position_skill', 'epview'
+
+sp_rename 'epview', 'v_employee_position_skill'
+
+DROP VIEW v_employee_position_skill
+
+
+DROP VIEW v_employee_position_skill
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+USE viewdb
+
+IF OBJECT_ID('dbo.candidate', 'U') IS NOT NULL
+  
+DROP TABLE dbo.candidate
+
+CREATE TABLE candidate
+(
+code int IDENTITY (1001, 1) NOT NULL CONSTRAINT pkcode2 PRIMARY KEY CLUSTERED,
+cfirstname nvarchar(20),
+clastname nvarchar(20), 
+cphone nvarchar(10),
+cscore float
+CONSTRAINT fkcode FOREIGN KEY(code) REFERENCES employee(code)
+) 
+ON viewdbgroup
+
+INSERT INTO candidate
+VALUES
+(
+'Bill',
+'Gates',
+'0987654321',
+100.00
+)
+
+INSERT INTO candidate
+VALUES
+(
+'James',
+'Goosling',
+'0987612345',
+90.00
+)
+
+SELECT * FROM candidate
+
+
+(Note: Rows can be inserted into table candidate only if code(candidate) = code(employee))
+
+
+
+
+
+Create view:
+CREATE VIEW v_employee_candidate
+AS
+SELECT employee.code, efirstname, elastname, ephone, escore
+FROM employee JOIN candidate
+ON employee.code = candidate.code
+
+
+SELECT * FROM viewpublishertitle

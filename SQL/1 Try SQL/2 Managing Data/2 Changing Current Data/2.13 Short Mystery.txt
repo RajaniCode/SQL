@@ -1,0 +1,9 @@
+2.13 Short Mystery
+
+Which rows would be included in the results of the following query:
+
+  UPDATE movies
+  SET genre = 'Mystery'
+  WHERE duration < 75;
+
+Answer: 3, 4 (id selection)

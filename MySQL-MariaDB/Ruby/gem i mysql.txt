@@ -1,0 +1,39 @@
+
+MINGW64 ~
+$ cd "E:\Working\Database\SQL\MySQL\Ruby"
+
+MINGW64 /e/Working/Database/SQL/MySQL/Ruby
+$ ruby --version
+ruby 2.2.4p230 (2015-12-16 revision 53155) [i386-mingw32]
+
+MINGW64 /e/Working/Database/SQL/MySQL/Ruby
+$ gem --version
+2.4.5.1
+
+MINGW64 /e/Working/Database/SQL/MySQL/Ruby
+$ gem i mysql
+
+======================================================================================================
+
+  You've installed the binary version of mysql.
+  It was built using MySQL Connector/C version 6.0.2.
+  It's recommended to use the exact same version to avoid potential issues.
+
+  At the time of building this gem, the necessary DLL files where available
+  in the following URL:
+
+  http://dev.mysql.com/get/Downloads/Connector-C/mysql-connector-c-noinstall-6.0.2-win32.zip/from/pick
+
+  You can put the lib\libmysql.dll available in this package to your Ruby bin directory.
+  E.g. C:\Ruby\bin
+
+======================================================================================================
+
+Successfully installed mysql-2.9.1-x86-mingw32
+Parsing documentation for mysql-2.9.1-x86-mingw32
+Installing ri documentation for mysql-2.9.1-x86-mingw32
+Done installing documentation for mysql after 7 seconds
+1 gem installed
+
+MINGW64 /e/Working/Database/SQL/MySQL/Ruby
+$

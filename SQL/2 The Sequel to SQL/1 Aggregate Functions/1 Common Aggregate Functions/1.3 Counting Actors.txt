@@ -1,0 +1,45 @@
+1.3 Counting Actors
+
+
+Let's find how many actors we have in our database.
+
+
+Tables
+Actors
+name 			country
+Vivien Leigh 		IN
+Clark Gable 		USA
+Olivia de Havilland 	Japan
+Hattie McDaniel 	USA
+Leslie Howard 		UK
+Alicia Rhett 		USA
+Lillian Kemble-Cooper 	UK
+
+
+schema.sql
+CREATE TABLE Actors (
+  name varchar(50),
+  country varchar(10)
+);
+
+INSERT INTO Actors (name, country) VALUES
+  ('Vivien Leigh',          'IN'),
+  ('Clark Gable',           'USA'),
+  ('Olivia de Havilland',   'Japan'),
+  ('Hattie McDaniel',       'USA'),
+  ('Leslie Howard',         'UK'),
+  ('Alicia Rhett',          'USA'),
+  ('Lillian Kemble-Cooper', 'UK');
+
+
+query.sql
+
+
+1. Write a query that returns the total number of actors in the Actors table. Check out schema.sql, or the Tables tab, to see the definition of the Actors table.
+
+Answer: SELECT count(name) FROM Actors;
+
+
+2. You can add a WHERE clause to filter the result set. Go ahead and filter the results to only count American actors.
+
+Answer: SELECT count(name) FROM Actors WHERE country = 'USA';

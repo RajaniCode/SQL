@@ -1,0 +1,60 @@
+3.5 Create Advertisements
+
+1. Let's create a table with some real data!
+
+Every theater uses some way to advertise the films that it is showing. Using the data below, create a table called advertisements. The name of the columns should reflect (as closely as possible) the type of data to be stored in it.
+Given data:
+1 	Poster 		Paper 	20
+2 	Billboard 	Paper 	100
+3 	Banner Ad 	Web 	35
+4 	Commercial 		150
+
+Answer: 
+
+CREATE TABLE advertisements 
+(
+ id int, 
+ name varchar(50),  
+ category varchar(50),
+ cost int,
+ primary key (id)
+);
+
+INSERT INTO advertisements 
+VALUES 
+(1, 'Poster', 'Paper',  20),
+(2, 'Billboard', 'Paper',  100),
+(3, 'Banner Ad', 'Web',  35),
+(4, 'Commercial', '',  150);
+
+//Note
+CREATE TABLE advertisements 
+(
+ id int, 
+ name varchar(50),  
+ category varchar(50),
+ cost int,
+ primary key (id)
+);
+
+INSERT INTO advertisements 
+(id, name, category, cost)
+VALUES 
+(1, 'Poster', 'Paper',  20),
+(2, 'Billboard', 'Paper',  100),
+(3, 'Banner Ad', 'Web',  35),
+(4, 'Commercial', '',  150);
+
+2. Great – now let's add our data highlighted in yellow to the table.
+
+1 	Poster 		Paper 	20 -- highlighted in yellow
+2 	Billboard 	Paper 	100
+3 	Banner Ad 	Web 	35
+4 	Commercial 		150
+
+Answer: 
+
+INSERT INTO advertisements 
+(id, name, category, cost)
+VALUES 
+(1, 'Poster', 'Paper',  20);

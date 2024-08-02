@@ -1,0 +1,587 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Chapter 7 Connector/Python Connection Establishment</title>
+<link rel="stylesheet" href="mvl.css" type="text/css" />
+<meta name="generator" content="DocBook XSL Stylesheets + chunker.py v1.9.2" />
+<link rel="start" href="index.html" title="{book-title}" />
+<link rel="up" href="" title="" />
+<link rel="prev" href="connector-python-tutorials.html" title="Chapter 6 Connector/Python Tutorials" />
+<link rel="next" href="connector-python-cext.html" title="Chapter 8 The Connector/Python C Extension" />
+<script language="javascript" type="text/javascript">
+  function addOnload(theFunc)
+  {
+    var previous = window.onload;
+    if (typeof window.onload != 'function')
+    {
+      window.onload = theFunc;
+    }
+    else
+    {
+      window.onload = function()
+      {
+        previous();
+        theFunc();
+      }
+    }
+  }
+
+  addOnload(function()
+  {
+    var base = new Date(1455899810*1000);
+    var now = new Date();
+    var diff = ((now-base)/1000)/(24*3600);
+
+    if (diff > 90) {
+      var nodes = document.getElementsByClassName('titlepage');
+      nodes[0].innerHTML = '<p style="border: 5px #ff0000 solid; padding: 5px; margin 5px">' +
+        'This copy of the manual is more than 90 days old. We encourage you to download a ' +
+        'new version from <a href="http://dev.mysql.com">dev.mysql.com/doc</a>.</p>' + nodes[0].innerHTML;
+    }
+  });
+</script>
+<noscript></noscript>
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr>
+<th colspan="3" align="center">Chapter 7 Connector/Python Connection Establishment</th>
+</tr>
+<tr>
+<td width="20%" align="left"><a accesskey="p" href="connector-python-tutorials.html">Prev</a> </td>
+<th width="60%" align="center"></th>
+<td width="20%" align="right"> <a accesskey="n" href="connector-python-cext.html">Next</a></td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="chapter">
+<div class="titlepage">
+<div>
+<div>
+<h1 class="title"><a name="connector-python-connecting"></a>Chapter 7 Connector/Python Connection Establishment</h1>
+
+</div>
+
+</div>
+
+</div>
+<div class="toc">
+<p><b>Table of Contents</b></p><dl class="toc"><dt><span class="section"><a href="connector-python-connecting.html#connector-python-connectargs">7.1 Connector/Python Connection Arguments</a></span></dt><dt><span class="section"><a href="connector-python-connecting.html#connector-python-option-files">7.2 Connector/Python Option-File Support</a></span></dt></dl>
+</div>
+<p>
+    Connector/Python provides a <code class="literal">connect()</code> call used to establish
+    connections to the MySQL server. The following sections describe the
+    permitted arguments for <code class="literal">connect()</code> and describe
+    how to use option files that supply additional arguments.
+</p>
+<div class="section">
+
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-connectargs"></a>7.1 Connector/Python Connection Arguments</h2>
+</div>
+</div>
+</div>
+<p>
+      A connection with the MySQL server can be established using either
+      the <code class="literal">mysql.connector.connect()</code> function or the
+      <code class="literal">mysql.connector.MySQLConnection()</code> class:
+    </p><pre class="programlisting">
+cnx = mysql.connector.connect(user='joe', database='test')
+cnx = MySQLConnection(user='joe', database='test')
+</pre><p>
+      The following table describes the arguments that can be used to
+      initiate a connection. An asterisk (*) following an argument
+      indicates a synonymous argument name, available only for
+      compatibility with other Python MySQL drivers. Oracle recommends
+      not to use these alternative names.
+</p>
+<div class="table">
+<a name="idm139908632098256"></a><p class="title"><b>Table 7.1 Connection Arguments for Connector/Python</b></p>
+<div class="table-contents">
+<table summary="Connection Arguments for Connector/Python" border="1"><colgroup><col><col><col></colgroup><thead><tr><th scope="col">Argument Name</th><th scope="col">Default</th><th scope="col">Description</th></tr></thead><tbody><tr><td scope="row"><code class="literal">user</code> (<code class="literal">username</code>*)</td><td> </td><td>The user name used to authenticate with the MySQL server.</td></tr><tr><td scope="row"><code class="literal">password</code> (<code class="literal">passwd</code>*)</td><td> </td><td>The password to authenticate the user with the MySQL server.</td></tr><tr><td scope="row"><code class="literal">database</code> (<code class="literal">db</code>*)</td><td> </td><td>The database name to use when connecting with the MySQL server.</td></tr><tr><td scope="row"><code class="literal">host</code></td><td>127.0.0.1</td><td>The host name or IP address of the MySQL server.</td></tr><tr><td scope="row"><code class="literal">port</code></td><td>3306</td><td>The TCP/IP port of the MySQL server. Must be an integer.</td></tr><tr><td scope="row"><code class="literal">unix_socket</code></td><td> </td><td>The location of the Unix socket file.</td></tr><tr><td scope="row"><code class="literal">auth_plugin</code></td><td> </td><td>Authentication plugin to use. Added in 1.2.1.</td></tr><tr><td scope="row"><code class="literal">use_unicode</code></td><td><code class="literal">True</code></td><td>Whether to use Unicode.</td></tr><tr><td scope="row"><code class="literal">charset</code></td><td><code class="literal">utf8</code></td><td>Which MySQL character set to use.</td></tr><tr><td scope="row"><code class="literal">collation</code></td><td><code class="literal">utf8_general_ci</code></td><td>Which MySQL collation to use.</td></tr><tr><td scope="row"><code class="literal">autocommit</code></td><td><code class="literal">False</code></td><td>Whether to <a class="ulink" href="http://dev.mysql.com/doc/refman/5.6/en/glossary.html#glos_autocommit" target="_top">autocommit</a>
+              transactions.</td></tr><tr><td scope="row"><code class="literal">time_zone</code></td><td> </td><td>Set the <code class="literal">time_zone</code> session variable at connection
+              time.</td></tr><tr><td scope="row"><code class="literal">sql_mode</code></td><td> </td><td>Set the <code class="literal">sql_mode</code> session variable at connection time.</td></tr><tr><td scope="row"><code class="literal">get_warnings</code></td><td><code class="literal">False</code></td><td>Whether to fetch warnings.</td></tr><tr><td scope="row"><code class="literal">raise_on_warnings</code></td><td><code class="literal">False</code></td><td>Whether to raise an exception on warnings.</td></tr><tr><td scope="row"><code class="literal">connection_timeout</code>
+              (<code class="literal">connect_timeout</code>*)</td><td> </td><td>Timeout for the TCP and Unix socket connections.</td></tr><tr><td scope="row"><code class="literal">client_flags</code></td><td> </td><td>MySQL client flags.</td></tr><tr><td scope="row"><code class="literal">buffered</code></td><td><code class="literal">False</code></td><td>Whether cursor objects fetch the results immediately after executing
+              queries.</td></tr><tr><td scope="row"><code class="literal">raw</code></td><td><code class="literal">False</code></td><td>Whether MySQL results are returned as is, rather than converted to
+              Python types.</td></tr><tr><td scope="row"><code class="literal">consume_results</code></td><td>False</td><td>Whether to automatically read result sets.</td></tr><tr><td scope="row"><code class="literal">ssl_ca</code></td><td> </td><td>File containing the SSL certificate authority.</td></tr><tr><td scope="row"><code class="literal">ssl_cert</code></td><td> </td><td>File containing the SSL certificate file.</td></tr><tr><td scope="row"><code class="literal">ssl_key</code></td><td> </td><td>File containing the SSL key.</td></tr><tr><td scope="row"><code class="literal">ssl_verify_cert</code></td><td><code class="literal">False</code></td><td>When set to <code class="literal">True</code>, checks the server certificate
+              against the certificate file specified by the
+              <code class="literal">ssl_ca</code> option. Any mismatch causes a
+              <code class="literal">ValueError</code> exception.</td></tr><tr><td scope="row"><code class="literal">force_ipv6</code></td><td><code class="literal">False</code></td><td>When set to <code class="literal">True</code>, uses IPv6 when an address resolves
+              to both IPv4 and IPv6. By default, IPv4 is used in such
+              cases.</td></tr><tr><td scope="row"><code class="literal">dsn</code></td><td> </td><td>Not supported (raises <code class="literal">NotSupportedError</code> when used).</td></tr><tr><td scope="row"><code class="literal">pool_name</code></td><td> </td><td>Connection pool name. Added in 1.1.1.</td></tr><tr><td scope="row"><code class="literal">pool_size</code></td><td>5</td><td>Connection pool size. Added in 1.1.1.</td></tr><tr><td scope="row"><code class="literal">pool_reset_session</code></td><td><code class="literal">True</code></td><td>Whether to reset session variables when connection is returned to pool.
+              Added in 1.1.5.</td></tr><tr><td scope="row"><code class="literal">compress</code></td><td><code class="literal">False</code></td><td>Whether to use compressed client/server protocol. Added in 1.1.2.</td></tr><tr><td scope="row"><code class="literal">converter_class</code></td><td> </td><td>Converter class to use. Added in 1.1.2.</td></tr><tr><td scope="row"><code class="literal">fabric</code></td><td> </td><td>MySQL Fabric connection arguments. Added in 1.2.0.</td></tr><tr><td scope="row"><code class="literal">failover</code></td><td> </td><td>Server failover sequence. Added in 1.2.1.</td></tr><tr><td scope="row"><code class="literal">option_files</code></td><td> </td><td>Which option files to read. Added in 2.0.0.</td></tr><tr><td scope="row"><code class="literal">option_groups</code></td><td><code class="literal">['client', 'connector_python']</code></td><td>Which groups to read from option files. Added in 2.0.0.</td></tr><tr><td scope="row"><code class="literal">allow_local_infile</code></td><td><code class="literal">True</code></td><td>Whether to enable <a class="ulink" href="http://dev.mysql.com/doc/refman/5.6/en/load-data.html" target="_top"><code class="literal">LOAD DATA
+LOCAL INFILE</code></a>. Added in 2.0.0.</td></tr><tr><td scope="row"><code class="literal">use_pure</code></td><td><code class="literal">True</code></td><td>Whether to use pure Python or C Extension. Added in 2.1.1.</td></tr></tbody></table>
+</div>
+
+</div>
+<br class="table-break">
+<h3><a name="idm139908632009152"></a>MySQL Authentication Options</h3>
+<p>
+      Authentication with MySQL uses <code class="literal">username</code> and
+      <code class="literal">password</code>.
+</p>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+
+<div class="admon-title">
+Note
+</div>
+<p>
+        MySQL Connector/Python does not support the old, less-secure password protocols
+        of MySQL versions prior to 4.1.
+</p>
+</div>
+<p>
+      When the <code class="literal">database</code> argument is given, the
+      current database is set to the given value. To change the current
+      database later, execute a <code class="literal">USE</code> SQL statement or
+      set the <code class="literal">database</code> property of the
+      <code class="literal">MySQLConnection</code> instance.
+    </p><p>
+      By default, Connector/Python tries to connect to a MySQL server running on
+      the local host using TCP/IP. The <code class="literal">host</code> argument
+      defaults to IP address 127.0.0.1 and <code class="literal">port</code> to
+      3306. Unix sockets are supported by setting
+      <code class="literal">unix_socket</code>. Named pipes on the Windows
+      platform are not supported.
+    </p><p>
+      Connector/Python 1.2.1 and up supports authentication plugins found in MySQL
+      5.6. This includes <code class="literal">mysql_clear_password</code> and
+      <code class="literal">sha256_password</code>, both of which require an SSL
+      connection. The <code class="literal">sha256_password</code> plugin does not
+      work over a non-SSL connection because Connector/Python does not support RSA
+      encryption.
+    </p><p>
+      The <code class="literal">connect()</code> method supports an
+      <code class="literal">auth_plugin</code> argument that can be used to force
+      use of a particular plugin. For example, if the server is
+      configured to use <code class="literal">sha256_password</code> by default
+      and you want to connect to an account that authenticates using
+      <code class="literal">mysql_native_password</code>, either connect using SSL
+      or specify <code class="literal">auth_plugin='mysql_native_password'</code>.
+</p>
+<h3><a name="idm139908631994128"></a>Character Encoding</h3>
+<p>
+      By default, strings coming from MySQL are returned as Python
+      Unicode literals. To change this behavior, set
+      <code class="literal">use_unicode</code> to <code class="literal">False</code>. You
+      can change the character setting for the client connection through
+      the <code class="literal">charset</code> argument. To change the character
+      set after connecting to MySQL, set the <code class="literal">charset</code>
+      property of the <code class="literal">MySQLConnection</code> instance. This
+      technique is preferred over using the <code class="literal">SET NAMES</code>
+      SQL statement directly. Similar to the <code class="literal">charset</code>
+      property, you can set the <code class="literal">collation</code> for the
+      current MySQL session.
+</p>
+<h3><a name="idm139908631987696"></a>Transactions</h3>
+<p>
+      The <code class="literal">autocommit</code> value defaults to
+      <code class="literal">False</code>, so transactions are not automatically
+      committed. Call the <code class="literal">commit()</code> method of the
+      <code class="literal">MySQLConnection</code> instance within your
+      application after doing a set of related insert, update, and
+      delete operations. For data consistency and high throughput for
+      write operations, it is best to leave the
+      <code class="literal">autocommit</code> configuration option turned off when
+      using <code class="literal">InnoDB</code> or other transactional tables.
+</p>
+<h3><a name="idm139908631982640"></a>Time Zones</h3>
+<p>
+      The time zone can be set per connection using the
+      <code class="literal">time_zone</code> argument. This is useful, for
+      example, if the MySQL server is set to UTC and
+      <code class="literal">TIMESTAMP</code> values should be returned by MySQL
+      converted to the <code class="literal">PST</code> time zone.
+</p>
+<h3><a name="idm139908631979488"></a>SQL Modes</h3>
+<p>
+      MySQL supports so-called SQL Modes. which change the behavior of
+      the server globally or per connection. For example, to have
+      warnings raised as errors, set <code class="literal">sql_mode</code> to
+      <code class="literal">TRADITIONAL</code>. For more information, see
+      <a class="ulink" href="http://dev.mysql.com/doc/refman/5.6/en/sql-mode.html" target="_top">Server SQL Modes</a>.
+</p>
+<h3><a name="idm139908631976416"></a>Troubleshooting and Error Handling</h3>
+<p>
+      Warnings generated by queries are fetched automatically when
+      <code class="literal">get_warnings</code> is set to <code class="literal">True</code>.
+      You can also immediately raise an exception by setting
+      <code class="literal">raise_on_warnings</code> to <code class="literal">True</code>.
+      Consider using the MySQL <a class="ulink" href="http://dev.mysql.com/doc/refman/5.6/en/sql-mode.html" target="_top">sql_mode</a>
+      setting for turning warnings into errors.
+    </p><p>
+      To set a timeout value for connections, use
+      <code class="literal">connection_timeout</code>.
+</p>
+<h3><a name="idm139908631971024"></a>Enabling and Disabling Features Using Client Flags</h3>
+<p>
+      MySQL uses <a class="ulink" href="http://dev.mysql.com/doc/refman/5.6/en/mysql-real-connect.html" target="_top">client flags</a>
+      to enable or disable features. Using the
+      <code class="literal">client_flags</code> argument, you have control of what
+      is set. To find out what flags are available, use the following:
+    </p><pre class="programlisting">
+from mysql.connector.constants import ClientFlag
+print '\n'.join(ClientFlag.get_full_info())
+</pre><p>
+      If <code class="literal">client_flags</code> is not specified (that is, it
+      is zero), defaults are used for MySQL v4.1 and later. If you
+      specify an integer greater than <code class="literal">0</code>, make sure
+      all flags are set properly. A better way to set and unset flags
+      individually is to use a list. For example, to set
+      <code class="literal">FOUND_ROWS</code>, but disable the default
+      <code class="literal">LONG_FLAG</code>:
+    </p><pre class="programlisting">
+flags = [ClientFlag.FOUND_ROWS, -ClientFlag.LONG_FLAG]
+mysql.connector.connect(client_flags=flags)
+</pre>
+<h3><a name="idm139908631963888"></a>Result Set Handling</h3>
+<p>
+      By default, MySQL Connector/Python does not buffer or prefetch results. This means
+      that after a query is executed, your program is responsible for
+      fetching the data. This avoids excessive memory use when queries
+      return large result sets. If you know that the result set is small
+      enough to handle all at once, you can fetch the results
+      immediately by setting <code class="literal">buffered</code> to
+      <code class="literal">True</code>. It is also possible to set this per
+      cursor (see
+      <a class="xref" href="connector-python-reference.html#connector-python-api-mysqlconnection-cursor" title="10.2.6 MySQLConnection.cursor() Method">Section 10.2.6, “MySQLConnection.cursor() Method”</a>).
+    </p><p>
+      Results generated by queries normally are not read until the
+      client program fetches them. To automatically consume and discard
+      result sets, set the <code class="literal">consume_results</code> option to
+      <code class="literal">True</code>. The result is that all results are read,
+      which for large result sets can be slow. (In this case, it might
+      be preferable to close and reopen the connection.) This option is
+      available as of Connector/Python 1.1.2.
+</p>
+<h3><a name="idm139908631958576"></a>Type Conversions</h3>
+<p>
+      By default, MySQL types in result sets are converted automatically
+      to Python types. For example, a <code class="literal">DATETIME</code> column
+      value becomes a
+      <a class="ulink" href="http://docs.python.org/library/datetime.html#datetime.datetime" target="_top">datetime.datetime</a>
+      object. To disable conversion, set the <code class="literal">raw</code>
+      option to <code class="literal">True</code>. You might do this to get better
+      performance or perform different types of conversion yourself.
+</p>
+<h3><a name="idm139908631954736"></a>Connecting through SSL</h3>
+<p>
+      Using SSL connections is possible when your
+      <a class="ulink" href="http://docs.python.org/library/ssl.html" target="_top">Python
+      installation supports SSL</a>, that is, when it is compiled
+      against the OpenSSL libraries. When you provide the
+      <code class="literal">ssl_ca</code>, <code class="literal">ssl_key</code> and
+      <code class="literal">ssl_cert</code> options, the connection switches to
+      SSL, and the <code class="literal">client_flags</code> option includes the
+      <code class="literal">ClientFlag.SSL</code> value automatically. You can use
+      this in combination with the <code class="literal">compressed</code> option
+      set to <code class="literal">True</code>.
+    </p><p>
+      As of Connector/Python 1.2.1, it is possible to establish an SSL connection
+      using only the <code class="literal">ssl_ca</code> opion. The
+      <code class="literal">ssl_key</code> and <code class="literal">ssl_cert</code>
+      arguments are optional. However, when either is given, both must
+      be given or an <code class="literal">AttributeError</code> is raised.
+    </p><pre class="programlisting">
+# Note (Example is valid for Python v2 and v3) 
+from __future__ import print_function 
+
+import sys 
+
+#sys.path.insert(0, 'python{0}/'.format(sys.version_info[0])) 
+
+import mysql.connector 
+from mysql.connector.constants import ClientFlag 
+
+config = { 
+    'user': 'ssluser', 
+    'password': 'asecret', 
+    'host': '127.0.0.1', 
+    'client_flags': [ClientFlag.SSL], 
+    'ssl_ca': '/opt/mysql/ssl/ca.pem', 
+    'ssl_cert': '/opt/mysql/ssl/client-cert.pem', 
+    'ssl_key': '/opt/mysql/ssl/client-key.pem', 
+} 
+
+cnx = mysql.connector.connect(**config) 
+cur = cnx.cursor(buffered=True) 
+cur.execute("SHOW STATUS LIKE 'Ssl_cipher'") 
+print(cur.fetchone()) 
+cur.close() 
+cnx.close() 
+</pre>
+<h3><a name="idm139908631943936"></a>Connection Pooling</h3>
+<p>
+      With either the <code class="literal">pool_name</code> or
+      <code class="literal">pool_size</code> argument present, Connector/Python creates the
+      new pool. If the <code class="literal">pool_name</code> argument is not
+      given, the <code class="literal">connect()</code> call automatically
+      generates the name, composed from whichever of the
+      <code class="literal">host</code>, <code class="literal">port</code>,
+      <code class="literal">user</code>, and <code class="literal">database</code>
+      connection arguments are given, in that order. If the
+      <code class="literal">pool_size</code> argument is not given, the default
+      size is 5 connections.
+    </p><p>
+      The <code class="literal">pool_reset_session</code> permits control over
+      whether session variables are reset when the connection is
+      returned to the pool. The default is to reset them.
+    </p><p>
+      Connection pooling is supported as of Connector/Python 1.1.1. See
+      <a class="xref" href="connector-python-other.html#connector-python-connection-pooling" title="9.1 Connector/Python Connection Pooling">Section 9.1, “Connector/Python Connection Pooling”</a>.
+</p>
+<h3><a name="idm139908631934832"></a>Protocol Compression</h3>
+<p>
+      The boolean <code class="literal">compress</code> argument indicates whether
+      to use the compressed client/server protocol (default
+      <code class="literal">False</code>). This provides an easier alternative to
+      setting the <code class="literal">ClientFlag.COMPRESS</code> flag. This
+      argument is available as of Connector/Python 1.1.2.
+</p>
+<h3><a name="idm139908631931664"></a>Converter Class</h3>
+<p>
+      The <code class="literal">converter_class</code> argument takes a class and
+      sets it when configuring the connection. An
+      <code class="literal">AttributeError</code> is raised if the custom
+      converter class is not a subclass of
+      <code class="literal">conversion.MySQLConverterBase</code>. This argument is
+      available as of Connector/Python 1.1.2. Before 1.1.2, setting a custom
+      converter class is possible only after instantiating a new
+      connection object.
+    </p><p>
+      The boolean <code class="literal">compress</code> argument indicates whether
+      to use the compressed client/server protocol (default
+      <code class="literal">False</code>). This provides an easier alternative to
+      setting the <code class="literal">ClientFlag.COMPRESS</code> flag. This
+      argument is available as of Connector/Python 1.1.2.
+</p>
+<h3><a name="idm139908631925840"></a>MySQL Fabric Support</h3>
+<p>
+      To request a MySQL Fabric connection, provide a
+      <code class="literal">fabric</code> argument that specifies to contact
+      Fabric. For details, see
+      <a class="ulink" href="http://dev.mysql.com/doc/mysql-utilities/1.5/en/connector-python-fabric-connect.html" target="_top">Requesting a Fabric Connection</a>.
+</p>
+<h3><a name="idm139908631923312"></a>Server Failover</h3>
+<p>
+      As of Connector/Python 1.2.1, the <code class="literal">connect()</code> method accepts
+      a <code class="literal">failover</code> argument that provides information
+      to use for server failover in the event of connection failures.
+      The argument value is a tuple or list of dictionaries (tuple is
+      preferred because it is nonmutable). Each dictionary contains
+      connection arguments for a given server in the failover sequence.
+      Permitted dictionary values are: <code class="literal">user</code>,
+      <code class="literal">password</code>, <code class="literal">host</code>,
+      <code class="literal">port</code>, <code class="literal">unix_socket</code>,
+      <code class="literal">database</code>, <code class="literal">pool_name</code>,
+      <code class="literal">pool_size</code>.
+</p>
+<h3><a name="idm139908631915696"></a>Option File Support</h3>
+<p>
+      As of Connector/Python 2.0.0, option files are supported using two options
+      for <code class="literal">connect()</code>:
+</p>
+<div class="itemizedlist">
+<ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>
+          <code class="literal">option_files</code>: Which option files to read.
+          The value can be a file path name (a string) or a sequence of
+          path name strings. By default, Connector/Python reads no option files, so
+          this argument must be given explicitly to cause option files
+          to be read. Files are read in the order specified.
+        </p></li><li class="listitem"><p>
+          <code class="literal">option_groups</code>: Which groups to read from
+          option files, if option files are read. The value can be an
+          option group name (a string) or a sequence of group name
+          strings. If this argument is not given, the default value is
+          <code class="literal">['client', 'connector_python']</code> to read the
+          <code class="literal">[client]</code> and
+          <code class="literal">[connector_python]</code> groups.
+</p></li></ul>
+</div>
+<p>
+      For more information, see
+      <a class="xref" href="connector-python-connecting.html#connector-python-option-files" title="7.2 Connector/Python Option-File Support">Section 7.2, “Connector/Python Option-File Support”</a>.
+</p>
+<h3><a name="idm139908631907440"></a>LOAD DATA LOCAL INFILE</h3>
+<p>
+      Prior to Connector/Python 2.0.0, to enable use of
+      <a class="ulink" href="http://dev.mysql.com/doc/refman/5.6/en/load-data.html" target="_top"><code class="literal">LOAD DATA LOCAL
+      INFILE</code></a>, clients had to explicitly set the
+      <code class="literal">ClientFlag.LOCAL_FILES</code> flag. As of 2.0.0, this
+      flag is enabled by default. To disable it, the
+      <code class="literal">allow_local_infile</code> connection option can be set
+      to <code class="literal">False</code> at connect time (the default is
+      <code class="literal">True</code>).
+</p>
+<h3><a name="idm139908631902768"></a>Compatibitility with Other Connection Interfaces</h3>
+<p>
+      <code class="literal">passwd</code>, <code class="literal">db</code> and
+      <code class="literal">connect_timeout</code> are valid for compatibility
+      with other MySQL interfaces and are respectively the same as
+      <code class="literal">password</code>, <code class="literal">database</code> and
+      <code class="literal">connection_timeout</code>. The latter take precedence.
+      Data source name syntax or <code class="literal">dsn</code> is not used; if
+      specified, it raises a <code class="literal">NotSupportedError</code>
+      exception.
+</p>
+<h3><a name="idm139908631896576"></a>Client/Server Protocol Implementation</h3>
+<p>
+      Connector/Python can use a pure Python interface to MySQL, or a C Extension
+      that uses the MySQL C client library. The
+      <code class="literal">use_pure</code> connection argument determines which.
+      The default is <code class="literal">True</code> (use the pure Python
+      implementation). Setting <code class="literal">use_pure</code> to
+      <code class="literal">False</code> causes the connection to use the C
+      Extension if your Connector/Python installation includes it.
+    </p><p>
+      The <code class="literal">use_pure</code> argument is available as of Connector/Python
+      2.1.1. For more information, see
+      <a class="xref" href="connector-python-cext.html" title="Chapter 8 The Connector/Python C Extension">Chapter 8, <i>The Connector/Python C Extension</i></a>.
+</p>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-option-files"></a>7.2 Connector/Python Option-File Support</h2>
+
+</div>
+
+</div>
+
+</div>
+<p>
+      As of version 2.0.0, Connector/Python provides the capability of reading
+      options from option files. (For general information about option
+      files, see <a class="ulink" href="http://dev.mysql.com/doc/refman/5.6/en/option-files.html" target="_top">Using Option Files</a>.) Two arguments for the
+      <code class="literal">connect()</code> call control use of option files in
+      Connector/Python programs:
+</p>
+<div class="itemizedlist">
+<ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>
+          <code class="literal">option_files</code>: Which option files to read.
+          The value can be a file path name (a string) or a sequence of
+          path name strings. By default, Connector/Python reads no option files, so
+          this argument must be given explicitly to cause option files
+          to be read. Files are read in the order specified.
+        </p></li><li class="listitem"><p>
+          <code class="literal">option_groups</code>: Which groups to read from
+          option files, if option files are read. The value can be an
+          option group name (a string) or a sequence of group name
+          strings. If this argument is not given, the default value is
+          <code class="literal">['client', 'connector_python']</code>, to read the
+          <code class="literal">[client]</code> and
+          <code class="literal">[connector_python]</code> groups.
+</p></li></ul>
+</div>
+<p>
+      Connector/Python also supports the <code class="literal">!include</code> and
+      <code class="literal">!includedir</code> inclusion directives within option
+      files. These directives work the same way as for other MySQL
+      programs (see <a class="ulink" href="http://dev.mysql.com/doc/refman/5.6/en/option-files.html" target="_top">Using Option Files</a>).
+    </p><p>
+      This example specifies a single option file as a string:
+    </p><pre class="programlisting">
+cnx = mysql.connector.connect(option_files='/etc/mysql/connectors.cnf')
+</pre><p>
+      This example specifies multiple option files as a sequence of
+      strings:
+    </p><pre class="programlisting">
+mysql_option_files = [
+    '/etc/mysql/connectors.cnf',
+    './development.cnf',
+]
+cnx = mysql.connector.connect(option_files=mysql_option_files)
+</pre><p>
+      Connector/Python reads no option files by default, for backward compatibility
+      with versions older than 2.0.0. This differs from standard MySQL
+      clients such as <span class="command"><strong>mysql</strong></span> or
+      <span class="command"><strong>mysqldump</strong></span>, which do read option files by
+      default. To find out which option files the standard clients read
+      on your system, invoke one of them with its
+      <code class="option">--help</code> option and examine the output. For
+      example:
+    </p><pre class="programlisting">
+shell&gt; <strong class="userinput"><code>mysql --help</code></strong>
+...
+Default options are read from the following files in the given order:
+/etc/my.cnf /etc/mysql/my.cnf /usr/local/mysql/etc/my.cnf ~/.my.cnf 
+...
+</pre><p>
+      If you specify the <code class="literal">option_files</code> argument to
+      read option files, Connector/Python reads the <code class="literal">[client]</code> and
+      <code class="literal">[connector_python]</code> option groups by default. To
+      specify explicitly which groups to read, use the
+      <code class="literal">option_groups</code> connection argument. The
+      following example causes only the
+      <code class="literal">[connector_python]</code> group to be read:
+    </p><pre class="programlisting">
+cnx = mysql.connector.connect(option_files='/etc/mysql/connectors.cnf',
+                              option_groups='connector_python')
+</pre><p>
+      Other connection arguments specified in the
+      <code class="literal">connect()</code> call take precedence over options
+      read from option files. Suppose that
+      <code class="filename">/etc/mysql/connectors.conf</code> contains these
+      lines:
+    </p><pre class="programlisting">
+[client]
+database=cpyapp
+</pre><p>
+      The following <code class="literal">connect()</code> call includes no
+      <code class="literal">database</code> connection argument, so the resulting
+      connection uses <code class="literal">cpyapp</code>, the database specified
+      in the option file:
+    </p><pre class="programlisting">
+cnx = mysql.connector.connect(option_files='/etc/mysql/connectors.cnf')
+</pre><p>
+      By contrast, the following <code class="literal">connect()</code> call
+      specifies a default database different from the one found in the
+      option file, so the resulting connection uses
+      <code class="literal">cpyapp_dev</code> as the default database, not
+      <code class="literal">cpyapp</code>:
+    </p><pre class="programlisting">
+cnx2 = mysql.connector.connect(option_files='/etc/mysql/connectors.cnf',
+                               database='cpyapp_dev')
+</pre><p>
+      Connector/Python raises a <code class="literal">ValueError</code> if an option file
+      cannot be read, or has already been read. This includes files read
+      by inclusion directives.
+    </p><p>
+      For the <code class="literal">[connector_python]</code> group, only options
+      supported by Connector/Python are accepted. Unrecognized options cause a
+      <code class="literal">ValueError</code> to be raised.
+    </p><p>
+      For other option groups, Connector/Python ignores unrecognized options.
+    </p><p>
+      It is not an error for a named option group not to exist.
+</p>
+</div>
+
+</div>
+<div class="copyright-footer">
+
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left"><a accesskey="p" href="connector-python-tutorials.html">Prev</a></td>
+<td width="20%" align="center"><a accesskey="u" href="">Up</a></td>
+<td width="40%" align="right"> <a accesskey="n" href="connector-python-cext.html">Next</a></td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">Chapter 6 Connector/Python Tutorials</td>
+<td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td>
+<td width="40%" align="right" valign="top">Chapter 8 The Connector/Python C Extension</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

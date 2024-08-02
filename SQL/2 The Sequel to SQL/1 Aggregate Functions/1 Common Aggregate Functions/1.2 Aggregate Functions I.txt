@@ -1,0 +1,7 @@
+1.2 Aggregate Functions I
+
+
+The [ ] function returns a total number of rows that match criteria.
+
+
+Answer: count

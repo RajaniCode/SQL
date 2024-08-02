@@ -1,0 +1,5 @@
+2.2 Adding Records
+
+To successfully add a new record to an existing table, we would use the [ ] statement.
+
+ANSWER: INSERT

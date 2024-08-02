@@ -1,0 +1,378 @@
+## H2 ## Start Server
+
+$ java -version
+
+# Unzip IKVM.NET ikvmbin-7.2.4630.5.zip
+
+$ cd "E:\Working\SQL\H2\CS\IKVM.NET"
+
+$ unzip ikvmbin-7.2.4630.5.zip
+
+$ cd "E:\Working\SQL\H2\CS\IKVM.NET\ikvm-7.2.4630.5\bin"
+
+$ ./ikvm
+
+# Copy the h2*.jar file to ikvm/bin
+
+$ cp "E:\Working\SQL\H2\H2\H2-Maven-Jar\h2-1.4.193.jar" "E:\Working\SQL\H2\CS\IKVM.NET\ikvm-7.2.4630.5\bin"
+
+## H2 jar ## Start Server
+[
+Run the H2 Console using: ikvm -jar h2*.jar
+$ ikvm -jar h2-1.4.193.jar
+]
+$ ./ikvm -jar h2-1.4.193.jar 
+
+# [Windows Security Alert]
+
+http://192.168.56.1:8082/login.jsp?jsessionid=93658a894b880f1b857a0e19cb1e745d
+
+# [Ctrl + C]
+
+
+## H2 exe ## Start Server
+[
+# Convert the H2 Console to an .exe file using: ikvmc -target:winexe h2*.jar # Ignore the warnings
+
+ikvmc -target:winexe h2-1.4.193.jar
+
+$ ./ikvmc -target:winexe h2-1.4.193.jar # E:\Working\SQL\H2\CS\IKVM.NET\ikvm-7.2.4630.5\bin\h2-1.4.193.exe 
+$ ./h2-1.4.193.exe -help
+Starts the H2 Console (web-) server, as well as the TCP and PG server.
+Usage: java org.h2.tools.Console <options>
+When running without options, -tcp, -web, -browser and -pg are started.
+Options are case sensitive. Supported options are:
+[-help] or [-?]  Print the list of options
+[-url]           Start a browser and connect to this URL
+[-driver]        Used together with -url: the driver
+[-user]          Used together with -url: the user name
+[-password]      Used together with -url: the password
+[-web]           Start the web server with the H2 Console
+[-tool]          Start the icon or window that allows to start a browser
+[-browser]       Start a browser connecting to the web server
+[-tcp]           Start the TCP server
+[-pg]            Start the PG server
+For each Server, additional options are available;
+ for details, see the Server tool.
+If a service can not be started, the program
+ terminates with an exit code of 1.
+See also http://h2database.com/javadoc/org/h2/tools/Console.html
+$ ./h2-1.4.193
+http://192.168.56.1:8082/login.jsp?jsessionid=a5fa2a1e0b7205dca92d1fd0483541c6
+
+# [Ctrl + C]
+]
+
+## H2 dll
+# Create a .dll file using (change the version accordingly) # Ignore the warnings
+[
+ikvmc.exe -target:library -version:1.0.69.0 h2*.jar
+
+ikvmc.exe -target:library -version:1.4.193 h2-1.4.193.jar
+]
+
+$ ./ikvmc -target:library -version:1.4.193 h2-1.4.193.jar # E:\Working\SQL\H2\CS\IKVM.NET\ikvm-7.2.4630.5\bin\h2-1.4.193.dll
+
+
+## Git Bash
+
+Aspire@Acer MINGW64 ~
+$ java -version
+java version "1.8.0_102"
+Java(TM) SE Runtime Environment (build 1.8.0_102-b14)
+Java HotSpot(TM) 64-Bit Server VM (build 25.102-b14, mixed mode)
+
+Aspire@Acer MINGW64 ~
+$ cd "E:\Working\SQL\H2\CS\IKVM.NET"
+
+Aspire@Acer MINGW64 /e/Working/SQL/H2/CS/IKVM.NET
+$ unzip ikvmbin-7.2.4630.5.zip
+Archive:  ikvmbin-7.2.4630.5.zip
+  inflating: ikvm-7.2.4630.5/bin/ICSharpCode.SharpZipLib.dll
+  inflating: ikvm-7.2.4630.5/bin/ikvm-native-win32-x64.dll
+  inflating: ikvm-7.2.4630.5/bin/ikvm-native-win32-x86.dll
+  inflating: ikvm-7.2.4630.5/bin/IKVM.AWT.WinForms.dll
+  inflating: ikvm-7.2.4630.5/bin/ikvm.exe
+  inflating: ikvm-7.2.4630.5/bin/ikvm.exe.config
+  inflating: ikvm-7.2.4630.5/bin/IKVM.OpenJDK.Beans.dll
+  inflating: ikvm-7.2.4630.5/bin/IKVM.OpenJDK.Charsets.dll
+  inflating: ikvm-7.2.4630.5/bin/IKVM.OpenJDK.Corba.dll
+  inflating: ikvm-7.2.4630.5/bin/IKVM.OpenJDK.Core.dll
+  inflating: ikvm-7.2.4630.5/bin/IKVM.OpenJDK.Jdbc.dll
+  inflating: ikvm-7.2.4630.5/bin/IKVM.OpenJDK.Management.dll
+  inflating: ikvm-7.2.4630.5/bin/IKVM.OpenJDK.Media.dll
+  inflating: ikvm-7.2.4630.5/bin/IKVM.OpenJDK.Misc.dll
+  inflating: ikvm-7.2.4630.5/bin/IKVM.OpenJDK.Naming.dll
+  inflating: ikvm-7.2.4630.5/bin/IKVM.OpenJDK.Remoting.dll
+  inflating: ikvm-7.2.4630.5/bin/IKVM.OpenJDK.Security.dll
+  inflating: ikvm-7.2.4630.5/bin/IKVM.OpenJDK.SwingAWT.dll
+  inflating: ikvm-7.2.4630.5/bin/IKVM.OpenJDK.Text.dll
+  inflating: ikvm-7.2.4630.5/bin/IKVM.OpenJDK.Tools.dll
+  inflating: ikvm-7.2.4630.5/bin/IKVM.OpenJDK.Util.dll
+  inflating: ikvm-7.2.4630.5/bin/IKVM.OpenJDK.XML.API.dll
+  inflating: ikvm-7.2.4630.5/bin/IKVM.OpenJDK.XML.Bind.dll
+  inflating: ikvm-7.2.4630.5/bin/IKVM.OpenJDK.XML.Crypto.dll
+  inflating: ikvm-7.2.4630.5/bin/IKVM.OpenJDK.XML.Parse.dll
+  inflating: ikvm-7.2.4630.5/bin/IKVM.OpenJDK.XML.Transform.dll
+  inflating: ikvm-7.2.4630.5/bin/IKVM.OpenJDK.XML.WebServices.dll
+  inflating: ikvm-7.2.4630.5/bin/IKVM.OpenJDK.XML.XPath.dll
+  inflating: ikvm-7.2.4630.5/bin/IKVM.Reflection.dll
+  inflating: ikvm-7.2.4630.5/bin/IKVM.Runtime.dll
+  inflating: ikvm-7.2.4630.5/bin/IKVM.Runtime.JNI.dll
+  inflating: ikvm-7.2.4630.5/bin/ikvmc.exe
+  inflating: ikvm-7.2.4630.5/bin/ikvmc.exe.config
+  inflating: ikvm-7.2.4630.5/bin/ikvmstub.exe
+  inflating: ikvm-7.2.4630.5/bin/ikvmstub.exe.config
+  inflating: ikvm-7.2.4630.5/bin-x64/JVM.DLL
+ extracting: ikvm-7.2.4630.5/bin-x64/README
+  inflating: ikvm-7.2.4630.5/bin-x86/JVM.DLL
+ extracting: ikvm-7.2.4630.5/bin-x86/README
+  inflating: ikvm-7.2.4630.5/lib/ikvm-api.jar
+  inflating: ikvm-7.2.4630.5/LICENSE
+  inflating: ikvm-7.2.4630.5/THIRD_PARTY_README
+  inflating: ikvm-7.2.4630.5/TRADEMARK
+
+Aspire@Acer MINGW64 /e/Working/SQL/H2/CS/IKVM.NET
+$ cd "E:\Working\SQL\H2\CS\IKVM.NET\ikvm-7.2.4630.5\bin"
+
+Aspire@Acer MINGW64 /e/Working/SQL/H2/CS/IKVM.NET/ikvm-7.2.4630.5/bin
+$ ./ikvm
+IKVM.NET Launcher version 7.2.4630.5
+Copyright (C) 2002-2012 Jeroen Frijters
+http://www.ikvm.net/
+
+usage: ikvm [-options] <class> [args...]
+          (to execute a class)
+    or ikvm -jar [-options] <jarfile> [args...]
+          (to execute a jar file)
+
+where options include:
+    -? -help          Display this message
+    -version          Display IKVM and runtime version
+    -showversion      Display version and continue running
+    -cp -classpath <directories and zip/jar files separated by ;>
+                      Set search path for application classes and resources
+    -D<name>=<value>  Set a system property
+    -ea[:<packagename>...|:<classname>]
+    -enableassertions[:<packagename>...|:<classname>]
+                      Enable assertions.
+    -da[:<packagename>...|:<classname>]
+    -disableassertions[:<packagename>...|:<classname>]
+                      Disable assertions
+    -Xsave            Save the generated assembly (for debugging)
+    -Xtime            Time the execution
+    -Xtrace:<string>  Displays all tracepoints with the given name
+    -Xmethodtrace:<string>
+                      Builds method trace into the specified output methods
+    -Xwait            Keep process hanging around after exit
+    -Xbreak           Trigger a user defined breakpoint at startup
+    -Xnoclassgc       Disable class garbage collection
+    -Xnoglobbing      Disable argument globbing
+    -Xverify          Enable strict class file verification
+
+Aspire@Acer MINGW64 /e/Working/SQL/H2/CS/IKVM.NET/ikvm-7.2.4630.5/bin
+$ cp "E:\Working\SQL\H2\H2\H2-Maven-Jar\h2-1.4.193.jar" "E:\Working\SQL\H2\CS\IKVM.NET\ikvm-7.2.4630.5\bin"
+
+Aspire@Acer MINGW64 /e/Working/SQL/H2/CS/IKVM.NET/ikvm-7.2.4630.5/bin
+$ ./ikvm -jar h2-1.4.193.jar
+
+
+Aspire@Acer MINGW64 /e/Working/SQL/H2/CS/IKVM.NET/ikvm-7.2.4630.5/bin
+$ ./ikvmc -target:winexe h2-1.4.193.jar
+IKVM.NET Compiler version 7.2.4630.5
+Copyright (C) 2002-2012 Jeroen Frijters
+http://www.ikvm.net/
+
+note IKVMC0004: Using main class "org.h2.tools.Console" based on jar manifest
+note IKVMC0002: Output file is "h2-1.4.193.exe"
+warning IKVMC0105: Unable to compile class "org.h2.server.web.DbStarter"
+    (missing class "javax.servlet.ServletContextListener")
+warning IKVMC0105: Unable to compile class "org.h2.server.web.WebServlet"
+    (missing class "javax.servlet.http.HttpServlet")
+warning IKVMC0105: Unable to compile class "org.h2.util.DbDriverActivator"
+    (missing class "org.osgi.framework.BundleActivator")
+warning IKVMC0105: Unable to compile class "org.h2.util.OsgiDataSourceFactory"
+    (missing class "org.osgi.service.jdbc.DataSourceFactory")
+warning IKVMC0105: Unable to compile class "org.h2.value.ValueGeometry$ZVisitor"
+    (missing class "com.vividsolutions.jts.geom.CoordinateSequenceFilter")
+warning IKVMC0100: Class "org.apache.lucene.index.IndexWriter" not found
+warning IKVMC0100: Class "org.apache.lucene.search.IndexSearcher" not found
+warning IKVMC0100: Class "org.apache.lucene.index.IndexReader" not found
+warning IKVMC0100: Class "org.apache.lucene.document.Document" not found
+warning IKVMC0100: Class "org.apache.lucene.document.Field" not found
+warning IKVMC0100: Class "org.apache.lucene.document.Field$Store" not found
+warning IKVMC0100: Class "org.apache.lucene.document.Field$Index" not found
+warning IKVMC0100: Class "org.apache.lucene.document.Fieldable" not found
+warning IKVMC0100: Class "org.apache.lucene.document.DateTools$Resolution" not found
+warning IKVMC0100: Class "org.apache.lucene.document.DateTools" not found
+warning IKVMC0100: Class "org.apache.lucene.index.Term" not found
+warning IKVMC0111: Emitted java.lang.NoClassDefFoundError in "org.h2.fulltext.FullTextLucene$FullTextTrigger.commitIndex()V"
+    ("org.apache.lucene.index.IndexWriter")
+warning IKVMC0111: Emitted java.lang.NoClassDefFoundError in "org.h2.fulltext.FullTextLucene$FullTextTrigger.insert([Ljava.lang.Object;Z)V"
+    ("org.apache.lucene.document.Document")
+warning IKVMC0111: Emitted java.lang.NoClassDefFoundError in "org.h2.fulltext.FullTextLucene$FullTextTrigger.delete([Ljava.lang.Object;Z)V"
+    ("org.apache.lucene.index.Term")
+warning IKVMC0100: Class "org.apache.lucene.store.RAMDirectory" not found
+warning IKVMC0100: Class "org.apache.lucene.store.FSDirectory" not found
+warning IKVMC0100: Class "org.apache.lucene.analysis.standard.StandardAnalyzer" not found
+warning IKVMC0100: Class "org.apache.lucene.util.Version" not found
+warning IKVMC0100: Class "org.apache.lucene.index.IndexWriterConfig" not found
+warning IKVMC0100: Class "org.apache.lucene.analysis.Analyzer" not found
+warning IKVMC0100: Class "org.apache.lucene.index.IndexWriterConfig$OpenMode" not found
+warning IKVMC0100: Class "org.apache.lucene.store.Directory" not found
+warning IKVMC0100: Class "org.apache.lucene.queryParser.QueryParser" not found
+warning IKVMC0100: Class "org.apache.lucene.search.Query" not found
+warning IKVMC0100: Class "org.apache.lucene.search.TopDocs" not found
+warning IKVMC0100: Class "org.apache.lucene.search.ScoreDoc" not found
+warning IKVMC0111: Emitted java.lang.NoClassDefFoundError in "org.h2.fulltext.FullTextLucene.getIndexAccess(Ljava.sql.Connection;)Lorg.h2.fulltext.FullTextLucene$IndexAccess;"
+    ("org.apache.lucene.store.RAMDirectory")
+warning IKVMC0111: Emitted java.lang.NoClassDefFoundError in "org.h2.fulltext.FullTextLucene.removeIndexAccess(Lorg.h2.fulltext.FullTextLucene$IndexAccess;Ljava.lang.String;)V"
+    ("org.apache.lucene.search.IndexSearcher")
+warning IKVMC0111: Emitted java.lang.NoClassDefFoundError in "org.h2.fulltext.FullTextLucene.search(Ljava.sql.Connection;Ljava.lang.String;IIZ)Ljava.sql.ResultSet;"
+    ("org.apache.lucene.index.IndexWriter")
+warning IKVMC0100: Class "com.vividsolutions.jts.geom.Geometry" not found
+warning IKVMC0100: Class "com.vividsolutions.jts.geom.Envelope" not found
+warning IKVMC0111: Emitted java.lang.NoClassDefFoundError in "org.h2.index.SpatialTreeIndex.getKey(Lorg.h2.result.SearchRow;)Lorg.h2.mvstore.rtree.SpatialKey;"
+    ("com.vividsolutions.jts.geom.Geometry")
+warning IKVMC0111: Emitted java.lang.NoClassDefFoundError in "org.h2.jdbc.JdbcResultSet.extractObjectOfType(Ljava.lang.Class;Lorg.h2.value.Value;)Ljava.lang.Object;"
+    ("com.vividsolutions.jts.geom.Geometry")
+warning IKVMC0100: Class "org.slf4j.LoggerFactory" not found
+warning IKVMC0100: Class "org.slf4j.Logger" not found
+warning IKVMC0111: Emitted java.lang.NoClassDefFoundError in "org.h2.message.TraceWriterAdapter.<init>()V"
+    ("org.slf4j.LoggerFactory")
+warning IKVMC0111: Emitted java.lang.NoClassDefFoundError in "org.h2.message.TraceWriterAdapter.isEnabled(I)Z"
+    ("org.slf4j.Logger")
+warning IKVMC0111: Emitted java.lang.NoClassDefFoundError in "org.h2.message.TraceWriterAdapter.write(ILjava.lang.String;Ljava.lang.String;Ljava.lang.Throwable;)V"
+    ("org.slf4j.Logger")
+warning IKVMC0111: Emitted java.lang.NoClassDefFoundError in "org.h2.mvstore.db.MVSpatialIndex.getKey(Lorg.h2.result.SearchRow;)Lorg.h2.mvstore.rtree.SpatialKey;"
+    ("com.vividsolutions.jts.geom.Geometry")
+warning IKVMC0100: Class "com.vividsolutions.jts.io.WKBWriter" not found
+warning IKVMC0100: Class "org.h2.value.ValueGeometry$ZVisitor" not found
+warning IKVMC0100: Class "com.vividsolutions.jts.geom.CoordinateSequenceFilter" not found
+warning IKVMC0100: Class "com.vividsolutions.jts.io.WKTReader" not found
+warning IKVMC0100: Class "com.vividsolutions.jts.io.ParseException" not found
+warning IKVMC0100: Class "com.vividsolutions.jts.geom.GeometryFactory" not found
+warning IKVMC0100: Class "com.vividsolutions.jts.geom.PrecisionModel" not found
+warning IKVMC0100: Class "com.vividsolutions.jts.io.WKBReader" not found
+warning IKVMC0100: Class "com.vividsolutions.jts.io.WKTWriter" not found
+warning IKVMC0111: Emitted java.lang.NoClassDefFoundError in "org.h2.value.ValueGeometry.convertToWKB(Lcom.vividsolutions.jts.geom.Geometry;)[B"
+    ("com.vividsolutions.jts.geom.Geometry")
+warning IKVMC0111: Emitted java.lang.NoClassDefFoundError in "org.h2.value.ValueGeometry.getDimensionCount(Lcom.vividsolutions.jts.geom.Geometry;)I"
+    ("org.h2.value.ValueGeometry$ZVisitor")
+warning IKVMC0111: Emitted java.lang.NoClassDefFoundError in "org.h2.value.ValueGeometry.get(Ljava.lang.String;)Lorg.h2.value.ValueGeometry;"
+    ("com.vividsolutions.jts.io.WKTReader")
+warning IKVMC0111: Emitted java.lang.NoClassDefFoundError in "org.h2.value.ValueGeometry.get(Ljava.lang.String;I)Lorg.h2.value.ValueGeometry;"
+    ("com.vividsolutions.jts.geom.GeometryFactory")
+warning IKVMC0111: Emitted java.lang.NoClassDefFoundError in "org.h2.value.ValueGeometry.getGeometry()Lcom.vividsolutions.jts.geom.Geometry;"
+    ("com.vividsolutions.jts.geom.Geometry")
+warning IKVMC0111: Emitted java.lang.NoClassDefFoundError in "org.h2.value.ValueGeometry.getGeometryNoCopy()Lcom.vividsolutions.jts.geom.Geometry;"
+    ("com.vividsolutions.jts.io.WKBReader")
+warning IKVMC0111: Emitted java.lang.NoClassDefFoundError in "org.h2.value.ValueGeometry.intersectsBoundingBox(Lorg.h2.value.ValueGeometry;)Z"
+    ("com.vividsolutions.jts.geom.Geometry")
+warning IKVMC0111: Emitted java.lang.NoClassDefFoundError in "org.h2.value.ValueGeometry.getEnvelopeUnion(Lorg.h2.value.ValueGeometry;)Lorg.h2.value.Value;"
+    ("com.vividsolutions.jts.geom.GeometryFactory")
+warning IKVMC0111: Emitted java.lang.NoClassDefFoundError in "org.h2.value.ValueGeometry.compareSecure(Lorg.h2.value.Value;Lorg.h2.value.CompareMode;)I"
+    ("com.vividsolutions.jts.geom.Geometry")
+warning IKVMC0111: Emitted java.lang.NoClassDefFoundError in "org.h2.value.ValueGeometry.getWKT()Ljava.lang.String;"
+    ("com.vividsolutions.jts.io.WKTWriter")
+
+Aspire@Acer MINGW64 /e/Working/SQL/H2/CS/IKVM.NET/ikvm-7.2.4630.5/bin
+$ ./ikvmc -target:library -version:1.4.193 h2-1.4.193.jar
+IKVM.NET Compiler version 7.2.4630.5
+Copyright (C) 2002-2012 Jeroen Frijters
+http://www.ikvm.net/
+
+note IKVMC0002: Output file is "h2-1.4.193.dll"
+warning IKVMC0105: Unable to compile class "org.h2.server.web.DbStarter"
+    (missing class "javax.servlet.ServletContextListener")
+warning IKVMC0105: Unable to compile class "org.h2.server.web.WebServlet"
+    (missing class "javax.servlet.http.HttpServlet")
+warning IKVMC0105: Unable to compile class "org.h2.util.DbDriverActivator"
+    (missing class "org.osgi.framework.BundleActivator")
+warning IKVMC0105: Unable to compile class "org.h2.util.OsgiDataSourceFactory"
+    (missing class "org.osgi.service.jdbc.DataSourceFactory")
+warning IKVMC0105: Unable to compile class "org.h2.value.ValueGeometry$ZVisitor"
+    (missing class "com.vividsolutions.jts.geom.CoordinateSequenceFilter")
+warning IKVMC0100: Class "org.apache.lucene.index.IndexWriter" not found
+warning IKVMC0100: Class "org.apache.lucene.search.IndexSearcher" not found
+warning IKVMC0100: Class "org.apache.lucene.index.IndexReader" not found
+warning IKVMC0100: Class "org.apache.lucene.document.Document" not found
+warning IKVMC0100: Class "org.apache.lucene.document.Field" not found
+warning IKVMC0100: Class "org.apache.lucene.document.Field$Store" not found
+warning IKVMC0100: Class "org.apache.lucene.document.Field$Index" not found
+warning IKVMC0100: Class "org.apache.lucene.document.Fieldable" not found
+warning IKVMC0100: Class "org.apache.lucene.document.DateTools$Resolution" not found
+warning IKVMC0100: Class "org.apache.lucene.document.DateTools" not found
+warning IKVMC0100: Class "org.apache.lucene.index.Term" not found
+warning IKVMC0111: Emitted java.lang.NoClassDefFoundError in "org.h2.fulltext.FullTextLucene$FullTextTrigger.commitIndex()V"
+    ("org.apache.lucene.index.IndexWriter")
+warning IKVMC0111: Emitted java.lang.NoClassDefFoundError in "org.h2.fulltext.FullTextLucene$FullTextTrigger.insert([Ljava.lang.Object;Z)V"
+    ("org.apache.lucene.document.Document")
+warning IKVMC0111: Emitted java.lang.NoClassDefFoundError in "org.h2.fulltext.FullTextLucene$FullTextTrigger.delete([Ljava.lang.Object;Z)V"
+    ("org.apache.lucene.index.Term")
+warning IKVMC0100: Class "org.apache.lucene.store.RAMDirectory" not found
+warning IKVMC0100: Class "org.apache.lucene.store.FSDirectory" not found
+warning IKVMC0100: Class "org.apache.lucene.analysis.standard.StandardAnalyzer" not found
+warning IKVMC0100: Class "org.apache.lucene.util.Version" not found
+warning IKVMC0100: Class "org.apache.lucene.index.IndexWriterConfig" not found
+warning IKVMC0100: Class "org.apache.lucene.analysis.Analyzer" not found
+warning IKVMC0100: Class "org.apache.lucene.index.IndexWriterConfig$OpenMode" not found
+warning IKVMC0100: Class "org.apache.lucene.store.Directory" not found
+warning IKVMC0100: Class "org.apache.lucene.queryParser.QueryParser" not found
+warning IKVMC0100: Class "org.apache.lucene.search.Query" not found
+warning IKVMC0100: Class "org.apache.lucene.search.TopDocs" not found
+warning IKVMC0100: Class "org.apache.lucene.search.ScoreDoc" not found
+warning IKVMC0111: Emitted java.lang.NoClassDefFoundError in "org.h2.fulltext.FullTextLucene.getIndexAccess(Ljava.sql.Connection;)Lorg.h2.fulltext.FullTextLucene$IndexAccess;"
+    ("org.apache.lucene.store.RAMDirectory")
+warning IKVMC0111: Emitted java.lang.NoClassDefFoundError in "org.h2.fulltext.FullTextLucene.removeIndexAccess(Lorg.h2.fulltext.FullTextLucene$IndexAccess;Ljava.lang.String;)V"
+    ("org.apache.lucene.search.IndexSearcher")
+warning IKVMC0111: Emitted java.lang.NoClassDefFoundError in "org.h2.fulltext.FullTextLucene.search(Ljava.sql.Connection;Ljava.lang.String;IIZ)Ljava.sql.ResultSet;"
+    ("org.apache.lucene.index.IndexWriter")
+warning IKVMC0100: Class "com.vividsolutions.jts.geom.Geometry" not found
+warning IKVMC0100: Class "com.vividsolutions.jts.geom.Envelope" not found
+warning IKVMC0111: Emitted java.lang.NoClassDefFoundError in "org.h2.index.SpatialTreeIndex.getKey(Lorg.h2.result.SearchRow;)Lorg.h2.mvstore.rtree.SpatialKey;"
+    ("com.vividsolutions.jts.geom.Geometry")
+warning IKVMC0111: Emitted java.lang.NoClassDefFoundError in "org.h2.jdbc.JdbcResultSet.extractObjectOfType(Ljava.lang.Class;Lorg.h2.value.Value;)Ljava.lang.Object;"
+    ("com.vividsolutions.jts.geom.Geometry")
+warning IKVMC0100: Class "org.slf4j.LoggerFactory" not found
+warning IKVMC0100: Class "org.slf4j.Logger" not found
+warning IKVMC0111: Emitted java.lang.NoClassDefFoundError in "org.h2.message.TraceWriterAdapter.<init>()V"
+    ("org.slf4j.LoggerFactory")
+warning IKVMC0111: Emitted java.lang.NoClassDefFoundError in "org.h2.message.TraceWriterAdapter.isEnabled(I)Z"
+    ("org.slf4j.Logger")
+warning IKVMC0111: Emitted java.lang.NoClassDefFoundError in "org.h2.message.TraceWriterAdapter.write(ILjava.lang.String;Ljava.lang.String;Ljava.lang.Throwable;)V"
+    ("org.slf4j.Logger")
+warning IKVMC0111: Emitted java.lang.NoClassDefFoundError in "org.h2.mvstore.db.MVSpatialIndex.getKey(Lorg.h2.result.SearchRow;)Lorg.h2.mvstore.rtree.SpatialKey;"
+    ("com.vividsolutions.jts.geom.Geometry")
+warning IKVMC0100: Class "com.vividsolutions.jts.io.WKBWriter" not found
+warning IKVMC0100: Class "org.h2.value.ValueGeometry$ZVisitor" not found
+warning IKVMC0100: Class "com.vividsolutions.jts.geom.CoordinateSequenceFilter" not found
+warning IKVMC0100: Class "com.vividsolutions.jts.io.WKTReader" not found
+warning IKVMC0100: Class "com.vividsolutions.jts.io.ParseException" not found
+warning IKVMC0100: Class "com.vividsolutions.jts.geom.GeometryFactory" not found
+warning IKVMC0100: Class "com.vividsolutions.jts.geom.PrecisionModel" not found
+warning IKVMC0100: Class "com.vividsolutions.jts.io.WKBReader" not found
+warning IKVMC0100: Class "com.vividsolutions.jts.io.WKTWriter" not found
+warning IKVMC0111: Emitted java.lang.NoClassDefFoundError in "org.h2.value.ValueGeometry.convertToWKB(Lcom.vividsolutions.jts.geom.Geometry;)[B"
+    ("com.vividsolutions.jts.geom.Geometry")
+warning IKVMC0111: Emitted java.lang.NoClassDefFoundError in "org.h2.value.ValueGeometry.getDimensionCount(Lcom.vividsolutions.jts.geom.Geometry;)I"
+    ("org.h2.value.ValueGeometry$ZVisitor")
+warning IKVMC0111: Emitted java.lang.NoClassDefFoundError in "org.h2.value.ValueGeometry.get(Ljava.lang.String;)Lorg.h2.value.ValueGeometry;"
+    ("com.vividsolutions.jts.io.WKTReader")
+warning IKVMC0111: Emitted java.lang.NoClassDefFoundError in "org.h2.value.ValueGeometry.get(Ljava.lang.String;I)Lorg.h2.value.ValueGeometry;"
+    ("com.vividsolutions.jts.geom.GeometryFactory")
+warning IKVMC0111: Emitted java.lang.NoClassDefFoundError in "org.h2.value.ValueGeometry.getGeometry()Lcom.vividsolutions.jts.geom.Geometry;"
+    ("com.vividsolutions.jts.geom.Geometry")
+warning IKVMC0111: Emitted java.lang.NoClassDefFoundError in "org.h2.value.ValueGeometry.getGeometryNoCopy()Lcom.vividsolutions.jts.geom.Geometry;"
+    ("com.vividsolutions.jts.io.WKBReader")
+warning IKVMC0111: Emitted java.lang.NoClassDefFoundError in "org.h2.value.ValueGeometry.intersectsBoundingBox(Lorg.h2.value.ValueGeometry;)Z"
+    ("com.vividsolutions.jts.geom.Geometry")
+warning IKVMC0111: Emitted java.lang.NoClassDefFoundError in "org.h2.value.ValueGeometry.getEnvelopeUnion(Lorg.h2.value.ValueGeometry;)Lorg.h2.value.Value;"
+    ("com.vividsolutions.jts.geom.GeometryFactory")
+warning IKVMC0111: Emitted java.lang.NoClassDefFoundError in "org.h2.value.ValueGeometry.compareSecure(Lorg.h2.value.Value;Lorg.h2.value.CompareMode;)I"
+    ("com.vividsolutions.jts.geom.Geometry")
+warning IKVMC0111: Emitted java.lang.NoClassDefFoundError in "org.h2.value.ValueGeometry.getWKT()Ljava.lang.String;"
+    ("com.vividsolutions.jts.io.WKTWriter")
+
+Aspire@Acer MINGW64 /e/Working/SQL/H2/CS/IKVM.NET/ikvm-7.2.4630.5/bin
+$

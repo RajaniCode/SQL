@@ -1,0 +1,760 @@
+Arithmetic Operators:
+CREATE TABLE Titles
+(
+Title_Id varchar(5),
+Price int,
+Ytd_Sales int
+)
+
+SELECT Title_Id, Price, Price + 5, Ytd_Sales, Ytd_Sales * 5
+FROM Titles
+
+INSERT Titles
+VALUES
+(
+'T001',
+100,
+200
+)
+
+SELECT * FROM Titles
+
+SELECT Title_Id, Price, Price + 5, Ytd_Sales, Ytd_Sales * 5
+FROM Titles
+
+SELECT Title_Id = Title_Id, Value = Ytd_Sales * Price 
+FROM Titles
+
+
+DROP TABLE Titles
+
+
+
+
+
+
+
+
+
+
+CREATE TABLE Item
+(
+ItemCode varchar(20), 
+ItemName varchar(20), 
+ItemCost money,
+ItemDate smalldatetime DEFAULT getdate(),
+ItemAdvance smallmoney
+)
+
+INSERT Item 
+VALUES
+(
+'L001',
+'LENOVO',
+65000.48,
+DEFAULT,
+10000
+)
+
+INSERT Item 
+VALUES
+(
+'C001',
+'COMPAQ',
+70000.00,
+'2007-01-31',
+10000
+)
+
+INSERT Item 
+VALUES
+(
+'D001',
+'DELL',
+70000.01,
+'01-31-07',
+15000
+)
+
+INSERT Item 
+VALUES
+(
+'H001',
+'HP',
+69999.99,
+'01/31/07',
+20000
+)
+
+INSERT Item 
+VALUES
+(
+'B001',
+'BENQ',
+78000.50,
+'21-JAN-2007',
+5000
+)
+
+INSERT Item 
+VALUES
+(
+'S001',
+'SONY',
+80500.50,
+'11-JANUARY-2007',
+25000
+)
+
+INSERT Item 
+VALUES
+(
+'LG01',
+'LG',
+47000,
+'25/JAN/07',
+30000
+)
+
+INSERT Item 
+VALUES
+(
+'HC01',
+'HCL',
+50000.00,
+'29/APRIL/00',
+40000
+)
+
+INSERT Item 
+VALUES
+(
+'A001',
+'ACER',
+30000,
+'30/JAN/2007',
+15000
+)
+
+INSERT Item 
+VALUES
+(
+'SG01',
+'SAMSUNG',
+30000,
+'31/MARCH/2007',
+5000
+)
+
+INSERT Item 
+VALUES
+(
+'T001',
+'TOSHIBA',
+30000,
+'31-DECEMBER-00',
+5000
+)
+
+INSERT Item 
+VALUES
+(
+'HY01',
+'HYUNDAI',
+30000,
+'09-FEBRUARY-07',
+1000
+)
+
+INSERT Item 
+VALUES
+(
+'100E',
+'EPSON',
+45000.00,
+'02/2007/28',
+1000
+)
+
+INSERT Item 
+VALUES
+(
+'AP01',
+'APPLE',
+99999.99,
+'03-2007-31',
+50000
+)
+
+INSERT Item 
+VALUES
+(
+'100C',
+'CANON',
+45000.00,
+'04-2007-30',
+2000
+)
+
+INSERT Item 
+VALUES
+(
+'100H',
+'HP',
+45000.00,
+'05-2007-31',
+3000
+)
+
+INSERT Item 
+VALUES
+(
+'10HC',
+'HCL',
+67890.00,
+'06-2007-30',
+60000
+)
+
+INSERT Item 
+VALUES
+(
+'10HY',
+'HYUNDAI',
+75000.00,
+'07-2007-31',
+70000
+)
+
+INSERT Item 
+VALUES
+(
+'X00X',
+'XBOX',
+NULL,
+DEFAULT,
+NULL
+)
+
+INSERT Item 
+VALUES
+(
+'S0PS',
+'SONY',
+NULL,
+DEFAULT,
+NULL
+)
+
+SELECT * FROM Item
+
+
+DROP TABLE ITEM
+
+
+
+
+
+Operator Precedence:
+Arithmetic Operators:
+*
+/
+%
+-
++
+
+
+
+
+
+Logical Operators:
+OR,
+AND,
+NOT
+
+
+
+
+
+Comparison Operators:
+=
+>
+<
+>=
+<=
+<> (Or) !=
+!>
+!<
+()
+
+
+SELECT * FROM Item
+WHERE ItemName <> 'HP'
+ 
+(Or)
+
+SELECT * FROM Item
+WHERE ItemName != 'HP'
+
+SELECT * FROM Item
+WHERE ItemCost <> 70000
+
+(Or)
+
+SELECT * FROM Item
+WHERE ItemCost != 70000
+
+
+SELECT * FROM Item
+WHERE ItemDate > '2000-06-13'
+
+SELECT * FROM Item
+WHERE ItemDate !> '2000-06-13'
+
+
+
+
+
+
+
+
+
+
+Range Operators:
+BETWEEN
+NOT BETWEEN
+
+SELECT * FROM Item
+WHERE ItemCost BETWEEN 69999.98 AND 70000.0010
+
+SELECT * FROM Item
+WHERE ItemCost NOT BETWEEN 69999.98 AND 70000.0010
+
+
+
+
+
+
+
+
+
+
+List Operators:
+IN
+NOT IN
+
+SELECT * FROM Item
+WHERE ItemCost NOT IN (50000.0000, 65000.4800, 70000.0100)
+
+SELECT * FROM Item
+WHERE ItemName IN ('HP', 'COMPAQ', 'HCL')
+
+
+
+
+
+
+
+
+
+
+String Operator
+%
+-
+[]
+[^]
+
+
+SELECT * FROM Item
+WHERE ItemName LIKE 'H%'
+
+(All ItemNames that begin with "H")
+
+
+SELECT * FROM Item
+WHERE ItemCode LIKE '%001'
+
+(All ItemCodes that end with 001)
+
+
+SELECT * FROM Item
+WHERE ItemCode LIKE '%C%'
+
+(All ItemCodes that have C in them)
+
+
+SELECT * FROM Item
+WHERE ItemName LIKE '_CL'
+
+SELECT * FROM ITEM
+
+(All three letter ItemNames ending with "CL")
+
+
+SELECT * FROM Item
+WHERE ItemCode LIKE '[HB]%'
+
+(All ItemCodes that begin with "H" or "B")
+
+
+SELECT * FROM Item
+WHERE ItemName LIKE '[A-D]ENQ'
+
+(All four-letter ItemNames that end with "ENQ" and begin with any letter from "A" through "D")
+
+
+SELECT * FROM Item
+WHERE ItemName LIKE 'H[^C]%'
+
+
+(All ItemNames beginning with "H" and not having "C" as the second letter)
+
+
+(Note: Operators are not case-sensitive. LIKE 'H%' and like 'h%' would return the same result;
+and also = 'HP' and = 'hp'would return the same result;
+and also IN ('HP', 'COMPAQ', 'HCL') and IN ('hp', 'compaq', 'hcl') would return the same result.)
+
+
+SELECT ItemCode, ItemName
+FROM Item
+WHERE ItemCost IS NULL
+
+
+SELECT ItemCode, ItemName 
+FROM Item
+WHERE ItemCost IS NOT NULL
+
+
+SELECT ItemCost, ItemName
+FROM Item
+ORDER BY ItemCost ASC
+
+(Or default)
+
+SELECT ItemCost, ItemName
+FROM Item
+ORDER BY ItemCost
+
+
+SELECT ItemCost, ItemName
+FROM Item
+ORDER BY ItemCost DESC
+
+
+SELECT ItemName, ItemCost
+FROM Item
+ORDER BY ItemName ASC
+
+(Or default)
+
+SELECT ItemName, ItemCost
+FROM Item
+ORDER BY ItemName
+
+
+SELECT ItemName, ItemCost
+FROM Item
+ORDER BY ItemName DESC
+
+
+SELECT *
+FROM Item
+ORDER BY ItemCode ASC
+
+(Note: Numbers in ascending\descending order and characters by alphabetical\reverse order)
+
+
+
+
+
+
+
+
+
+
+Few rows:
+SELECT TOP 3 *
+FROM Item
+WHERE ItemCost > 40000
+
+SELECT * FROM Item 
+
+
+SELECT TOP 50 PERCENT ItemName, ItemCost
+FROM Item
+WHERE ItemCost > 70000.0000
+
+SELECT * FROM Item 
+
+
+SELECT TOP 1 PERCENT ItemName, ItemCost
+FROM Item
+WHERE ItemCost > 70000.0000
+
+SELECT * FROM Item 
+
+
+SELECT TOP 3 ItemName, ItemCost
+FROM Item
+WHERE ItemName <> 'DELL'
+
+SELECT * FROM Item 
+
+
+SELECT TOP 50 PERCENT ItemName, ItemCost
+FROM Item
+WHERE ItemName <> 'DELL'
+ORDER BY ItemCost ASC
+
+SELECT * FROM Item
+ORDER BY ItemCost ASC
+
+(Note:
+ORDER BY clause takes precedence over TOP clause.)
+
+
+
+
+
+
+
+
+
+
+
+DISTINCT:
+SELECT DISTINCT ItemCost
+FROM Item
+WHERE ItemCost = 45000
+
+SELECT * FROM Item
+
+
+SELECT DISTINCT ItemDate
+FROM Item
+WHERE ItemDate = '2004-01-31'
+
+SELECT * FROM Item
+
+
+SELECT DISTINCT ItemName
+FROM Item
+WHERE ItemName LIKE 'H%'
+
+SELECT * FROM Item
+
+
+
+
+
+
+
+
+
+
+
+Aggregate Functions:
+SELECT 'Sum ItemCost' = SUM( ALL ItemCost)
+From Item
+
+SELECT * FROM Item
+
+(Or default)
+
+SELECT 'Sum ItemCost' = SUM(ItemCost)
+From Item
+
+SELECT * FROM Item
+
+
+SELECT 'Sum ItemCost' = SUM( DISTINCT ItemCost)
+From Item
+
+SELECT * FROM Item
+
+
+SELECT 'AverageItemCost' = AVG(ALL ItemCost)
+From Item
+
+SELECT * FROM Item
+
+(Or default)
+
+SELECT 'AverageItemCost' = AVG(ItemCost)
+From Item
+
+SELECT * FROM Item
+
+
+SELECT 'AverageItemCost' = AVG(DISTINCT ItemCost)
+From Item
+
+SELECT * FROM Item
+
+
+(Note: AVG calcultes average excluding NULL)
+
+
+SELECT 'Maximum ItemCost' = MAX(ItemCost)
+From Item
+
+SELECT * FROM Item
+
+
+SELECT 'Minimum ItemCost' = MIN(ItemCost)
+From Item
+
+SELECT * FROM Item
+
+
+SELECT 'Number of ItemCosts' = COUNT(ALL ItemCost)
+From Item
+
+SELECT * FROM Item
+
+SELECT 'Number of ItemCosts' = COUNT(ItemCost)
+From Item
+
+SELECT * FROM Item
+
+(Or default)
+
+SELECT 'Number of ItemCosts' = COUNT(DISTINCT ItemCost)
+From Item
+
+SELECT * FROM Item
+
+(Note: COUNT counts other than NULL)
+
+
+
+GROUP BY:
+SELECT ItemName, Minimum = MIN(ItemCost), Maximum = MAX(ItemCost)
+From Item
+WHERE ItemCost > 40000
+GROUP BY ItemName
+
+
+SELECT ItemName, Minimum = MIN(ItemCost), Maximum = MAX(ItemCost)
+From Item
+WHERE ItemName LIKE 'H%'
+GROUP BY ItemName
+
+
+SELECT ItemName, Minimum = MIN(ItemCost), Maximum = MAX(ItemCost)
+From Item
+WHERE ItemCost > 40000
+GROUP BY ItemName
+HAVING ItemName LIKE 'H%'
+
+
+SELECT ItemName, 'Average ItemCost' = AVG(ItemCost)
+From Item
+WHERE ItemName LIKE 'H%'
+GROUP BY ItemName
+HAVING AVG(ItemCost) > 30000
+
+
+SELECT ItemName, 'Code' = ItemCode, Average = AVG(ItemCost)
+From Item
+WHERE ItemName LIKE 'H%'
+GROUP BY ItemName, ItemCode
+
+
+SELECT 'Code' = ItemCode,
+'No. of items' = COUNT(ItemCode)
+From Item
+GROUP BY ItemCode
+
+
+SELECT ItemName, ItemCost = SUM(ItemCost)
+From Item
+WHERE ItemName IN ('SONY', 'HP', 'HCL')
+GROUP BY ItemName, ItemCost
+
+
+SELECT ItemName, ItemCost = SUM(ItemCost)
+From Item
+WHERE ItemName IN ('SONY', 'HP', 'HCL')
+GROUP BY ItemName
+
+
+SELECT ItemName, ItemCost = SUM(ItemCost)
+From Item
+WHERE ItemName IN ('SONY', 'HP', 'HCL')
+GROUP BY ALL ItemName
+
+
+(Note: Cannot GROUP BY DISTINCT)
+
+
+(Note: SELECT and GROUP BY the same column)
+
+
+
+
+
+
+
+
+
+
+COMPUTE:
+SELECT ItemCode, ItemName, ItemCost
+FROM Item
+ORDER BY ItemName
+COMPUTE AVG(ItemCost) BY ItemName
+
+
+SELECT ItemCode, ItemName, ItemCost
+FROM Item
+COMPUTE AVG(ItemCost)  
+
+(Note: Rules for COMPUTE and COMPUTE BY:
+
+The DISTINCT keyword cannot be used with aggregate functions.
+
+ALL columns referred to in the COMPUTE clause must appear in the SELECT column list.
+
+The ORDER BY clause must be used whenever the COMPUTE BY clause is used.
+
+The columns listed in the COMPUTE BY clause must match the columns used in the ORDER BY clause.
+
+The ORDER BY clause can be eliminated only when the COMPUTE clause is used.
+
+The columns listed in the COMPUTE BY clause must match the columns used in the ORDER BY clause.
+
+More than one COMPUTE clause can be used in the SELECT statement to produce a result with subtotals and a grand total.
+
+The different aggregate functions can be used on more than one column with the COMPUTE BY clause.
+
+More than one column or expression can be specified after the COMPUTE BY clause. The order of columns or expressions used in the COMPUTE BY clause must match the order of columns or expressions specified in the ORDER BY clause.)
+
+
+SELECT ItemName, ItemCost, ItemAdvance
+FROM Item
+WHERE ItemName = 'HCL'
+ORDER BY ItemName, ItemCost, ItemAdvance
+COMPUTE AVG(ItemCost), AVG(ItemAdvance) BY ItemName, ItemCost, ItemAdvance
+
+
+SELECT ItemName, ItemCost, ItemAdvance
+FROM Item
+WHERE ItemName = 'HCL'
+ORDER BY ItemName, ItemCost, ItemAdvance
+COMPUTE AVG(ItemCost), AVG(ItemAdvance) BY ItemName, ItemCost
+
+
+SELECT ItemName, ItemCost, ItemAdvance
+FROM Item
+WHERE ItemName = 'HCL'
+ORDER BY ItemName, ItemCost, ItemAdvance
+COMPUTE AVG(ItemCost), AVG(ItemAdvance) BY ItemName
+
+
+SELECT ItemName, 'Cost' = ItemCost, 'Advance' = ItemAdvance
+FROM Item
+WHERE ItemName = 'HCL'
+ORDER BY ItemName, ItemCost, ItemAdvance
+COMPUTE AVG(ItemCost), AVG(ItemAdvance) BY ItemName
+COMPUTE AVG(ItemCost), AVG(ItemAdvance)

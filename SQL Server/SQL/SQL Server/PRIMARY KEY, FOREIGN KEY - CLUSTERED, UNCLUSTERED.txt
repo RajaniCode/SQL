@@ -1,0 +1,578 @@
+NOTE: By default [int IDENTITY(0, 1), PRIMARY KEY] are NOT NULL (CANNOT be declared using NULL)
+
+NOTE: By default [UNIQUE (candidate key)] is NULL, can accept only one NULL (CAN be declared using NULL)
+ 
+NOTE: FOREIGN KEY can REFERENCE only either PRIMARY KEY or UNIQUE (candidate key)
+
+NOTE: Only one [int IDENTITY(0, 1), PRIMARY KEY, CLUSTERED]  per table is allowed
+
+NOTE: More than one [UNIQUE (candidate key), FOREIGN KEY (also can reference the same table)]  per table are allowed
+
+NOTE: ADD CONSTRAINT [PRIMARY KEY], the column should be NOT NULL
+[Otherwise DROP COLUMN, ADD column(DELETE TABLE)]
+
+NOTE: ADD CONSTRAINT [UNIQUE (candidate key), the column need not be NOT NULL
+
+NOTE: FOREIGN KEY need not have same name as that of the PRIMARY KEY or UNIQUE (candidate key) which the FOREIGN KEY REFERENCES
+[BUT same type and size]
+
+
+
+
+
+
+
+
+
+
+Create database: 
+USE  master
+
+IF EXISTS (SELECT * FROM master..sysdatabases 
+WHERE name = 'keydb ') 
+
+DROP DATABASE keydb
+
+CREATE DATABASE keydb
+ON PRIMARY
+(NAME = keydb_dat,
+FILENAME = 'C:\Program Files\Microsoft SQL Server\MSSQL.1\MSSQL\Data\keydb.mdf', 
+SIZE = 12,
+MAXSIZE = 100,
+FILEGROWTH = 2),
+FILEGROUP keydbgroup
+(NAME = keydbgroup_dat,
+FILENAME = 'C:\Program Files\Microsoft SQL Server\MSSQL.1\MSSQL\Data\keydbgroup.ndf', 
+SIZE = 12, MAXSIZE = 100, FILEGROWTH = 2)
+LOG ON
+(NAME = 'keydb_log', 
+FILENAME = 'C:\Program Files\Microsoft SQL Server\MSSQL.1\MSSQL\Data\keydb.ldf', 
+SIZE = 4 MB,
+MAXSIZE = 50 MB,
+FILEGROWTH = 2 MB)
+
+
+
+
+
+
+
+
+
+
+FOREIGN KEY REFERENCES PRIMARY KEY:
+Create table:
+USE keydb
+
+IF OBJECT_ID('dbo.department', 'U') IS NOT NULL
+  
+DROP TABLE dbo.department
+
+
+CREATE TABLE department
+(
+dcode int IDENTITY (1001, 1) NOT NULL CONSTRAINT pkdcode PRIMARY KEY CLUSTERED,
+dname nvarchar(20)
+) 
+ON keydbgroup
+
+INSERT INTO department
+VALUES
+(
+'C++'
+)
+
+INSERT INTO department
+VALUES
+(
+'C#'
+)
+
+SELECT * FROM department
+
+
+USE keydb
+
+IF OBJECT_ID('dbo.employee', 'U') IS NOT NULL
+  
+DROP TABLE dbo.employee
+
+
+CREATE TABLE employee
+(
+ecode int IDENTITY(1001,1) NOT NULL CONSTRAINT pkecode PRIMARY KEY CLUSTERED,
+ename nvarchar(20),
+dcode int
+CONSTRAINT fkdcode FOREIGN KEY(dcode) REFERENCES department(dcode)
+) 
+ON keydbgroup
+
+INSERT INTO employee
+VALUES
+(
+'Bjarne Straustrup',
+1001
+)
+
+INSERT INTO employee
+VALUES
+(
+'Bill Gates',
+1002
+)
+
+SELECT * FROM employee
+
+
+(Note: Rows can be inserted into table candidate only if dcode(employee) = dcode(department))
+
+
+
+
+
+
+
+
+
+
+FOREIGN KEY (PRIMARY KEY) REFERENCES PRIMARY KEY:
+Create table:
+USE keydb
+
+IF OBJECT_ID('dbo.department', 'U') IS NOT NULL
+  
+DROP TABLE dbo.department
+
+
+CREATE TABLE department
+(
+dcode int IDENTITY (1001, 1) NOT NULL CONSTRAINT pkdcode1 PRIMARY KEY CLUSTERED,
+dname nvarchar(20)
+) 
+ON keydbgroup
+
+INSERT INTO department
+VALUES
+(
+'C++'
+)
+
+INSERT INTO department
+VALUES
+(
+'C#'
+)
+
+SELECT * FROM department
+
+
+
+
+
+USE keydb
+
+IF OBJECT_ID('dbo.employee', 'U') IS NOT NULL
+  
+DROP TABLE dbo.employee
+
+
+CREATE TABLE employee
+(
+dcode int IDENTITY(1001,1) NOT NULL CONSTRAINT pkdcode2 PRIMARY KEY CLUSTERED,
+ename nvarchar(20),
+CONSTRAINT fkdcode FOREIGN KEY(dcode) REFERENCES department(dcode)
+) 
+ON keydbgroup
+
+INSERT INTO employee
+VALUES
+(
+'Bjarne Straustrup'
+)
+
+INSERT INTO employee
+VALUES
+(
+'Bill Gates'
+)
+
+SELECT * FROM employee
+
+
+(Note: Rows can be inserted into table candidate only if dcode(employee) = dcode(department))
+
+
+
+
+
+
+
+
+
+
+PRIMARY KEY CLUSTERED:
+USE keydb
+
+IF OBJECT_ID('dbo.employee', 'U') IS NOT NULL
+  
+DROP TABLE dbo.employee
+
+CREATE TABLE employee
+(
+ecode nchar(2) NOT NULL CONSTRAINT pkecode PRIMARY KEY CLUSTERED
+) 
+
+INSERT INTO employee
+VALUES
+(
+'1'
+)
+
+INSERT INTO employee
+VALUES
+(
+'0'
+)
+
+INSERT INTO employee
+VALUES
+(
+'-1'
+)
+
+INSERT INTO employee
+VALUES
+(
+'B'
+)
+
+INSERT INTO employee
+VALUES
+(
+'A'
+)
+
+INSERT INTO employee
+VALUES
+(
+'A1'
+)
+
+INSERT INTO employee
+VALUES
+(
+'A2'
+)
+
+INSERT INTO employee
+VALUES
+(
+'1A'
+)
+
+INSERT INTO employee
+VALUES
+(
+'2A'
+)
+
+INSERT INTO employee
+VALUES
+(
+'0A'
+)
+
+SELECT * FROM employee
+
+
+(Note: PRIMARY KEY CLUSTERED alone means ascending/alphabetical order, which is also the default)
+
+
+
+
+
+
+
+
+
+
+PRIMARY KEY NONCLUSTERED:
+USE keydb
+
+USE keydb
+
+IF OBJECT_ID('dbo.employee', 'U') IS NOT NULL
+  
+DROP TABLE dbo.employee
+
+CREATE TABLE employee
+(
+ecode nchar(2) NOT NULL CONSTRAINT pkecode PRIMARY KEY NONCLUSTERED
+) 
+
+INSERT INTO employee
+VALUES
+(
+'1'
+)
+
+INSERT INTO employee
+VALUES
+(
+'0'
+)
+
+INSERT INTO employee
+VALUES
+(
+'-1'
+)
+
+INSERT INTO employee
+VALUES
+(
+'B'
+)
+
+INSERT INTO employee
+VALUES
+(
+'A'
+)
+
+INSERT INTO employee
+VALUES
+(
+'A1'
+)
+
+INSERT INTO employee
+VALUES
+(
+'A2'
+)
+
+INSERT INTO employee
+VALUES
+(
+'1A'
+)
+
+INSERT INTO employee
+VALUES
+(
+'2A'
+)
+
+INSERT INTO employee
+VALUES
+(
+'0A'
+)
+
+SELECT * FROM employee
+
+
+(Note: PRIMARY KEY NONCLUSTERED alone means ascending/alphabetical order, which is also the default)
+
+
+
+
+
+
+
+
+
+PRIMARY KEY CLUSTERED:
+USE keydb
+
+IF OBJECT_ID('dbo.employee', 'U') IS NOT NULL
+  
+DROP TABLE dbo.employee
+
+CREATE TABLE employee
+(
+ecode nchar(2) NOT NULL CONSTRAINT pkecode PRIMARY KEY CLUSTERED,
+ename nvarchar(10)
+) 
+
+INSERT INTO employee
+VALUES
+(
+'1',
+'Bill'
+)
+
+INSERT INTO employee
+VALUES
+(
+'0',
+'Gates'
+)
+
+INSERT INTO employee
+VALUES
+(
+'-1',
+'Bjarne'
+)
+
+INSERT INTO employee
+VALUES
+(
+'B',
+'Straustrup'
+)
+
+INSERT INTO employee
+VALUES
+(
+'A',
+'James'
+)
+
+INSERT INTO employee
+VALUES
+(
+'A1',
+'Goosling'
+)
+
+INSERT INTO employee
+VALUES
+(
+'A2',
+'Charles'
+)
+
+INSERT INTO employee
+VALUES
+(
+'1A',
+'Babbage'
+)
+
+INSERT INTO employee
+VALUES
+(
+'2A',
+'Larry'
+)
+
+INSERT INTO employee
+VALUES
+(
+'0A',
+'Page'
+)
+
+SELECT * FROM employee
+
+
+(Note: PRIMARY KEY CLUSTERED means ascending/alphabetical order, which is also the default [Unlike UNIQUE])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+PRIMARY KEY NONCLUSTERED:
+USE keydb
+
+IF OBJECT_ID('dbo.employee', 'U') IS NOT NULL
+  
+DROP TABLE dbo.employee
+
+CREATE TABLE employee
+(
+ecode nchar(2) NOT NULL CONSTRAINT pkecode PRIMARY KEY NONCLUSTERED,
+ename nvarchar(10)
+) 
+
+INSERT INTO employee
+VALUES
+(
+'1',
+'Bill'
+)
+
+INSERT INTO employee
+VALUES
+(
+'0',
+'Gates'
+)
+
+INSERT INTO employee
+VALUES
+(
+'-1',
+'Bjarne'
+)
+
+INSERT INTO employee
+VALUES
+(
+'B',
+'Straustrup'
+)
+
+INSERT INTO employee
+VALUES
+(
+'A',
+'James'
+)
+
+INSERT INTO employee
+VALUES
+(
+'A1',
+'Goosling'
+)
+
+INSERT INTO employee
+VALUES
+(
+'A2',
+'Charles'
+)
+
+INSERT INTO employee
+VALUES
+(
+'1A',
+'Babbage'
+)
+
+INSERT INTO employee
+VALUES
+(
+'2A',
+'Larry'
+)
+
+INSERT INTO employee
+VALUES
+(
+'0A',
+'Page'
+)
+
+SELECT * FROM employee
+
+
+(Note: PRIMARY KEY NONCLUSTERED means in the order of entry)

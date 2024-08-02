@@ -1,0 +1,17 @@
+
+Aspire@Acer MINGW64 /
+$ cd "E:\Working\SQL\MySQL\Java"
+
+Aspire@Acer MINGW64 /e/Working/SQL/MySQL/Java
+$ export CLASSPATH="E:\Working\SQL\MySQL\Java\mysql-connector-java\mysql-connector-java-5.1.39-bin.jar;.;"
+
+Aspire@Acer MINGW64 /e/Working/SQL/MySQL/Java
+$ javac MySQL.java
+
+Aspire@Acer MINGW64 /e/Working/SQL/MySQL/Java
+$ java MySQL
+Connected
+1       Alpha   21
+2       Beta    22
+3       Gamma   23
+Number of Rows: 3

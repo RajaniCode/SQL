@@ -1,0 +1,47 @@
+
+Aspire@Acer MINGW64 /
+$ java -version
+java version "1.8.0_102"
+Java(TM) SE Runtime Environment (build 1.8.0_102-b14)
+Java HotSpot(TM) 64-Bit Server VM (build 25.102-b14, mixed mode)
+
+Aspire@Acer MINGW64 /
+$ cd "E:\Working\SQL\HSQLDB\Java\JDBC-Client-In-Memory-Table-Example"
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB/Java/JDBC-Client-In-Memory-Table-Example
+$ cp Original/Testdb.java Testdb.java
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB/Java/JDBC-Client-In-Memory-Table-Example
+$ javac Testdb.java
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB/Java/JDBC-Client-In-Memory-Table-Example
+$ java -cp "E:\Working\SQL\HSQLDB\Java\JDBC-Client-In-Memory-Table-Example\HSQLDB-JDBC\hsqldb.jar;.;" Testdb
+URL in use: jdbc:hsqldb:db_file
+User name: SA
+DBMS name: HSQL Database Engine
+DBMS version: 2.3.4
+Driver name: HSQL Database Engine Driver
+Driver version: 2.3.4
+supp. SQL Keywords:
+0 Ford 100
+1 Toyota 200
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB/Java/JDBC-Client-In-Memory-Table-Example
+$ rm -rf src Testdb.java Testdb.class db_file.properties db_file.script
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB/Java/JDBC-Client-In-Memory-Table-Example
+$ mkdir -p "src/org/hsqldb/sample"
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB/Java/JDBC-Client-In-Memory-Table-Example
+$ cp Original/Testdb.java src/org/hsqldb/sample
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB/Java/JDBC-Client-In-Memory-Table-Example
+$ javac src/org/hsqldb/sample/Testdb.java
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB/Java/JDBC-Client-In-Memory-Table-Example
+$ java -cp "src;E:\Working\SQL\HSQLDB\Java\JDBC-Client-In-Memory-Table-Example\HSQLDB-JDBC\hsqldb.jar;.;" org.hsqldb.sample.Testdb
+0 Ford 100
+1 Toyota 200
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB/Java/JDBC-Client-In-Memory-Table-Example
+$

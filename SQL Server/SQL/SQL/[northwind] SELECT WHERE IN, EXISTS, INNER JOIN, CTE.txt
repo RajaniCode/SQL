@@ -1,0 +1,31 @@
+USE [northwind];
+GO
+
+SELECT COUNT(*) FROM [dbo].[EmployeeTerritories]
+    WHERE [EmployeeID] IN 
+	(SELECT [EmployeeID] FROM [dbo].[Employees] WHERE [EmployeeID] = 2);
+GO
+
+SELECT COUNT(*) FROM [dbo].[EmployeeTerritories]
+	WHERE EXISTS 
+	(SELECT [EmployeeID] FROM [dbo].[Employees] WHERE [dbo].[Employees].[EmployeeID] = 2
+	AND [dbo].[Employees].[EmployeeID] = [dbo].[EmployeeTerritories].[EmployeeID]);
+GO
+
+SELECT COUNT(*) FROM [dbo].[EmployeeTerritories] T1
+    WHERE EXISTS 
+	(SELECT [EmployeeID] FROM [dbo].[Employees] T2 WHERE T2.[EmployeeID] = 2
+	AND T1.[EmployeeID] = T2.[EmployeeID]);
+GO
+
+SELECT COUNT(*) FROM [dbo].[EmployeeTerritories] T1
+    INNER JOIN 
+	(SELECT [EmployeeID] FROM [dbo].[Employees] WHERE [EmployeeID] = 2) T2
+	ON T1.[EmployeeID] = T2.[EmployeeID];
+GO
+
+WITH CTE AS
+	(SELECT [EmployeeID] FROM [dbo].[Employees] WHERE [EmployeeID] = 2)
+	SELECT COUNT(*) FROM [dbo].[EmployeeTerritories]
+    WHERE [EmployeeID] IN (SELECT * FROM CTE);
+GO

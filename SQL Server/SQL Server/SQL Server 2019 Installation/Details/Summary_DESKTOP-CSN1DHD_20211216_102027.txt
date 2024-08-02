@@ -1,0 +1,259 @@
+Overall summary:
+  Final result:                  Passed
+  Exit code (Decimal):           0
+  Start time:                    2021-12-16 10:20:27
+  End time:                      2021-12-16 13:00:31
+  Requested action:              Install
+
+Machine Properties:
+  Machine name:                  DESKTOP-CSN1DHD
+  Machine processor count:       4
+  OS version:                    Microsoft Windows 10 Pro (10.0.19044)
+  OS service pack:               
+  OS region:                     United States
+  OS language:                   English (United States)
+  OS architecture:               x64
+  Process architecture:          64 Bit
+  OS clustered:                  No
+
+Product features discovered:
+  Product              Instance             Instance ID                    Feature                                  Language             Edition              Version         Clustered  Configured
+
+Package properties:
+  Description:                   Microsoft SQL Server 2019 
+  ProductName:                   SQL Server 2019
+  Type:                          RTM
+  Version:                       15
+  SPLevel:                       0
+  Installation location:         C:\Users\Rajani\Downloads\SQL Server 2019\SQLServer2019-x64-ENU-Dev\x64\setup\
+  Installation edition:          Developer
+
+Product Update Status:
+  None discovered.
+
+User Input Settings:
+  ACTION:                        Install
+  ADDCURRENTUSERASSQLADMIN:      false
+  AGTSVCACCOUNT:                 NT Service\SQLSERVERAGENT
+  AGTSVCPASSWORD:                *****
+  AGTSVCSTARTUPTYPE:             Manual
+  ASBACKUPDIR:                   C:\Program Files\Microsoft SQL Server\MSAS15.MSSQLSERVER\OLAP\Backup
+  ASCOLLATION:                   Latin1_General_CI_AS
+  ASCONFIGDIR:                   C:\Program Files\Microsoft SQL Server\MSAS15.MSSQLSERVER\OLAP\Config
+  ASDATADIR:                     C:\Program Files\Microsoft SQL Server\MSAS15.MSSQLSERVER\OLAP\Data
+  ASLOGDIR:                      C:\Program Files\Microsoft SQL Server\MSAS15.MSSQLSERVER\OLAP\Log
+  ASPROVIDERMSOLAP:              1
+  ASSERVERMODE:                  TABULAR
+  ASSVCACCOUNT:                  NT Service\MSSQLServerOLAPService
+  ASSVCPASSWORD:                 <empty>
+  ASSVCSTARTUPTYPE:              Automatic
+  ASSYSADMINACCOUNTS:            DESKTOP-CSN1DHD\Rajani
+  ASTELSVCACCT:                  NT Service\SSASTELEMETRY
+  ASTELSVCPASSWORD:              <empty>
+  ASTELSVCSTARTUPTYPE:           Automatic
+  ASTEMPDIR:                     C:\Program Files\Microsoft SQL Server\MSAS15.MSSQLSERVER\OLAP\Temp
+  BROWSERSVCSTARTUPTYPE:         Automatic
+  CLTCTLRNAME:                   RajaniDistributedReplayClient
+  CLTRESULTDIR:                  C:\Program Files (x86)\Microsoft SQL Server\DReplayClient\ResultDir\
+  CLTSTARTUPTYPE:                Manual
+  CLTSVCACCOUNT:                 NT Service\SQL Server Distributed Replay Client
+  CLTSVCPASSWORD:                <empty>
+  CLTWORKINGDIR:                 C:\Program Files (x86)\Microsoft SQL Server\DReplayClient\WorkingDir\
+  COMMFABRICENCRYPTION:          0
+  COMMFABRICNETWORKLEVEL:        0
+  COMMFABRICPORT:                0
+  CONFIGURATIONFILE:             C:\Program Files\Microsoft SQL Server\150\Setup Bootstrap\Log\20211216_102027\ConfigurationFile.ini
+  CTLRSTARTUPTYPE:               Manual
+  CTLRSVCACCOUNT:                NT Service\SQL Server Distributed Replay Controller
+  CTLRSVCPASSWORD:               <empty>
+  CTLRUSERS:                     DESKTOP-CSN1DHD\Rajani
+  ENABLERANU:                    false
+  ENU:                           true
+  EXTSVCACCOUNT:                 NT Service\MSSQLLaunchpad
+  EXTSVCPASSWORD:                <empty>
+  FEATURES:                      SQLENGINE, REPLICATION, ADVANCEDANALYTICS, SQL_INST_MR, SQL_INST_MPY, SQL_INST_JAVA, FULLTEXT, DQ, POLYBASECORE, POLYBASEJAVA, AS, SQL_SHARED_AA, SQL_SHARED_MR, SQL_SHARED_MPY, DQC, CONN, IS, IS_MASTER, IS_WORKER, BC, SDK, DREPLAY_CTLR, DREPLAY_CLT, SNAC_SDK, MDS
+  FILESTREAMLEVEL:               0
+  FILESTREAMSHARENAME:           <empty>
+  FTSVCACCOUNT:                  NT Service\MSSQLFDLauncher
+  FTSVCPASSWORD:                 <empty>
+  HELP:                          false
+  IACCEPTPYTHONLICENSETERMS:     true
+  IACCEPTROPENLICENSETERMS:      true
+  IACCEPTSQLSERVERLICENSETERMS:  true
+  IACKNOWLEDGEENTCALLIMITS:      false
+  INDICATEPROGRESS:              false
+  INSTALLSHAREDDIR:              C:\Program Files\Microsoft SQL Server\
+  INSTALLSHAREDWOWDIR:           C:\Program Files (x86)\Microsoft SQL Server\
+  INSTALLSQLDATADIR:             <empty>
+  INSTANCEDIR:                   C:\Program Files\Microsoft SQL Server\
+  INSTANCEID:                    MSSQLSERVER
+  INSTANCENAME:                  MSSQLSERVER
+  ISMASTERSVCACCOUNT:            NT Service\SSISScaleOutMaster150
+  ISMASTERSVCPASSWORD:           <empty>
+  ISMASTERSVCPORT:               8391
+  ISMASTERSVCSSLCERTCN:          CN=desktop-csn1dhd; CN=192.168.38.241
+  ISMASTERSVCSTARTUPTYPE:        Automatic
+  ISMASTERSVCTHUMBPRINT:         4589B9A4736A6ED03947BAA3CEBE2D9B4CADF4A8
+  ISSVCACCOUNT:                  NT Service\MsDtsServer150
+  ISSVCPASSWORD:                 <empty>
+  ISSVCSTARTUPTYPE:              Automatic
+  ISTELSVCACCT:                  NT Service\SSISTELEMETRY150
+  ISTELSVCPASSWORD:              <empty>
+  ISTELSVCSTARTUPTYPE:           Automatic
+  ISWORKERSVCACCOUNT:            NT Service\SSISScaleOutWorker150
+  ISWORKERSVCCERT:               <empty>
+  ISWORKERSVCMASTER:             https://desktop-csn1dhd:8391
+  ISWORKERSVCPASSWORD:           <empty>
+  ISWORKERSVCSTARTUPTYPE:        Automatic
+  MATRIXCMBRICKCOMMPORT:         0
+  MATRIXCMSERVERNAME:            <empty>
+  MATRIXNAME:                    <empty>
+  MRCACHEDIRECTORY:              
+  NPENABLED:                     0
+  PBDMSSVCACCOUNT:               NT AUTHORITY\NETWORK SERVICE
+  PBDMSSVCPASSWORD:              <empty>
+  PBDMSSVCSTARTUPTYPE:           Automatic
+  PBENGSVCACCOUNT:               NT AUTHORITY\NETWORK SERVICE
+  PBENGSVCPASSWORD:              <empty>
+  PBENGSVCSTARTUPTYPE:           Automatic
+  PBPORTRANGE:                   16450-16460
+  PBSCALEOUT:                    false
+  PID:                           *****
+  QUIET:                         false
+  QUIETSIMPLE:                   false
+  ROLE:                          
+  RSINSTALLMODE:                 DefaultNativeMode
+  RSSVCACCOUNT:                  <empty>
+  RSSVCPASSWORD:                 <empty>
+  RSSVCSTARTUPTYPE:              Automatic
+  SAPWD:                         *****
+  SECURITYMODE:                  SQL
+  SQLBACKUPDIR:                  <empty>
+  SQLCOLLATION:                  SQL_Latin1_General_CP1_CI_AS
+  SQLJAVADIR:                    C:\Users\Rajani\Downloads\Java\JDK\OpenJDK\openjdk-17.0.1_windows-x64_bin\jdk-17.0.1\
+  SQLMAXDOP:                     4
+  SQLMAXMEMORY:                  2147483647
+  SQLMINMEMORY:                  0
+  SQLSVCACCOUNT:                 NT Service\MSSQLSERVER
+  SQLSVCINSTANTFILEINIT:         true
+  SQLSVCPASSWORD:                <empty>
+  SQLSVCSTARTUPTYPE:             Automatic
+  SQLSYSADMINACCOUNTS:           DESKTOP-CSN1DHD\Rajani
+  SQLTELSVCACCT:                 NT Service\SQLTELEMETRY
+  SQLTELSVCPASSWORD:             <empty>
+  SQLTELSVCSTARTUPTYPE:          Automatic
+  SQLTEMPDBDIR:                  <empty>
+  SQLTEMPDBFILECOUNT:            4
+  SQLTEMPDBFILEGROWTH:           64
+  SQLTEMPDBFILESIZE:             8
+  SQLTEMPDBLOGDIR:               <empty>
+  SQLTEMPDBLOGFILEGROWTH:        64
+  SQLTEMPDBLOGFILESIZE:          8
+  SQLUSERDBDIR:                  <empty>
+  SQLUSERDBLOGDIR:               <empty>
+  SUPPRESSPAIDEDITIONNOTICE:     false
+  SUPPRESSPRIVACYSTATEMENTNOTICE: false
+  TCPENABLED:                    0
+  UIMODE:                        Normal
+  UpdateEnabled:                 true
+  UpdateSource:                  MU
+  USEMICROSOFTUPDATE:            false
+  USESQLRECOMMENDEDMEMORYLIMITS: false
+  X86:                           false
+
+  Configuration file:            C:\Program Files\Microsoft SQL Server\150\Setup Bootstrap\Log\20211216_102027\ConfigurationFile.ini
+
+Detailed results:
+  Feature:                       Master Data Services
+  Status:                        Passed
+
+  Feature:                       Data Quality Services
+  Status:                        Passed
+
+  Feature:                       Full-Text and Semantic Extractions for Search
+  Status:                        Passed
+
+  Feature:                       Java
+  Status:                        Passed
+
+  Feature:                       Java connector for HDFS data sources
+  Status:                        Passed
+
+  Feature:                       Python
+  Status:                        Passed
+
+  Feature:                       R
+  Status:                        Passed
+
+  Feature:                       PolyBase Query Service for External Data
+  Status:                        Passed
+
+  Feature:                       Machine Learning Services and Language Extensions
+  Status:                        Passed
+
+  Feature:                       Database Engine Services
+  Status:                        Passed
+
+  Feature:                       SQL Server Replication
+  Status:                        Passed
+
+  Feature:                       Analysis Services
+  Status:                        Passed
+
+  Feature:                       SQL Browser
+  Status:                        Passed
+
+  Feature:                       SQL Writer
+  Status:                        Passed
+
+  Feature:                       Distributed Replay Client
+  Status:                        Passed
+
+  Feature:                       Distributed Replay Controller
+  Status:                        Passed
+
+  Feature:                       Client Tools Backwards Compatibility
+  Status:                        Passed
+
+  Feature:                       Client Tools SDK
+  Status:                        Passed
+
+  Feature:                       Client Tools Connectivity
+  Status:                        Passed
+
+  Feature:                       Scale Out Worker
+  Status:                        Passed
+
+  Feature:                       Scale Out Master
+  Status:                        Passed
+
+  Feature:                       Integration Services
+  Status:                        Passed
+
+  Feature:                       SQL Client Connectivity SDK
+  Status:                        Passed
+
+  Feature:                       SQL Client Connectivity
+  Status:                        Passed
+
+  Feature:                       Data Quality Client
+  Status:                        Passed
+
+  Feature:                       Machine Learning Server (Standalone)
+  Status:                        Passed
+
+  Feature:                       Python
+  Status:                        Passed
+
+  Feature:                       R
+  Status:                        Passed
+
+  Feature:                       Setup Support Files
+  Status:                        Passed
+
+Rules with failures or warnings:
+
+Global rules:
+Warning    IsFirewallEnabled                The Windows Firewall is enabled. Make sure the appropriate ports are open to enable remote access. See the rules documentation at https://go.microsoft.com/fwlink/?linkid=2094702 for information about ports to open for each feature.
+
+Rules report file:               C:\Program Files\Microsoft SQL Server\150\Setup Bootstrap\Log\20211216_102027\SystemConfigurationCheck_Report.htm

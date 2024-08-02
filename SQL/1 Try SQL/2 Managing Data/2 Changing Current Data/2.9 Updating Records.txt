@@ -1,0 +1,13 @@
+2.9 Updating Records
+
+The UPDATE statement allows you to:
+
+    Insert a new row in a table in a database.
+
+    Change values of table data in a database.
+
+    Remove rows of data.
+
+    None of the above.
+
+Answer: Change values of table data in a database.

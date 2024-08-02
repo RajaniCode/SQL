@@ -1,0 +1,79 @@
+4.7 Three Table Aliases
+
+
+Shorten this query to use 3 different table aliases.
+
+
+Tables
+Actors
+id 	name
+1 	Vivien Leigh
+2 	Clark Gable
+3 	Olivia de Havilland
+Movies
+id 	title
+1 	Don Juan
+2 	The Lost World
+3 	Peter Pan
+4 	Robin Hood
+Actors_Movies
+actor_id 	movie_id
+1 	1
+1 	2
+2 	3
+3 	2
+3 	4
+
+
+schema.sql
+CREATE TABLE Actors (
+  id int PRIMARY KEY,
+  name varchar(50) NOT NULL
+);
+
+CREATE TABLE Movies (
+  id int PRIMARY KEY,
+  title varchar(50) NOT NULL
+);
+
+CREATE TABLE Actors_Movies (
+  actor_id int REFERENCES Actors,
+  movie_id int REFERENCES Movies
+);
+
+INSERT INTO Actors (id, name) VALUES
+  (1, 'Vivien Leigh'),
+  (2, 'Clark Gable'),
+  (3, 'Olivia de Havilland');
+
+INSERT INTO Movies (id, title) VALUES
+  (1, 'Don Juan'),
+  (2, 'The Lost World'),
+  (3, 'Peter Pan'),
+  (4, 'Robin Hood');
+
+INSERT INTO Actors_Movies (actor_id, movie_id) VALUES
+  (1, 1),
+  (1, 2),
+  (2, 3),
+  (3, 2),
+  (3, 4);
+
+
+query.sql
+SELECT Actors.name, Movies.title FROM Actors
+INNER JOIN Actors_Movies
+ON Actors.id = Actors_Movies.actor_id
+INNER JOIN Movies
+ON Actors_Movies.movie_id = Movies.id
+ORDER BY Movies.title;    
+
+
+Answer:
+query.sql
+SELECT a.name, m.title FROM Actors a
+INNER JOIN Actors_Movies am
+ON a.id = am.actor_id
+INNER JOIN Movies m
+ON am.movie_id = m.id
+ORDER BY m.title;

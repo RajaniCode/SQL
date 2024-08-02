@@ -1,0 +1,98 @@
+USE [master];
+GO
+
+--IF EXISTS(SELECT name FROM sys.databases WHERE name = N'sampledb')
+IF DB_ID (N'sampledb') IS NOT NULL
+DROP DATABASE [sampledb];
+GO
+
+CREATE DATABASE sampledb;
+GO
+
+USE [sampledb];
+GO
+
+--IF EXISTS(SELECT name FROM sys.tables WHERE name = N'greek')
+IF OBJECT_ID (N'greek', N'U') IS NOT NULL
+DROP TABLE [greek];
+GO
+
+CREATE TABLE greek
+(
+  id int IDENTITY(1,1),
+  name nvarchar(max),
+  rgb nvarchar(max),
+  score int
+);
+GO
+
+SELECT * FROM greek;
+GO
+
+INSERT INTO greek 
+SELECT 'Alpha', 'Green', 85 UNION ALL
+SELECT 'Beta', 'Green', 85 UNION ALL
+SELECT 'Gamma', 'Green', 80 UNION ALL
+SELECT 'Delta', 'Blue', 70 UNION ALL
+SELECT 'Epsilon', 'Blue', 71 UNION ALL
+SELECT 'Zeta', 'Blue', 72 UNION ALL
+SELECT 'Eta', 'Blue', 73 UNION ALL
+SELECT 'Theta', 'Blue', 74 UNION ALL
+SELECT 'Iota', 'Red', 60 UNION ALL
+SELECT 'Kappa', 'Red', 60 UNION ALL
+SELECT 'Lambda', 'Red', 60 UNION ALL
+SELECT 'Mu', 'Red', 65 UNION ALL
+SELECT 'Nu', 'Green', 89 UNION ALL
+SELECT 'Xi', 'Green', 87 UNION ALL
+SELECT 'Omicron', 'Green', 89;
+GO
+
+SELECT * FROM greek;
+GO
+
+--IF EXISTS(SELECT name FROM sys.tables WHERE name = N'result')
+IF OBJECT_ID (N'result', N'U') IS NOT NULL
+DROP TABLE [result];
+GO
+
+CREATE TABLE result
+(
+  id int IDENTITY(1,1),
+  color nvarchar(max)
+);
+GO
+
+SELECT * FROM result;
+GO
+
+--sys.triggers contains a row for each object that is a trigger, with a type of TR or TA
+--DML trigger names are schema-scoped and, therefore, are visible in sys.objects
+--DDL trigger names are scoped by the parent entity and are only visible in this view
+--TR = SQL trigger
+--TA = Assembly (CLR-integration) trigger
+
+IF EXISTS (SELECT * FROM sys.triggers WHERE name = 'TG1')
+--IF OBJECT_ID(N'TG1', N'TR') IS NOT NULL
+DROP TRIGGER TG1;
+GO
+
+CREATE TRIGGER TG1
+ON greek
+-- FOR INSERT, UPDATE, DELETE
+AFTER INSERT, UPDATE, DELETE
+AS
+BEGIN
+    INSERT INTO result 
+    SELECT DISTINCT (rgb) FROM greek;    
+END
+GO
+
+INSERT INTO greek VALUES
+('pi', 'White', 100);
+GO
+
+SELECT * FROM greek;
+GO
+
+SELECT * FROM result;
+GO

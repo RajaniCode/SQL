@@ -1,0 +1,280 @@
+USE [master];
+GO
+
+--IF EXISTS(SELECT name FROM sys.databases WHERE name = N'sampledb')
+IF DB_ID (N'sampledb') IS NOT NULL
+DROP DATABASE [sampledb];
+GO
+
+CREATE DATABASE sampledb;
+GO
+
+USE [sampledb];
+GO
+
+--IF EXISTS(SELECT name FROM sys.tables WHERE name = N'greek')
+IF OBJECT_ID (N'greek', N'U') IS NOT NULL
+DROP TABLE [greek];
+GO
+
+CREATE TABLE greek
+(
+  id int IDENTITY(1,1),
+  name nvarchar(max),
+  rgb nvarchar(max),
+  score int
+);
+GO
+
+SELECT * FROM greek;
+GO
+
+INSERT INTO greek 
+SELECT 'Alpha', 'Green', 85 UNION ALL
+SELECT 'Beta', 'Green', 85 UNION ALL
+SELECT 'Gamma', 'Green', 80 UNION ALL
+SELECT 'Delta', 'Blue', 70 UNION ALL
+SELECT 'Epsilon', 'Blue', 71 UNION ALL
+SELECT 'Zeta', 'Blue', 72 UNION ALL
+SELECT 'Eta', 'Blue', 73 UNION ALL
+SELECT 'Theta', 'Blue', 74 UNION ALL
+SELECT 'Iota', 'Red', 60 UNION ALL
+SELECT 'Kappa', 'Red', 60 UNION ALL
+SELECT 'Lambda', 'Red', 60 UNION ALL
+SELECT 'Mu', 'Red', 65 UNION ALL
+SELECT 'Nu', 'Green', 89 UNION ALL
+SELECT 'Xi', 'Green', 87 UNION ALL
+SELECT 'Omicron', 'Green', 89;
+GO
+
+SELECT * FROM greek;
+GO
+
+--sys.views contains a row for each view object, with sys.objects.type = V
+--sys.all_views shows the UNION of all user-defined and system views
+
+IF EXISTS(SELECT name FROM sys.views WHERE name = N'V1' and type = N'V')
+--IF OBJECT_ID(N'V1', N'V') IS NOT NULL
+DROP VIEW V1;
+GO
+
+CREATE VIEW V1
+AS
+--Cannot update the view "V1" because it or a view it references was created with WITH CHECK OPTION and its definition contains a TOP or OFFSET clause.
+--SELECT * FROM greek ORDER BY id OFFSET 5 ROW FETCH NEXT 5 ROWS ONLY
+SELECT * FROM greek WHERE (score % 2 = 0)
+WITH CHECK OPTION;
+GO
+
+SELECT * FROM V1;
+GO
+
+SELECT * FROM greek;
+GO
+
+DELETE FROM V1;
+GO
+
+SELECT * FROM V1;
+GO
+
+SELECT * FROM greek;
+GO
+
+INSERT INTO V1 
+--The attempted insert or update failed because the target view either specifies WITH CHECK OPTION or spans a view that specifies WITH CHECK OPTION and one or more rows resulting from the operation did not qualify under the CHECK OPTION constraint.
+--SELECT 'Pi', 'Red', 65 UNION ALL
+--SELECT 'Rho', 'Blue', 75 UNION ALL
+--SELECT 'Sigma', 'Green', 85 UNION ALL
+SELECT 'Tau', 'Red', 60 UNION ALL
+SELECT 'Upsilon', 'Blue', 70 UNION ALL
+SELECT 'Phi', 'Green', 80;
+GO
+
+SELECT * FROM V1;
+GO
+
+SELECT * FROM greek;
+GO
+
+UPDATE V1
+--The attempted insert or update failed because the target view either specifies WITH CHECK OPTION or spans a view that specifies WITH CHECK OPTION and one or more rows resulting from the operation did not qualify under the CHECK OPTION constraint.
+--SET score = 85
+SET score = 82
+WHERE name = 'Phi' AND rgb = 'Green';
+GO
+
+SELECT * FROM V1;
+GO
+
+SELECT * FROM greek;
+GO
+
+--Note
+/*
+IMPORTANT!
+--You cannot insert a row if the view references more than one base table.
+--You cannot delete a row if the view references more than one base table.
+--You can only update columns that belong to a single base table.
+Updatable Views
+--You can modify the data of an underlying base table through a view, as long as the following conditions are true:
+--Any modifications, including UPDATE, INSERT, and DELETE statements, must reference columns from only one base table.
+--The columns being modified in the view must directly reference the underlying data in the table columns. The columns cannot be derived in any other way, such as through the following:
+--An aggregate function: AVG, COUNT, SUM, MIN, MAX, GROUPING, STDEV, STDEVP, VAR, and VARP.
+--A computation. The column cannot be computed from an expression that uses other columns. Columns that are formed by using the set operators UNION, UNION ALL, CROSSJOIN, EXCEPT, and INTERSECT amount to a computation and are also not updatable.
+--The columns being modified are not affected by GROUP BY, HAVING, or DISTINCT clauses.
+--TOP is not used anywhere in the select_statement of the view together with the WITH CHECK OPTION clause.
+--The previous restrictions apply to any subqueries in the FROM clause of the view, just as they apply to the view itself. Generally, the Database Engine must be able to unambiguously trace modifications from the view definition to one base table.
+Permissions
+--Requires UPDATE, INSERT, or DELETE permissions on the target table, depending on the action being performed.
+*/
+
+USE [master];
+GO
+
+--IF EXISTS(SELECT name FROM sys.databases WHERE name = N'sampledb')
+IF DB_ID (N'sampledb') IS NOT NULL
+DROP DATABASE [sampledb];
+GO
+
+CREATE DATABASE sampledb;
+GO
+
+USE [sampledb];
+GO
+
+--IF EXISTS(SELECT name FROM sys.tables WHERE name = N'greek1')
+IF OBJECT_ID (N'greek1', N'U') IS NOT NULL
+DROP TABLE [greek1];
+GO
+
+CREATE TABLE greek1
+(
+  id int IDENTITY(1,1),
+  name nvarchar(max),
+  rgb nvarchar(max),
+  score int
+);
+GO
+
+--IF EXISTS(SELECT name FROM sys.tables WHERE name = N'greek2')
+IF OBJECT_ID (N'greek2', N'U') IS NOT NULL
+DROP TABLE [greek2];
+GO
+CREATE TABLE greek2
+(
+  id int IDENTITY(1,1),
+  name nvarchar(max),
+  rgb nvarchar(max),
+  score int
+);
+GO
+
+SELECT * FROM greek1;
+GO
+
+INSERT INTO greek1 
+SELECT 'Alpha', 'Green', 85 UNION ALL
+SELECT 'Beta', 'Green', 85 UNION ALL
+SELECT 'Gamma', 'Green', 80;
+GO
+
+SELECT * FROM greek1;
+GO
+
+INSERT INTO greek2 
+SELECT 'Delta', 'Blue', 70 UNION ALL
+SELECT 'Epsilon', 'Blue', 71 UNION ALL
+SELECT 'Zeta', 'Blue', 72;
+GO
+
+SELECT * FROM greek2;
+GO
+
+--sys.views contains a row for each view object, with sys.objects.type = V
+--sys.all_views shows the UNION of all user-defined and system views
+
+IF EXISTS(SELECT name FROM sys.views WHERE name = N'V1' and type = N'V')
+--IF OBJECT_ID(N'V1', N'V') IS NOT NULL
+DROP VIEW V1;
+GO
+
+CREATE VIEW V1
+AS
+--Column names in each view or function must be unique.
+SELECT 
+g1.id id1, g1.name name1, g1.rgb rgb1, g1.score score1, 
+g2.id id2, g2.name name2, g2.rgb rgb2, g2.score score2
+FROM greek1 g1
+LEFT JOIN greek2 g2 ON g1.id = g2.id;
+GO
+
+SELECT * FROM V1;
+GO
+
+SELECT * FROM greek1;
+GO
+
+SELECT * FROM greek2;
+GO
+
+--View or function 'V1' is not updatable because the modification affects multiple base tables.
+--DELETE FROM V1;
+--DELETE FROM V1 WHERE name1 = 'Alpha'
+--GO
+
+INSERT INTO V1 (name1, score1) VALUES ('psi', 0);
+GO
+
+SELECT * FROM V1;
+GO
+
+SELECT * FROM greek1;
+GO
+
+SELECT * FROM greek2;
+GO
+
+INSERT INTO V1 (rgb2) VALUES ('#000000');
+GO
+
+SELECT * FROM V1;
+GO
+
+SELECT * FROM greek1;
+GO
+
+SELECT * FROM greek2;
+GO
+
+UPDATE V1
+--View or function 'V1' is not updatable because the modification affects multiple base tables.
+--SET name1 = 'Omega', rgb1 = '#00FF00', score1 = 100, name2 = 'Chi', rgb2 = '#0000FF', score2 = 1
+SET name1 = 'Omega', rgb1 = '#00FF00', score1 = 100
+WHERE id1 = 1;
+GO
+
+SELECT * FROM V1;
+GO
+
+SELECT * FROM greek1;
+GO
+
+SELECT * FROM greek2;
+GO
+
+UPDATE V1
+--View or function 'V1' is not updatable because the modification affects multiple base tables.
+--SET name1 = 'Omega', rgb1 = '#00FF00', score1 = 100, name2 = 'Chi', rgb2 = '#0000FF', score2 = 1
+SET name2 = 'Chi', rgb2 = '#0000FF', score2 = 1
+WHERE id1 = 1;
+GO
+
+SELECT * FROM V1;
+GO
+
+SELECT * FROM greek1;
+GO
+
+SELECT * FROM greek2;
+GO

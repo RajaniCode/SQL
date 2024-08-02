@@ -1,0 +1,7 @@
+2.11 Completing UPDATE
+
+Please complete the following SQL UPDATE statement.
+
+UPDATE movies [] title = 'The Iron Mask' WHERE id = 4;
+
+Answer: SET

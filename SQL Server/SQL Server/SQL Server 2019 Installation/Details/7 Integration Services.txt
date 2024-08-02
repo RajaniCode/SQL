@@ -1,0 +1,12 @@
+Integration Service Scale Out Configuration - Master Node
+Port Number
+8391
+
+
+Create a new SSL Certificate
+CN=desktop-csn1dhd; CN=192.168.38.241
+
+
+Integration Service Scale Out Configuration - Worker Node
+Master nodde endpoint
+https://desktop-csn1dhd:8391

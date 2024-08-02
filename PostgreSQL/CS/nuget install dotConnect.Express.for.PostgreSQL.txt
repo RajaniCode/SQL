@@ -1,0 +1,20 @@
+$ nuget install dotConnect.Express.for.PostgreSQL
+Feeds used:
+  https://api.nuget.org/v3/index.json
+
+  GET https://api.nuget.org/v3/registration1-gz/dotconnect.express.for.postgresql/index.json
+  OK https://api.nuget.org/v3/registration1-gz/dotconnect.express.for.postgresql/index.json 1535ms
+Attempting to gather dependency information for package 'dotConnect.Express.for.PostgreSQL.7.6.763' with respect to project 'E:\Working\SQL\PostgreSQL\CS', targeting 'Any,Version=v0.0'
+Attempting to resolve dependencies for package 'dotConnect.Express.for.PostgreSQL.7.6.763' with DependencyBehavior 'Lowest'
+Resolving actions to install package 'dotConnect.Express.for.PostgreSQL.7.6.763'
+Resolved actions to install package 'dotConnect.Express.for.PostgreSQL.7.6.763'
+  GET https://api.nuget.org/packages/dotconnect.express.for.postgresql.7.6.763.nupkg
+  OK https://api.nuget.org/packages/dotconnect.express.for.postgresql.7.6.763.nupkg 1665ms
+Acquiring lock for the installation of dotConnect.Express.for.PostgreSQL 7.6.763
+Acquired lock for the installation of dotConnect.Express.for.PostgreSQL 7.6.763
+Installing dotConnect.Express.for.PostgreSQL 7.6.763.
+Completed installation of dotConnect.Express.for.PostgreSQL 7.6.763
+Adding package 'dotConnect.Express.for.PostgreSQL.7.6.763' to folder 'E:\Working\SQL\PostgreSQL\CS'
+Added package 'dotConnect.Express.for.PostgreSQL.7.6.763' to folder 'E:\Working\SQL\PostgreSQL\CS'
+Successfully installed 'dotConnect.Express.for.PostgreSQL 7.6.763' to E:\Working\SQL\PostgreSQL\CS
+

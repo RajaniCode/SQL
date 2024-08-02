@@ -1,0 +1,10 @@
+1.4 Tables
+
+Gatsby Theaters
+
+movies 		showtimes
+concessions 	promotions
+
+In order to look up information on Promo Codes and Coupons, we would need to go into the Gatsby Theaters database and look inside the [ ] table.
+
+Answer: promotions

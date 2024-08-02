@@ -1,0 +1,5 @@
+2.5 Insert All Columns
+
+It is possible to insert a row into a table without inserting some data into every column.
+
+ANSWER: TRUE

@@ -1,0 +1,5 @@
+3.8 New Columns
+
+When creating a new column in a table, the [ ] COLUMN keyword is to be included in the ALTER TABLE statement.
+
+Answer: ADD

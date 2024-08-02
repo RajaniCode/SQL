@@ -1,0 +1,34 @@
+http://dev.mysql.com/downloads/connector/c/
+http://stackoverflow.com/questions/19014117/ruby-mysql2-gem-installation-on-windows-7
+
+Windows (x86, 32-bit), ZIP Archive
+
+gem install mysql2 --platform=ruby -- '--with-mysql-dir="E:\Working\Database\SQL\MySQL\Ruby\ConnectorC6.1.6\mysql-connector-c-6.1.6-win32"'
+
+# Git Bash
+
+MINGW64 ~
+$ ruby --version
+ruby 2.2.4p230 (2015-12-16 revision 53155) [i386-mingw32]
+
+MINGW64 ~
+$ gem --version
+2.4.5.1
+
+MINGW64 ~
+$ gem install mysql2 --platform=ruby -- '--with-mysql-dir="E:\Working\Database\SQL\MySQL\Ruby\ConnectorC6.1.6\mysql-connector-c-6.1.6-win32"'
+Temporarily enhancing PATH to include DevKit...
+Building native extensions with: '--with-mysql-dir="E:\Working\Database\SQL\MySQL\Ruby\ConnectorC6.1.6\mysql-connector-c-6.1.6-win32"'
+This could take a while...
+Successfully installed mysql2-0.4.4
+Parsing documentation for mysql2-0.4.4
+Installing ri documentation for mysql2-0.4.4
+Done installing documentation for mysql2 after 10 seconds
+1 gem installed
+
+MINGW64 ~
+$ irb
+Switch to inspect mode.
+require 'mysql2'
+require 'mysql2'
+true

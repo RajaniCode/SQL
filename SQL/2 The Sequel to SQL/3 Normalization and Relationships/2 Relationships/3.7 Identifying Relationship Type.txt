@@ -1,0 +1,32 @@
+3.7 Identifying Relationship Type
+
+
+What type of relationship do Actors have with Movies based off these tables?
+
+Actors
+id 	name
+1 	Vivien Leigh
+2 	Clark Gable
+3 	Olivia de Havilland
+
+Movies
+id 	title
+1 	Don Juan
+2 	The Lost World
+3 	Peter Pan
+4 	Robin Hood
+
+Actors_Movies
+actor_id 	movie_id
+1 		1
+1 		2
+2 		3
+3 		2
+3 		4
+[Single Answer]
+One-to-One
+One-to-Many
+Many-to-Many
+
+
+Answer: Many-to-Many

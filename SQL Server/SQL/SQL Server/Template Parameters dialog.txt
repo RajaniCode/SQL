@@ -1,0 +1,84 @@
+http://www.sqlteam.com/forums/forum.asp?FORUM_ID=30
+
+http://www.mssqltips.com/tip.asp?tip=1465
+
+
+-- ============================================= 
+-- Create database template 
+-- ============================================= 
+USE master 
+GO 
+
+-- Drop the database if it already exists 
+IF  EXISTS ( 
+   SELECT name  
+       FROM sys.databases  
+       WHERE name = N'Foo' 
+) 
+DROP DATABASE Foo 
+GO 
+
+CREATE DATABASE Foo 
+GO  
+  
+
+You'll note that there is only a single parameter required in this template: Database_Name.  The parameter will expect a sysname data type and if not supplied, the value will default to 'Database_Name'.  Microsoft provides you with two different methods of entering parameter values:
+
+Select Query, then Specify Values for Template Parameters from the SSMS menu bar 
+The Ctrl+Shift+M shortcut key combination
+Using either method will display the Specify Values for Template Parameters dialog
+
+
+-- ============================================= 
+-- Create database template:  Modified to Include Create Directory 
+-- ============================================= 
+USE master 
+GO 
+
+DECLARE @DirTree TABLE (subdirectory NVARCHAR (255), depth INT)   --Temp table for directories 
+
+-- ============================================= 
+--Create the data directory if it does not already exist 
+-- ============================================= 
+INSERT @DirTree (subdirectory, depth) 
+EXEC master.sys.xp_dirtree N'c:\temp\Data\Foo' 
+
+IF NOT EXISTS (SELECT 1 FROM @DirTree WHERE subdirectory = N'Foo') 
+   EXEC master.dbo.xp_create_subdir N'c:\temp\Data\Foo' 
+
+-- ============================================= 
+--Create the log directory if it does not already exist 
+-- ============================================= 
+INSERT @DirTree (subdirectory, depth) 
+EXEC master.sys.xp_dirtree N'c:\temp\Logs\Foo' 
+
+IF NOT EXISTS (SELECT 1 FROM @DirTree WHERE subdirectory = N'Foo') 
+   EXEC master.dbo.xp_create_subdir N'c:\temp\Logs\Foo' 
+
+-- ============================================= 
+-- Drop the database if it already exists 
+--This code did not change from the original template 
+-- ============================================= 
+IF  EXISTS ( 
+   SELECT name  
+       FROM sys.databases  
+       WHERE name = N'Foo' 
+) 
+DROP DATABASE Foo 
+GO 
+
+-- ============================================= 
+CREATE DATABASE Foo ON PRIMARY 
+--This code changed from the original template.   
+--Parameters for logical and physical file information was added 
+-- ============================================= 
+   ( 
+   NAME = N'Foo_Data',  
+   FILENAME = N'c:\temp\Data\Foo\Foo_data.mdf'  
+   ) 
+ LOG ON  
+   ( 
+   NAME = N'Foo_Log',  
+   FILENAME = N'c:\temp\Data\Foo\Foo_log.ldf'  
+   ) 
+GO 

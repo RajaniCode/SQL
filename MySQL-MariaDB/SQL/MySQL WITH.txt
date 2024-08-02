@@ -1,0 +1,65 @@
+WITH cte (col1, col2) AS
+(
+  SELECT 1, 2
+  UNION ALL
+  SELECT 3, 4
+)
+SELECT col1, col2 FROM cte;
+
+
+SHOW DATABASES;
+
+# USE `mysql`; # OR # USE `sys`;
+# DROP DATABASE IF EXISTS `sample`;
+CREATE DATABASE IF NOT EXISTS `sample`;
+
+SHOW DATABASES;
+
+USE `sample`;
+
+SELECT DATABASE();
+
+CREATE TABLE IF NOT EXISTS `t1`
+(
+    `a` INT NOT NULL AUTO_INCREMENT,
+    `b` VARCHAR(50) NOT NULL,
+    PRIMARY KEY(`a`)
+);
+
+SELECT `a`, `b` FROM `t1`;
+
+CREATE TABLE IF NOT EXISTS `t2`
+(
+    `c` INT NOT NULL AUTO_INCREMENT,
+    `d` VARCHAR(50) NOT NULL,
+    PRIMARY KEY(`c`)
+);
+
+INSERT INTO `sample`.`t1`
+(`b`)
+VALUES
+('Foo'),
+('Bar');
+SELECT `a`, `b` FROM `t1`;
+
+INSERT INTO `sample`.`t2`
+(`d`)
+VALUES
+('Foo'),
+('Bar');
+SELECT `c`, `d` FROM `t2`;
+
+
+WITH
+  cte1 AS (SELECT a, b FROM t1),
+  cte2 AS (SELECT c, d FROM t2)
+SELECT b, d FROM cte1 JOIN cte2
+WHERE cte1.a = cte2.c;
+
+
+WITH
+  `cte1` AS (SELECT `a`, `b` FROM `t1`),
+  `cte2` AS (SELECT `c`, `d` FROM `t2`)
+SELECT `b`, `d` FROM `cte1` JOIN `cte2`
+WHERE `cte1`.`a` = `cte2`.`c`;
+

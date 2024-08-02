@@ -1,0 +1,1861 @@
+## Git Bash ## Create Database
+
+$ java -version
+
+$ cd "E:\Working\SQL\HSQLDB"
+
+$ unzip hsqldb-2.3.4.zip
+
+## Create Database
+
+$ touch hsqldb-2.3.4/hsqldb/server.properties
+
+# hsqldb-2.3.4/hsqldb/server.properties
+server.database.0 = file:hsqldb/demodb
+server.dbname.0 = testdb
+
+$ cd hsqldb-2.3.4/hsqldb
+
+$ java -classpath lib/hsqldb.jar org.hsqldb.server.Server
+
+[Ctrl]+[C]
+
+## Start Server
+
+$ java -classpath lib/hsqldb.jar org.hsqldb.server.Server --database.0 file:hsqldb/demodb --dbname.0 testdb
+
+
+## Git Bash ## HSQL Database Manager -> Connect
+
+$ java -version
+
+$ cd "E:\Working\SQL\HSQLDB\hsqldb-2.3.4\hsqldb\bin"
+
+$ ./runManagerSwing.bat
+
+## HSQL Database Manager -> Connect
+
+[
+Recent Setting: Recent settings...
+
+Type: HSQL Database Engine In-Memory
+
+Driver: org.hsqldb.jdbcDriver
+
+User: SA
+
+Password: 
+]
+
+Setting Name: demo_settings
+
+URL: jdbc:hsqldb:hsql://localhost/testdb
+
+[
+-- HSQLDB
+
+-- DROP
+DROP TABLE IF EXISTS test_tbl;
+
+-- CREATE
+CREATE TABLE test_tbl (
+   id INT NOT NULL,
+   title VARCHAR(50) NOT NULL,
+   author VARCHAR(20) NOT NULL,
+   submission_date DATE,
+   PRIMARY KEY (id) 
+);
+
+-- SELECT
+SELECT * FROM test_tbl;
+
+-- INSERT
+INSERT INTO test_tbl VALUES (100,'Java The Complete Reference, Eighth Edition', 'Herbert Schildt', NOW());
+SELECT * FROM test_tbl;
+
+-- SELECT
+SELECT id, title, author FROM test_tbl;
+
+-- WHERE
+SELECT id, title, author FROM test_tbl WHERE title = 'Java The Complete Reference, Eighth Edition';
+
+-- LIKE
+SELECT id, title, author FROM test_tbl WHERE title LIKE '%Java%';
+
+-- UPDATE
+UPDATE test_tbl SET title = 'Java The Complete Reference, Ninth Edition' WHERE id = 100;
+SELECT * FROM test_tbl;
+
+-- DELETE
+SELECT * FROM test_tbl;
+DELETE FROM test_tbl WHERE id = 100;
+SELECT * FROM test_tbl;
+]
+
+[$ java -classpath lib/hsqldb.jar org.hsqldb.server.Server --database.0]
+## Git Bash ## Java
+
+
+## Java
+
+$ java -version 
+
+$ cd "E:\Working\SQL\HSQLDB"
+
+$ mkdir Java
+
+$ cd Java
+
+$ touch ConnectDatabase.java
+
+# ConnectDatabase.java
+import java.sql.Connection;
+import java.sql.DriverManager;
+
+public class ConnectDatabase {
+   public static void main(String[] args) {
+      Connection con = null;
+      
+      try {
+         //Registering the HSQLDB JDBC driver
+         Class.forName("org.hsqldb.jdbc.JDBCDriver");
+         //Creating the connection with HSQLDB
+         con = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost/testdb", "SA", "");
+         if (con!= null){
+            System.out.println("Connection created successfully");
+            
+         }else{
+            System.out.println("Problem with creating connection");
+         }
+      
+      }  catch (Exception e) {
+         e.printStackTrace(System.out);
+      }
+   }
+}
+
+$ export CLASSPATH="E:\Working\SQL\HSQLDB\hsqldb-2.3.4\hsqldb\lib\hsqldb.jar;.;"
+
+$ javac ConnectDatabase.java
+
+$ java ConnectDatabase
+
+$ touch CreateTable.java
+
+# CreateTable.java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+
+public class CreateTable {
+   
+    public static void main(String[] args) {
+      
+        Connection con = null;
+        Statement stmt = null;
+        int result = 0;
+      
+        try {
+            Class.forName("org.hsqldb.jdbc.JDBCDriver");
+            con = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost/testdb", "SA", "");
+            stmt = con.createStatement();
+            
+            result = stmt.executeUpdate(
+	        "CREATE TABLE test_tbl (id INT NOT NULL,title VARCHAR(50) NOT NULL,author VARCHAR(20) NOT NULL,submission_date DATE, PRIMARY KEY (id))");
+        }  catch (Exception e) {
+         e.printStackTrace(System.out);
+      }
+      System.out.println("Table created successfully");
+   }
+}
+
+$ javac CreateTable.java
+
+$ java CreateTable
+
+$ touch DropTable.java
+
+# DropTable.java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+
+public class DropTable {
+   public static void main(String[] args) {
+      Connection con = null;
+      Statement stmt = null;
+      int result = 0;
+      
+      try {
+         Class.forName("org.hsqldb.jdbc.JDBCDriver");
+         con = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost/testdb", "SA", "");
+         stmt = con.createStatement();
+         result = stmt.executeUpdate("DROP TABLE test_tbl");
+      }catch (Exception e) {
+         e.printStackTrace(System.out);
+      }
+      
+      System.out.println("Table dropped successfully");
+   }
+}
+
+$ touch InsertQuery.java
+
+# InsertQuery.java
+import java.sql.Connection; 
+import java.sql.DriverManager; 
+import java.sql.Statement;  
+
+public class InsertQuery {
+   public static void main(String[] args) { 
+      Connection con = null; 
+      Statement stmt = null; 
+      int result = 0; 
+      try { 
+         Class.forName("org.hsqldb.jdbc.JDBCDriver"); 
+         con = DriverManager.getConnection( "jdbc:hsqldb:hsql://localhost/testdb", "SA", ""); 
+         stmt = con.createStatement(); 
+         result = stmt.executeUpdate("INSERT INTO test_tbl VALUES (100,'Java The Complete Reference, Eighth Edition', 'Herbert Schildt', NOW())"); 
+         con.commit(); 
+      }catch (Exception e) { 
+         e.printStackTrace(System.out); 
+      } 
+      System.out.println(result+" rows effected"); 
+      System.out.println("Rows inserted successfully"); 
+   } 
+}
+
+$ java CreateTable
+
+$ javac InsertQuery.java
+
+$ java InsertQuery
+
+$ touch SelectQuery.java
+
+# SelectQuery.java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+public class SelectQuery {
+   
+   public static void main(String[] args) {
+      Connection con = null;
+      Statement stmt = null;
+      ResultSet result = null;
+      
+      try {
+         Class.forName("org.hsqldb.jdbc.JDBCDriver");
+         con = DriverManager.getConnection(
+            "jdbc:hsqldb:hsql://localhost/testdb", "SA", "");
+         stmt = con.createStatement();
+         result = stmt.executeQuery(
+            "SELECT id, title, author FROM test_tbl");
+         
+         while(result.next()){
+            System.out.println(result.getInt("id")+" | "+
+               result.getString("title")+" | "+
+               result.getString("author"));
+         }
+      } catch (Exception e) {
+         e.printStackTrace(System.out);
+      }
+   }
+}
+
+$ javac SelectQuery.java
+
+$ java SelectQuery
+
+$ touch WhereClause.java
+
+# WhereClause.java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+public class WhereClause {
+   
+   public static void main(String[] args) {
+      Connection con = null;
+      Statement stmt = null;
+      ResultSet result = null;
+      try {
+         Class.forName("org.hsqldb.jdbc.JDBCDriver");
+         con = DriverManager.getConnection(
+            "jdbc:hsqldb:hsql://localhost/testdb", "SA", "");
+         stmt = con.createStatement();
+         result = stmt.executeQuery(
+            "SELECT id, title, author FROM test_tbl WHERE title = 'Java The Complete Reference, Eighth Edition'");
+         
+         while(result.next()){
+            System.out.println(result.getInt("id") + " | "+result.getString("title")+" | " + result.getString("author"));
+         }
+      } catch (Exception e) {
+         e.printStackTrace(System.out);
+      }
+   }
+
+}
+
+$ javac WhereClause.java
+
+$ java WhereClause
+
+$ touch UpdateQuery.java
+
+# UpdateQuery.java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+
+public class UpdateQuery {
+   
+   public static void main(String[] args) {
+      Connection con = null;
+      Statement stmt = null;
+      int result = 0;
+      
+      try {
+         Class.forName("org.hsqldb.jdbc.JDBCDriver");
+         con = DriverManager.getConnection(
+            "jdbc:hsqldb:hsql://localhost/testdb", "SA", "");
+         stmt = con.createStatement();
+         result = stmt.executeUpdate(
+            "UPDATE test_tbl SET title = 'Java The Complete Reference, Ninth Edition' WHERE id = 100");
+      } catch (Exception e) {
+         e.printStackTrace(System.out);
+      }
+      System.out.println(result+" Rows effected");
+   }
+}
+
+
+
+$ touch DeleteQuery.java
+
+# DeleteQuery.java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+
+public class DeleteQuery {
+   
+   public static void main(String[] args) {
+      Connection con = null;
+      Statement stmt = null;
+      int result = 0;
+      
+      try {
+         Class.forName("org.hsqldb.jdbc.JDBCDriver");
+         con = DriverManager.getConnection(
+            "jdbc:hsqldb:hsql://localhost/testdb", "SA", "");
+         stmt = con.createStatement();
+         result = stmt.executeUpdate(
+            "DELETE FROM test_tbl WHERE id = 100");
+      } catch (Exception e) {
+      
+         e.printStackTrace(System.out);
+      }
+      System.out.println(result+" Rows effected");
+   }
+}
+
+$ javac DeleteQuery.java
+
+$ java DeleteQuery
+
+
+## Git Bash ## Create Database ## Start Server
+
+Aspire@Acer MINGW64 ~
+$ java -version
+java version "1.8.0_102"
+Java(TM) SE Runtime Environment (build 1.8.0_102-b14)
+Java HotSpot(TM) 64-Bit Server VM (build 25.102-b14, mixed mode)
+
+Aspire@Acer MINGW64 ~
+$ cd "E:\Working\SQL\HSQLDB"
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB
+$ unzip hsqldb-2.3.4.zip
+Archive:  hsqldb-2.3.4.zip
+   creating: hsqldb-2.3.4/
+   creating: hsqldb-2.3.4/hsqldb/
+   creating: hsqldb-2.3.4/hsqldb/bin/
+  inflating: hsqldb-2.3.4/hsqldb/bin/runManager.bat
+  inflating: hsqldb-2.3.4/hsqldb/bin/runManagerSwing.bat
+  inflating: hsqldb-2.3.4/hsqldb/bin/runServer.bat
+  inflating: hsqldb-2.3.4/hsqldb/bin/runUtil.bat
+  inflating: hsqldb-2.3.4/hsqldb/bin/runWebServer.bat
+   creating: hsqldb-2.3.4/hsqldb/build/
+  inflating: hsqldb-2.3.4/hsqldb/build/DocBookUtil.groovy
+  inflating: hsqldb-2.3.4/hsqldb/build/build.hsqldb.cmd
+  inflating: hsqldb-2.3.4/hsqldb/build/build.hsqldbtest.cmd
+  inflating: hsqldb-2.3.4/hsqldb/build/build.javadoc.cmd
+  inflating: hsqldb-2.3.4/hsqldb/build/build.sqltool.cmd
+  inflating: hsqldb-2.3.4/hsqldb/build/build.test.suite.cmd
+  inflating: hsqldb-2.3.4/hsqldb/build/cfdistro.bash
+  inflating: hsqldb-2.3.4/hsqldb/build/clean.test.suite.cmd
+  inflating: hsqldb-2.3.4/hsqldb/build/dbuInstallSheetsWrapper.groovy
+  inflating: hsqldb-2.3.4/hsqldb/build/gradle-gui
+  inflating: hsqldb-2.3.4/hsqldb/build/gradle-gui.cmd
+  inflating: hsqldb-2.3.4/hsqldb/build/gradlew
+  inflating: hsqldb-2.3.4/hsqldb/build/gradlew.bat
+  inflating: hsqldb-2.3.4/hsqldb/build/run.test.suite.cmd
+  inflating: hsqldb-2.3.4/hsqldb/build/setenv.cmd
+   creating: hsqldb-2.3.4/hsqldb/doc/
+   creating: hsqldb-2.3.4/hsqldb/doc/verbatim/
+   creating: hsqldb-2.3.4/hsqldb/doc/verbatim/sample/
+  inflating: hsqldb-2.3.4/hsqldb/doc/verbatim/sample/hsqldb.init
+   creating: hsqldb-2.3.4/hsqldb/sample/
+  inflating: hsqldb-2.3.4/hsqldb/sample/hsqldb.init
+  inflating: hsqldb-2.3.4/hsqldb/sample/sample.php
+  inflating: hsqldb-2.3.4/hsqldb/sample/sample.pl
+  inflating: hsqldb-2.3.4/hsqldb/sample/sample.py
+   creating: hsqldb-2.3.4/hsqldb/testrun/
+   creating: hsqldb-2.3.4/hsqldb/testrun/hsqlodbc/
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqlodbc/blobtest.py
+   creating: hsqldb-2.3.4/hsqldb/testrun/sqltool/
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/runtests.bash
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/runtests.cmd
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/runtests.groovy
+   creating: hsqldb-2.3.4/hsqldb/build/gradle/
+   creating: hsqldb-2.3.4/hsqldb/build/gradle/wrapper/
+   creating: hsqldb-2.3.4/hsqldb/data/
+   creating: hsqldb-2.3.4/hsqldb/doc/apidocs/
+   creating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/
+   creating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/
+   creating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/auth/
+   creating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/auth/class-use/
+   creating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/class-use/
+   creating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/cmdline/
+   creating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/cmdline/class-use/
+   creating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/
+   creating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/class-use/
+   creating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/lib/
+   creating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/lib/class-use/
+   creating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/lib/tar/
+   creating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/lib/tar/class-use/
+   creating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/sample/
+   creating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/sample/class-use/
+   creating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/server/
+   creating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/server/class-use/
+   creating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/util/
+   creating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/util/class-use/
+   creating: hsqldb-2.3.4/hsqldb/doc/apidocs/resources/
+   creating: hsqldb-2.3.4/hsqldb/doc/guide/
+   creating: hsqldb-2.3.4/hsqldb/doc/images/
+   creating: hsqldb-2.3.4/hsqldb/doc/images/db/
+   creating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/
+   creating: hsqldb-2.3.4/hsqldb/doc/images/db/colorsvg/
+   creating: hsqldb-2.3.4/hsqldb/doc/util-guide/
+   creating: hsqldb-2.3.4/hsqldb/doc/verbatim/src/
+   creating: hsqldb-2.3.4/hsqldb/doc/verbatim/src/org/
+   creating: hsqldb-2.3.4/hsqldb/doc/verbatim/src/org/hsqldb/
+   creating: hsqldb-2.3.4/hsqldb/doc/verbatim/src/org/hsqldb/sample/
+   creating: hsqldb-2.3.4/hsqldb/doc/verbatim/src/org/hsqldb/server/
+   creating: hsqldb-2.3.4/hsqldb/doc/verbatim/src/org/hsqldb/test/
+   creating: hsqldb-2.3.4/hsqldb/doc/verbatim/testrun/
+   creating: hsqldb-2.3.4/hsqldb/doc/verbatim/testrun/sqltool/
+   creating: hsqldb-2.3.4/hsqldb/integration/
+   creating: hsqldb-2.3.4/hsqldb/integration/extAuthWithSpring/
+   creating: hsqldb-2.3.4/hsqldb/integration/extAuthWithSpring/resources/
+   creating: hsqldb-2.3.4/hsqldb/integration/extAuthWithSpring/src/
+   creating: hsqldb-2.3.4/hsqldb/integration/extAuthWithSpring/src/org/
+   creating: hsqldb-2.3.4/hsqldb/integration/extAuthWithSpring/src/org/hsqldb/
+   creating: hsqldb-2.3.4/hsqldb/integration/extAuthWithSpring/src/org/hsqldb/sample/
+   creating: hsqldb-2.3.4/hsqldb/integration/hibernate/
+   creating: hsqldb-2.3.4/hsqldb/integration/hibernate/src/
+   creating: hsqldb-2.3.4/hsqldb/integration/hibernate/src/org/
+   creating: hsqldb-2.3.4/hsqldb/integration/hibernate/src/org/hibernate/
+   creating: hsqldb-2.3.4/hsqldb/integration/hibernate/src/org/hibernate/dialect/
+   creating: hsqldb-2.3.4/hsqldb/integration/hibernate_3_3_1/
+   creating: hsqldb-2.3.4/hsqldb/integration/hibernate_3_3_1/src/
+   creating: hsqldb-2.3.4/hsqldb/integration/hibernate_3_3_1/src/org/
+   creating: hsqldb-2.3.4/hsqldb/integration/hibernate_3_3_1/src/org/hibernate/
+   creating: hsqldb-2.3.4/hsqldb/integration/hibernate_3_3_1/src/org/hibernate/dialect/
+   creating: hsqldb-2.3.4/hsqldb/integration/jackrabbit/
+   creating: hsqldb-2.3.4/hsqldb/integration/jackrabbit/resources/
+   creating: hsqldb-2.3.4/hsqldb/integration/jackrabbit/resources/org/
+   creating: hsqldb-2.3.4/hsqldb/integration/jackrabbit/resources/org/apache/
+   creating: hsqldb-2.3.4/hsqldb/integration/jackrabbit/resources/org/apache/jackrabbit/
+   creating: hsqldb-2.3.4/hsqldb/integration/jackrabbit/resources/org/apache/jackrabbit/core/
+   creating: hsqldb-2.3.4/hsqldb/integration/jackrabbit/resources/org/apache/jackrabbit/core/journal/
+   creating: hsqldb-2.3.4/hsqldb/integration/jackrabbit/resources/org/apache/jackrabbit/core/persistence/
+   creating: hsqldb-2.3.4/hsqldb/integration/jackrabbit/resources/org/apache/jackrabbit/core/persistence/bundle/
+   creating: hsqldb-2.3.4/hsqldb/integration/jackrabbit/resources/org/apache/jackrabbit/core/persistence/db/
+   creating: hsqldb-2.3.4/hsqldb/src/
+   creating: hsqldb-2.3.4/hsqldb/src/org/
+   creating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/
+   creating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/auth/
+   creating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/cmdline/
+   creating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/cmdline/sqltool/
+   creating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/dbinfo/
+   creating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/error/
+   creating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/index/
+   creating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/jdbc/
+   creating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/jdbc/pool/
+   creating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/
+   creating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/java/
+   creating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/tar/
+   creating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/tar/rb/
+   creating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/map/
+   creating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/navigator/
+   creating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/
+   creating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/resources/
+   creating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/result/
+   creating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/rights/
+   creating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/rowio/
+   creating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/sample/
+   creating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/scriptio/
+   creating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/server/
+   creating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/
+   creating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/types/
+   creating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/
+   creating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/preprocessor/
+   creating: hsqldb-2.3.4/hsqldb/stylesheets/
+   creating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/
+   creating: hsqldb-2.3.4/hsqldb/testrun/sqltool/subdir/
+  inflating: hsqldb-2.3.4/hsqldb/bin/memorydbmanager.html
+  inflating: hsqldb-2.3.4/hsqldb/build/antivy-setup.xml
+  inflating: hsqldb-2.3.4/hsqldb/build/build-dist.gradle
+  inflating: hsqldb-2.3.4/hsqldb/build/build-dist.xml
+  inflating: hsqldb-2.3.4/hsqldb/build/build-docbook.xml
+  inflating: hsqldb-2.3.4/hsqldb/build/build.gradle
+  inflating: hsqldb-2.3.4/hsqldb/build/build.xml
+  inflating: hsqldb-2.3.4/hsqldb/build/gradle-ivyxml-plugin-0.3.2.jar
+  inflating: hsqldb-2.3.4/hsqldb/build/gradle-javaPropFile-plugin-0.6.0.jar
+  inflating: hsqldb-2.3.4/hsqldb/build/gradle/wrapper/gradle-wrapper.jar
+  inflating: hsqldb-2.3.4/hsqldb/build/gradle/wrapper/gradle-wrapper.properties
+  inflating: hsqldb-2.3.4/hsqldb/build/gui-initial.setting
+  inflating: hsqldb-2.3.4/hsqldb/build/gui-welcome.txt
+  inflating: hsqldb-2.3.4/hsqldb/build/hsqldb.bnd
+  inflating: hsqldb-2.3.4/hsqldb/build/ivy.xml
+  inflating: hsqldb-2.3.4/hsqldb/build/ivysettings-sample.xml
+  inflating: hsqldb-2.3.4/hsqldb/build/jdkcodeswitch.list
+  inflating: hsqldb-2.3.4/hsqldb/build/mvn-pub.gradle
+  inflating: hsqldb-2.3.4/hsqldb/build/rng-catalog-template.xml
+  inflating: hsqldb-2.3.4/hsqldb/build/settings.gradle
+  inflating: hsqldb-2.3.4/hsqldb/build/test.dbmd.convert.properties
+  inflating: hsqldb-2.3.4/hsqldb/build/test.properties
+  inflating: hsqldb-2.3.4/hsqldb/build/test.xml
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/allclasses-frame.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/allclasses-noframe.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/constant-values.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/deprecated-list.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/help-doc.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/hsqldb.gif
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/index-all.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/index.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/javadoc.css
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/Trigger.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/auth/AuthBeanMultiplexer.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/auth/AuthFunctionBean.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/auth/HsqldbSlaveAuthBean.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/auth/JaasAuthBean.UPCallbackHandler.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/auth/JaasAuthBean.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/auth/LdapAuthBean.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/auth/LdapAuthBeanTester.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/auth/class-use/AuthBeanMultiplexer.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/auth/class-use/AuthFunctionBean.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/auth/class-use/HsqldbSlaveAuthBean.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/auth/class-use/JaasAuthBean.UPCallbackHandler.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/auth/class-use/JaasAuthBean.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/auth/class-use/LdapAuthBean.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/auth/class-use/LdapAuthBeanTester.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/auth/package-frame.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/auth/package-summary.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/auth/package-tree.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/auth/package-use.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/class-use/Trigger.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/cmdline/SqlFile.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/cmdline/SqlTool.SqlToolException.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/cmdline/SqlTool.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/cmdline/class-use/SqlFile.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/cmdline/class-use/SqlTool.SqlToolException.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/cmdline/class-use/SqlTool.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/cmdline/package-frame.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/cmdline/package-summary.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/cmdline/package-tree.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/cmdline/package-use.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/JDBCArray.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/JDBCArrayBasic.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/JDBCBlob.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/JDBCBlobClient.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/JDBCBlobFile.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/JDBCCallableStatement.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/JDBCClob.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/JDBCClobClient.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/JDBCClobFile.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/JDBCColumnMetaData.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/JDBCCommonDataSource.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/JDBCConnection.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/JDBCConnectionEventListener.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/JDBCDataSource.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/JDBCDataSourceFactory.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/JDBCDatabaseMetaData.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/JDBCDriver.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/JDBCNClob.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/JDBCParameterMetaData.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/JDBCPool.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/JDBCPreparedStatement.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/JDBCResultSet.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/JDBCResultSetMetaData.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/JDBCRowId.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/JDBCSQLXML.SAX2XMLStreamWriter.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/JDBCSQLXML.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/JDBCSavepoint.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/JDBCStatement.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/JDBCUtil.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/class-use/JDBCArray.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/class-use/JDBCArrayBasic.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/class-use/JDBCBlob.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/class-use/JDBCBlobClient.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/class-use/JDBCBlobFile.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/class-use/JDBCCallableStatement.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/class-use/JDBCClob.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/class-use/JDBCClobClient.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/class-use/JDBCClobFile.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/class-use/JDBCColumnMetaData.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/class-use/JDBCCommonDataSource.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/class-use/JDBCConnection.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/class-use/JDBCConnectionEventListener.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/class-use/JDBCDataSource.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/class-use/JDBCDataSourceFactory.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/class-use/JDBCDatabaseMetaData.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/class-use/JDBCDriver.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/class-use/JDBCNClob.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/class-use/JDBCParameterMetaData.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/class-use/JDBCPool.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/class-use/JDBCPreparedStatement.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/class-use/JDBCResultSet.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/class-use/JDBCResultSetMetaData.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/class-use/JDBCRowId.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/class-use/JDBCSQLXML.SAX2XMLStreamWriter.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/class-use/JDBCSQLXML.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/class-use/JDBCSavepoint.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/class-use/JDBCStatement.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/class-use/JDBCUtil.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/package-frame.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/package-summary.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/package-tree.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/jdbc/package-use.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/lib/FrameworkLogger.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/lib/RCData.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/lib/class-use/FrameworkLogger.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/lib/class-use/RCData.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/lib/package-frame.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/lib/package-summary.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/lib/package-tree.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/lib/package-use.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/lib/tar/DbBackup.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/lib/tar/DbBackupMain.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/lib/tar/class-use/DbBackup.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/lib/tar/class-use/DbBackupMain.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/lib/tar/package-frame.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/lib/tar/package-summary.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/lib/tar/package-tree.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/lib/tar/package-use.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/package-frame.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/package-summary.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/package-tree.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/package-use.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/sample/SqlFileEmbedder.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/sample/TriggerSample.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/sample/class-use/SqlFileEmbedder.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/sample/class-use/TriggerSample.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/sample/package-frame.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/sample/package-summary.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/sample/package-tree.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/sample/package-use.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/server/Server.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/server/ServerAcl.AclFormatException.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/server/ServerAcl.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/server/WebServer.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/server/class-use/Server.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/server/class-use/ServerAcl.AclFormatException.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/server/class-use/ServerAcl.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/server/class-use/WebServer.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/server/package-frame.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/server/package-summary.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/server/package-tree.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/server/package-use.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/util/MainInvoker.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/util/class-use/MainInvoker.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/util/package-frame.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/util/package-summary.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/util/package-tree.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/org/hsqldb/util/package-use.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/overview-frame.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/overview-summary.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/overview-tree.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/package-list
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/resources/inherit.gif
+  inflating: hsqldb-2.3.4/hsqldb/doc/apidocs/serialized-form.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/branding-frag.xhtml
+  inflating: hsqldb-2.3.4/hsqldb/doc/changelist_2_0.txt
+  inflating: hsqldb-2.3.4/hsqldb/doc/docbook.css
+  inflating: hsqldb-2.3.4/hsqldb/doc/guide/accesscontrol-chapt.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/guide/book-ind.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/guide/book-pref.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/guide/building-app.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/guide/builtinfunctions-chapt.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/guide/compatibility-chapt.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/guide/dataaccess-chapt.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/guide/databaseobjects-chapt.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/guide/dbproperties-chapt.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/guide/deployment-chapt.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/guide/dummy.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/guide/eclipse-gradle-cfg.png
+  inflating: hsqldb-2.3.4/hsqldb/doc/guide/eclipse-gradle-invoke.png
+  inflating: hsqldb-2.3.4/hsqldb/doc/guide/filelinks-app.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/guide/gradle-gui.png
+  inflating: hsqldb-2.3.4/hsqldb/doc/guide/guide.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/guide/guide.pdf
+  inflating: hsqldb-2.3.4/hsqldb/doc/guide/index.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/guide/listeners-chapt.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/guide/lists-app.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/guide/management-chapt.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/guide/openoffice-app.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/guide/running-chapt.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/guide/sessions-chapt.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/guide/sql-ind.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/guide/sqlgeneral-chapt.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/guide/sqlroutines-chapt.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/guide/texttables-chapt.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/guide/triggers-chapt.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/guide/unix-chapt.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/hsqldb_lic.txt
+  inflating: hsqldb-2.3.4/hsqldb/doc/hypersonic_lic.txt
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/annot-close.png
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/annot-open.png
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/blank.png
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/1.gif
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/1.png
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/1.svg
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/10.gif
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/10.png
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/10.svg
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/11.gif
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/11.png
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/11.svg
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/12.gif
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/12.png
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/12.svg
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/13.gif
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/13.png
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/13.svg
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/14.gif
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/14.png
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/14.svg
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/15.gif
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/15.png
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/15.svg
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/16.svg
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/17.svg
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/18.svg
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/19.svg
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/2.gif
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/2.png
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/2.svg
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/20.svg
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/21.svg
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/22.svg
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/23.svg
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/24.svg
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/25.svg
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/26.svg
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/27.svg
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/28.svg
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/29.svg
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/3.gif
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/3.png
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/3.svg
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/30.svg
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/4.gif
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/4.png
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/4.svg
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/5.gif
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/5.png
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/5.svg
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/6.gif
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/6.png
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/6.svg
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/7.gif
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/7.png
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/7.svg
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/8.gif
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/8.png
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/8.svg
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/9.gif
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/9.png
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/callouts/9.svg
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/caution.gif
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/caution.png
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/caution.svg
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/caution.tif
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/colorsvg/caution.svg
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/colorsvg/home.svg
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/colorsvg/important.svg
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/colorsvg/next.svg
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/colorsvg/note.svg
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/colorsvg/prev.svg
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/colorsvg/tip.svg
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/colorsvg/up.svg
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/colorsvg/warning.svg
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/draft.png
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/home.gif
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/home.png
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/home.svg
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/important.gif
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/important.png
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/important.svg
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/important.tif
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/next.gif
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/next.png
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/next.svg
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/note.gif
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/note.png
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/note.svg
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/note.tif
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/prev.gif
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/prev.png
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/prev.svg
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/tip.gif
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/tip.png
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/tip.svg
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/tip.tif
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/toc-blank.png
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/toc-minus.png
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/toc-plus.png
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/up.gif
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/up.png
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/up.svg
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/warning.gif
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/warning.png
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/warning.svg
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/db/warning.tif
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/hypersql_logo.png
+  inflating: hsqldb-2.3.4/hsqldb/doc/images/hypersql_logo2.png
+  inflating: hsqldb-2.3.4/hsqldb/doc/index.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/odbc.txt
+  inflating: hsqldb-2.3.4/hsqldb/doc/readme-docauthors.txt
+  inflating: hsqldb-2.3.4/hsqldb/doc/util-guide/book-pref.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/util-guide/dbm-chapt.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/util-guide/dummy.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/util-guide/filelinks-app.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/util-guide/html-report.png
+  inflating: hsqldb-2.3.4/hsqldb/doc/util-guide/index.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/util-guide/rejreport-sample.png
+  inflating: hsqldb-2.3.4/hsqldb/doc/util-guide/sqltool-chapt.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/util-guide/systempls-app.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/util-guide/test-utility-chapt.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/util-guide/transfer-tool-chapt.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/util-guide/util-guide.html
+  inflating: hsqldb-2.3.4/hsqldb/doc/util-guide/util-guide.pdf
+  inflating: hsqldb-2.3.4/hsqldb/doc/verbatim/sample/acl.txt
+  inflating: hsqldb-2.3.4/hsqldb/doc/verbatim/sample/csv-sample.sql
+  inflating: hsqldb-2.3.4/hsqldb/doc/verbatim/sample/dsv-sample.sql
+  inflating: hsqldb-2.3.4/hsqldb/doc/verbatim/sample/hsqldb.cfg
+  inflating: hsqldb-2.3.4/hsqldb/doc/verbatim/sample/html-report.sql
+  inflating: hsqldb-2.3.4/hsqldb/doc/verbatim/sample/jaas.cfg
+  inflating: hsqldb-2.3.4/hsqldb/doc/verbatim/sample/ldap-exerciser.properties
+  inflating: hsqldb-2.3.4/hsqldb/doc/verbatim/sample/pl.sql
+  inflating: hsqldb-2.3.4/hsqldb/doc/verbatim/sample/plsql.sql
+  inflating: hsqldb-2.3.4/hsqldb/doc/verbatim/sample/sample.sql
+  inflating: hsqldb-2.3.4/hsqldb/doc/verbatim/sample/sampledata.sql
+  inflating: hsqldb-2.3.4/hsqldb/doc/verbatim/sample/server.properties
+  inflating: hsqldb-2.3.4/hsqldb/doc/verbatim/sample/sqltool.rc
+  inflating: hsqldb-2.3.4/hsqldb/doc/verbatim/src/org/hsqldb/Tokens.java
+  inflating: hsqldb-2.3.4/hsqldb/doc/verbatim/src/org/hsqldb/Trigger.java
+  inflating: hsqldb-2.3.4/hsqldb/doc/verbatim/src/org/hsqldb/sample/SqlFileEmbedder.java
+  inflating: hsqldb-2.3.4/hsqldb/doc/verbatim/src/org/hsqldb/sample/Testdb.java
+  inflating: hsqldb-2.3.4/hsqldb/doc/verbatim/src/org/hsqldb/sample/TriggerSample.java
+  inflating: hsqldb-2.3.4/hsqldb/doc/verbatim/src/org/hsqldb/server/Servlet.java
+  inflating: hsqldb-2.3.4/hsqldb/doc/verbatim/src/org/hsqldb/server/WebServer.java
+  inflating: hsqldb-2.3.4/hsqldb/doc/verbatim/src/org/hsqldb/test/TestBase.java
+  inflating: hsqldb-2.3.4/hsqldb/doc/verbatim/testrun/sqltool/sqljrt.sql
+  inflating: hsqldb-2.3.4/hsqldb/doc/verbatim/testrun/sqltool/sqlpsm.sql
+  inflating: hsqldb-2.3.4/hsqldb/index.html
+  inflating: hsqldb-2.3.4/hsqldb/integration/extAuthWithSpring/build.xml
+  inflating: hsqldb-2.3.4/hsqldb/integration/extAuthWithSpring/ivy-projsetup.xml
+  inflating: hsqldb-2.3.4/hsqldb/integration/extAuthWithSpring/ivy.xml
+  inflating: hsqldb-2.3.4/hsqldb/integration/extAuthWithSpring/ivysettings.xml
+  inflating: hsqldb-2.3.4/hsqldb/integration/extAuthWithSpring/jul.properties
+  inflating: hsqldb-2.3.4/hsqldb/integration/extAuthWithSpring/readme.txt
+  inflating: hsqldb-2.3.4/hsqldb/integration/extAuthWithSpring/resources/beandefs.xml
+  inflating: hsqldb-2.3.4/hsqldb/integration/extAuthWithSpring/resources/jaasbeans.xml
+  inflating: hsqldb-2.3.4/hsqldb/integration/extAuthWithSpring/resources/jaasldapbeans.xml
+  inflating: hsqldb-2.3.4/hsqldb/integration/extAuthWithSpring/resources/ldapbeans.xml
+  inflating: hsqldb-2.3.4/hsqldb/integration/extAuthWithSpring/resources/slavebeans.xml
+  inflating: hsqldb-2.3.4/hsqldb/integration/extAuthWithSpring/src/org/hsqldb/sample/JdbcAppClass.java
+  inflating: hsqldb-2.3.4/hsqldb/integration/extAuthWithSpring/src/org/hsqldb/sample/SpringExtAuth.java
+  inflating: hsqldb-2.3.4/hsqldb/integration/hibernate/src/org/hibernate/dialect/HSQLDialect.java
+  inflating: hsqldb-2.3.4/hsqldb/integration/hibernate_3_3_1/src/org/hibernate/dialect/HSQLDialect.java
+  inflating: hsqldb-2.3.4/hsqldb/integration/jackrabbit/readme.txt
+  inflating: hsqldb-2.3.4/hsqldb/integration/jackrabbit/resources/org/apache/jackrabbit/core/journal/hsqldb.ddl
+  inflating: hsqldb-2.3.4/hsqldb/integration/jackrabbit/resources/org/apache/jackrabbit/core/persistence/bundle/hsqldb.ddl
+  inflating: hsqldb-2.3.4/hsqldb/integration/jackrabbit/resources/org/apache/jackrabbit/core/persistence/db/hsqldb.ddl
+  inflating: hsqldb-2.3.4/hsqldb/integration/readme.txt
+  inflating: hsqldb-2.3.4/hsqldb/readme.txt
+  inflating: hsqldb-2.3.4/hsqldb/sample/StartupParameters.plist
+  inflating: hsqldb-2.3.4/hsqldb/sample/acl.txt
+  inflating: hsqldb-2.3.4/hsqldb/sample/csv-sample.sql
+  inflating: hsqldb-2.3.4/hsqldb/sample/dsv-sample.sql
+  inflating: hsqldb-2.3.4/hsqldb/sample/hsqldb.cfg
+  inflating: hsqldb-2.3.4/hsqldb/sample/html-report.sql
+  inflating: hsqldb-2.3.4/hsqldb/sample/j-sample.sql
+  inflating: hsqldb-2.3.4/hsqldb/sample/jaas.cfg
+  inflating: hsqldb-2.3.4/hsqldb/sample/ldap-exerciser.properties
+  inflating: hsqldb-2.3.4/hsqldb/sample/load_binding_lu.sql
+  inflating: hsqldb-2.3.4/hsqldb/sample/nullempty.sql
+  inflating: hsqldb-2.3.4/hsqldb/sample/pl.sql
+  inflating: hsqldb-2.3.4/hsqldb/sample/plsql.sql
+  inflating: hsqldb-2.3.4/hsqldb/sample/sample.c
+  inflating: hsqldb-2.3.4/hsqldb/sample/sample.dsv
+  inflating: hsqldb-2.3.4/hsqldb/sample/sample.sql
+  inflating: hsqldb-2.3.4/hsqldb/sample/sampledata.sql
+  inflating: hsqldb-2.3.4/hsqldb/sample/server.properties
+  inflating: hsqldb-2.3.4/hsqldb/sample/sqltool.rc
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/ClientConnection.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/ClientConnectionHTTP.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/ColumnBase.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/ColumnSchema.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/Constraint.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/ConstraintCore.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/Database.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/DatabaseManager.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/DatabaseType.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/DatabaseURL.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/Expression.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/ExpressionAccessor.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/ExpressionAggregate.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/ExpressionArithmetic.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/ExpressionArrayAggregate.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/ExpressionColumn.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/ExpressionColumnAccessor.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/ExpressionLike.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/ExpressionLogical.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/ExpressionOp.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/ExpressionOrderBy.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/ExpressionTable.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/ExpressionValue.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/FunctionCustom.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/FunctionSQL.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/FunctionSQLInvoked.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/HsqlDateTime.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/HsqlException.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/HsqlNameManager.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/Like.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/NumberSequence.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/OpTypes.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/ParserBase.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/ParserCommand.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/ParserDDL.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/ParserDML.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/ParserDQL.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/ParserRoutine.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/ParserTable.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/QueryExpression.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/QuerySpecification.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/RangeGroup.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/RangeVariable.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/RangeVariableJoined.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/RangeVariableResolver.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/ReferenceObject.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/Routine.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/RoutineSchema.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/Row.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/RowAVL.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/RowAVLDisk.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/RowAVLDiskData.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/RowAVLDiskLarge.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/RowAction.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/RowActionBase.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/RowDiskDataChange.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/Scanner.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/Schema.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/SchemaManager.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/SchemaObject.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/SchemaObjectSet.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/Server.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/Session.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/SessionContext.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/SessionData.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/SessionInterface.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/SessionManager.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/SetFunction.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/SortAndSlice.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/SqlInvariants.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/Statement.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/StatementCommand.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/StatementCompound.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/StatementCursor.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/StatementDML.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/StatementDMQL.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/StatementExpression.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/StatementHandler.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/StatementInsert.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/StatementManager.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/StatementProcedure.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/StatementQuery.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/StatementResultUpdate.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/StatementSchema.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/StatementSchemaDefinition.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/StatementSession.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/StatementSet.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/StatementSignal.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/StatementSimple.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/StatementTypes.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/Table.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/TableBase.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/TableDerived.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/TableUtil.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/TableWorks.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/TextTable.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/Token.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/Tokens.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/TransactionManager.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/TransactionManager2PL.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/TransactionManagerCommon.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/TransactionManagerMV2PL.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/TransactionManagerMVCC.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/Trigger.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/TriggerDef.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/TriggerDefSQL.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/TypeInvariants.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/View.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/auth/AuthBeanMultiplexer.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/auth/AuthFunctionBean.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/auth/AuthUtils.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/auth/DenyException.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/auth/HsqldbSlaveAuthBean.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/auth/JaasAuthBean.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/auth/LdapAuthBean.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/auth/LdapAuthBeanTester.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/cmdline/SqlFile.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/cmdline/SqlTool.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/cmdline/SqlToolError.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/cmdline/SqlToolSprayer.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/cmdline/SqltoolRB.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/cmdline/package.html
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/cmdline/sqltool.flex
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/cmdline/sqltool.properties
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/cmdline/sqltool/Calculator.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/cmdline/sqltool/FileRecordReader.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/cmdline/sqltool/SqlFile.banner.text
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/cmdline/sqltool/SqlFile.banner_de.text
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/cmdline/sqltool/SqlFileScanner.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/cmdline/sqltool/SqlTool.syntax.text
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/cmdline/sqltool/SqlTool.syntax_de.text
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/cmdline/sqltool/Token.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/cmdline/sqltool/TokenList.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/cmdline/sqltool/TokenSource.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/cmdline/sqltool/bottom-boilerplate.html
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/cmdline/sqltool/buffer.help.text
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/cmdline/sqltool/buffer.help_de.text
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/cmdline/sqltool/d.options.text
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/cmdline/sqltool/d.options_de.text
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/cmdline/sqltool/dsv.options.text
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/cmdline/sqltool/dsv.options_de.text
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/cmdline/sqltool/errorat.text
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/cmdline/sqltool/errorat_de.text
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/cmdline/sqltool/macro.help.text
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/cmdline/sqltool/macro.help_de.text
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/cmdline/sqltool/pl.assign.text
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/cmdline/sqltool/pl.control.text
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/cmdline/sqltool/pl.help.text
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/cmdline/sqltool/pl.help_de.text
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/cmdline/sqltool/raw.leadin.text
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/cmdline/sqltool/raw.leadin_de.text
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/cmdline/sqltool/rejectreport.bottom.text
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/cmdline/sqltool/rejectreport.bottom_de.text
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/cmdline/sqltool/rejectreport.row.text
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/cmdline/sqltool/rejectreport.top.text
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/cmdline/sqltool/rejectreport.top_de.text
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/cmdline/sqltool/special.help.text
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/cmdline/sqltool/special.help_de.text
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/cmdline/sqltool/top-boilerplate.html
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/cmdline/sqltool_de.properties
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/cmdline/sqltool_nl.properties
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/dbinfo/DITableInfo.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/dbinfo/DatabaseInformation.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/dbinfo/DatabaseInformationFull.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/dbinfo/DatabaseInformationMain.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/error/Error.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/error/ErrorCode.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/index/Index.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/index/IndexAVL.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/index/IndexAVLMemory.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/index/NodeAVL.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/index/NodeAVLDisk.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/index/NodeAVLDiskLarge.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/jdbc/JDBCArray.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/jdbc/JDBCArrayBasic.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/jdbc/JDBCBlob.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/jdbc/JDBCBlobClient.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/jdbc/JDBCBlobFile.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/jdbc/JDBCCallableStatement.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/jdbc/JDBCClob.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/jdbc/JDBCClobClient.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/jdbc/JDBCClobFile.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/jdbc/JDBCColumnMetaData.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/jdbc/JDBCCommonDataSource.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/jdbc/JDBCConnection.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/jdbc/JDBCConnectionEventListener.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/jdbc/JDBCDataSource.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/jdbc/JDBCDataSourceFactory.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/jdbc/JDBCDatabaseMetaData.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/jdbc/JDBCDriver.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/jdbc/JDBCNClob.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/jdbc/JDBCParameterMetaData.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/jdbc/JDBCPool.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/jdbc/JDBCPreparedStatement.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/jdbc/JDBCResultSet.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/jdbc/JDBCResultSetMetaData.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/jdbc/JDBCRowId.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/jdbc/JDBCSQLXML.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/jdbc/JDBCSavepoint.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/jdbc/JDBCStatement.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/jdbc/JDBCStatementBase.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/jdbc/JDBCUtil.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/jdbc/package.html
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/jdbc/pool/JDBCPooledConnection.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/jdbc/pool/JDBCPooledDataSource.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/jdbc/pool/JDBCXAConnection.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/jdbc/pool/JDBCXAConnectionWrapper.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/jdbc/pool/JDBCXADataSource.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/jdbc/pool/JDBCXAResource.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/jdbc/pool/JDBCXID.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/jdbcDriver.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/AppendableException.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/ArrayCounter.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/ArrayListIdentity.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/ArraySort.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/ArrayUtil.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/BaseList.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/BasicTextJdkLogFormatter.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/CharArrayWriter.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/ClosableByteArrayOutputStream.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/ClosableCharArrayWriter.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/Collection.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/CountUpDownLatch.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/CountdownInputStream.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/DataOutputStream.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/DoubleIntIndex.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/FileAccess.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/FileArchiver.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/FileUtil.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/FrameworkLogger.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/HashMap.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/HashMappedList.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/HashSet.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/HsqlArrayHeap.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/HsqlArrayList.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/HsqlByteArrayInputStream.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/HsqlByteArrayOutputStream.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/HsqlDeque.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/HsqlHeap.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/HsqlList.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/HsqlTaskQueue.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/HsqlThreadFactory.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/HsqlTimer.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/InOutUtil.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/InputStreamInterface.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/InputStreamWrapper.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/IntIndex.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/IntKeyHashMap.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/IntKeyHashMapConcurrent.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/IntKeyIntValueHashMap.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/IntKeyLongValueHashMap.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/IntLookup.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/IntValueHashMap.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/Iterator.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/KMPSearchAlgorithm.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/LineGroupReader.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/LineReader.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/LongDeque.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/LongKeyHashMap.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/LongKeyIntValueHashMap.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/LongKeyLongValueHashMap.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/LongLookup.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/LongValueHashMap.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/MultiValueHashMap.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/Notified.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/ObjectComparator.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/OrderedHashSet.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/OrderedIntHashSet.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/OrderedIntKeyHashMap.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/OrderedLongHashSet.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/OrderedLongKeyHashMap.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/RCData.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/ReadWriteLockDummy.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/ReaderInputStream.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/RefCapablePropertyResourceBundle.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/RefCapableRBInterface.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/Set.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/SimpleLog.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/StopWatch.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/Storage.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/StringComparator.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/StringConverter.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/StringInputStream.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/StringUtil.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/ThreadFactory.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/ValidatingResourceBundle.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/WrapperIterator.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/java/JavaSystem.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/package.html
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/tar/DbBackup.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/tar/DbBackupMain.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/tar/PIFData.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/tar/PIFGenerator.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/tar/RB.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/tar/TarFileInputStream.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/tar/TarFileOutputStream.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/tar/TarGenerator.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/tar/TarGeneratorMain.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/tar/TarHeaderField.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/tar/TarMalformatException.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/tar/TarReader.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/tar/TarReaderMain.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/tar/package.html
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/tar/rb.properties
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/tar/rb/DbBackup.syntax.text
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/tar/rb/DbBackup.syntax_de.text
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/tar/rb/TarGenerator.syntax.text
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/tar/rb/TarGenerator.syntax_de.text
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/tar/rb/TarReader.syntax.text
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/tar/rb/TarReader.syntax_de.text
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/tar/rb/listing.format.text
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/tar/rb/listing.format_de.text
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/lib/tar/rb_de.properties
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/map/BaseHashMap.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/map/BitMap.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/map/HashIndex.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/map/ReusableObjectCache.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/map/ValuePool.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/map/ValuePoolHashMap.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/navigator/RangeIterator.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/navigator/RowIterator.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/navigator/RowSetNavigator.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/navigator/RowSetNavigatorClient.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/navigator/RowSetNavigatorData.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/navigator/RowSetNavigatorDataChange.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/navigator/RowSetNavigatorDataChangeMemory.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/navigator/RowSetNavigatorDataTable.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/package.html
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/BitMapCachedObject.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/BlockObjectStore.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/Cache.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/CachedObject.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/CachedObjectBase.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/Crypto.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/DataFileCache.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/DataFileCacheSession.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/DataFileDefrag.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/DataSpaceManager.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/DataSpaceManagerBlocks.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/DataSpaceManagerSimple.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/DirectoryBlockCachedObject.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/EventLogInterface.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/HsqlDatabaseProperties.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/HsqlProperties.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/IntArrayCachedObject.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/LobManager.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/LobStore.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/LobStoreInJar.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/LobStoreMem.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/LobStoreRAFile.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/LockFile.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/Log.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/Logger.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/PersistentStore.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/PersistentStoreCollection.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/PersistentStoreCollectionDatabase.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/PersistentStoreCollectionSession.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/RAFile.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/RAFileHybrid.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/RAFileInJar.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/RAFileNIO.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/RAFileSimple.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/RAShadowFile.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/RAStorageWrapper.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/RandomAccessInterface.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/RowStoreAVL.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/RowStoreAVLDisk.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/RowStoreAVLDiskData.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/RowStoreAVLHybrid.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/RowStoreAVLHybridExtended.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/RowStoreAVLMemory.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/RowStoreDataChange.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/ScriptRunner.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/SimpleStore.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/TableSpaceManager.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/TableSpaceManagerBlocks.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/TableSpaceManagerSimple.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/TextCache.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/TextFileReader.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/TextFileReader16.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/TextFileReader8.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/TextFileSettings.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/persist/TextTableStorageManager.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/resources/ResourceBundleHandler.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/resources/info-column-remarks.properties
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/resources/info-table-remarks.properties
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/resources/information-schema.sql
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/resources/jdklogging-default.properties
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/resources/lob-schema.sql
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/resources/org_hsqldb_DatabaseClassLoader.properties
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/resources/org_hsqldb_server_Server_messages.properties
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/resources/sql-state-messages.properties
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/resources/sql-state-messages_es.properties
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/resources/webserver-content-types.properties
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/resources/webserver-pages.properties
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/result/Result.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/result/ResultConstants.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/result/ResultLob.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/result/ResultMetaData.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/result/ResultProperties.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/rights/GrantConstants.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/rights/Grantee.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/rights/GranteeManager.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/rights/Right.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/rights/User.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/rights/UserManager.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/rowio/RowInputBase.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/rowio/RowInputBinary.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/rowio/RowInputBinary180.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/rowio/RowInputBinaryDecode.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/rowio/RowInputInterface.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/rowio/RowInputText.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/rowio/RowInputTextLog.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/rowio/RowInputTextQuoted.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/rowio/RowOutputBase.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/rowio/RowOutputBinary.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/rowio/RowOutputBinary180.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/rowio/RowOutputBinaryEncode.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/rowio/RowOutputInterface.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/rowio/RowOutputText.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/rowio/RowOutputTextLog.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/rowio/RowOutputTextQuoted.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/sample/ConnectionTypesSample.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/sample/DatabaseManagerSample.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/sample/FindFile.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/sample/SqlFileEmbedder.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/sample/Testdb.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/sample/TriggerSample.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/sample/package.html
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/scriptio/ScriptReaderBase.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/scriptio/ScriptReaderDecode.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/scriptio/ScriptReaderText.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/scriptio/ScriptWriterBase.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/scriptio/ScriptWriterEncode.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/scriptio/ScriptWriterText.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/server/HsqlServerFactory.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/server/HsqlSocketFactory.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/server/HsqlSocketFactorySecure.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/server/HsqlSocketRequestHandler.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/server/OdbcPacketInputStream.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/server/OdbcPacketOutputStream.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/server/OdbcPreparedStatement.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/server/OdbcUtil.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/server/PgType.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/server/RecoverableOdbcFailure.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/server/Server.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/server/ServerAcl.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/server/ServerConfiguration.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/server/ServerConnection.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/server/ServerConstants.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/server/ServerProperties.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/server/Servlet.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/server/StatementPortal.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/server/WebServer.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/server/WebServerConnection.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/server/package.html
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/AllTests.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/BlaineTrig.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/ClearTests.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/JDBCBench.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/TestAcl.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/TestAllTypes.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/TestBase.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/TestBench.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/TestCacheSize.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/TestCascade.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/TestCollation.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/TestDataStructures.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/TestDatabaseMetaData.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/TestDateTime.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/TestDatetimeSimple.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/TestDbBackup.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/TestGroupByHaving.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/TestHTTPKeepAlive.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/TestHarness.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/TestHashStructures.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/TestINPredicateParameterizationAndCorrelation.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/TestInstantiation.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/TestJDBCGeneratedColumns.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/TestJDBCSavepoints.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/TestJavaFunctions.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/TestKarl.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/TestLibSpeed.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/TestLikePredicateOptimizations.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/TestLobs.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/TestMerge.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/TestMultiInsert.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/TestNullInUnion.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/TestPeriodPredicates.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/TestPreparedStatements.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/TestPreparedSubQueries.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/TestQuotes.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/TestSchemaParse.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/TestScript.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/TestScriptRunner.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/TestScripts.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/TestSql.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/TestSqlPeriodPredicates.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/TestSqlPersistent.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/TestStoredProcedure.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/TestSubQueriesInPreparedStatements.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/TestSubselect.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/TestTextTable.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/TestTextTables.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/TestTriggers.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/TestTypeConversion.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/TestUpdatableResultSets.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/TestUpdatableResults.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/TestUtil.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/TestViewAsterisks.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/TriggerClass.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/test/Waiter.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/types/ArrayType.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/types/BinaryData.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/types/BinaryType.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/types/BinaryUUIDType.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/types/BitType.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/types/BlobData.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/types/BlobDataID.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/types/BlobInputStream.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/types/BlobType.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/types/BooleanType.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/types/CharacterType.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/types/Charset.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/types/ClobData.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/types/ClobDataID.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/types/ClobInputStream.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/types/ClobType.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/types/Collation.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/types/DTIType.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/types/DateTimeType.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/types/IntervalMonthData.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/types/IntervalSecondData.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/types/IntervalType.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/types/JavaObjectData.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/types/JavaObjectDataInternal.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/types/LobData.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/types/NullType.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/types/NumberType.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/types/OtherType.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/types/RowType.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/types/TimeData.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/types/TimestampData.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/types/Type.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/types/Types.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/types/UserTypeModifier.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/Bold.gif
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/CSVWriter.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/Clear.png
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/Close.png
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/CodeSwitcher.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/Colors.png
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/CommonSwing.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/ConnectionDialog.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/ConnectionDialogCommon.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/ConnectionDialogSwing.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/ConnectionSetting.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/DataAccessPoint.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/DataAccessPointException.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/DatabaseManager.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/DatabaseManagerCommon.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/DatabaseManagerSwing.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/FontDialogSwing.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/GreenCircle.gif
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/Grid.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/GridSwing.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/HelperFactory.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/Hourglass.gif
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/HsqldbTransferHelper.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/InformixTransferHelper.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/Italic.gif
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/JDBCTypes.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/MainInvoker.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/McKoiTransferHelper.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/NoWay.gif
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/OracleTransferHelper.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/PostgresTransferHelper.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/RedCircle.gif
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/SQLStatements.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/SqlServerTransferHelper.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/TableSorter.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/Traceable.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/Transfer.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/TransferCommon.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/TransferDb.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/TransferHelper.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/TransferResultSet.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/TransferSQLText.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/TransferTable.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/Tree.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/hsqldb.gif
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/hsqldbtab.gif
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/preprocessor/AntResolver.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/preprocessor/BasicResolver.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/preprocessor/Defines.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/preprocessor/Document.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/preprocessor/IResolver.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/preprocessor/Line.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/preprocessor/LineType.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/preprocessor/Option.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/preprocessor/Parser.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/preprocessor/Preprocessor.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/preprocessor/PreprocessorAntTask.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/preprocessor/PreprocessorException.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/preprocessor/Token.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/preprocessor/Tokenizer.java
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/problems.gif
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/run_exc.gif
+  inflating: hsqldb-2.3.4/hsqldb/src/org/hsqldb/util/run_exc_running.gif
+  inflating: hsqldb-2.3.4/hsqldb/stylesheets/chunk.xsl
+  inflating: hsqldb-2.3.4/hsqldb/stylesheets/fo.xsl
+  inflating: hsqldb-2.3.4/hsqldb/stylesheets/html-common.xsl
+  inflating: hsqldb-2.3.4/hsqldb/stylesheets/html.xsl
+  inflating: hsqldb-2.3.4/hsqldb/stylesheets/pagesetup.xsl
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelf.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelf3PartNames.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfAlterColumn.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfArithmetic.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfArrays.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfCasewhen.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfCheckConstraints.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfColGrant.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfConstraints.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfConversions.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfCreate.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfFKModes.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfFieldLimits.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfFunction.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfGrantees.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfGroupBy.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfImmediateShutdown.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfImmediateShutdownRecover.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfInPredicateReferencing.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfInsertDeleteQueries.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfInsteadOfTriggers.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfInternalFunctions.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfInterval.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfIssues.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfJoins.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfLeftJoin.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfModify.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfMultiGrants.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfNameResolution.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfNameResolutionSchemas.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfNoDmlBug1.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfNoDmlBug2.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfNot.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfPersSchemA.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfPersSchemB.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfPersSchemC.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfPersSchemD.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfPrimaryKeys.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfQueries.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfRightCaching.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfRoleNesting.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfSchemaCasc.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfSchemaMisc.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfSchemaPerCachTbl1.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfSchemaPerCachTbl2.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfSchemaPersistA1.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfSchemaPersistA2.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfSchemaPersistB1.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfSchemaPersistB2.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfSchemaPersistC1.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfSchemaPersistC2.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfSchemaQuoting.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfSeqRightsA.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfSeqRightsB.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfSeqRightsC.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfStoredProcedure.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfStoredProcedureTypes.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfSubselects.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfSysTables.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfTempTable1.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfTempTable2.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfTransaction.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfTriggers.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfTriggers2.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfTrimSimplified.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfUnions.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfUserFunction.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfVerify.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfViewGrants.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfViewSchemaResolve.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestSelfViews.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestText01.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestText02.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/hsqldb/TestTriggers.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/README.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/adv-comments.sql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/altspace.targtbl.dsv
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/append.inter
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/at-chainer.sql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/badsqlonly.nsql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/buffer-vars.sql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/build.gradle
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/comments.sql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/csv-1charquoted.csv
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/csv-1charquoted.sql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/csv-quotedcolheaders.csv
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/csv-quotedcolheaders.sql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/csv-roundtrip.sql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/dsv-abortcommits.sql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/dsv-altspace.sql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/dsv-constcols.dsv
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/dsv-constcols.sql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/dsv-multiline.sql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/dsv-omits.dsv
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/dsv-omits.sql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/dsv-prepare.sql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/dsv-rejects.dsv
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/dsv-rejects.sql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/dsv-roundtrip.sql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/dsv-rpcommit.dsv
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/dsv-rpcommit.sql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/dsv-sqlarray.sql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/dsv-trimall.dsv
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/dsv-trimall.sql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/dsv-trimming-alt.dsv
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/dsv-trimming.dsv
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/dsv-trimming.sql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/else.sql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/errhandling.isql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/errhandling.nsql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/errhandling.sql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/errhandlingn.isql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/for.sql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/forrows.sql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/function.sql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/goodsqlonly.sql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/history.inter
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/inlineif.sql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/j.sql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/lastval.sql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/logic.sql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/logical-ops.sql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/macro.inter
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/macro.sql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/math.sql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/nestingschema.sql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/noop.sql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/nq-arg1.isql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/nq-arg1.nsql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/nq-noarg1.isql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/nq-noarg1.sql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/nullempty.sql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/nullrep-alt.dsv
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/nullrep.dsv
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/nullrep.sql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/plcontrolflow.sql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/q-arg1.nsql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/q-noarg1.sql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/rawmode.sql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/return.isql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/return.sql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/rowcount.sql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/sqlarray.sql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/sqljrt.sql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/sqlpsm.sql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/subdir/atuser.sql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/subdir/tblx.dsv
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/subdir/tblx.sql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/subst.inter
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/testcases.txt
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/unseteval.nsql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/unsetvar.nsql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/unsetvar.sql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/varnestee.isql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/varnester.sql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/vars.sql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/varswithspaces.sql
+  inflating: hsqldb-2.3.4/hsqldb/testrun/sqltool/write.inter
+   creating: hsqldb-2.3.4/hsqldb/doc-src/
+  inflating: hsqldb-2.3.4/hsqldb/doc-src/changelist_2_0.txt
+  inflating: hsqldb-2.3.4/hsqldb/doc-src/hsqldb_lic.txt
+  inflating: hsqldb-2.3.4/hsqldb/doc-src/hypersonic_lic.txt
+   creating: hsqldb-2.3.4/hsqldb/lib/
+  inflating: hsqldb-2.3.4/hsqldb/lib/servlet-2_3-fcs-classfiles.zip
+  inflating: hsqldb-2.3.4/hsqldb/lib/sqltool.jar
+  inflating: hsqldb-2.3.4/hsqldb/lib/hsqldb.jar
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB
+$ touch hsqldb-2.3.4/hsqldb/server.properties
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB
+$ cd hsqldb-2.3.4/hsqldb
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB/hsqldb-2.3.4/hsqldb
+$ java -classpath lib/hsqldb.jar org.hsqldb.server.Server
+[Server@4517d9a3]: [Thread[main,5,main]]: checkRunning(false) entered
+[Server@4517d9a3]: [Thread[main,5,main]]: checkRunning(false) exited
+[Server@4517d9a3]: Startup sequence initiated from main() method
+[Server@4517d9a3]: Loaded properties from [E:\Working\SQL\HSQLDB\hsqldb-2.3.4\hsqldb\server.properties]
+[Server@4517d9a3]: Initiating startup sequence...
+[Server@4517d9a3]: Server socket opened successfully in 16 ms.
+[Server@4517d9a3]: Database [index=0, id=0, db=file:hsqldb/demodb, alias=testdb] opened successfully in 1003 ms.
+[Server@4517d9a3]: Startup sequence completed in 1019 ms.
+[Server@4517d9a3]: 2016-12-14 20:50:15.125 HSQLDB server 2.3.4 is online on port 9001
+[Server@4517d9a3]: To close normally, connect and execute SHUTDOWN SQL
+[Server@4517d9a3]: From command line, use [Ctrl]+[C] to abort abruptly
+
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB/hsqldb-2.3.4/hsqldb
+$ java -classpath lib/hsqldb.jar org.hsqldb.server.Server --database.0 file:hsqldb/demodb --dbname.0 testdb
+[Server@4517d9a3]: [Thread[main,5,main]]: checkRunning(false) entered
+[Server@4517d9a3]: [Thread[main,5,main]]: checkRunning(false) exited
+[Server@4517d9a3]: Startup sequence initiated from main() method
+[Server@4517d9a3]: Loaded properties from [E:\Working\SQL\HSQLDB\hsqldb-2.3.4\hsqldb\server.properties]
+[Server@4517d9a3]: Initiating startup sequence...
+[Server@4517d9a3]: Server socket opened successfully in 16 ms.
+[Server@4517d9a3]: Database [index=0, id=0, db=file:hsqldb/demodb, alias=testdb] opened successfully in 922 ms.
+[Server@4517d9a3]: Startup sequence completed in 938 ms.
+[Server@4517d9a3]: 2016-12-14 20:53:02.780 HSQLDB server 2.3.4 is online on port 9001
+[Server@4517d9a3]: To close normally, connect and execute SHUTDOWN SQL
+[Server@4517d9a3]: From command line, use [Ctrl]+[C] to abort abruptly
+
+
+## Git Bash ## HSQL Database Manager -> Connect
+
+Aspire@Acer MINGW64 ~
+$ java -version
+java version "1.8.0_102"
+Java(TM) SE Runtime Environment (build 1.8.0_102-b14)
+Java HotSpot(TM) 64-Bit Server VM (build 25.102-b14, mixed mode)
+
+Aspire@Acer MINGW64 ~
+$ cd "E:\Working\SQL\HSQLDB\hsqldb-2.3.4\hsqldb\bin"
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB/hsqldb-2.3.4/hsqldb/bin
+$ ./runManagerSwing.bat
+
+E:\Working\SQL\HSQLDB\hsqldb-2.3.4\hsqldb\bin>cd ..\data
+
+
+## Git Bash ## Java
+
+Aspire@Acer MINGW64 ~
+$ java -version
+java version "1.8.0_102"
+Java(TM) SE Runtime Environment (build 1.8.0_102-b14)
+Java HotSpot(TM) 64-Bit Server VM (build 25.102-b14, mixed mode)
+
+Aspire@Acer MINGW64 ~
+$ cd "E:\Working\SQL\HSQLDB"
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB
+$ mkdir Java
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB
+$ cd Java
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB/Java
+$ touch ConnectDatabase.java
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB/Java
+$ export CLASSPATH="E:\Working\SQL\HSQLDB\hsqldb-2.3.4\hsqldb\lib\hsqldb.jar;.;"
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB/Java
+$ javac ConnectDatabase.java
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB/Java
+$ java ConnectDatabase
+Connection created successfully
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB/Java
+$ touch CreateTable.java
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB/Java
+$ javac CreateTable.java
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB/Java
+$ java CreateTable
+Table created successfully
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB/Java
+$ touch DropTable.java
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB/Java
+$ javac DropTable.java
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB/Java
+$ java DropTable
+Table dropped successfully
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB/Java
+$ touch InserQuery.java
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB/Java
+$ java CreateTable
+Table created successfully
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB/Java
+$ javac InsertQuery.java
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB/Java
+$ java InsertQuery
+1 rows effected
+Rows inserted successfully
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB/Java
+$ touch SelectQuery.java
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB/Java
+$ javac SelectQuery.java
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB/Java
+$ java SelectQuery
+100 | Java The Complete Reference, Eighth Edition | Herbert Schildt
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB/Java
+$ touch WhereClause.java
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB/Java
+$ javac WhereClause.java
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB/Java
+$ java WhereClause
+100 | Java The Complete Reference, Eighth Edition | Herbert Schildt
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB/Java
+$ touch UpdateQuery.java
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB/Java
+$ javac UpdateQuery.java
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB/Java
+$ java UpdateQuery
+1 Rows effected
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB/Java
+$ touch DeleteQuery.java
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB/Java
+$ javac DeleteQuery.java
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB/Java
+$ java DeleteQuery
+1 Rows effected

@@ -1,0 +1,12 @@
+SELECT 
+Convert(Varchar(4),Year(DateAdd(DAY, -31, GETDATE())))
++'-'+Convert(Varchar(4),Month(DateAdd(DAY, -31, GETDATE())))
++'-'+Convert(Varchar(4),Day(DateAdd(DAY, -31, GETDATE())))
++' 00:00:00.000'
+
+SELECT convert
+(datetime,
+(Convert(Varchar(4),Year(DateAdd(DAY, -31, GETDATE())))
++'-'+Convert(Varchar(4),Month(DateAdd(DAY, -31, GETDATE())))
++'-'+Convert(Varchar(4),Day(DateAdd(DAY, -31, GETDATE())))
++' 00:00:00.000')) 

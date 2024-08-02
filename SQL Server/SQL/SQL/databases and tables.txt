@@ -1,0 +1,279 @@
+USE [master];
+GO
+
+IF EXISTS(SELECT name FROM sys.databases WHERE name = N'sampledb')
+DROP DATABASE [sampledb];
+GO
+
+--OR
+
+IF DB_ID (N'sampledb') IS NOT NULL
+DROP DATABASE [sampledb];
+GO
+
+CREATE DATABASE sampledb;
+GO
+
+USE [sampledb];
+GO
+
+IF EXISTS(SELECT name FROM sys.tables WHERE name = N'sample')
+DROP TABLE [sample];
+GO
+
+--OR
+
+IF OBJECT_ID (N'sample', N'U') IS NOT NULL
+DROP TABLE [sample];
+GO
+
+CREATE TABLE sample
+(
+ id int IDENTITY(1, 1),
+ name nvarchar(max),
+ date datetime2
+);
+GO
+
+SELECT * FROM sample;
+GO
+
+INSERT INTO sample VALUES('ABC', GETDATE());
+GO
+
+INSERT INTO sample (date) VALUES(GETDATE());
+GO
+
+INSERT INTO sample
+SELECT 'Alpha', GETDATE() UNION ALL
+SELECT 'Beta', GETDATE() UNION ALL
+SELECT 'Gamma', GETDATE();
+GO
+
+SELECT * FROM sample;
+GO
+
+SELECT name, database_id, create_date  
+FROM sys.databases;  
+GO  
+
+SELECT * 
+FROM sys.databases;
+GO
+
+SELECT * 
+FROM sys.databases ORDER BY name;
+GO
+
+SELECT * 
+FROM sys.databases ORDER BY database_id;
+GO
+
+SELECT * 
+FROM sys.databases 
+WHERE name NOT IN ('master', 'model', 'msdb',  'tempdb') 
+ORDER BY name;
+GO
+
+SELECT * 
+FROM sys.databases 
+WHERE name NOT IN ('master', 'model', 'msdb', 'tempdb', 'ReportServerTempDB', 'ReportServer') 
+ORDER BY name;
+GO
+
+SELECT * 
+FROM sys.databases 
+WHERE database_id > 6 ORDER BY name;
+GO
+
+SELECT * 
+FROM sys.databases 
+WHERE name NOT IN ('master', 'model', 'msdb', 'tempdb', 'ReportServerTempDB', 'ReportServer', 'Resource', 'Distribution') 
+ORDER BY name;
+GO
+
+SELECT *
+FROM sys.sysdatabases --SQL Server 2000
+WHERE HAS_DBACCESS(name) = 1
+GO
+
+SELECT * 
+FROM sys.databases
+WHERE HAS_DBACCESS(name) = 1
+GO
+
+declare @sql nvarchar(max);
+
+select @sql = 
+    (select ' UNION ALL
+        SELECT ' +  + quotename(name,'''') + ' as database_name,
+               s.name COLLATE DATABASE_DEFAULT
+                    AS schema_name,
+               t.name COLLATE DATABASE_DEFAULT as table_name 
+               FROM '+ quotename(name) + '.sys.tables t
+               JOIN '+ quotename(name) + '.sys.schemas s
+                    on s.schema_id = t.schema_id'
+    from sys.databases 
+    where state = 0
+    order by [name] for xml path(''), type).value('.', 'nvarchar(max)');
+
+set @sql = stuff(@sql, 1, 12, '') + ' order by database_name, 
+                                               schema_name,
+                                               table_name';
+
+execute (@sql);
+GO
+
+declare @sql nvarchar(max);
+
+select @sql = 
+    (select ' UNION ALL
+        SELECT ' +  + quotename(name,'''') + ' as database_name,
+               s.name COLLATE DATABASE_DEFAULT
+                    AS schema_name,
+               t.name COLLATE DATABASE_DEFAULT as table_name 
+               FROM '+ quotename(name) + '.sys.tables t
+			   
+               JOIN '+ quotename(name) + '.sys.schemas s
+                    on s.schema_id = t.schema_id'
+    from sys.databases 
+    WHERE name NOT IN 
+	('master', 'model', 'msdb', 'tempdb', 'ReportServerTempDB', 'ReportServer', 'Resource', 'Distribution')
+    AND state = 0
+    order by [name] for xml path(''), type).value('.', 'nvarchar(max)');
+
+set @sql = stuff(@sql, 1, 12, '') + ' order by database_name, 
+                                               schema_name,
+                                               table_name';
+
+execute (@sql);
+GO
+
+declare @sql nvarchar(max);
+
+select @sql = 
+    (select ' UNION ALL
+        SELECT ' +  + quotename(name,'''') + ' as database_name,
+               s.name COLLATE DATABASE_DEFAULT
+                    AS schema_name,
+               t.name COLLATE DATABASE_DEFAULT as table_name 
+               FROM '+ quotename(name) + '.sys.tables t
+			   
+               JOIN '+ quotename(name) + '.sys.schemas s
+                    on s.schema_id = t.schema_id'
+    from sys.databases 
+    WHERE HAS_DBACCESS(name) = 1
+    AND state = 0
+    order by [name] for xml path(''), type).value('.', 'nvarchar(max)');
+
+set @sql = stuff(@sql, 1, 12, '') + ' order by database_name, 
+                                               schema_name,
+                                               table_name';
+
+execute (@sql);
+GO
+
+--IF EXISTS(SELECT name FROM tempdb.sys.tables WHERE name LIKE '#T1%')
+IF OBJECT_ID(N'tempdb.dbo.#T1', N'U') IS NOT NULL
+DROP TABLE #T1;
+GO
+
+CREATE TABLE #T1
+(
+  database_name nvarchar(max),
+  schema_name nvarchar(max),
+  table_name nvarchar(max)
+);
+GO
+
+declare @sql nvarchar(max);
+
+select @sql = 
+    (select ' UNION ALL
+        SELECT ' +  + quotename(name,'''') + ' as database_name,
+               s.name COLLATE DATABASE_DEFAULT
+                    AS schema_name,
+               t.name COLLATE DATABASE_DEFAULT as table_name 
+               FROM '+ quotename(name) + '.sys.tables t
+			   
+               JOIN '+ quotename(name) + '.sys.schemas s
+                    on s.schema_id = t.schema_id'
+    from sys.databases 
+    WHERE HAS_DBACCESS(name) = 1
+    AND state = 0
+    order by [name] for xml path(''), type).value('.', 'nvarchar(max)');
+
+set @sql = stuff(@sql, 1, 12, '') + ' order by database_name, 
+                                               schema_name,
+                                               table_name';
+
+INSERT #T1 execute (@sql);
+GO
+
+SELECT * FROM #T1 WHERE table_name = 'sample';
+GO
+
+SELECT * FROM #T1 WHERE database_name = 'sampledb';
+GO
+
+SELECT
+    P.[entity_name],
+    P.subentity_name,
+    P.[permission_name]
+FROM sys.fn_my_permissions
+    (
+        N'sample', 
+        N'OBJECT'
+    ) AS P
+ORDER BY
+    P.subentity_name,
+    P.[permission_name];
+GO
+
+IF EXISTS(SELECT name FROM tempdb.sys.tables WHERE name LIKE '#T2%')
+--IF OBJECT_ID(N'tempdb.dbo.#T2', N'U') IS NOT NULL
+DROP TABLE #T2;
+GO
+
+CREATE TABLE #T2
+(
+  id int IDENTITY(1,1),
+  [name] nvarchar(max),
+  [date] datetime2
+);
+GO
+
+SELECT * FROM #T2;
+GO
+
+INSERT INTO #T2 VALUES('Alpha', GETDATE());
+INSERT INTO #T2 VALUES('Beta', GETDATE());
+INSERT INTO #T2 VALUES('Gamma', GETDATE());
+GO
+
+SELECT * FROM #T2;
+GO
+
+IF EXISTS(SELECT * FROM tempdb.sys.tables WHERE name = '##T3')
+--IF OBJECT_ID(N'tempdb.dbo.##T3', N'U') IS NOT NULL
+DROP TABLE ##T3;
+GO
+
+CREATE TABLE ##T3
+(
+  id int IDENTITY(1,1),
+  [name] nvarchar(max),
+  [date] datetime2
+);
+GO
+
+SELECT * FROM ##T3;
+GO
+
+INSERT INTO ##T3 VALUES('A', GETDATE());
+INSERT INTO ##T3 VALUES('B', GETDATE());
+INSERT INTO ##T3 VALUES('C', GETDATE());
+GO
+
+SELECT * FROM ##T3;
+GO

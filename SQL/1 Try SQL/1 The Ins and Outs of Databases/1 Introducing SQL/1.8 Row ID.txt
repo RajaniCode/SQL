@@ -1,0 +1,10 @@
+1.8 Row ID
+
+Based on the table below, what is the genre of the film with an id of 3?
+id 	title 		genre 		duration
+1 	Metropolis 	Sci-Fi 		153
+2 	Nosferatu 	Horror 		94
+3 	The Kid 	Comedy 		68
+4 	The Gold Rush 	Adventure 	95
+
+Answer: Comedy

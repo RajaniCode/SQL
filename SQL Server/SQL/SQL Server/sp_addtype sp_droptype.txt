@@ -1,0 +1,121 @@
+Create database: 
+USE  master
+
+IF EXISTS (SELECT * FROM master..sysdatabases 
+WHERE name = 'typedb ') 
+
+DROP DATABASE typedb
+
+CREATE DATABASE typedb
+ON PRIMARY
+(NAME = typedb_dat,
+FILENAME = 'C:\Program Files\Microsoft SQL Server\MSSQL.1\MSSQL\Data\typedb.mdf', 
+SIZE = 12,
+MAXSIZE = 100,
+FILEGROWTH = 2),
+FILEGROUP typedbgroup
+(NAME = typedbgroup_dat,
+FILENAME = 'C:\Program Files\Microsoft SQL Server\MSSQL.1\MSSQL\Data\typedbgroup.ndf', 
+SIZE = 12, MAXSIZE = 100, FILEGROWTH = 2)
+LOG ON
+(NAME = 'typedb_log', 
+FILENAME = 'C:\Program Files\Microsoft SQL Server\MSSQL.1\MSSQL\Data\typedb.ldf', 
+SIZE = 4 MB,
+MAXSIZE = 50 MB,
+FILEGROWTH = 2 MB)
+
+
+
+
+
+
+
+
+
+
+USE typedb
+
+Create user-defined datatype:
+sp_addtype typSellingDate, datetime, 'NOT NULL'
+
+
+
+
+
+USE typedb
+
+IF OBJECT_ID('dbo.Newspaper', 'U') IS NOT NULL
+  
+DROP TABLE dbo.Newspaper
+
+CREATE TABLE Newspaper
+(
+cNewsPaperCode char(4) NOT NULL,
+cNewsPaperName char(20) NOT NULL,
+vRegion varchar(20),
+vTypeOfNewsPaper varchar(20),
+vContactPerson varchar(35),
+vHOAddress varchar(35),
+cCity char(20),
+cState char(20),
+cZip char(10),
+cCountryCode char(3),
+cFax char(15),
+cPhone char(15),
+SellingDate typSellingDate
+)
+ON typedbgroup
+
+INSERT INTO Newspaper
+(
+cNewsPaperCode,
+cNewsPaperName,
+vRegion,
+vTypeOfNewsPaper,
+vContactPerson,
+vHOAddress,
+cCity,
+cState,
+cZip,
+cCountryCode,
+cFax,
+cPhone,
+SellingDate
+)
+VALUES
+(
+'0001',
+'Texas Times',
+'Texas',
+'General',
+'Jackson Demello', 
+'4723 West Alabama',
+'Houston',
+'Texas',
+'77015-4568',
+'001',
+'(713)451-6797',
+'(713)451-650',
+'2007-06-13 23:59:59:998'
+)
+
+
+
+
+
+View user-defined datatype:
+sp_help typSellingDate
+
+
+
+
+
+View datatype:
+sp_help char
+
+
+
+
+
+Drop user-defined datatype:
+sp_droptype typSellingDate (DROP TABLE Newspaper)

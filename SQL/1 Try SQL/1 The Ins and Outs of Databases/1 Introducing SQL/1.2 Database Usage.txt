@@ -1,0 +1,13 @@
+1.2 Database Usage
+
+What are databases used for?
+
+    Databases collect and organize information for easy retrieval.
+
+    Databases program websites to accept user input.
+
+    Databases connect users in multiple locations via a web interface.
+
+    All of the above
+
+Answer: Databases collect and organize information for easy retrieval.

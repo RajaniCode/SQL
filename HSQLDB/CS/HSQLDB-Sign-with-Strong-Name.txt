@@ -1,0 +1,7 @@
+sn -k keyPair.snk
+
+ildasm hsqldb.dll /out:hsqldb.il
+
+"C:\Windows\Microsoft.NET\Framework64\v4.0.30319\ilasm.exe" hsqldb.il /dll /key=keyPair.snk
+
+sn -v hsqldb.dll

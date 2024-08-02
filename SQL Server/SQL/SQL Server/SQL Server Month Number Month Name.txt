@@ -1,0 +1,151 @@
+SELECT Number AS [Month Number], DATENAME(MONTH, '2014-' + CAST(Number AS NVARCHAR(2)) + '-1') AS [Month Name]
+FROM master..spt_values
+WHERE Type = 'P' AND Number BETWEEN 1 AND 12
+ORDER BY Number
+GO
+
+--Month Number	Month Name
+--1		January
+--2		February
+--3		March
+--4		April
+--5		May
+--6		June
+--7		July
+--8		August
+--9		September
+--10		October
+--11		November
+--12		December
+
+WITH CTE(MonthNumber) AS
+(
+SELECT 1
+UNION ALL
+SELECT MonthNumber + 1 FROM CTE WHERE MonthNumber  < 12
+)
+SELECT MonthNumber, 
+DATENAME(MONTH, 
+CAST
+(
+	CAST
+	(
+		YEAR(GETDATE()) AS NVARCHAR) + '-' + CAST(MonthNumber AS NVARCHAR) + '-01' AS DATETIME)
+	) 
+MonthName FROM CTE
+GO
+
+--MonthNumber	MonthName
+--1		January
+--2		February
+--3		March
+--4		April
+--5		May
+--6		June
+--7		July
+--8		August
+--9		September
+--10		October
+--11		November
+--12		December
+
+--DECLARE @Mth smallint
+--SET @Mth = 11
+--SELECT DateName(mm,DATEADD(mm,@Mth,-1)) as [MonthName] -- November
+
+SELECT GETDATE() -- 2014-02-07 00:51:37.380
+SELECT YEAR(GETDATE()) -- 2014
+SELECT MONTH(GETDATE()) -- 2
+SELECT DAY(GETDATE()) -- 7
+SELECT DATENAME(WEEKDAY, GETDATE()) -- Friday
+SELECT DATENAME(MONTH, CAST(GETDATE() AS NVARCHAR)) -- February
+SELECT DATENAME(DAY, CAST(GETDATE() AS NVARCHAR)) -- 7
+SELECT DATENAME(YEAR, CAST(GETDATE() AS NVARCHAR)) -- 2014
+SELECT CONVERT(NVARCHAR, GETDATE(), 9) -- Feb  7 2014 12:56:24:113AM
+
+DECLARE @d DATETIME
+SET @d=CONVERT(NVARCHAR, GETDATE(), 9) 
+SELECT FORMAT(@d, 'F') -- Friday, February 07, 2014 12:56:48 AM
+
+--DECLARE @i int = 0
+--WHILE @i < 14 BEGIN
+--    SET @i = @i + 1
+--    SELECT CONVERT(NVARCHAR, GETDATE(), @i)
+--END
+
+--02/07/14
+
+--14.02.07
+
+--07/02/14
+
+--07.02.14
+
+--07-02-14
+
+--07 Feb 14
+
+--Feb 07, 14
+
+--01:06:36
+
+--Feb  7 2014  1:06:36:450AM
+
+--02-07-14
+
+--14/02/07
+
+--140207
+
+--07 Feb 2014 01:06:36:450
+
+--01:06:36:450
+
+
+--DROP TABLE #t
+CREATE TABLE #t (n INT, m NVARCHAR(MAX))
+DECLARE @i INT
+SET @i = 1
+WHILE (@i < 13)
+BEGIN
+  INSERT INTO #t SELECT @i, DateName(mm, DATEADD(mm, @i, -1))
+  SET @i = @i + 1
+END 
+SELECT n [Month Number], m [Month Name] FROM #t
+
+--Month Number	Month Name
+--1		January
+--2		February
+--3		March
+--4		April
+--5		May
+--6		June
+--7		July
+--8		August
+--9		September
+--10		October
+--11		November
+--12		December
+
+
+;WITH CTE
+AS
+(
+   SELECT 1 N
+   UNION ALL
+   SELECT N + 1 FROM CTE
+   WHERE N<10
+)
+SELECT N FROM CTE
+
+--N
+--1
+--2
+--3
+--4
+--5
+--6
+--7
+--8
+--9
+--10

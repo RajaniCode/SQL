@@ -1,0 +1,81 @@
+[
+# Restore sample.bak
+USE[master];
+GO
+RESTORE FILELISTONLY FROM DISK = 'D:\Rajani\Technical2021\SQL\SQL Server\Sample\sample.bak';
+GO
+RESTORE DATABASE [sample]
+FROM DISK = 'D:\Rajani\Technical2021\SQL\SQL Server\Sample\sample.bak'
+WITH MOVE 'sample' TO 'C:\Users\rajanis\sample.mdf',
+MOVE 'sample_log' TO 'C:\Users\rajanis\sample_log.ldf';
+GO
+USE [sample];
+GO
+SELECT file_id, name as [logical_file_name], physical_name FROM sys.database_files;
+GO
+# D:\Rajani\Technical2021\SQL\SQL Server\Sample\1
+# OR
+USE [master];
+GO
+IF EXISTS(SELECT name FROM sys.databases WHERE name = N'sample')
+ALTER DATABASE [sample] MODIFY NAME = [sample];
+GO
+]
+# D:\Rajani\Technical2021\SQL\SQL Server\Sample\2
+# D:\Rajani\Technical2021\SQL\SQL Server\Sample\3
+# D:\Rajani\Technical2021\SQL\SQL Server\Sample\4
+# D:\Rajani\Technical2021\SQL\SQL Server\Sample\4\ALTER PROCEDURE
+
+export PATH=$PATH:"/C/Program Files (x86)/Microsoft Visual Studio/2019/Professional/Common7/IDE/Extensions/Microsoft/SQLDB/DAC/150/"
+
+sqlpackage -TargetFile:"D:\Rajani\Technical2021\SQL\SQL Server\Sample\Original\sample.dacpac" -Action:Extract -SourceServerName:"(localdb)\MSSQLLocalDB" -SourceDatabaseName:"sample"
+
+[
+sqlcmd -S "(localdb)\MSSQLLocalDB" -Q "ALTER DATABASE [sample] SET SINGLE_USER WITH ROLLBACK IMMEDIATE;"
+sqlcmd -S "(localdb)\MSSQLLocalDB" -Q "ALTER DATABASE [sample] SET OFFLINE;"
+sqlcmd -S "(localdb)\MSSQLLocalDB" -Q "DROP DATABASE [sample];"
+rm -rf "C:\Users\rajanis\sample.mdf"
+rm -rf "C:\Users\rajanis\sample_log.ldf"
+]
+
+sqlpackage -Action:Publish -SourceFile:"D:\Rajani\Technical2021\SQL\SQL Server\Sample\Original\sample.dacpac" -TargetDatabaseName:sample -TargetServerName:"(localdb)\MSSQLLocalDB"
+
+# D:\Rajani\Technical2021\SQL\SQL Server\Sample\5
+
+sqlpackage -TargetFile:"D:\Rajani\Technical2021\SQL\SQL Server\Sample\Modified\sample.dacpac" -Action:Extract -SourceServerName:"(localdb)\MSSQLLocalDB" -SourceDatabaseName:"sample"
+
+[
+sqlcmd -S "(localdb)\MSSQLLocalDB" -Q "ALTER DATABASE [sample] SET SINGLE_USER WITH ROLLBACK IMMEDIATE;"
+sqlcmd -S "(localdb)\MSSQLLocalDB" -Q "ALTER DATABASE [sample] SET OFFLINE;"
+sqlcmd -S "(localdb)\MSSQLLocalDB" -Q "DROP DATABASE [sample];"
+rm -rf "C:\Users\rajanis\sample.mdf"
+rm -rf "C:\Users\rajanis\sample_log.ldf"
+# Restore sample.bak
+USE[master];
+GO
+RESTORE FILELISTONLY FROM DISK = 'D:\Rajani\Technical2021\SQL\SQL Server\Sample\sample.bak';
+GO
+RESTORE DATABASE [sample]
+FROM DISK = 'D:\Rajani\Technical2021\SQL\SQL Server\Sample\sample.bak'
+WITH MOVE 'sample' TO 'C:\Users\rajanis\sample.mdf',
+MOVE 'sample_log' TO 'C:\Users\rajanis\sample_log.ldf';
+GO
+USE [sample];
+GO
+SELECT file_id, name as [logical_file_name], physical_name FROM sys.database_files;
+GO
+# D:\Rajani\Technical2021\SQL\SQL Server\Sample\1
+# OR
+USE [master];
+GO
+IF EXISTS(SELECT name FROM sys.databases WHERE name = N'sample')
+ALTER DATABASE [sample] MODIFY NAME = [sample];
+GO
+]
+# D:\Rajani\Technical2021\SQL\SQL Server\Sample\3
+# D:\Rajani\Technical2021\SQL\SQL Server\Sample\4
+# D:\Rajani\Technical2021\SQL\SQL Server\Sample\4\ALTER PROCEDURE
+
+sqlpackage -Action:Publish -SourceFile:"D:\Rajani\Technical2021\SQL\SQL Server\Sample\Modified\sample.dacpac" -TargetDatabaseName:sample -TargetServerName:"(localdb)\MSSQLLocalDB"
+
+

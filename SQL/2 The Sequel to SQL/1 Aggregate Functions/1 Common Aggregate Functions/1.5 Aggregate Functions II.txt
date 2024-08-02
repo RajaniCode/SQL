@@ -1,0 +1,7 @@
+1.5 Aggregate Functions II
+
+
+The [ ] function gives the total value of a numeric column.
+
+
+Answer: sum

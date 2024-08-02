@@ -1,0 +1,10 @@
+http://stackoverflow.com/questions/5818312/mysql-with-node-js
+
+https://github.com/nodejs/node/wiki
+[https://github.com/nodejs/node-v0.x-archive/wiki/modules#db-mysql]
+
+https://github.com/mysqljs/mysql
+
+https://github.com/sidorares/node-mysql2
+
+https://github.com/Sannis/node-mysql-libmysqlclient

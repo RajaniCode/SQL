@@ -1,0 +1,27 @@
+
+Aspire@Acer MINGW64 ~
+$ java -version
+java version "1.8.0_102"
+Java(TM) SE Runtime Environment (build 1.8.0_102-b14)
+Java HotSpot(TM) 64-Bit Server VM (build 25.102-b14, mixed mode)
+
+Aspire@Acer MINGW64 ~
+$ cd "E:\Working\SQL\HSQLDB\CS"
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB/CS
+$ java -classpath HSQLDB-JDBC/hsqldb.jar org.hsqldb.server.Server --database.0 file:hsqldb/sampledb --dbname.0 sampledb
+[Server@4517d9a3]: [Thread[main,5,main]]: checkRunning(false) entered
+[Server@4517d9a3]: [Thread[main,5,main]]: checkRunning(false) exited
+[Server@4517d9a3]: Startup sequence initiated from main() method
+[Server@4517d9a3]: Loaded properties from [E:\Working\SQL\HSQLDB\CS\server.properties]
+[Server@4517d9a3]: Initiating startup sequence...
+[Server@4517d9a3]: Server socket opened successfully in 32 ms.
+[Server@4517d9a3]: Database [index=0, id=0, db=file:hsqldb/sampledb, alias=sampledb] opened successfully in 968 ms.
+[Server@4517d9a3]: Startup sequence completed in 1000 ms.
+[Server@4517d9a3]: 2017-02-12 22:24:03.032 HSQLDB server 2.3.4 is online on port 9001
+[Server@4517d9a3]: To close normally, connect and execute SHUTDOWN SQL
+[Server@4517d9a3]: From command line, use [Ctrl]+[C] to abort abruptly
+
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB/CS
+$

@@ -1,0 +1,89 @@
+USE [sample];
+GO
+
+SELECT c.name, c.collation
+FROM SYSCOLUMNS c
+WHERE [id] = OBJECT_ID('example');
+GO
+
+
+DBCC CHECKIDENT
+
+
+;WITH CTE(Salary, Rnk) AS 
+(
+	SELECT Salary, Rnk = DENSE_RANK() OVER (ORDER BY Salary DESC) FROM Employee
+) 
+SELECT DISTINCT Salary FROM CTE WHERE Rnk = 5;
+
+
+/* TOP 1 just grabs one of them, while DISTINCT does imply a sort and therefore might be more costly without any obvious benefit */
+WITH CTE AS 
+(
+	SELECT Salary, Rnk = DENSE_RANK() OVER (ORDER BY Salary DESC) FROM Employee
+) 
+SELECT TOP 1 Salary FROM CTE WHERE Rnk = 5;
+
+
+
+/* Create Table with 7 entries - 3 are duplicate entries */
+CREATE TABLE DuplicateRecordTable (Col1 INT, Col2 INT)
+INSERT INTO DuplicateRecordTable
+SELECT 1, 1
+UNION ALL
+SELECT 1, 1 --duplicate
+UNION ALL
+SELECT 1, 1 --duplicate
+UNION ALL
+SELECT 1, 2
+UNION ALL
+SELECT 1, 2 --duplicate
+UNION ALL
+SELECT 1, 3
+UNION ALL
+SELECT 1, 4
+GO 
+
+
+USE [Employeedb];
+GO
+
+IF EXISTS(SELECT name FROM sys.tables WHERE NAME = N'Employee')
+DROP TABLE dbo.Employee;
+GO
+
+CREATE TABLE dbo.Employee
+(ID INT IDENTITY(1,1) CONSTRAINT pkID PRIMARY KEY, Name NVARCHAR(MAX), Salary Money);
+GO
+
+INSERT INTO dbo.Employee
+VALUES
+('A', 10000), --4th
+('B', 8000),  --5th
+('C', 8000),  
+('D', 6000),  --6th
+('E', 6000),  
+('F', 6000),
+('G', 5000),  --7th  
+('H', 5000),
+('I', 5000),
+('J', 5000),
+('K', 4000),  --8th
+('L', 4000),
+('M', 3000),  --9th
+('N', 3000),
+('O', 1000),  --10th
+('P', 14000), --2nd
+('Q', 14000),
+('R', 12000), --3rd
+('S', 12000),
+('T', 16000), --1st
+('U', 16000), 
+('V', 16000), 
+('W', 14000),
+('X', 12000),
+('Y', 12000),
+('Z', 10000);
+GO
+
+SELECT * FROM Employee;

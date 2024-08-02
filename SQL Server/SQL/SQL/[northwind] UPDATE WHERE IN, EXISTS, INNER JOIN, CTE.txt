@@ -1,0 +1,38 @@
+USE [northwind];
+GO
+
+UPDATE [dbo].[EmployeeTerritories]
+    SET [EmployeeID] = 3
+    WHERE [EmployeeID] IN 
+	(SELECT [EmployeeID] FROM [dbo].[Employees] WHERE [EmployeeID] = 2);
+GO
+
+UPDATE [dbo].[EmployeeTerritories]
+    SET [EmployeeID] = 3
+	WHERE EXISTS 
+	(SELECT [EmployeeID] FROM [dbo].[Employees] WHERE [dbo].[Employees].[EmployeeID] = 2
+	AND [dbo].[Employees].[EmployeeID] = [dbo].[EmployeeTerritories].[EmployeeID]);
+GO
+
+UPDATE T1
+    SET [EmployeeID] = 2
+    FROM [dbo].[EmployeeTerritories] T1
+    WHERE EXISTS 
+	(SELECT [EmployeeID] FROM [dbo].[Employees] T2 WHERE T2.[EmployeeID] = 3
+	AND T1.[EmployeeID] = T2.[EmployeeID]);
+GO
+
+UPDATE T1 
+    SET [EmployeeID] = 2
+	FROM [dbo].[EmployeeTerritories] T1
+    INNER JOIN 
+	(SELECT [EmployeeID] FROM [dbo].[Employees] WHERE [EmployeeID] = 3) T2
+	ON T1.[EmployeeID] = T2.[EmployeeID];
+GO
+
+WITH CTE AS
+	(SELECT [EmployeeID] FROM [dbo].[Employees] WHERE [EmployeeID] = 2)
+	UPDATE [dbo].[EmployeeTerritories]
+	SET [EmployeeID] = 3
+    WHERE [EmployeeID] IN (SELECT * FROM CTE);
+GO

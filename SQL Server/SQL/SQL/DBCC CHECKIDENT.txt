@@ -1,0 +1,146 @@
+USE [master];
+GO
+
+IF OBJECT_ID(N'tempdb.dbo.#T1', N'U') IS NOT NULL
+DROP TABLE #T1; 
+GO
+
+CREATE TABLE #T1
+(
+ id int IDENTITY(1, 1),
+ name nvarchar(max)
+);
+GO
+
+INSERT INTO #T1 VALUES('Alpha');
+INSERT INTO #T1 VALUES('Beta');
+INSERT INTO #T1 VALUES('Gamma');
+GO
+
+SELECT * FROM #T1;
+GO
+
+INSERT INTO #T1 VALUES('Delta');
+--SCOPE_IDENTITY returns the last identity values that are generated in any table in the current session
+--SCOPE_IDENTITY returns values inserted only within the current scope
+SELECT SCOPE_IDENTITY() as 'Scope_Identity';
+--@@IDENTITY return the last identity values that are generated in any table in the current session
+--@@IDENTITY is not limited to a specific scope
+SELECT @@IDENTITY as 'Identity';
+--IDENT_CURRENT is not limited by scope and session; it is limited to a specified table or view
+--IDENT_CURRENT returns the value generated for a specific table or view in any session and any scope
+SELECT IDENT_CURRENT('#T1') as 'Ident_Current';
+GO
+--SELECT IDENT_SEED ('#T1');
+--GO
+--SELECT IDENT_INCR ('#T1') ;
+--GO
+
+SELECT * FROM #T1;
+GO
+ 
+--Resetting the current identity value, if it's needed
+--DBCC CHECKIDENT ('#T1'); 
+--SELECT IDENT_SEED ('#T1');
+--SELECT IDENT_INCR ('#T1') ;
+--GO
+
+--Reporting the current identity value
+--DBCC CHECKIDENT ('#T1', NORESEED);
+--GO
+
+--Forcing the current identity value to a new value
+--The new current identity value defined for the column plus 1 i.e., 10 + 1 = 11
+DBCC CHECKIDENT ('#T1', RESEED, 10); 
+--SELECT IDENT_SEED ('#T1');
+--SELECT IDENT_INCR ('#T1') ;
+--GO
+
+
+INSERT INTO #T1 VALUES('Epsilon');
+--SCOPE_IDENTITY returns the last identity values that are generated in any table in the current session
+--SCOPE_IDENTITY returns values inserted only within the current scope
+SELECT SCOPE_IDENTITY() as 'Scope_Identity';
+--@@IDENTITY return the last identity values that are generated in any table in the current session
+--@@IDENTITY is not limited to a specific scope
+SELECT @@IDENTITY as 'Identity';
+--IDENT_CURRENT is not limited by scope and session; it is limited to a specified table or view
+--IDENT_CURRENT returns the value generated for a specific table or view in any session and any scope
+SELECT IDENT_CURRENT('#T1') as 'Ident_Current';
+GO
+--SELECT IDENT_SEED ('#T1');
+--GO
+--SELECT IDENT_INCR ('#T1') ;
+--GO
+SELECT * FROM #T1;
+GO
+
+
+
+
+--DBCC CHECKIDENT on an empty table after DELETE
+DELETE FROM #T1
+
+DBCC CHECKIDENT ('#T1'); --Will not reset IDENTITY
+DBCC CHECKIDENT ('#T1', NORESEED); --Will not reset IDENTITY
+DBCC CHECKIDENT ('#T1', RESEED, 0); --Will reset IDENTITY after DELETE --Note: 0 --Note: original IDENT_INCR is 1
+
+INSERT INTO #T1 VALUES('A');
+SELECT * FROM #T1;
+
+--DBCC CHECKIDENT on an empty table after TRUNCATE
+TRUNCATE TABLE #T1 --Resets IDENTITY to original IDENT_INCR
+
+INSERT INTO #T1 VALUES('A');
+SELECT * FROM #T1;
+
+
+--Random logic
+--Edit 3 to 4
+DBCC CHECKIDENT ('#T1', RESEED, 2); -- Next Insert At 3
+
+INSERT INTO #T1 ([name])
+SELECT [name]
+FROM #T1
+WHERE [id] = 4;
+GO
+
+SELECT * FROM #T1;
+GO
+
+/*
+UPDATE #T1
+SET [name] = (SELECT DISTINCT [name] FROM #T1 WHERE [id] = 4)
+WHERE [id] = 3;
+GO
+*/
+
+DELETE FROM #T1 WHERE id = 3;
+GO
+
+/*
+DELETE FROM #T1 WHERE id = 3 AND [name] = 'Gamma';
+GO
+*/
+
+SELECT * FROM #T1;
+GO
+
+
+--Edit 4 to 5
+DBCC CHECKIDENT ('#T1', RESEED, 4); -- Next Insert At 5
+
+INSERT INTO #T1 ([name])
+SELECT [name]
+FROM #T1
+WHERE [id] = 4;
+GO
+
+SELECT * FROM #T1;
+GO
+
+DELETE FROM #T1 WHERE id = 4;
+GO
+
+SELECT * FROM #T1;
+GO

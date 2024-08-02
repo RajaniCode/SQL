@@ -1,0 +1,103 @@
+;WITH CTE(SetID, ID)
+      AS (SELECT 1,1 UNION ALL
+          SELECT 1,1 UNION ALL
+          SELECT 1,1 UNION ALL
+          SELECT 1,2)
+SELECT *,
+	   --Numbers the output of a result set
+	   --Returns the sequential number of a row within a partition of a result set, starting at 1 for the first row in each partition
+	   --ROW_NUMBER numbers all rows sequentially (for example 1, 2, 3, 4, 5)
+       ROW_NUMBER() OVER(PARTITION BY SetID ORDER BY ID) AS 'ROW_NUMBER',
+       --Returns the rank of each row within the partition of a result set
+	   --The rank of a row is one plus the number of ranks that come before the row in question
+	   --RANK provides the same numeric value for ties (for example 1, 2, 2, 4, 5)
+       RANK() OVER(PARTITION BY SetID ORDER BY ID)       AS 'RANK',
+	   --This function returns the rank of each row within a result set partition, with no gaps in the ranking values
+	   --The rank of a specific row is one plus the number of distinct rank values that come before that specific row
+       DENSE_RANK() OVER(PARTITION BY SetID ORDER BY ID) AS 'DENSE_RANK',
+	   --Distributes the rows in an ordered partition into a specified number of groups
+	   --The groups are numbered, starting at one
+	   --For each row, NTILE returns the number of the group to which the row belongs
+	   NTILE(3) OVER(PARTITION BY SetID ORDER BY ID) AS 'NTILE'
+FROM  CTE;
+
+
+;WITH CTE(SetID, ID)
+      AS (SELECT 1,1 UNION ALL
+          SELECT 1,1 UNION ALL
+          SELECT 1,1 UNION ALL
+          SELECT 1,2)
+SELECT *,
+	   --Numbers the output of a result set
+	   --Returns the sequential number of a row within a partition of a result set, starting at 1 for the first row in each partition
+	   --ROW_NUMBER numbers all rows sequentially (for example 1, 2, 3, 4, 5)
+       ROW_NUMBER() OVER(PARTITION BY SetID ORDER BY ID DESC) AS 'ROW_NUMBER',
+       --Returns the rank of each row within the partition of a result set
+	   --The rank of a row is one plus the number of ranks that come before the row in question
+	   --RANK provides the same numeric value for ties (for example 1, 2, 2, 4, 5)
+       RANK() OVER(PARTITION BY SetID ORDER BY ID DESC)       AS 'RANK',
+	   --This function returns the rank of each row within a result set partition, with no gaps in the ranking values
+	   --The rank of a specific row is one plus the number of distinct rank values that come before that specific row
+       DENSE_RANK() OVER(PARTITION BY SetID ORDER BY ID DESC) AS 'DENSE_RANK',
+	   --Distributes the rows in an ordered partition into a specified number of groups
+	   --The groups are numbered, starting at one
+	   --For each row, NTILE returns the number of the group to which the row belongs
+	   NTILE(3) OVER(PARTITION BY SetID ORDER BY ID DESC) AS 'NTILE'
+FROM  CTE;
+
+
+IF EXISTS(SELECT name FROM tempdb.sys.tables WHERE name LIKE '#T1%')
+--IF OBJECT_ID(N'tempdb.dbo.#T1', N'U') IS NOT NULL
+DROP TABLE #T1;
+GO
+
+CREATE TABLE #T1
+(
+  id int IDENTITY(1,1),
+  name nvarchar(max),
+  rgb nvarchar(max),
+  score int,
+);
+GO
+
+SELECT * FROM #T1;
+GO
+
+INSERT INTO #T1 VALUES('Alpha', 'Green', 85);
+INSERT INTO #T1 VALUES('Beta', 'Green', 85);
+INSERT INTO #T1 VALUES('Gamma', 'Green', 80);
+INSERT INTO #T1 VALUES('Delta', 'Blue', 70);
+INSERT INTO #T1 VALUES('Epsilon', 'Blue', 71);
+INSERT INTO #T1 VALUES('Zeta', 'Blue', 72);
+INSERT INTO #T1 VALUES('Eta', 'Blue', 73);
+INSERT INTO #T1 VALUES('Theta', 'Blue', 74);
+INSERT INTO #T1 VALUES('Iota', 'Red', 60);
+INSERT INTO #T1 VALUES('Kappa', 'Red', 60);
+INSERT INTO #T1 VALUES('Lambda', 'Red', 60);
+INSERT INTO #T1 VALUES('Mu', 'Red', 65);
+INSERT INTO #T1 VALUES('Nu', 'Green', 89);
+INSERT INTO #T1 VALUES('Xi', 'Green', 87);
+INSERT INTO #T1 VALUES('Omicron', 'Green', 89);
+GO
+
+SELECT * FROM #T1;
+GO
+
+
+SELECT * FROM #T1 GROUP BY rgb, score, name, id;
+
+
+SELECT id, name, rgb, score, AVG(score) OVER(PARTITION BY rgb) as 'average' FROM #T1;
+SELECT id, name, rgb, score, COUNT(id) OVER(PARTITION BY rgb) as 'count' FROM #T1;
+
+SELECT id, name, rgb, score, ROW_NUMBER() OVER(ORDER BY score) as 'row_no' FROM #T1;
+SELECT id, name, rgb, score, ROW_NUMBER() OVER(PARTITION BY rgb ORDER BY score) as 'row_no' FROM #T1;
+
+SELECT id, name, rgb, score, RANK() OVER(ORDER BY score) as 'rank' FROM #T1;
+SELECT id, name, rgb, score, RANK() OVER(PARTITION BY rgb ORDER BY score) as 'rank' FROM #T1;
+
+SELECT id, name, rgb, score, DENSE_RANK() OVER(ORDER BY score) as 'dense_rank' FROM #T1;
+SELECT id, name, rgb, score, DENSE_RANK() OVER(PARTITION BY rgb ORDER BY score) as 'dense_rank' FROM #T1;
+
+SELECT id, name, rgb, score, NTILE(4) OVER(ORDER BY score) as 'ntile' FROM #T1;
+SELECT id, name, rgb, score, NTILE(4) OVER(PARTITION BY rgb ORDER BY score) as 'ntile' FROM #T1;

@@ -1,0 +1,29 @@
+# UNION ALL
+Returns duplicate rows (Number of rows returned = Number of rows in Query (n) + Number of rows in Query (n + 1).
+
+# UNION
+Returns no duplicate rows.
+
+# UNION
+The UNION operator combines the results of two or more queries into a single result set however, the number of columns must match in both or all the queries (and also the order) which are used for union. 
+
+# UNION is a set operator.
+You cannot use the UNION operator within a create view statement. 
+
+You cannot use the UNION operator on TEXT and IMAGE columns.
+
+You cannot use the FOR BROWSE clause in statements involving the UNION operator. 
+
+
+# JOIN
+JOINs are used to extract information from more than one table based on the related column / columns (PRIMARY KEY AND REFERENCES).
+
+A number of rows can be retrieved based on matching matching columns. 
+
+Different types of joins:
+JOIN or INNER JOIN = Equi-join
+RIGHT JOIN / RIGHT OUTER JOIN
+LEFT JOIN / LEFT OUTER JOIN 
+OUTER JOIN / FULL OUTER JOIN
+CROSS JOIN
+

@@ -1,0 +1,12 @@
+3.4 Price Data Type
+
+Based on the table below, determine the data type that BEST relates to the data in the price column.
+id 	item 		price 	size
+1 	Popcorn 	2.00 	Small
+2 	Popcorn 	4.00 	Large
+3 	Candy 		3.00 	Regular
+4 	Soda 		1.50 	Small
+5 	Soda 		2.50 	Large
+6 	Hot Dog 	2.00 	Regular
+
+Answer: varchar(10)

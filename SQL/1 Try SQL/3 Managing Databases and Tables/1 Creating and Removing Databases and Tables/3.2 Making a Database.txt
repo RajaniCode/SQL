@@ -1,0 +1,13 @@
+3.2 Making a Database
+
+Which statement is used to make a database?
+
+    MAKE DATABASE
+
+    CREATE DATABASE
+
+    START DATABASE
+
+    SELECT DATABASE
+
+Answer: CREATE DATABASE

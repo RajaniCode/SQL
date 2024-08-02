@@ -1,0 +1,35 @@
+1.6 Adding Numeric Values
+
+
+The finance department from our studio needs to know how much is spent on the actors' salary. Write a query that adds up all of the values from the salary column in the Actors table.
+
+
+Table
+Actors
+name 			country 	salary
+Vivien Leigh 		IN 		150000
+Clark Gable 		USA 		120000
+Olivia de Havilland 	Japan 		30000
+Hattie McDaniel 	USA 		45000
+NULL 			USA 		10000
+
+
+schema.sql
+CREATE TABLE Actors (
+  name varchar(50),
+  country varchar(10),
+  salary integer
+);
+
+INSERT INTO Actors (name, country, salary) VALUES
+  ('Vivien Leigh', 'IN', 150000),
+  ('Clark Gable', 'USA', 120000),
+  ('Olivia de Havilland', 'Japan', 30000),
+  ('Hattie McDaniel', 'USA', 45000),
+  (NULL, 'USA', 10000);
+
+
+query.sql
+
+
+Answer: SELECT SUM(salary) as total_salary FROM Actors;

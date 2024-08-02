@@ -1,0 +1,21 @@
+3.3 Creating a Join Table
+
+
+Below we can see our Actors and Movies table which now follow our Second Normal Form Rule, meaning there is no redundancy.
+Actors
+id 	name
+1 	Vivien Leigh
+2 	Clark Gable
+3 	Olivia de Havilland
+Movies
+id 	title
+1 	Don Juan
+2 	The Lost World
+3 	Peter Pan
+4 	Robin Hood
+Help
+
+Now we need a join table to map Actors to the Movies they acted in. This should be called the [ ] table.
+
+
+Answer: Actors_Movies

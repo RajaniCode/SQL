@@ -1,0 +1,6 @@
+$ java -version
+
+$ cd "E:\Working\SQL\H2\CS\IKVM.NET\ikvm-7.2.4630.5\bin"
+
+$ cp "E:\Working\SQL\H2\H2\Maven-H2-Jar\h2-1.4.193.jar" "E:\Working\SQL\H2\CS\IKVM.NET\ikvm-7.2.4630.5\bin"
+

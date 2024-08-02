@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <connectionStrings>
+    <add name ="ConnectionStringName" connectionString ="Persist Security Info=False;Data Source=localhost;User ID=root;Password=My$ql@Server#5.7;Initial Catalog=sampledb;" providerName="MySql.Data.MySqlClient" />
+    <!--<add name ="ConnectionStringName" connectionString ="PersistSecurityInfo=False;Server=RAJANI-DELL;uid=sa;pwd=sa@12345;Database=master;" providerName="System.Data.SqlClient" />-->
+    <!--<add name ="ConnectionStringName" connectionString ="Persist Security Info=False;Data Source=RAJANI-DELL;Integrated Security=SSPI;Initial Catalog=master;"/>-->
+    <!--<add name ="ConnectionStringName" connectionString ="Persist Security Info=False;Data Source=RAJANI-DELL;Trusted_Connection=SSPI;Initial Catalog=master;"/>-->
+  </connectionStrings>
+</configuration>
+
+
+<configuration>
+    <appSettings>
+        <!-- This key value maps to one of our enum values. -->
+        <add key="provider" value="SqlServer"/>
+    </appSettings>
+    <startup>
+        <supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.6"/>
+    </startup>
+</configuration>
+
+
+<system.data>
+  <DbProviderFactories>
+    <add name="MySQL Data Provider" 
+         invariant="MySql.Data.MySqlClient" 
+         description=".Net Framework Data Provider for MySQL"								
+         type="MySql.Data.MySqlClient.MySqlClientFactory, MySql.Data, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d" />
+  </DbProviderFactories>
+</system.data>
+
+// "C:\Windows\Microsoft.NET\assembly\GAC_MSIL\MySql.Data.Entity\v4.0_6.9.9.0__c5687fc88969c44d\MySql.Data.Entity.dll"
+
+ // MySql.Data.MySqlClient
+ // PublicKeyToken
+// sn -T "C:\Windows\Microsoft.NET\assembly\GAC_MSIL\MySql.Data\v4.0_6.9.9.0__c5687fc88969c44d\MySql.Data.dll"
+// localhost // 3306 // regsvr32 "C:\Windows\Microsoft.NET\assembly\GAC_MSIL\MySql.Data\v4.0_6.9.9.0__c5687fc88969c44d\MySql.Data.dll"
+// "C:\Windows\Microsoft.NET\Framework64\v4.0.30319\RegAsm.exe" "C:\Windows\Microsoft.NET\assembly\GAC_MSIL\MySql.Data\v4.0_6.9.9.0__c5687fc88969c44d\MySql.Data.dll"
+// return "Provider=MySqlOleDB; Persist Security Info=False; Data Source=localhost; User ID=root; Password=My$ql@Server#5.7; Initial Catalog=sampledb;";            

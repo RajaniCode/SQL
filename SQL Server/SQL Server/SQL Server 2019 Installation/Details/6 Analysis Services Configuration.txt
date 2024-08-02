@@ -1,0 +1,22 @@
+Analysis Services Configuration
+
+Server Mode
+Tabular Mode
+
+Specify which users have administrative permissions for Analysis Services
+DESKTOP-CSN1DHD\Rajani
+
+
+Data Directories
+Data directory:
+C:\Program Files\Microsoft SQL Server\MSAS15.MSSQLSERVER\OLAP\Data
+
+Log file directory:
+C:\Program Files\Microsoft SQL Server\MSAS15.MSSQLSERVER\OLAP\Log
+
+Temp directory:
+C:\Program Files\Microsoft SQL Server\MSAS15.MSSQLSERVER\OLAP\Temp
+
+Backup directory:
+C:\Program Files\Microsoft SQL Server\MSAS15.MSSQLSERVER\OLAP\Backup
+

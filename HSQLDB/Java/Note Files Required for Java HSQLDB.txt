@@ -1,0 +1,14 @@
+1. HSQLDB-JDBC/sqltool.jar
+
+2. HSQLDB-JDBC/hsqldb.jar
+
+3. server.properties
+server.database.0 = file:hsqldb/sampledb
+server.dbname.0 = sampledb
+
+4. hsqldb/sqltool.rc
+...
+# A personal, local, persistent database.
+urlid personal
+# url jdbc:hsqldb:file:${user.home}/db/personal;shutdown=true
+url jdbc:hsqldb:hsql://localhost/sampledb;shutdown=true

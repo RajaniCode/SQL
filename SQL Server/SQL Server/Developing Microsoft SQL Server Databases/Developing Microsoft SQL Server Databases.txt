@@ -1,0 +1,20 @@
+Developing Microsoft SQL Server Databases
+
+http://www.microsoftvirtualacademy.com/training-courses/developing-microsoft-sql-server-databases
+
+http://video.ch9.ms/ch9/f400/d5bf66e5-16f5-409d-84c8-afa5aea3f400/463DevMSSQLDatabasesM01_mid.mp4
+
+http://video.ch9.ms/ch9/5508/471618d5-3ca1-4d70-8d6e-c12ee1bb5508/463DevMSSQLDatabasesM02_mid.mp4
+
+http://video.ch9.ms/ch9/e48d/60842b72-87d5-492a-af02-ee59bdd9e48d/463DevMSSQLDatabasesM03_mid.mp4
+
+http://video.ch9.ms/ch9/efcd/57d55ad1-5dfa-42e1-8220-d2835ed6efcd/463DevMSSQLDatabasesM04_mid.mp4
+
+http://video.ch9.ms/ch9/e804/4012fdd1-c500-4381-88d9-70491dc2e804/463DevMSSQLDatabasesM05_mid.mp4
+
+http://video.ch9.ms/ch9/7f16/b4aa1088-7b7f-470b-9776-9c1967967f16/463DevMSSQLDatabasesM06_mid.mp4
+
+
+
+
+

@@ -1,0 +1,7 @@
+1.7 Aggregate Functions III
+
+
+The [ ] function gives the average value of a numeric column.
+
+
+Answer: AVG

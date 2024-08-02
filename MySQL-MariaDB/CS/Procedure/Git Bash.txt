@@ -1,0 +1,190 @@
+
+Aspire@Acer MINGW64 /
+$ cd "E:\Working\SQL\MySQL\CS\Procedure"
+
+Aspire@Acer MINGW64 /e/Working/SQL/MySQL/CS/Procedure
+$ csc MySQLInOut.cs /reference:"E:\Working\SQL\MySQL\CS\MySql.Data.6.9.9\lib\net45\MySql.Data.dll"
+Microsoft (R) Visual C# Compiler version 1.3.1.60621
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+
+Aspire@Acer MINGW64 /e/Working/SQL/MySQL/CS/Procedure
+$ ./MySQLInOut
+Connected to MySQL Server successfully.
+Number of row(s) in Schema Table = 1
+ColumnName: inParam, DataType: System.String
+Number of row(s) in Data Table = 0
+reader.FieldCount = 1
+reader.RecordsAffected = 0
+Result = True
+Result = True
+Result = False
+Number of row(s) in reader = 3
+Number of row(s) in Data Table = 3
+Number of Row(s) = 3
+inParam: abcdefg
+
+CONCAT('zyxw', inParam): zyxwabcdefg
+
+@_cnet_param_inOutParam: 1
+
+
+Aspire@Acer MINGW64 /e/Working/SQL/MySQL/CS/Procedure
+$ csc MySQLProcs.cs /reference:"E:\Working\SQL\MySQL\CS\MySql.Data.6.9.9\lib\net45\MySql.Data.dll"
+Microsoft (R) Visual C# Compiler version 1.3.1.60621
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+
+Aspire@Acer MINGW64 /e/Working/SQL/MySQL/CS/Procedure
+$ ./MySQLProcs
+Connected to MySQL Server successfully.
+Number of row(s) in Schema Table = 1
+ColumnName: @_cnet_param_pProd, DataType: System.Int32
+Number of row(s) in Data Table = 0
+reader.FieldCount = 1
+reader.RecordsAffected = 0
+Result = False
+Number of row(s) in reader = 1
+Number of row(s) in Data Table = 1
+Number of Row(s) = 1
+@_cnet_param_pProd: 25
+
+Connected to MySQL Server successfully.
+Number of row(s) in Schema Table = 1
+ColumnName: @_cnet_param_pConCat, DataType: System.String
+Number of row(s) in Data Table = 0
+reader.FieldCount = 1
+reader.RecordsAffected = 0
+Result = False
+Number of row(s) in reader = 1
+Number of row(s) in Data Table = 1
+Number of Row(s) = 1
+@_cnet_param_pConCat: MySQL
+
+
+Aspire@Acer MINGW64 /e/Working/SQL/MySQL/CS/Procedure
+$ csc MySQLSp.cs /reference:"E:\Working\SQL\MySQL\CS\MySql.Data.6.9.9\lib\net45\MySql.Data.dll"
+Microsoft (R) Visual C# Compiler version 1.3.1.60621
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+
+Aspire@Acer MINGW64 /e/Working/SQL/MySQL/CS/Procedure
+$ ./MySQLSp
+Connected to MySQL Server successfully.
+Number of row(s) in Schema Table = 4
+ColumnName: @_cnet_param_shipped, DataType: System.String
+ColumnName: @_cnet_param_canceled, DataType: System.String
+ColumnName: @_cnet_param_resolved, DataType: System.String
+ColumnName: @_cnet_param_disputed, DataType: System.String
+Number of row(s) in Data Table = 0
+reader.FieldCount = 4
+reader.RecordsAffected = 1
+Result = False
+Number of row(s) in reader = 1
+Number of row(s) in Data Table = 1
+Number of Row(s) = 1
+@_cnet_param_shipped: 22
+@_cnet_param_canceled: 0
+@_cnet_param_resolved: 1
+@_cnet_param_disputed: 1
+
+
+Aspire@Acer MINGW64 /e/Working/SQL/MySQL/CS/Procedure
+$ csc MySQLSpIn.cs /reference:"E:\Working\SQL\MySQL\CS\MySql.Data.6.9.9\lib\net45\MySql.Data.dll"
+Microsoft (R) Visual C# Compiler version 1.3.1.60621
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+
+Aspire@Acer MINGW64 /e/Working/SQL/MySQL/CS/Procedure
+$ ./MySQLSpIn
+Connected to MySQL Server successfully.
+Number of row(s) in Schema Table = 13
+ColumnName: customerNumber, DataType: System.Int32
+ColumnName: customerName, DataType: System.String
+ColumnName: contactLastName, DataType: System.String
+ColumnName: contactFirstName, DataType: System.String
+ColumnName: phone, DataType: System.String
+ColumnName: addressLine1, DataType: System.String
+ColumnName: addressLine2, DataType: System.String
+ColumnName: city, DataType: System.String
+ColumnName: state, DataType: System.String
+ColumnName: postalCode, DataType: System.String
+ColumnName: country, DataType: System.String
+ColumnName: salesRepEmployeeNumber, DataType: System.Int32
+ColumnName: creditLimit, DataType: System.Decimal
+Number of row(s) in Data Table = 0
+reader.FieldCount = 13
+reader.RecordsAffected = -1
+Number of row(s) in reader = 2
+Number of row(s) in Data Table = 2
+Number of Row(s) = 2
+customerNumber: 103
+customerName: Atelier graphique
+contactLastName: Schmitt
+contactFirstName: Carine
+phone: 40.32.2555
+addressLine1: 54, rue Royale
+city: Nantes
+postalCode: 44000
+country: France
+salesRepEmployeeNumber: 1370
+creditLimit: 21000.00
+
+customerNumber: 112
+customerName: Signal Gift Stores
+contactLastName: King
+contactFirstName: Jean
+phone: 7025551838
+addressLine1: 8489 Strong St.
+city: Las Vegas
+state: NV
+postalCode: 83030
+country: USA
+salesRepEmployeeNumber: 1166
+creditLimit: 71800.00
+
+
+Aspire@Acer MINGW64 /e/Working/SQL/MySQL/CS/Procedure
+$ csc MySQLSpInOut.cs /reference:"E:\Working\SQL\MySQL\CS\MySql.Data.6.9.9\lib\net45\MySql.Data.dll"
+Microsoft (R) Visual C# Compiler version 1.3.1.60621
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+
+Aspire@Acer MINGW64 /e/Working/SQL/MySQL/CS/Procedure
+$ ./MySQLSpInOut
+Connected to MySQL Server successfully.
+Number of row(s) in Schema Table = 1
+ColumnName: @_cnet_param_out_count, DataType: System.Int32
+Number of row(s) in Data Table = 0
+reader.FieldCount = 1
+reader.RecordsAffected = 1
+Result = False
+Number of row(s) in reader = 1
+Number of row(s) in Data Table = 1
+Number of Row(s) = 1
+@_cnet_param_out_count: 90
+
+
+Aspire@Acer MINGW64 /e/Working/SQL/MySQL/CS/Procedure
+$ csc MySQLSpInputOutput.cs /reference:"E:\Working\SQL\MySQL\CS\MySql.Data.6.9.9\lib\net45\MySql.Data.dll"
+Microsoft (R) Visual C# Compiler version 1.3.1.60621
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+
+Aspire@Acer MINGW64 /e/Working/SQL/MySQL/CS/Procedure
+$ ./MySQLSpInputOutput
+Connected to MySQL Server successfully.
+Number of row(s) in Schema Table = 1
+ColumnName: @_cnet_param_p_customerLevel, DataType: System.String
+Number of row(s) in Data Table = 0
+reader.FieldCount = 1
+reader.RecordsAffected = 1
+Result = False
+Number of row(s) in reader = 1
+Number of row(s) in Data Table = 1
+Number of Row(s) = 1
+@_cnet_param_p_customerLevel: GOLD
+
+
+Aspire@Acer MINGW64 /e/Working/SQL/MySQL/CS/Procedure
+$

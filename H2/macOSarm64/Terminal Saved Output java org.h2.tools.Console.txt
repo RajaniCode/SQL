@@ -1,0 +1,24 @@
+Last login: Thu Jul  4 02:10:02 on ttys001
+rajaniapple@Rajanis-MacBook-Pro ~ % sw_vers
+ProductName:		macOS
+ProductVersion:		14.4.1
+BuildVersion:		23E224
+rajaniapple@Rajanis-MacBook-Pro ~ % arch          
+arm64
+rajaniapple@Rajanis-MacBook-Pro ~ % java --version
+openjdk 11.0.16.1 2022-08-12 LTS
+OpenJDK Runtime Environment Microsoft-40648 (build 11.0.16.1+1-LTS)
+OpenJDK 64-Bit Server VM Microsoft-40648 (build 11.0.16.1+1-LTS, mixed mode)
+rajaniapple@Rajanis-MacBook-Pro ~ % cd $HOME/Desktop/GitHub/SQL-1/H2/macOSarm64
+rajaniapple@Rajanis-MacBook-Pro macOSarm64 % mkdir -p h2 
+rajaniapple@Rajanis-MacBook-Pro macOSarm64 % java -cp "$HOME/Desktop/GitHub/SQL-1/H2/h2-2.2.224/h2-2.2.224.jar" org.h2.tools.Console -baseDir $HOME/Desktop/GitHub/SQL-1/H2/macOSarm64/h2 -properties $HOME/Desktop/GitHub/SQL-1/H2/macOSarm64/h2
+Web Console server running at http://192.168.40.31:8082?key=fa47b7893e5874d40b39881c778713f2dbcd76c94145eadc288fced584a17e86 (only local connections)
+TCP server running at tcp://192.168.40.31:9092 (only local connections)
+PG server running at pg://192.168.40.31:5435 (only local connections)
+^C%                                                                                                                                         
+rajaniapple@Rajanis-MacBook-Pro macOSarm64 % 
+
+
+
+
+

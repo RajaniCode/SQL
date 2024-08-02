@@ -1,0 +1,31 @@
+Last login: Thu Jul  4 02:14:36 on ttys000
+rajaniapple@Rajanis-MacBook-Pro ~ % sw_vers
+ProductName:		macOS
+ProductVersion:		14.4.1
+BuildVersion:		23E224
+rajaniapple@Rajanis-MacBook-Pro ~ % arch          
+arm64
+rajaniapple@Rajanis-MacBook-Pro ~ % java --version
+openjdk 11.0.16.1 2022-08-12 LTS
+OpenJDK Runtime Environment Microsoft-40648 (build 11.0.16.1+1-LTS)
+OpenJDK 64-Bit Server VM Microsoft-40648 (build 11.0.16.1+1-LTS, mixed mode)
+rajaniapple@Rajanis-MacBook-Pro ~ % cd $HOME/Desktop/GitHub/SQL-1/H2/macOSarm64
+rajaniapple@Rajanis-MacBook-Pro macOSarm64 % java -cp "$HOME/Desktop/GitHub/SQL-1/H2/h2-2.2.224/h2-2.2.224.jar" org.h2.tools.Shell -url "jdbc:h2:tcp://localhost/sampledb" -user "sa"
+
+Welcome to H2 Shell 2.2.224 (2023-09-17)
+Exit with Ctrl+C
+Commands are case insensitive; SQL statements end with ';'
+help or ?      Display this help
+list           Toggle result list / stack trace mode
+maxwidth       Set maximum column width (default is 100)
+autocommit     Enable or disable autocommit
+history        Show the last 20 statements
+quit or exit   Close the connection and exit
+
+sql> SELECT * FROM users;
+ID  | USERNAME | LOGIN_DATE | LOGIN_TIME | CREATED_AT          | UPDATED_AT
+101 | Foo      | 2016-11-06 | 10:49:35   | 2016-11-06 10:49:35 | 2016-11-06 10:49:35
+(1 row, 11 ms)
+sql> exit
+Connection closed
+rajaniapple@Rajanis-MacBook-Pro macOSarm64 % 

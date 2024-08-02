@@ -1,0 +1,88 @@
+4.3 Your First Inner Join
+
+
+Let's write our first INNER JOIN, given the following tables.
+
+
+Tables
+Movies
+id 	title
+1 	Don Juan
+2 	The Lost World
+3 	Peter Pan
+4 	Robin Hood
+Rooms
+id 	seats 	movie_id
+1 	50 	2
+2 	100 	1
+3 	100 	NULL
+4 	150 	3
+
+
+schema.sql
+CREATE TABLE Movies (
+  id int PRIMARY KEY,
+  title varchar(100)
+);
+
+INSERT INTO Movies (id, title) VALUES
+  (1, 'Don Juan'),
+  (2, 'The Lost World'),
+  (3, 'Peter Pan'),
+  (4, 'Robin Hood');
+
+CREATE TABLE Rooms (
+  id INT PRIMARY KEY,
+  seats int,
+  movie_id int,
+  FOREIGN KEY (movie_id) REFERENCES Movies
+);
+
+INSERT INTO Rooms (id, seats, movie_id) VALUES
+  (1, 50, 2),
+  (2, 100, 1),
+  (3, 100, NULL),
+  (4, 150, 3);
+
+
+join.sql
+SELECT * From Movies;
+
+
+1. Join the Movies table with the Rooms table so that we only fetch movies that have an associated room.    
+
+Answer:
+join.sql
+SELECT * From Movies M
+INNER JOIN Rooms R
+ON M.id = R.movie_id
+
+
+2. Let's get a little more specific, and only return the movie title, the id for the room, and number of seats in the theatre.
+
+Answer:
+join.sql
+SELECT M.title, R.id, R.seats From Movies M
+INNER JOIN Rooms R
+ON M.id = R.movie_id
+
+
+3. Now, let's filter the results more by only showing theatres with more than 75 seats. Remember, the WHERE clause should go after the JOIN syntax.
+
+Answer:
+join.sql
+SELECT M.title, R.id, R.seats From Movies M
+INNER JOIN Rooms R
+ON M.id = R.movie_id
+WHERE R.seats > 75
+
+
+4. Finally, let's sort the result by seats in the theatre from most to least seats.
+
+Answer:
+join.sql
+SELECT M.title, R.id, R.seats From Movies M
+INNER JOIN Rooms R
+ON M.id = R.movie_id
+WHERE R.seats > 75
+Order By R.seats DESC;

@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Chapter 6 Connector/Python Tutorials</title>
+<link rel="stylesheet" href="mvl.css" type="text/css" />
+<meta name="generator" content="DocBook XSL Stylesheets + chunker.py v1.9.2" />
+<link rel="start" href="index.html" title="{book-title}" />
+<link rel="up" href="" title="" />
+<link rel="prev" href="connector-python-examples.html" title="Chapter 5 Connector/Python Coding Examples" />
+<link rel="next" href="connector-python-connecting.html" title="Chapter 7 Connector/Python Connection Establishment" />
+<script language="javascript" type="text/javascript">
+  function addOnload(theFunc)
+  {
+    var previous = window.onload;
+    if (typeof window.onload != 'function')
+    {
+      window.onload = theFunc;
+    }
+    else
+    {
+      window.onload = function()
+      {
+        previous();
+        theFunc();
+      }
+    }
+  }
+
+  addOnload(function()
+  {
+    var base = new Date(1455899810*1000);
+    var now = new Date();
+    var diff = ((now-base)/1000)/(24*3600);
+
+    if (diff > 90) {
+      var nodes = document.getElementsByClassName('titlepage');
+      nodes[0].innerHTML = '<p style="border: 5px #ff0000 solid; padding: 5px; margin 5px">' +
+        'This copy of the manual is more than 90 days old. We encourage you to download a ' +
+        'new version from <a href="http://dev.mysql.com">dev.mysql.com/doc</a>.</p>' + nodes[0].innerHTML;
+    }
+  });
+</script>
+<noscript></noscript>
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr>
+<th colspan="3" align="center">Chapter 6 Connector/Python Tutorials</th>
+</tr>
+<tr>
+<td width="20%" align="left"><a accesskey="p" href="connector-python-examples.html">Prev</a> </td>
+<th width="60%" align="center"></th>
+<td width="20%" align="right"> <a accesskey="n" href="connector-python-connecting.html">Next</a></td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="chapter">
+<div class="titlepage">
+<div>
+<div>
+<h1 class="title"><a name="connector-python-tutorials"></a>Chapter 6 Connector/Python Tutorials</h1>
+
+</div>
+
+</div>
+
+</div>
+<div class="toc">
+<p><b>Table of Contents</b></p><dl class="toc"><dt><span class="section"><a href="connector-python-tutorials.html#connector-python-tutorial-cursorbuffered">6.1 Tutorial: Raise Employee's Salary Using a Buffered Cursor</a></span></dt></dl>
+</div>
+<p>
+    These tutorials illustrate how to develop Python applications and
+    scripts that connect to a MySQL database server using MySQL Connector/Python.
+</p>
+<div class="section">
+
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="connector-python-tutorial-cursorbuffered"></a>6.1 Tutorial: Raise Employee's Salary Using a Buffered Cursor</h2>
+</div>
+</div>
+</div>
+<p>
+      The following example script gives a long-overdue 15% raise
+      effective tomorrow to all employees who joined in the year 2000
+      and are still with the company.
+    </p><p>
+      To iterate through the selected employees, we use buffered
+      cursors. (A buffered cursor fetches and buffers the rows of a
+      result set after executing a query; see
+      <a class="xref" href="connector-python-reference.html#connector-python-api-mysqlcursorbuffered" title="10.6.1 cursor.MySQLCursorBuffered Class">Section 10.6.1, “cursor.MySQLCursorBuffered Class”</a>.) This
+      way, it is unnecessary to fetch the rows in a new variables.
+      Instead, the cursor can be used as an iterator.
+</p>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+
+<div class="admon-title">
+Note
+</div>
+<p>
+        This script is an example; there are other ways of doing this
+        simple task.
+</p>
+</div>
+<pre class="programlisting">
+from __future__ import print_function
+
+from decimal import Decimal
+from datetime import datetime, date, timedelta
+
+import mysql.connector
+
+# Connect with the MySQL Server
+cnx = mysql.connector.connect(user='scott', database='employees')
+
+# Get two buffered cursors
+curA = cnx.cursor(buffered=True)
+curB = cnx.cursor(buffered=True)
+
+# Query to get employees who joined in a period defined by two dates
+query = (
+  "SELECT s.emp_no, salary, from_date, to_date FROM employees AS e "
+  "LEFT JOIN salaries AS s USING (emp_no) "
+  "WHERE to_date = DATE('9999-01-01')"
+  "AND e.hire_date BETWEEN DATE(%s) AND DATE(%s)")
+
+# UPDATE and INSERT statements for the old and new salary
+update_old_salary = (
+  "UPDATE salaries SET to_date = %s "
+  "WHERE emp_no = %s AND from_date = %s")
+insert_new_salary = (
+  "INSERT INTO salaries (emp_no, from_date, to_date, salary) "
+  "VALUES (%s, %s, %s, %s)")
+
+# Select the employees getting a raise
+curA.execute(query, (date(2000, 1, 1), date(2000, 12, 31)))
+
+# Iterate through the result of curA
+for (emp_no, salary, from_date, to_date) in curA:
+
+  # Update the old and insert the new salary
+  new_salary = int(round(salary * Decimal('1.15')))
+  curB.execute(update_old_salary, (tomorrow, emp_no, from_date))
+  curB.execute(insert_new_salary,
+               (emp_no, tomorrow, date(9999, 1, 1,), new_salary))
+
+  # Commit the changes
+  cnx.commit()
+
+cnx.close()
+</pre>
+</div>
+
+</div>
+<div class="copyright-footer">
+
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left"><a accesskey="p" href="connector-python-examples.html">Prev</a></td>
+<td width="20%" align="center"><a accesskey="u" href="">Up</a></td>
+<td width="40%" align="right"> <a accesskey="n" href="connector-python-connecting.html">Next</a></td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">Chapter 5 Connector/Python Coding Examples</td>
+<td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td>
+<td width="40%" align="right" valign="top">Chapter 7 Connector/Python Connection Establishment</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

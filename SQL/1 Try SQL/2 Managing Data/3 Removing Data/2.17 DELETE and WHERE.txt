@@ -1,0 +1,5 @@
+2.17 DELETE and WHERE
+
+A DELETE statement must contain a WHERE condition.
+
+Answer: FALSE

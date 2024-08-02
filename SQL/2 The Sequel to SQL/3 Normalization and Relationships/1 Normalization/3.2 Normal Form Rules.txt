@@ -1,0 +1,19 @@
+3.2 Normal Form Rules
+
+
+Our Actors often star in multiple Movies. Looking at the Actors table below, which normal form rule does it follow?
+id 	name 			movie
+1 	Vivien Leigh 		Don Juan
+2 	Vivien Leigh 		The Lost World
+3 	Clark Gable 		Peter Pan
+4 	Olivia de Havilland 	The Lost World
+5 	Olivia de Havilland 	Robin Hood
+
+[Single Answer]
+
+None
+First Normal Form
+Second Normal Form
+
+
+Answer: First Normal Form

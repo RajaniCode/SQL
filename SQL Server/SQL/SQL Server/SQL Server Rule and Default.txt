@@ -1,0 +1,403 @@
+Rule binding table column:
+USE master
+CREATE TABLE Newspaper
+(
+cNewspaperCode char(50)
+)
+
+INSERT INTO Newspaper
+VALUES
+(
+'12345'
+)
+
+SELECT * FROM Newspaper
+
+CREATE RULE rulZipCode
+AS @ZipCode LIKE '[0-9][0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9][0-9]'
+
+
+View rule:
+sp_help rulZipCode
+
+
+Bind rule with table column:
+sp_bindrule rulZipCode,'Newspaper.cNewspaperCode'
+
+
+Unbind rule from table column:
+sp_unbindrule 'Newspaper.cNewspaperCode'
+
+
+Drop rule:
+DROP RULE rulZipCode 
+
+
+(Note: The rule can be dropped only if you unbind rule or drop the table to whose column it binds)
+
+
+DROP TABLE Newspaper
+
+
+(Note: The table (Newspaper) can be dropped in spite of binding rule to its column)
+
+
+
+
+
+
+
+
+
+
+Rule binding user-defined datatype:
+User-defined datatype:
+sp_addtype 'typBook', 'char(30)'
+
+View user-defined datatype:
+sp_help typBook
+
+Drop user-defined datatype:
+sp_droptype 'typBook'
+
+(Note: The user-defined datatype cannot be dropped if it is used by the table 
+and can be dropped even if rule binds it)
+
+CREATE TABLE Book
+(
+BookType typBook
+)
+
+INSERT INTO Book
+VALUES
+(
+'Computers'
+)
+
+SELECT * FROM Book
+
+CREATE RULE rulType
+AS @TypeRule IN ('business', 'mod_cook', 'trad_cook', 'popular_comp', 'psychology')
+
+
+View rule:
+sp_help rulType
+
+
+Bind rule with user-defined datatype:
+sp_bindrule rulType, 'typBook', 'FUTUREONLY'
+
+
+(Note: 'FUTUREONLY' means that the bind rule applies to the column only if 
+the column is created after binding default to its user-defined datatype. 
+Therefore 'Computers' can still be inserted into the column BookType of table Book
+in case of the following command:
+INSERT INTO Book VALUES('Computers'))
+
+(Note: 'Computers' cannot be inserted into table Book in case of the following commands:
+sp_bindrule rulType, 'typBook'
+INSERT INTO Book VALUES('Computers'))
+
+
+Unbind rule from user-defined datatype:
+sp_unbindrule 'typBook'
+
+
+(Note: (sp_unbindrule typBook, 'FUTUREONLY') unbinds only (sp_bindrule rulType, 'typBook', 'FUTUREONLY')
+and not (sp_bindrule rulType,'typBook');
+only (sp_unbindrule 'typBook') unbinds (sp_bindrule rulType,'typBook'))
+
+ 
+Drop rule:
+DROP RULE rulType
+
+
+(Note: The default can be dropped only if you unbind rule or 
+only if you drop the user-defined datatype to which it binds rule for which
+you have to drop the table that uses the user-defined datatype)
+
+
+DROP TABLE Book
+
+
+(Note: The table (Book) can be dropped in spite of binding rule to its column's user-defined datatype)
+
+
+
+
+
+
+
+
+
+
+Rule binding table column:
+CREATE TABLE Department
+(
+DeptName varchar(20)
+) 
+
+INSERT INTO Department
+VALUES
+(
+'accounts'
+) 
+
+SELECT * FROM Department
+
+CREATE RULE rulDept
+AS @DeptRule NOT IN ('accounts', 'stores')
+
+sp_help rulDept
+
+sp_bindrule rulDept, 'Department.DeptName'
+
+sp_unbindrule 'Department.DeptName'
+
+DROP RULE rulDept
+
+DROP TABLE Department
+
+
+
+
+
+
+
+
+
+
+Rule binding table column:
+CREATE TABLE Cost
+(
+Price int
+) 
+
+INSERT INTO Cost
+VALUES
+(
+$5000
+) 
+
+SELECT * FROM Cost
+
+CREATE RULE rulPrice
+AS @PriceRule > $5000
+
+sp_help rulPrice
+
+sp_bindrule rulPrice, 'Cost.Price'
+
+sp_unbindrule 'Cost.Price'
+
+DROP RULE rulPrice
+
+DROP TABLE Cost
+
+(Note: 
+sp_help sp_bindrule
+sp_help sp_unbindrule)
+
+
+
+
+
+
+
+
+
+
+Default binding table column:
+CREATE TABLE Newspaper
+(
+cName varchar(20),
+cCountryCode varchar(20)
+)
+
+INSERT INTO Newspaper
+(
+cName 
+)
+VALUES
+(
+'USA Today'
+)
+
+SELECT * FROM Newspaper
+
+CREATE DEFAULT defCountry
+AS '001'
+
+
+View default:
+sp_help defCountry
+
+
+Bind default to table column:
+sp_bindefault defCountry, 'Newspaper.cCountryCode'
+
+
+Unbind default from table column:
+sp_unbindefault 'Newspaper.cCountryCode'
+
+
+Drop default:
+DROP DEFAULT defCountry
+
+
+(Note: The default can be dropped only if you unbind default or drop the table to whose column it binds)
+
+
+DROP TABLE Newspaper
+
+
+(Note: The table (Newspaper) can be dropped in spite of binding default to its column)
+
+
+
+
+
+
+
+
+
+
+Default binding user-defined datatype:
+User-defined datatype:
+sp_addtype 'typCity', 'Char(20)'
+
+View user-defined datatype:
+sp_help typCity
+
+Drop user-defined datatype:
+sp_droptype 'typCity'
+
+(Note: The user-defined datatype cannot be dropped if it is used by the table
+and can be dropped even if default binds it)
+
+CREATE TABLE Authors
+(
+cName varchar(20),
+cCity typCity
+)
+
+INSERT INTO Authors
+(
+cName
+)
+VALUES
+(
+'William'
+)
+
+SELECT * FROM Authors
+
+CREATE DEFAULT defCity
+AS 'Oakland'
+
+
+View default:
+sp_help defCity
+
+
+Bind default to user-defined datatype:
+sp_bindefault defCity,'typCity', 'FUTUREONLY'
+
+
+(Note: 'FUTUREONLY' means that the bind default applies to the column only if 
+the column is created after binding default to its user-defined datatype. 
+Therefore 'NULL' will still be inserted into the column cCity of table Authors 
+in case of the following command:
+INSERT INTO Authors(cName)VALUES('William'))
+
+
+(Note: 'Oakland' will be inserted into table Authors in case of the following commands:
+sp_bindefault defCity,'typCity'
+INSERT INTO Authors(cName)VALUES('william'))
+
+
+Unbind default from user-defined datatype:
+sp_unbindefault 'typCity'
+
+
+(Note: (sp_unbindefault 'typCity', 'FUTUREONLY') unbinds only (sp_bindefault defCity,'typCity', 'FUTUREONLY')
+and not (sp_bindefault defCity,'typCity');
+only (sp_unbindefault 'typCity') unbinds (sp_bindefault defCity,'typCity'))
+
+
+Drop default:
+DROP DEFAULT defCity
+
+
+(Note: The default can be dropped only if you unbind default or 
+only if you drop the user-defined datatype to which it binds default for which
+you have to drop the table that uses the user-defined datatype)
+
+
+DROP TABLE Authors
+
+
+(Note:
+The table (Authors) can be dropped in spite of binding default to its column's user-defined datatype)
+
+
+
+
+
+
+
+
+
+
+Adding row with the default value:
+sp_addtype 'typCountry', 'Char(20)'
+
+CREATE TABLE Author
+(
+cName varchar(20),
+cCountry typCountry,
+cCategory varchar(20)
+)
+
+INSERT INTO Author
+(
+cName,
+cCountry,
+cCategory
+)
+VALUES
+(
+'Shakespeare',
+NULL,
+'Novel'
+)
+
+SELECT * FROM Author
+
+CREATE DEFAULT defCountry
+AS 'England'
+
+
+sp_bindefault defCountry,'typCountry'
+
+INSERT INTO Author
+VALUES
+(
+'Wordsworth',
+DEFAULT,
+'Poem'
+)
+
+SELECT * FROM Author
+
+sp_unbindefault 'typCountry'
+
+DROP TABLE Author
+
+sp_droptype 'typCountry'
+
+DROP DEFAULT defCountry
+
+
+(Note:
+sp_ prefix is for stored procedure and can be executed by 'EXEC')

@@ -1,0 +1,65 @@
+3.5 Inserting a Join Row
+
+
+A new movie just came out, The Wolfman, starring our favorite actor, Clark Gable. Both the movie and the actor are in our database, but now they need an association created. Update the two NULL values in the INSERT statement to the appropriate actor_id and movie_id.
+
+
+Tables
+Actors
+id 	name
+1 	Vivien Leigh
+2 	Clark Gable
+3 	Olivia de Havilland
+Movies
+id 	title
+1 	Don Juan
+2 	The Lost World
+3 	Peter Pan
+4 	Robin Hood
+5 	The Wolfman
+Actors_Movies
+actor_id 	movie_id
+1 		1
+1 		2
+2 		3
+3 		2
+3 		4
+
+
+schema.sql
+CREATE TABLE Actors (
+  id int PRIMARY KEY,
+  name varchar(50) NOT NULL UNIQUE
+);
+
+INSERT INTO Actors (name) VALUES
+  ('Vivien Leigh'),
+  ('Clark Gable'),
+  ('Olivia de Havilland');
+
+CREATE TABLE Movies (
+  id int PRIMARY KEY,
+  title varchar(50) NOT NULL UNIQUE
+);
+
+INSERT INTO Movies (title) VALUES
+  ('Don Juan'),
+  ('The Lost World'),
+  ('Peter Pan'),
+  ('Robin Hood'),
+  ('Wolfman');
+
+CREATE TABLE Actors_Movies (
+  actor_id int REFERENCES actors,
+  movie_id int REFERENCES movies
+);
+
+
+query.sql
+INSERT INTO Actors_Movies (actor_id, movie_id)
+  VALUES (NULL, NULL);
+
+
+Answer:
+INSERT INTO Actors_Movies (actor_id, movie_id)
+  VALUES (2, 5);

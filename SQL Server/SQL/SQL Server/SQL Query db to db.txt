@@ -1,0 +1,6 @@
+USE model
+GO
+
+SELECT *
+INTO master.dbo.Employees
+FROM Northwind.dbo.Employee

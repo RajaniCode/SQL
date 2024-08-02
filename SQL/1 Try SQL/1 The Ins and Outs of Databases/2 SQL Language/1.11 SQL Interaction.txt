@@ -1,0 +1,5 @@
+1.11 SQL Interaction
+
+SQL is a programming language that allows interaction with a [ ] on a server.
+
+Answer: database

@@ -1,0 +1,77 @@
+
+Aspire@Acer MINGW64 ~
+$ java -version
+java version "1.8.0_102"
+Java(TM) SE Runtime Environment (build 1.8.0_102-b14)
+Java HotSpot(TM) 64-Bit Server VM (build 25.102-b14, mixed mode)
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB/CS
+$ java -jar HSQLDB-JDBC/sqltool.jar --driver=org.hsqldb.jdbcDriver --rcFile hsqldb/sqltool.rc personal
+SqlTool v. 5337.
+JDBC Connection established to a HSQL Database Engine v. 2.3.4 database
+as "SA" with R/W TRANSACTION_READ_COMMITTED Isolation.
+SqlFile processor v. 5448.
+Distribution is permitted under the terms of the HSQLDB license.
+(c) 2004-2011 Blaine Simpson and the HSQL Development Group.
+
+    \q    to Quit.
+    \?    lists Special Commands.
+    :?    lists Edit-Buffer/History commands.
+    *?    lists PL commands.
+    /?    displays help on how to set and use macros (incl. functions).
+
+SPECIAL Commands begin with '\' and execute when you hit ENTER.
+EDIT-BUFFER / HISTORY Commands begin with ':' and execute when you hit ENTER.
+PROCEDURAL LANGUAGE commands begin with '*' and end when you hit ENTER.
+MACRO executions and definitions begin with '/' and end when you hit ENTER.
+All other lines comprise SQL Statements (or comments).
+  SQL Statements are terminated by either unquoted ';' (which executes the
+  statement), or a blank line (which moves the statement into the edit buffer
+  without executing).
+After turning on variable expansion with command "*" (or any other PL
+command), PL variables may be used in most commands like so:  *{PLVARNAME}.
+Be aware when using regular expressions on commands, that the regex.s
+operate only on the command text after the * or \ prefix, if any.
+
+sql> \?
+SPECIAL COMMANDS
+Filter substrings are case-sensitive!  Use "SCHEMANAME." to narrow to schema.
+    \?                   Special command Help
+    \.                   Enter raw SQL.  End with line containing only "."
+    \=                   Commit JDBC session
+    \! COMMAND [ARGS]    Execute external program (no support for stdin)
+    \a [true|false]      Auto-commit JDBC DML commands (for current conn)
+    \b                   save next result to Binary buffer (no display)
+    \bd file/path.bin    Dump Binary buffer to file
+    \bl file/path.bin    Load file into Binary buffer
+    \bp                  use ? in next SQL statement to upload Binary buffer
+    \c [true|false]      Continue upon errors (a.o.t. abort upon error)
+    \d OBJECTNAME [regx] Describe table or view columns
+    \d{tvsiSanur*?} [substr]  List objects of specified type:
+  (Tbls/Views/Seqs/Indexes/SysTbls/Aliases/schemaNames/Users/Roles/table-like)
+    \h [true|false]      enable or disable HTML output mode
+    \i file/path.sql     Include/execute commands from external file
+    \j [urlid]           display Jdbc connection details, or connect to 'urlid'
+    \j acct [pwd] jdbc:url     Establish connection to Jdbc data source at URL
+    \l LEVEL  A Message  Log message.  (list available levels with \l?)
+    \m file/path.dsv [*] iMport DSV text file records into a table (opts \m?)
+    \mq  f/path.csv [*]  Ditto, but with traditional CSV double-quoting
+    \o [file/path.html]  tee (or stop teeing) query Output to specified file
+    \oc                  stop teeing query Output and write Closing HTML
+    \p[r] [A Message]    Print string to stdout (r = Raw HTML when in \h mode)
+    \q [abort message]   Quit (or you can end input with Ctrl-Z or Ctrl-D)
+    \t [true|false]      report execution Times for all SQL commands
+    \v [TRAN_ISO_LVL]    view/set the connection transaction isolation leVel
+    \x {TABLE|SELECT...} eXport table or query to DSV text file (options \x?)
+    \xq {TABLE|SEL...}   Ditto, but with traditional CSV double-quoting.
+
+sql> \i hsqldb_table_users.sql
+ID  USERNAME  LOGIN_DATE  LOGIN_TIME  CREATED_AT  UPDATED_AT
+--  --------  ----------  ----------  ----------  ----------
+ ID  USERNAME  LOGIN_DATE           LOGIN_TIME           CREATED_AT             UPDATED_AT
+---  --------  -------------------  -------------------  ---------------------  ---------------------
+101  Foo       2016-11-06 00:00:00  2017-02-12 10:49:35  2016-11-06 10:49:35.0  2016-11-06 10:49:35.0
+sql> \q
+
+Aspire@Acer MINGW64 /e/Working/SQL/HSQLDB/CS
+$

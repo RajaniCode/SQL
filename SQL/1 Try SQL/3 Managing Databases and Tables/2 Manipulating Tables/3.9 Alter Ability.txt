@@ -1,0 +1,19 @@
+3.9 Alter Ability
+
+The ALTER TABLE statement allows a user to:
+
+    add columns to a table.
+
+    add rows to a table.
+
+    modify columns in a table.
+
+    remove columns from a table.
+
+    All of the above.
+
+Answer:
+
+add columns to a table
+modify columns in a table
+remove columns from a table

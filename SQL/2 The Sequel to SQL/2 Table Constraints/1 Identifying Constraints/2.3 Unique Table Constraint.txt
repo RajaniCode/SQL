@@ -1,0 +1,34 @@
+2.3 Unique Table Constraint
+
+
+Let's take our UNIQUE constraint a step further and ensure there are no duplicates for the combination of values within the name and language columns. To do that, we'll need to use a table constraint.
+
+
+movies.sql
+CREATE TABLE Movies (
+  name varchar(50) NOT NULL UNIQUE,
+  language varchar(50)
+
+);
+
+
+1. First, move the UNIQUE constraint on the name column from a column constraint syntax to a table constraint syntax. Give this constraint the name name_lang.
+
+Answer:
+movies.sql
+CREATE TABLE Movies (
+  name varchar(50) NOT NULL,
+  language varchar(50),
+  CONSTRAINT name_lang UNIQUE(name)
+);
+
+
+2. Now add the language column to the name_lang UNIQUE table constraint.
+
+Answer:
+movies.sql
+CREATE TABLE Movies (
+  name varchar(50) NOT NULL,
+  language varchar(50),
+  CONSTRAINT name_lang UNIQUE(name, language)
+);

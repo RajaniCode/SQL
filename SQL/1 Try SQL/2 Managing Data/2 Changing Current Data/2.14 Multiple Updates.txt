@@ -1,0 +1,23 @@
+2.14 Multiple Updates
+
+In the concessions table shown below, there are two things that need to be changed.
+id 	item 		price 	size
+1 	Popcorn 	2.00 	Small
+2 	Popcorn 	4.00 	Large
+3 	Candy 		3.00 	Regular
+4 	Soda 		1.50 	Small
+5 	Soda 		2.50 	Large
+6 	Hot Dog 	2.00 	Regular
+7 	Nachos 		Regular
+8 	Pizza 		2 	
+
+Change the item of 'Pizza' to 'Hamburger'.
+
+Answer: UPDATE concessions SET item = 'Hamburger' WHERE item = 'Pizza';
+
+There is a special on 'Popcorn' and 'Candy', so change the price for all 'Popcorn' and 'Candy' to '1.00'.
+
+Answer: 
+
+UPDATE concessions SET item = 'Hamburger' WHERE item = 'Pizza';
+UPDATE concessions SET price = '1.00' WHERE (item = 'Popcorn' OR item = 'Candy');

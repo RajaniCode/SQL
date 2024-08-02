@@ -1,0 +1,43 @@
+2.9 FK Table Constraint
+
+
+Please convert the current FOREIGN KEY column constraint syntax for the country_id column to use the table constraint syntax.
+
+
+Tables
+Countries
+id 	name 		code
+1 	United States 	US
+2 	India 		IN
+3 	Japan 		JP
+
+
+actors.sql
+CREATE TABLE Actors (
+  id int PRIMARY KEY,
+  name varchar(50) NOT NULL UNIQUE,
+  country_id int REFERENCES Countries(id)
+);
+
+
+countries.sql
+CREATE TABLE Countries (
+  id int PRIMARY KEY,
+  name varchar(50),
+  code varchar(3)
+);
+
+INSERT INTO Countries (id, name, code) VALUES
+  (1, 'United States',  'US'),
+  (2, 'India',          'IN'),
+  (3, 'Japan',          'JP');
+
+
+Answer:
+actors.sql
+CREATE TABLE Actors (
+  id int PRIMARY KEY,
+  name varchar(50) NOT NULL UNIQUE,
+  country_id int,
+  FOREIGN KEY (country_id) REFERENCES Countries(id)
+);

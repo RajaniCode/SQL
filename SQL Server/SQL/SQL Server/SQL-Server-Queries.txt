@@ -1,0 +1,134 @@
+--SQL Server
+
+$ sqlcmd -S "(local)" -U sa
+Password: $ql@Server#2016
+
+> sqlcmd -S (local) -U sa -P $ql@Server#2016
+
+
+$ sqlcmd -q "SELECT @@VERSION;"
+------------------------------------------------------------------------------------------ 
+Microsoft SQL Server 2016 (RTM-GDR) (KB3194716) - 13.0.1722.0 (X64)
+        Sep 26 2016 13:17:23
+        Copyright (c) Microsoft Corporation
+        Developer Edition (64-bit) on Windows 8.1 Single Language 6.3 <X64> (Build 9600: )
+(1 rows affected)
+exit
+$ sqlcmd -S "(local)" -U sa
+Password: $ql@Server#2016
+SELECT @@VERSION;
+GO
+------------------------------------------------------------------------------------------
+Microsoft SQL Server 2016 (RTM-GDR) (KB3194716) - 13.0.1722.0 (X64)
+        Sep 26 2016 13:17:23
+        Copyright (c) Microsoft Corporation
+        Developer Edition (64-bit) on Windows 8.1 Single Language 6.3 <X64> (Build 9600: )
+(1 rows affected)
+exit
+-- OR
+quit
+
+> sqlcmd -q "SELECT @@VERSION;"
+------------------------------------------------------------------------------------------
+Microsoft SQL Server 2016 (RTM-GDR) (KB3194716) - 13.0.1722.0 (X64)
+        Sep 26 2016 13:17:23
+        Copyright (c) Microsoft Corporation
+        Developer Edition (64-bit) on Windows 8.1 Single Language 6.3 <X64> (Build 9600: )
+1> exit
+> sqlcmd -S (local) -U sa -P $ql@Server#2016
+1> SELECT @@VERSION;
+2> GO
+--------------------------------------------------------------------------------------------
+Microsoft SQL Server 2016 (RTM-GDR) (KB3194716) - 13.0.1722.0 (X64)
+        Sep 26 2016 13:17:23
+        Copyright (c) Microsoft Corporation
+        Developer Edition (64-bit) on Windows 8.1 Single Language 6.3 <X64> (Build 9600: )
+1> exit
+-- OR
+1> quit
+
+
+-- Version
+SELECT @@VERSION;
+GO
+
+-- Databases
+SELECT name, database_id, create_date FROM sys.databases; 
+GO
+
+-- Change Database
+USE [master];
+GO
+
+-- Current Database
+SELECT DB_NAME();
+GO
+
+-- Tables in Current Database
+SELECT * FROM INFORMATION_SCHEMA.TABLES;
+GO
+-- OR
+SELECT table_name FROM INFORMATION_SCHEMA.TABLES;
+GO
+
+-- Columns
+SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'spt_monitor';
+GO
+-- OR
+USE [sampledb];
+GO 
+SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'users';
+GO
+
+
+USE [master];
+GO
+
+IF EXISTS(SELECT name FROM sys.databases WHERE name = N'sampledb')
+DROP DATABASE [sampledb];
+GO
+
+-- OR
+
+IF DB_ID (N'sampledb') IS NOT NULL
+DROP DATABASE [sampledb];
+GO
+
+CREATE DATABASE sampledb;
+GO
+
+USE [sampledb];
+GO
+
+IF EXISTS(SELECT name FROM sys.tables WHERE name = N'users')
+DROP TABLE [users];
+GO
+
+-- OR
+
+IF OBJECT_ID (N'users', N'U') IS NOT NULL
+DROP TABLE [users];
+GO
+
+CREATE TABLE users
+(
+    id INT IDENTITY(1,1) NOT NULL,
+    username VARCHAR(50) NOT NULL, 
+    login_date DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    login_time TIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_at DATETIME2 DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,    
+    CONSTRAINT pk_id PRIMARY KEY(id),
+    CONSTRAINT idx_username UNIQUE(username)    
+);
+GO
+
+SELECT * FROM users;
+GO
+
+INSERT INTO users(username, login_date, login_time, created_at, updated_at)
+VALUES('Foo', '2016-11-06', '10:49:35', '2016-11-06 10:49:35.0', '2016-11-06 10:49:35.0');
+GO
+
+SELECT * FROM users;
+GO

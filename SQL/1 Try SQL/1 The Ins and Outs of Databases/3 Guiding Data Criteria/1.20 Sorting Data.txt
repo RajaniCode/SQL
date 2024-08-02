@@ -1,0 +1,5 @@
+1.20 Sorting Data
+
+To sort data, you must use the [ ] clause.
+
+Answer: ORDER BY

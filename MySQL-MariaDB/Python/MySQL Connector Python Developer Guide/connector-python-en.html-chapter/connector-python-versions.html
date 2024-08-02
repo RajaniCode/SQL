@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Chapter 3 Connector/Python Versions</title>
+<link rel="stylesheet" href="mvl.css" type="text/css" />
+<meta name="generator" content="DocBook XSL Stylesheets + chunker.py v1.9.2" />
+<link rel="start" href="index.html" title="{book-title}" />
+<link rel="up" href="" title="" />
+<link rel="prev" href="connector-python-coding.html" title="Chapter 2 Guidelines for Python Developers" />
+<link rel="next" href="connector-python-installation.html" title="Chapter 4 Connector/Python Installation" />
+<script language="javascript" type="text/javascript">
+  function addOnload(theFunc)
+  {
+    var previous = window.onload;
+    if (typeof window.onload != 'function')
+    {
+      window.onload = theFunc;
+    }
+    else
+    {
+      window.onload = function()
+      {
+        previous();
+        theFunc();
+      }
+    }
+  }
+
+  addOnload(function()
+  {
+    var base = new Date(1455899810*1000);
+    var now = new Date();
+    var diff = ((now-base)/1000)/(24*3600);
+
+    if (diff > 90) {
+      var nodes = document.getElementsByClassName('titlepage');
+      nodes[0].innerHTML = '<p style="border: 5px #ff0000 solid; padding: 5px; margin 5px">' +
+        'This copy of the manual is more than 90 days old. We encourage you to download a ' +
+        'new version from <a href="http://dev.mysql.com">dev.mysql.com/doc</a>.</p>' + nodes[0].innerHTML;
+    }
+  });
+</script>
+<noscript></noscript>
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr>
+<th colspan="3" align="center">Chapter 3 Connector/Python Versions</th>
+</tr>
+<tr>
+<td width="20%" align="left"><a accesskey="p" href="connector-python-coding.html">Prev</a> </td>
+<th width="60%" align="center"></th>
+<td width="20%" align="right"> <a accesskey="n" href="connector-python-installation.html">Next</a></td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="chapter">
+<div class="titlepage">
+<div>
+<div>
+<h1 class="title"><a name="connector-python-versions"></a>Chapter 3 Connector/Python Versions</h1>
+
+</div>
+
+</div>
+
+</div>
+<p>
+    The MySQL Connector/Python 2.0 is the current development series.
+  </p><p>
+    The MySQL Connector/Python 1.0, 1.1, and 1.2 series each went through a series of
+    beta releases, leading to generally available (GA) versions. Any
+    development releases in each series prior to the GA version are no
+    longer supported.
+  </p><p>
+    The following table summarizes the available Connector/Python versions:
+</p>
+<div class="table">
+<a name="idm139908632368352"></a><p class="title"><b>Table 3.1 Connector/Python Version Reference</b></p>
+<div class="table-contents">
+<table summary=" For each Connector/Python version, this table lists the
+      corresponding MySQL Server versions that it works with, the
+      corresponding Python versions that it works with, and whether it
+      is prerelease, recommended (supported), or obsolete. MySQL server
+      and Python versions within parentheses are known to work with
+      Connector/Python, but are not officially supported. Bugs might not get fixed
+for those versions. " border="1"><colgroup><col><col><col><col></colgroup><thead><tr><th scope="col">Connector/Python Version</th><th scope="col">MySQL Server Versions</th><th scope="col">Python Versions</th><th scope="col">Support Status for Connector</th></tr></thead><tbody><tr><td scope="row">2.0</td><td>5.7, 5.6, 5.5</td><td>3.3 and later, 2.7, 2.6</td><td>Recommended version</td></tr><tr><td scope="row">1.1, 1.2</td><td>5.7, 5.6, 5.5 (5.1, 5.0, 4.1)</td><td>3.1 and later, 2.7, 2.6</td><td>Recommended version</td></tr><tr><td scope="row">1.0</td><td>5.7, 5.6, 5.5 (5.1, 5.0, 4.1)</td><td>3.1 and later, 2.7, 2.6 (2.5, 2.4)</td><td>Recommended version</td></tr></tbody></table>
+</div>
+
+</div>
+<br class="table-break">
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+
+<div class="admon-title">
+Note
+</div>
+<p>
+      MySQL server and Python versions within parentheses are known to
+      work with Connector/Python, but are not officially supported. Bugs might not
+      get fixed for those versions.
+</p>
+</div>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+<div class="admon-title">
+Note
+</div>
+<p>
+      Connector/Python does not support the old MySQL Server authentication
+      methods, which means that MySQL versions prior to 4.1 will not
+      work.
+</p>
+</div>
+
+</div>
+<div class="copyright-footer">
+
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left"><a accesskey="p" href="connector-python-coding.html">Prev</a></td>
+<td width="20%" align="center"><a accesskey="u" href="">Up</a></td>
+<td width="40%" align="right"> <a accesskey="n" href="connector-python-installation.html">Next</a></td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">Chapter 2 Guidelines for Python Developers</td>
+<td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td>
+<td width="40%" align="right" valign="top">Chapter 4 Connector/Python Installation</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

@@ -1,0 +1,7 @@
+1.9 Aggregate Functions IV
+
+
+The [ ] function calculates the largest value for the selected column.
+
+
+Answer: MAX

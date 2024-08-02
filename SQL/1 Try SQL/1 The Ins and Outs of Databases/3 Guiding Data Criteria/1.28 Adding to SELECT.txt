@@ -1,0 +1,22 @@
+1.28 Adding to SELECT
+
+Based on the new table below named concessions, please complete the following tasks.
+id 	item 		price 	size
+1 	Popcorn 	2.00 	Small
+2 	Popcorn 	4.00 	Large
+3 	Candy 		3.00 	Regular
+4 	Soda 		1.50 	Small
+5 	Soda 		2.50 	Large
+6 	Hot Dog 	2.00 	Regular
+
+1. Write a query to find the item, price, and size for all items that are 'Popcorn'.
+
+ANSWER:  SELECT item, price, size FROM concessions WHERE item = 'Popcorn';
+
+2. Add to your query, but this time order the results by price starting with the most expensive at the top.
+
+ANSWER:  SELECT item, price, size FROM concessions WHERE item = 'Popcorn' ORDER BY PRICE DESC;
+
+3. Change the query to list items that are either 'Soda' or 'Popcorn'.
+
+ANSWER:  SELECT item, price, size FROM concessions WHERE item = 'Soda' OR  item = 'Popcorn' ORDER BY PRICE DESC;

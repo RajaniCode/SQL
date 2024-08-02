@@ -1,0 +1,21 @@
+2.19 Removing Movies
+
+We need to start removing records from our movies table, which is shown below.
+id 	title 		genre 		duration
+1 	Metropolis 	Sci-Fi 		153
+2 	Nosferatu 	Horror 		94
+3 	The Kid 	Comedy 		68
+4 	The Gold Rush 	Adventure 	95
+5 	The Circus 	Comedy 		68
+6 	The Fly 			80
+
+1. I've lost my sense of humor. Please write a SQL statement to DELETE all the movies that have a genre of 'Comedy'.
+
+Answer: DELETE FROM movies WHERE genre = 'Comedy';
+
+2. I also have a short attention span and I hate vampires. Please write a statement to remove all movies that have a duration of greater than 120 minutes or are called 'Nosferatu'.
+
+Answer:
+
+DELETE FROM movies WHERE genre = 'Comedy';
+DELETE FROM movies WHERE (duration > 120 OR title = 'Nosferatu');
